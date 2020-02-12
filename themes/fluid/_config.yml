@@ -11,9 +11,9 @@
 # 全局
 # Site
 #---------------------------
-favicon: /images/img/favicon.png # 网站标签页的 icon
+favicon: /defect/images/img/favicon.png # 网站标签页的 icon
 
-apple_touch_icon: /images/img/apple-touch-icon.png # 用于苹果设备的 icon
+apple_touch_icon: /defect/images/img/apple-touch-icon.png # 用于苹果设备的 icon
 
 title_join_string: ' ~ '  # 浏览器标签页中的标题分隔符，效果： 文章名 ~ 站点名
 
@@ -122,7 +122,7 @@ scroll_top_arrow:  # 向顶部滚动的箭头
 # Index Page
 #---------------------------
 index:
-  banner_img: /images/img/index.png  # 首页 Banner 头图，以下相同
+  banner_img: /defect/images/img/index.png  # 首页 Banner 头图，以下相同
   banner_img_height: 100  # 头图高度，屏幕百分比，available: 0 - 100
   slogan:  # 首页副标题的独立设置
     enable: true  # 为 false 则不显示任何内容
@@ -141,7 +141,7 @@ index:
 # Post Page
 #---------------------------
 post:
-  banner_img: /images/img/post.jpg
+  banner_img: /defect/images/img/post.jpg
   banner_img_height: 75  # available: 0 - 100
   meta:  # 文章标题下方的信息
     date:  # 文章日期
@@ -255,7 +255,7 @@ livere:
 # Archive Page
 #---------------------------
 archive:
-  banner_img: /images/img/Sensei_sakura.png
+  banner_img: /defect/images/img/Sensei_sakura.png
   banner_img_height: 100  # available: 0 - 100
 
 
@@ -264,7 +264,7 @@ archive:
 # Categories Page
 #---------------------------
 category:
-  banner_img: /images/img/category.png
+  banner_img: /defect/images/img/category.png
   banner_img_height: 80  # available: 0 - 100
 
 
@@ -273,7 +273,7 @@ category:
 # Tags Page
 #---------------------------
 tag:
-  banner_img: /images/img/tags.png
+  banner_img: /defect/images/img/tags.png
   banner_img_height: 80  # available: 0 - 100
   tagcloud: # 标签云
     min_font: 15
@@ -289,9 +289,9 @@ tag:
 #---------------------------
 about:  # 以下仅为页面顶部的基本信息，更多内容请在 ./pages/about.md 中编辑，支持 markdown 和 HTML
   md_path: ../../source/about/about.md  # 关于页文档的相对路径，可以按相对文档设置主题之外的路径，从而避免更新冲突
-  banner_img: /images/img/about.jpg
+  banner_img: /defect/images/img/about.jpg
   banner_img_height: 100  # available: 0 - 100
-  avatar: /images/img/avatar.png # 头像
+  avatar: /defect/images/img/avatar.png # 头像
   name: Defectink
   introduce: '!@#$%^&*' # 支持 HTML
   icons: # 更多图标可从 https://fontawesome.com/v5.10.0/icons?d=gallery 查找，并以 "图标名: url" 的格式添加在下方
@@ -305,7 +305,7 @@ about:  # 以下仅为页面顶部的基本信息，更多内容请在 ./pages/a
 # 404 Page
 #---------------------------
 page404:
-  banner_img: /images/img/default.png
+  banner_img: /defect/images/img/default.png
   banner_img_height: 80  # available: 0 - 100
   subtitle: 'Page not found'
 
@@ -315,7 +315,7 @@ page404:
 # Links Page
 #---------------------------
 links:
-  banner_img: /images/img/friend.jpg
+  banner_img: /defect/images/img/friend.jpg
   banner_img_height: 100  # available: 0 - 100
   items:
     Fluid Docs: [https://fluid-dev.github.io/hexo-fluid-docs/, 主题使用指南]
