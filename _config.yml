@@ -99,5 +99,6 @@ theme: fluid
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: 'git'
+  repo: git@github.com:DefectingCat/DefectingCat.github.io.git
   branch: master
   message: ❤
