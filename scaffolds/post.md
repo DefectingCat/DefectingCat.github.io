@@ -2,7 +2,7 @@
 title: {{ title }}
 date: {{ date }}
 tags:
-cates: 
+categories: 
 url:
 index_img: /defect/
 ---
