@@ -11,9 +11,9 @@
 # 全局
 # Site
 #---------------------------
-favicon: /defect/images/img/favicon.png # 网站标签页的 icon
+favicon: /img/favicon.png # 网站标签页的 icon
 
-apple_touch_icon: /defect/images/img/apple-touch-icon.png # 用于苹果设备的 icon
+apple_touch_icon: /img/apple-touch-icon.png # 用于苹果设备的 icon
 
 title_join_string: ' ~ '  # 浏览器标签页中的标题分隔符，效果： 文章名 ~ 站点名
 
@@ -21,7 +21,7 @@ force_https: false  # 强制所有链接升级为 HTTPS（适用于图片等资�
 
 highlight: # 代码高亮
   enable: true
-  theme: tranquil-heart # available: github-v2 | tomorrow | tomorrow-night | tomorrow-night-eighties，更多主题可从 https://jmblog.github.io/color-themes-for-google-code-prettify/ 获取，保存为 `*.min.css` 到 `source/lib/prettify/`，在其中 .prettyprint{ background: ***; ...} 的background 值后加上 !important，例如：.prettyprint{background:#fafbfc!important; ...}
+  theme: tomorrow-night-eighties # available: github-v2 | tomorrow | tomorrow-night | tomorrow-night-eighties，更多主题可从 https://jmblog.github.io/color-themes-for-google-code-prettify/ 获取，保存为 `*.min.css` 到 `source/lib/prettify/`，在其中 .prettyprint{ background: ***; ...} 的background 值后加上 !important，例如：.prettyprint{background:#fafbfc!important; ...}
 
 fun_features: # 一些好玩的功能
   typing: # 为 subtitle 添加打字机效果
@@ -34,14 +34,14 @@ fun_features: # 一些好玩的功能
     element: h1,h2,h3,h4,h5,h6
     placement: right # icon放置的位置： left | right
     visible: false # 默认悬浮显示，可选：always（一会显示） | touch（移动端触摸显示）
-    icon: "❤" # 可选：§ | # | ❡ 等，留空则为默认效果
+    icon: "" # 可选：§ | # | ❡ 等，留空则为默认效果
   mouse_click:  # 鼠标点击动效
     enable: false
     style: values # 目前设置两个值：values（价值观词汇） | love（爱心）
 
 color:  # 主体颜色配置，可以从这里寻找启发： https://www.webdesignrankings.com/resources/lolcolors/
   body_bg_color: "#eee"
-  navbar_bg_color: "#9DC8C8"
+  navbar_bg_color: "#2f4154"
   navbar_text_color: "white"
   text_color: "#3c4858"
   link_color: "#3c4858"
@@ -49,7 +49,7 @@ color:  # 主体颜色配置，可以从这里寻找启发： https://www.webdes
   board_color: "#fff"
 
 web_analytics:  # 网页访问统计
-  enable: false
+  enable: true
   baidu:  # 百度统计的Key，参见 https://tongji.baidu.com/sc-web/10000033910/home/site/getjs?siteId=13751376 代码获取中 hm.js? 后边的字符串
   google:  # Google统计的Tracking ID，参见 https://analytics.google.com/analytics/web/
   tencent:  # 腾讯统计的H5 App id，参见 https://mta.qq.com/h5/manage/ctr_app_manage
@@ -79,7 +79,7 @@ navbar:
     category: /categories/
     tag: /tags/
     about: /about/
-    links: /links/  # 友链页，把前面#去掉即可展示
+    #links: /links/  # 友链页，把前面#去掉即可展示
 
 search: # 搜索栏
   enable: true
@@ -93,7 +93,7 @@ scroll_down_arrow:  # 向下滚动的箭头
   banner_height_limit: 90  # 头图高度不小于指定比例，才显示箭头
   scroll_after_turning_page: true  # 翻页后自动滚动
 
-banner_scroll: false  # 头图是否跟随页面滚动
+banner_parallax: true  # 头图滚动视差
 
 
 #---------------------------
@@ -102,7 +102,7 @@ banner_scroll: false  # 头图是否跟随页面滚动
 #---------------------------
 footer:
   statistics:  # 统计网站 PV、UV，使用的是不蒜子，显示在页脚
-    enable: false
+    enable: true
     pv_format: "总访问量 {} 次"  # 显示的文本，{}是数字的占位符（必须包含)，下同
     uv_format: "总访客数 {} 人"
 
@@ -122,7 +122,7 @@ scroll_top_arrow:  # 向顶部滚动的箭头
 # Index Page
 #---------------------------
 index:
-  banner_img: /defect/images/img/index.png  # 首页 Banner 头图，以下相同
+  banner_img: /img/default.png  # 首页 Banner 头图，以下相同
   banner_img_height: 100  # 头图高度，屏幕百分比，available: 0 - 100
   slogan:  # 首页副标题的独立设置
     enable: true  # 为 false 则不显示任何内容
@@ -141,8 +141,8 @@ index:
 # Post Page
 #---------------------------
 post:
-  banner_img: /defect/images/img/post.jpg
-  banner_img_height: 75  # available: 0 - 100
+  banner_img: /img/default.png
+  banner_img_height: 70  # available: 0 - 100
   meta:  # 文章标题下方的信息
     date:  # 文章日期
       enable: true
@@ -154,24 +154,24 @@ post:
       enable: true
       format: "{} 分钟"
     views:  # 阅读次数，统计基于不蒜子
-      enable: false
+      enable: true
       format: "{} 次"
   toc:  # 右侧导航条
     enable: true
   copyright:  # 版权声明
     enable: true
-    content: '<a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0❤</a> '
+    content: '本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！'
   custom:  # 文章底部自定义内容
     enable: false
     content: '<img src="https://octodex.github.com/images/jetpacktocat.png" class="rounded mx-auto d-block mt-5" style="width:150px; height:150px;">' # 自定义区域，支持 HTML，可自行插入赞赏码、公众号二维码等内容
   comments:  # 评论
-    enable: true  # 开启评论
+    enable: false  # 开启评论
     type: disqus  # 指定使用的评论模块  available: disqus | valine | gitalk | utterances | changyan | livere
   image_zoom:  # 文章图片可点击放大
     enable: true
   math:  # 数学公式，开启之前需要更换 Markdown 渲染器，否则复杂公式会有兼容问题，具体请见 https://fluid-dev.github.io/hexo-fluid-docs/guide/#数学公式
-    enable: true
-    specific: true  # 开启后，只有在文章 Front-matter 里指定 `math: true` 才会在文章页启动公式转换，以便在页面不包含公式时提高加载速度
+    enable: false
+    specific: false  # 开启后，只有在文章 Front-matter 里指定 `math: true` 才会在文章页启动公式转换，以便在页面不包含公式时提高加载速度
     engine: mathjax  # 公式引擎  available: mathjax | katex
 
 #---------------------------
@@ -192,7 +192,7 @@ utterances:
 
 # Disqus
 disqus:
-  shortname: defectink
+  shortname: # your shortname
 
 # Gitalk
 # You can get yout ClientID and ClientSecret from https://github.com/settings/applications/new
@@ -255,8 +255,8 @@ livere:
 # Archive Page
 #---------------------------
 archive:
-  banner_img: /defect/images/img/Sensei_sakura.png
-  banner_img_height: 100  # available: 0 - 100
+  banner_img: /img/default.png
+  banner_img_height: 80  # available: 0 - 100
 
 
 #---------------------------
@@ -264,7 +264,7 @@ archive:
 # Categories Page
 #---------------------------
 category:
-  banner_img: /defect/images/img/category.png
+  banner_img: /img/default.png
   banner_img_height: 80  # available: 0 - 100
 
 
@@ -273,7 +273,7 @@ category:
 # Tags Page
 #---------------------------
 tag:
-  banner_img: /defect/images/img/tags.png
+  banner_img: /img/default.png
   banner_img_height: 80  # available: 0 - 100
   tagcloud: # 标签云
     min_font: 15
@@ -288,15 +288,15 @@ tag:
 # About Page
 #---------------------------
 about:  # 以下仅为页面顶部的基本信息，更多内容请在 ./pages/about.md 中编辑，支持 markdown 和 HTML
-  md_path: ../../source/about/about.md  # 关于页文档的相对路径，可以按相对文档设置主题之外的路径，从而避免更新冲突
-  banner_img: /defect/images/img/about.jpg
-  banner_img_height: 100  # available: 0 - 100
-  avatar: /defect/images/img/avatar.png # 头像
-  name: Defectink
-  introduce: '!@#$%^&*' # 支持 HTML
+  md_path: ./pages/about.md  # 关于页文档的相对路径，可以按相对文档设置主题之外的路径，从而避免更新冲突
+  banner_img: /img/default.png
+  banner_img_height: 80  # available: 0 - 100
+  avatar: /img/avatar.png # 头像
+  name: myname
+  introduce: info / info / info # 支持 HTML
   icons: # 更多图标可从 https://fontawesome.com/v5.10.0/icons?d=gallery 查找，并以 "图标名: url" 的格式添加在下方
-    "fab fa-github": https://github.com/DefectingCat
-    "fab fa-twitter": https://twitter.com/Defect___
+    "fab fa-github": https://github.com
+    "fab fa-twitter": https://twitter.com
     "fab fa-weixin":  # 微信图标，这个是特殊图标，点击不会跳转而是悬浮二维码，所以链接需要对应二维码图片地址
 
 
@@ -305,9 +305,9 @@ about:  # 以下仅为页面顶部的基本信息，更多内容请在 ./pages/a
 # 404 Page
 #---------------------------
 page404:
-  banner_img: /defect/images/img/Sensei_dark.png
-  banner_img_height: 100  # available: 0 - 100
-  subtitle: 'Page not found o(*￣▽￣*)ブ'
+  banner_img: /img/default.png
+  banner_img_height: 80  # available: 0 - 100
+  subtitle: 'Page not found'
 
 
 #---------------------------
@@ -315,8 +315,8 @@ page404:
 # Links Page
 #---------------------------
 links:
-  banner_img: /defect/images/img/friend.jpg
-  banner_img_height: 100  # available: 0 - 100
+  banner_img: /img/default.png
+  banner_img_height: 80  # available: 0 - 100
   items:
     Fluid Docs: [https://fluid-dev.github.io/hexo-fluid-docs/, 主题使用指南]
     Fluid Repo: [https://github.com/fluid-dev/hexo-theme-fluid, 主题 GitHub 仓库]
