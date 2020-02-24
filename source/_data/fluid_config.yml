@@ -27,7 +27,7 @@ fun_features: # 一些好玩的功能
   typing: # 为 subtitle 添加打字机效果
     enable: true
     typeSpeed: 70 # 打印速度
-    cursorChar: "_" # 游标字符
+    cursorChar: "❤" # 游标字符
     loop: false # 是否循环播放效果
   anchorjs: # 为文章内容中的标题添加锚图标
     enable: true
@@ -80,7 +80,7 @@ navbar:
     tag: /tags/
     about: /about/
     links: /links/  # 友链页，把前面#去掉即可展示
-    pgp: /pgp/
+    PGP: /pgp/
 
 search: # 搜索栏
   enable: true
@@ -135,7 +135,6 @@ index:
     date: true
     category: true
     tag: true
-
 
 #---------------------------
 # 文章页
@@ -322,3 +321,8 @@ links:
     Fluid Docs: [https://fluid-dev.github.io/hexo-fluid-docs/, 主题使用指南]
     Fluid Repo: [https://github.com/fluid-dev/hexo-theme-fluid, 主题 GitHub 仓库]
     Fluid Changelog: [https://github.com/fluid-dev/hexo-theme-fluid/blob/master/Changelog.md, 主题更新日志]
+
+#Custom page
+page:
+  banner_img: /defect/images/img/post.jpg
+  banner_img_height: 100  # available: 0 - 100
