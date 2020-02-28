@@ -138,6 +138,7 @@ index:
 
 #Custom page
 page:
+  page_style: true    #新增的独立页面是否使用post页面的样式
   banner_img: /defect/images/img/post.jpg
   banner_img_height: 100  # available: 0 - 100
 

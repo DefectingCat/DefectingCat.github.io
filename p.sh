@@ -24,7 +24,7 @@ case $git in
     4)  echo -n 'Heart：'
         read input
         git add -A
-        git commit -m "💖$input"
+        git commit -m "❤$input"
         git push
     ;;
     *)  echo 'Maybe not today.'
