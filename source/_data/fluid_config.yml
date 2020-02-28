@@ -33,7 +33,7 @@ fun_features: # 一些好玩的功能
     enable: true
     element: h1,h2,h3,h4,h5,h6
     placement: right # icon放置的位置： left | right
-    visible: false # 默认悬浮显示，可选：always（一会显示） | touch（移动端触摸显示）
+    visible: hover # 默认悬浮显示，可选：hover（鼠标在元素上悬浮时显示） | always（一直显示） | touch（移动端触摸显示）
     icon: "❤" # 可选：§ | # | ❡ 等，留空则为默认效果
   mouse_click:  # 鼠标点击动效
     enable: false
@@ -136,6 +136,11 @@ index:
     category: true
     tag: true
 
+#Custom page
+page:
+  banner_img: /defect/images/img/post.jpg
+  banner_img_height: 100  # available: 0 - 100
+
 #---------------------------
 # 文章页
 # Post Page
@@ -158,6 +163,7 @@ post:
       format: "{} 次"
   toc:  # 右侧导航条
     enable: true
+    headingSelector: h1,h2,h3,h4,h5,h6
   copyright:  # 版权声明
     enable: true
     content: '<a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0❤</a> '
@@ -297,7 +303,7 @@ about:  # 以下仅为页面顶部的基本信息，更多内容请在 ./pages/a
   icons: # 更多图标可从 https://fontawesome.com/v5.10.0/icons?d=gallery 查找，并以 "图标名: url" 的格式添加在下方
     "fab fa-github": https://github.com/DefectingCat
     "fab fa-twitter": https://twitter.com/Defect___
-    "fab fa-weixin":  # 微信图标，这个是特殊图标，点击不会跳转而是悬浮二维码，所以链接需要对应二维码图片地址
+    "fab fa-weixin qrcode":  # 添加 qrcode 后，点击不再跳转，而是悬浮二维码，因此值需要是二维码图片地址
 
 
 #---------------------------
@@ -321,8 +327,3 @@ links:
     Fluid Docs: [https://fluid-dev.github.io/hexo-fluid-docs/, 主题使用指南]
     Fluid Repo: [https://github.com/fluid-dev/hexo-theme-fluid, 主题 GitHub 仓库]
     Fluid Changelog: [https://github.com/fluid-dev/hexo-theme-fluid/blob/master/Changelog.md, 主题更新日志]
-
-#Custom page
-page:
-  banner_img: /defect/images/img/post.jpg
-  banner_img_height: 100  # available: 0 - 100

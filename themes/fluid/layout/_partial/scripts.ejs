@@ -9,10 +9,7 @@
 <% } %>
 
 <% if(is_post()){ %>
-  <% if(theme.post.toc.enable){ %>
-    <%- js_ex(theme.static_prefix.tocbot, "/tocbot.min.js") %>
-  <% } %>
-  <%- js_ex(theme.static_prefix.internal_js, "post.js") %>
+  <%- partial('_partial/postjs.ejs') %>
 <% } %>
 
 <% if (theme.smooth_scroll.enable) { %>

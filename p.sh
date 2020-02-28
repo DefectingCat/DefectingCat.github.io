@@ -1,5 +1,5 @@
 echo -e "Do someting："
-echo -e "\033[31m 1.Bug \033[0m \033[36m 2.Update \033[0m \033[35m 3.Docs \033[0m"
+echo -e "\033[31m 1.Bug \033[0m \033[36m 2.Update \033[0m \033[35m 3.Docs \033[0m \033[29m 4.Heart \033[0m"
 read git
 #read input
 case $git in
@@ -19,6 +19,12 @@ case $git in
         read input
         git add -A
         git commit -m "📃$input"
+        git push
+    ;;
+    4)  echo -n 'Heart：'
+        read input
+        git add -A
+        git commit -m "💖$input"
         git push
     ;;
     *)  echo 'Maybe not today.'

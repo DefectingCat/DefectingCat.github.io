@@ -1,14 +1,14 @@
 ---
 title: pgp
 date: 2020-02-23 17:03:44
-
+comments: ture
 ---
 
 如果想对我说悄悄话，可以使用非对称加密给我发邮件。
 
 ## Pretty Good Privac
 
-![pgp](/images/pgp.png)
+![pgp](/defect/images/pgp/pgp.png)
 
 在这个信息横飞的时代，安全隐私也成为了不可或缺的一部分。非对称加密或许一种优良的解决方案。pgp的形成一定程度上实现了隐私的存在。
 

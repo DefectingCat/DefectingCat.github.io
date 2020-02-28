@@ -1,9 +1,9 @@
 #---------------------------
-# Fluid
+# Hexo Fluid
 # Author: Fluid-dev organization
 # Github: https://github.com/fluid-dev/hexo-theme-fluid
 #
-# 本配置的详细指南请见：https://fluid-dev.github.io/hexo-fluid-docs/guide/
+# Docs：https://hexo.fluid-dev.com/docs/guide/
 #---------------------------
 
 
@@ -33,7 +33,7 @@ fun_features: # 一些好玩的功能
     enable: true
     element: h1,h2,h3,h4,h5,h6
     placement: right # icon放置的位置： left | right
-    visible: false # 默认悬浮显示，可选：always（一会显示） | touch（移动端触摸显示）
+    visible: hover # 默认悬浮显示，可选：hover（鼠标在元素上悬浮时显示） | always（一直显示） | touch（移动端触摸显示）
     icon: "" # 可选：§ | # | ❡ 等，留空则为默认效果
   mouse_click:  # 鼠标点击动效
     enable: false
@@ -49,7 +49,7 @@ color:  # 主体颜色配置，可以从这里寻找启发： https://www.webdes
   board_color: "#fff"
 
 web_analytics:  # 网页访问统计
-  enable: true
+  enable: false
   baidu:  # 百度统计的Key，参见 https://tongji.baidu.com/sc-web/10000033910/home/site/getjs?siteId=13751376 代码获取中 hm.js? 后边的字符串
   google:  # Google统计的Tracking ID，参见 https://analytics.google.com/analytics/web/
   tencent:  # 腾讯统计的H5 App id，参见 https://mta.qq.com/h5/manage/ctr_app_manage
@@ -60,8 +60,8 @@ lazyload: # 对页面中的图片进行懒加载处理，可见范围外的图�
   enable: true
   onlypost: false  # 仅在文章页使用懒加载
 
-smooth_scroll: # 平滑滚动效果
-  enable: true
+smooth_scroll: # 平滑滚动效果，服务器加载过慢可能会影响滚动，请慎用
+  enable: false
 
 daovoice:  # 在线客服 Daovoice 参考：http://dashboard.daovoice.io
   enable: false # 是否开启在线客服聊天
@@ -135,6 +135,11 @@ index:
     category: true
     tag: true
 
+# 通过 hexo new page 命令创建的页面
+# Custom Page
+page:
+  banner_img: /img/default.png
+  banner_img_height: 70  # available: 0 - 100
 
 #---------------------------
 # 文章页
@@ -156,8 +161,9 @@ post:
     views:  # 阅读次数，统计基于不蒜子
       enable: true
       format: "{} 次"
-  toc:  # 右侧导航条
+  toc:  # 文章右侧目录
     enable: true
+    headingSelector: h1,h2,h3,h4,h5,h6
   copyright:  # 版权声明
     enable: true
     content: '本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！'
@@ -166,10 +172,10 @@ post:
     content: '<img src="https://octodex.github.com/images/jetpacktocat.png" class="rounded mx-auto d-block mt-5" style="width:150px; height:150px;">' # 自定义区域，支持 HTML，可自行插入赞赏码、公众号二维码等内容
   comments:  # 评论
     enable: false  # 开启评论
-    type: disqus  # 指定使用的评论模块  available: disqus | valine | gitalk | utterances | changyan | livere
+    type: disqus  # 指定使用的评论模块  available: disqus | valine | gitalk | utterances | changyan | livere  推荐 utterances
   image_zoom:  # 文章图片可点击放大
     enable: true
-  math:  # 数学公式，开启之前需要更换 Markdown 渲染器，否则复杂公式会有兼容问题，具体请见 https://fluid-dev.github.io/hexo-fluid-docs/guide/#数学公式
+  math:  # 数学公式，开启之前需要更换 Markdown 渲染器，否则复杂公式会有兼容问题，具体请见 https://hexo.fluid-dev.com/docs/guide/#数学公式
     enable: false
     specific: false  # 开启后，只有在文章 Front-matter 里指定 `math: true` 才会在文章页启动公式转换，以便在页面不包含公式时提高加载速度
     engine: mathjax  # 公式引擎  available: mathjax | katex
@@ -191,6 +197,7 @@ utterances:
   crossorigin: anonymous
 
 # Disqus
+# 国内用户不要用，已被墙
 disqus:
   shortname: # your shortname
 
@@ -288,7 +295,6 @@ tag:
 # About Page
 #---------------------------
 about:  # 以下仅为页面顶部的基本信息，更多内容请在 ./pages/about.md 中编辑，支持 markdown 和 HTML
-  md_path: ./pages/about.md  # 关于页文档的相对路径，可以按相对文档设置主题之外的路径，从而避免更新冲突
   banner_img: /img/default.png
   banner_img_height: 80  # available: 0 - 100
   avatar: /img/avatar.png # 头像
@@ -297,7 +303,7 @@ about:  # 以下仅为页面顶部的基本信息，更多内容请在 ./pages/a
   icons: # 更多图标可从 https://fontawesome.com/v5.10.0/icons?d=gallery 查找，并以 "图标名: url" 的格式添加在下方
     "fab fa-github": https://github.com
     "fab fa-twitter": https://twitter.com
-    "fab fa-weixin":  # 微信图标，这个是特殊图标，点击不会跳转而是悬浮二维码，所以链接需要对应二维码图片地址
+    "fab fa-weixin qrcode":  # 添加 qrcode 后，点击不再跳转，而是悬浮二维码，因此值需要是二维码图片地址
 
 
 #---------------------------
@@ -306,7 +312,7 @@ about:  # 以下仅为页面顶部的基本信息，更多内容请在 ./pages/a
 #---------------------------
 page404:
   banner_img: /img/default.png
-  banner_img_height: 80  # available: 0 - 100
+  banner_img_height: 100  # available: 0 - 100
   subtitle: 'Page not found'
 
 
@@ -318,6 +324,6 @@ links:
   banner_img: /img/default.png
   banner_img_height: 80  # available: 0 - 100
   items:
-    Fluid Docs: [https://fluid-dev.github.io/hexo-fluid-docs/, 主题使用指南]
+    Fluid Docs: [https://hexo.fluid-dev.com/docs/, 主题使用指南]
     Fluid Repo: [https://github.com/fluid-dev/hexo-theme-fluid, 主题 GitHub 仓库]
     Fluid Changelog: [https://github.com/fluid-dev/hexo-theme-fluid/blob/master/Changelog.md, 主题更新日志]

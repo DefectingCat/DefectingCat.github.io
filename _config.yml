@@ -4,11 +4,11 @@
 
 # Site
 title: Defectink
-subtitle: 'Get over you'
+subtitle: '只要心还在跳'
 description: ''
 keywords:
 author: Defectink
-language: zh-Hans
+language: zh-CN
 timezone: ''
 
 # URL
@@ -130,7 +130,7 @@ js_minifier:
     - '*.min.js'
 
 image_minifier:
-  enable: true
+  enable: false
   interlaced: false
   multipass: false
   optimizationLevel: 2
