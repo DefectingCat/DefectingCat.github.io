@@ -4,6 +4,8 @@ date: 2020-02-23 17:03:44
 comments: ture
 ---
 
+<div class="markdown-body">
+
 如果想对我说悄悄话，可以使用非对称加密给我发邮件。
 
 ## Pretty Good Privac
@@ -19,3 +21,5 @@ comments: ture
 ## 我的公钥
 
 [我的公钥🔒！](https://1drv.ms/u/s!ArC4gW7Dc7wWhd5PD8R_o6Mmhp2LxA?e=Ivpa8X)
+
+</div>

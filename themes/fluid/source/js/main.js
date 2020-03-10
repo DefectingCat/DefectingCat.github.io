@@ -13,9 +13,9 @@ function scrollToBoard() {
 // 防抖动函数
 function debounce(func, wait, immediate) {
   var timeout;
-  return function() {
+  return function () {
     var context = this, args = arguments;
-    var later = function() {
+    var later = function () {
       timeout = null;
       if (!immediate) func.apply(context, args);
     };
@@ -46,16 +46,33 @@ $(document).ready(function () {
     $('#navbar').toggleClass('navbar-col-show');
   });
 
-  // 头图滚动动画
-  $(window).scroll(function () {
-    var oVal = $(window).scrollTop() / 3;
-    $('#background[parallax="true"]').css({
+  // 头图视差动画
+  var target = $('#background[parallax="true"]');
+  var parallax = function () {
+    var oVal = $(window).scrollTop() / 5;
+    var offset = parseInt($('#board').css('margin-top'));
+    var max = 96 + offset;
+    if (oVal > max) {
+      oVal = max;
+    }
+    target.css({
       transform: 'translate3d(0,' + oVal + 'px,0)',
       '-webkit-transform': 'translate3d(0,' + oVal + 'px,0)',
       '-ms-transform': 'translate3d(0,' + oVal + 'px,0)',
       '-o-transform': 'translate3d(0,' + oVal + 'px,0)',
     });
-  });
+
+    var toc = $('#toc');
+    if (toc) {
+      $('#toc-ctn').css({
+        'padding-top': `${ oVal }px`,
+      });
+    }
+  };
+  if (target.length > 0) {
+    parallax();
+    $(window).scroll(parallax);
+  }
 
   // 向下滚动箭头的点击
   $('.scroll-down-bar').on('click', scrollToBoard);

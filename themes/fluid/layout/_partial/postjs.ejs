@@ -1,28 +1,29 @@
 <% if(theme.post.toc.enable && page.toc != false){ %>
-  <%- js_ex(theme.static_prefix.tocbot, "/tocbot.min.js") %>
+  <%- js_ex(theme.static_prefix.tocbot, '/tocbot.min.js') %>
   <script>
     $(document).ready(function () {
-      var navHeight = $("#navbar").height();
-      var toc = $("#toc");
-      var main = $("main");
-      var tocT = navHeight + (toc.offset().top - main.offset().top);
-      var tocLimMin = main.offset().top - navHeight;
-      var tocLimMax = $("#comments").offset().top - navHeight;
+      var navHeight = $('#navbar').height();
+      var post = $('#post');
+      var toc = $('#toc');
+      var tocLimMax = post.offset().top + post.height() - navHeight;
+
       $(window).scroll(function () {
+        var tocLimMin = $('#toc-start').offset().top - navHeight;
         var scroH = document.body.scrollTop + document.documentElement.scrollTop;
+
         if (tocLimMin <= scroH && scroH <= tocLimMax) {
           toc.css({
-            "display": "block",
-            "position": "fixed",
-            "top": tocT
-          })
+            'display': 'block',
+            'position': 'fixed',
+            'top': navHeight,
+          });
         } else if (scroH <= tocLimMin) {
           toc.css({
-            "position": "",
-            "top": ''
-          })
+            'position': '',
+            'top': '',
+          });
         } else if (scroH > tocLimMax) {
-          toc.css("display", "none")
+          toc.css('display', 'none');
         }
       });
       tocbot.init({
@@ -36,6 +37,13 @@
         collapsibleClass: 'tocbot-is-collapsible',
         scrollSmooth: true,
       });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+      var offset = $('#board-ctn').css('margin-right')
+      $('#toc-ctn').css({
+        'right': offset
+      })
     });
   </script>
 <% } %>
