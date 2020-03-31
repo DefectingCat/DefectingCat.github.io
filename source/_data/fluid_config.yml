@@ -88,12 +88,12 @@ navbar:
   blog_title:  # 导航栏左侧的标题，为空则按 hexo config.title 显示
   menu:  # 可自行增减，若想减去某个入口，可以将值留空，显示文本关联 languages
     home: /
-    archive: /archives/
-    category: /categories/
-    tag: /tags/
-    about: /about/
-    links: /links/  # 友链页，把前面#去掉即可展示
-    PGP: /pgp/
+    archive: /archives/index.html
+    category: /categories/index.html
+    tag: /tags/index.html
+    about: /about/index.html
+    links: /links/index.html  # 友链页，把前面#去掉即可展示
+    PGP: /pgp/index.html
 
 search: # 搜索栏
   enable: true
