@@ -56,7 +56,10 @@ web_analytics:  # 网页访问统计
   enable: false
   baidu:  # 百度统计的Key，参见 https://tongji.baidu.com/sc-web/10000033910/home/site/getjs?siteId=13751376 代码获取中 hm.js? 后边的字符串
   google:  # Google统计的Tracking ID，参见 https://analytics.google.com/analytics/web/
-  tencent:  # 腾讯统计的H5 App id，参见 https://mta.qq.com/h5/manage/ctr_app_manage
+  tencent:  # 腾讯统计的H5 App id，参见 https://mta.qq.com/h5/manage/ctr_app_manage (开启高级功能才有cid)
+    sid:
+    cid:
+  tajs:   # 腾讯统计早期版站点统计sID，参见 https://ta.qq.com/#/site/list
   woyaola:  # 51.la站点统计ID，参见 https://www.51.la/user/site/index
   cnzz:  # 友盟/cnzz站点统计web_id，参见 https://web.umeng.com/main.php?c=site&a=show
 
@@ -88,12 +91,12 @@ navbar:
   blog_title:  # 导航栏左侧的标题，为空则按 hexo config.title 显示
   menu:  # 可自行增减，若想减去某个入口，可以将值留空，显示文本关联 languages
     home: /
-    archive: /archives/index.html
-    category: /categories/index.html
-    tag: /tags/index.html
-    about: /about/index.html
-    links: /links/index.html  # 友链页，把前面#去掉即可展示
-    PGP: /pgp/index.html
+    archive: /archives/
+    category: /categories/
+    tag: /tags/
+    about: /about/
+    links: /links/  # 友链页，把前面#去掉即可展示
+    PGP: /pgp/
 
 search: # 搜索栏
   enable: true
@@ -121,10 +124,10 @@ footer:
     uv_format: "总访客数 {} 人"
 
   beian:  # The footer of China's website policy, other areas keep disable
-    enable: false
-    icp_text: 京ICP证123456号 # ICP证号
-    police_text: 京公网安备12345678号 # 公安备案号，不填则只显示ICP
-    police_code: 12345678 # 公安备案的编号，用于URL跳转查询
+    enable: true
+    icp_text: 皖ICP备17017808号 # ICP证号
+    police_text:  # 公安备案号，不填则只显示ICP
+    police_code: 17017808 # 公安备案的编号，用于URL跳转查询
     police_icon: /img/police_beian.png # 公安备案的图片. 为空时不显示备案图片
 
 scroll_top_arrow:  # 向顶部滚动的箭头
@@ -138,6 +141,7 @@ scroll_top_arrow:  # 向顶部滚动的箭头
 index:
   banner_img: /defect/images/img/index.png  # 首页 Banner 头图，以下相同
   banner_img_height: 90  # 头图高度，屏幕百分比，available: 0 - 100
+  post_default_img: '' # 默认的文章封面图，当没有指定 index_img 时会使用该图片，若都为空则不显示任何图片
   slogan:  # 首页副标题的独立设置
     enable: true  # 为 false 则不显示任何内容
     text:  # 为空则按 hexo config.subtitle 显示
@@ -174,12 +178,17 @@ post:
     views:  # 阅读次数，统计基于不蒜子
       enable: false
       format: "{} 次"
+  updated:
+    enable: false
+    content: 本文最后更新于：
   toc:  # 右侧导航条
     enable: true
     headingSelector: h1,h2,h3,h4,h5,h6
   copyright:  # 版权声明
     enable: true
     content: '<a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0❤</a> '
+  prev_next:  # 文章底部上一篇下一篇功能
+    enable: true
   custom:  # 文章底部自定义内容
     enable: false
     content: '<img src="https://octodex.github.com/images/jetpacktocat.png" class="rounded mx-auto d-block mt-5" style="width:150px; height:150px;">' # 自定义区域，支持 HTML，可自行插入赞赏码、公众号二维码等内容
@@ -276,6 +285,7 @@ livere:
 archive:
   banner_img: /defect/images/img/Sensei_sakura.png
   banner_img_height: 90  # available: 0 - 100
+  subtitle:  # 打字机内容
 
 
 #---------------------------
@@ -285,6 +295,7 @@ archive:
 category:
   banner_img: /defect/images/img/category.png
   banner_img_height: 80  # available: 0 - 100
+  subtitle:  # 打字机内容
 
 
 #---------------------------
@@ -294,6 +305,7 @@ category:
 tag:
   banner_img: /defect/images/img/tags.png
   banner_img_height: 80  # available: 0 - 100
+  subtitle:  # 打字机内容
   tagcloud: # 标签云
     min_font: 15
     max_font: 30
@@ -310,6 +322,7 @@ about:  # 以下仅为页面顶部的基本信息，更多内容请在 ./pages/a
   banner_img: /defect/images/img/about.jpg
   banner_img_height: 90  # available: 0 - 100
   avatar: /defect/images/img/avatar.png # 头像
+  subtitle:  # 打字机内容
   name: Defectink
   introduce: '!@#$%^&*' # 支持 HTML
   icons: # 更多图标可从 https://fontawesome.com/v5.10.0/icons?d=gallery 查找，并以 "图标名: url" 的格式添加在下方
@@ -337,6 +350,7 @@ page404:
 links:
   banner_img: /defect/images/img/friend.jpg
   banner_img_height: 90  # available: 0 - 100
+  subtitle:  # 打字机内容
   items:
     Fluid Docs: [https://hexo.fluid-dev.com/docs/, 主题使用指南, /img/favicon.png]
     Fluid Repo: [https://github.com/fluid-dev/hexo-theme-fluid, 主题 GitHub 仓库, /img/favicon.png]

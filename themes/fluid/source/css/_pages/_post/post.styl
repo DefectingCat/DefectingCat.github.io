@@ -4,12 +4,12 @@
   padding-right 10%
   max-width 64rem
 
-@media (max-width: 768px)
+@media (max-width: 767px)
   .post-content
     padding-left 2rem
     padding-right 2rem
 
-@media (max-width: 425px)
+@media (max-width: 424px)
   .post-content
     padding-left 1rem
     padding-right 1rem
@@ -28,6 +28,90 @@
   i
     margin 0 .15rem
 
+.post-prevnext
+  margin-top 2rem
+  display flex
+  justify-content space-between
+
+  .post-prev, .post-next
+    display flex
+
+    i
+      font-size 1.2rem
+      -webkit-transform translateZ(0)
+      -moz-transform translateZ(0)
+      -ms-transform translateZ(0)
+      -o-transform translateZ(0)
+      transform translateZ(0)
+
+    a
+      display flex
+      align-items center
+
+    .hidden-mobile
+      display -webkit-box
+      -webkit-box-orient vertical
+      -webkit-line-clamp 2
+      text-overflow ellipsis
+      overflow hidden
+
+    @media (max-width: 575px)
+      .hidden-mobile
+        display none
+
+  .post-prev:hover i, .post-prev:active i, .post-next:hover i, .post-next:active i
+    -webkit-animation-duration 1s
+    animation-duration 1s
+    -webkit-animation-delay .1s
+    animation-delay .1s
+    -webkit-animation-timing-function ease-in-out
+    animation-timing-function ease-in-out
+    -webkit-animation-iteration-count infinite
+    animation-iteration-count infinite
+    -webkit-animation-fill-mode forwards
+    animation-fill-mode forwards
+    -webkit-animation-direction alternate
+    animation-direction alternate
+
+  .post-prev:hover i, .post-prev:active i
+    -webkit-animation-name post-prev-anim
+    animation-name post-prev-anim
+
+  .post-next:hover i, .post-next:active i
+    -webkit-animation-name post-next-anim
+    animation-name post-next-anim
+
+  .post-next
+    justify-content flex-end
+
+  .fa-chevron-left
+    margin-right .5rem
+
+  .fa-chevron-right
+    margin-left .5rem
+
+@keyframes post-prev-anim
+  0%
+    -webkit-transform translateX(0)
+    transform translateX(0)
+  50%
+    -webkit-transform translateX(-0.35rem)
+    transform translateX(-0.35rem)
+  100%
+    -webkit-transform translateX(0)
+    transform translateX(0)
+
+@keyframes post-next-anim
+  0%
+    -webkit-transform translateX(0)
+    transform translateX(0)
+  50%
+    -webkit-transform translateX(0.35rem)
+    transform translateX(0.35rem)
+  100%
+    -webkit-transform translateX(0)
+    transform translateX(0)
+
 // toc
 
 #toc
@@ -42,9 +126,11 @@
   overflow-y auto
   overflow -moz-scrollbars-none
   -ms-overflow-style none
+
   ol
     list-style none
     padding-inline-start 1rem
+
   &::-webkit-scrollbar
     display none
 
@@ -52,6 +138,7 @@
   ol
     list-style none
     padding-left 1rem
+
   a
     font-size: 15px
 
@@ -84,3 +171,48 @@
 
 .katex-block
   overflow-x auto
+
+.katex, .mjx-mrow
+  white-space: pre-wrap !important
+
+.mjx-char
+  line-height 1
+
+.note
+  padding: 10px;
+  border-left: 6px solid;
+  border-radius: 5px;
+
+  strong
+    font-weight: 600;
+
+  p
+    font-weight: 500;
+
+.note-primary
+  background-color: #dfeefd;
+  border-color: #176ac4;
+
+.note-secondary
+  background-color: #e2e3e5;
+  border-color: #58595a;
+
+.note-success
+  background-color: #e2f0e5;
+  border-color: #49a75f;
+
+.note-danger
+  background-color: #fae7e8;
+  border-color: #e45460;
+
+.note-warning
+  background-color: #faf4e0;
+  border-color: #c2a442;
+
+.note-info
+  background-color: #e4f2f5;
+  border-color: #2492a5;
+
+.note-light
+  background-color: #fefefe;
+  border-color: #0f0f0f;

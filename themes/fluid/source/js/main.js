@@ -34,6 +34,7 @@ $(document).ready(function () {
     navbar.removeClass('navbar-dark');
   }
   $(window).scroll(function () {
+    $('.scrolling-navbar')[navbar.offset().top > 50 ? 'addClass' : 'removeClass']('top-nav-collapse');
     if (navbar.offset().top > 0) {
       navbar.addClass('navbar-custom');
       navbar.removeClass('navbar-dark');
@@ -65,7 +66,7 @@ $(document).ready(function () {
     var toc = $('#toc');
     if (toc) {
       $('#toc-ctn').css({
-        'padding-top': `${ oVal }px`,
+        'padding-top': oVal + 'px',
       });
     }
   };

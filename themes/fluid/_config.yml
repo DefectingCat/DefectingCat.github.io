@@ -22,6 +22,7 @@ force_https: false  # 强制所有链接升级为 HTTPS（适用于图片等资�
 highlight: # 代码高亮
   enable: true
   theme: tomorrow-night-eighties # available: github-v2 | tomorrow | tomorrow-night | tomorrow-night-eighties，更多主题可从 https://jmblog.github.io/color-themes-for-google-code-prettify/ 获取，保存为 `*.min.css` 到 `source/lib/prettify/`，在其中 .prettyprint{ background: ***; ...} 的background 值后加上 !important，例如：.prettyprint{background:#fafbfc!important; ...}
+  copy_btn: true  # 是否开启复制代码的按钮
 
 fun_features: # 一些好玩的功能
   typing: # 为 subtitle 添加打字机效果
@@ -56,7 +57,10 @@ web_analytics:  # 网页访问统计
   enable: false
   baidu:  # 百度统计的Key，参见 https://tongji.baidu.com/sc-web/10000033910/home/site/getjs?siteId=13751376 代码获取中 hm.js? 后边的字符串
   google:  # Google统计的Tracking ID，参见 https://analytics.google.com/analytics/web/
-  tencent:  # 腾讯统计的H5 App id，参见 https://mta.qq.com/h5/manage/ctr_app_manage
+  tencent:  # 腾讯统计的H5 App id，参见 https://mta.qq.com/h5/manage/ctr_app_manage (开启高级功能才有cid)
+    sid:
+    cid:
+  tajs:   # 腾讯统计早期版站点统计sID，参见 https://ta.qq.com/#/site/list
   woyaola:  # 51.la站点统计ID，参见 https://www.51.la/user/site/index
   cnzz:  # 友盟/cnzz站点统计web_id，参见 https://web.umeng.com/main.php?c=site&a=show
 
@@ -71,11 +75,12 @@ daovoice:  # 在线客服 Daovoice 参考：http://dashboard.daovoice.io
   enable: false # 是否开启在线客服聊天
   appid: ''  # 应用ID设置
 
-aplayer:  # 音乐播放器
+aplayer:  # 音乐播放器，注意不能与 hexo-tag-aplayer 插件共用
   enable: false
   autoplay: false  # 音频自动播放
   loop: 'all'  # 音频循环播放, 可选值: 'all', 'one', 'none'
   order: 'random'  # 播放顺序，可选值: 'list', 'random'
+  theme: '#b7daff'  # 主题色
   songs:  # 歌曲列表，必须传入下列各参数，其中 url 与 cover 在本地需存于 source 目录，更多参数见文档：https://aplayer.js.org/#/zh-Hans/?id=%E5%8F%82%E6%95%B0
     - { name: 'name', artist: 'artist', url: '/songs/test.mp3', cover: '/img/cover.jpg' }
     - { name: 'name', artist: 'artist', url: 'https://...url.mp3', cover: 'https://...cover.jpg' }
@@ -114,8 +119,8 @@ banner_parallax: true  # 头图滚动视差
 # Footer
 #---------------------------
 footer:
-  statistics:  # 统计网站 PV、UV，使用的是不蒜子，显示在页脚
-    enable: true
+  statistics:  # 统计网站 PV、UV，使用的是不蒜子，显示在页脚  *不蒜子近期连接不稳定，谨慎开启
+    enable: false
     pv_format: "总访问量 {} 次"  # 显示的文本，{}是数字的占位符（必须包含)，下同
     uv_format: "总访客数 {} 人"
 
@@ -128,6 +133,15 @@ footer:
 
 scroll_top_arrow:  # 向顶部滚动的箭头
   enable: true
+
+#---------------------------
+# 吐个槽脚本，页面反馈
+# 文档 ：https://txc.qq.com/helper/WXPGuide
+#---------------------------
+txc:
+  enable: false
+  productId:
+
 
 
 #---------------------------
@@ -172,8 +186,8 @@ post:
     min2read:  # 阅读时间
       enable: true
       format: "{} 分钟"
-    views:  # 阅读次数，统计基于不蒜子
-      enable: true
+    views:  # 阅读次数，统计基于不蒜子  *不蒜子近期连接不稳定，谨慎开启
+      enable: false
       format: "{} 次"
   updated:
     enable: false
@@ -184,6 +198,8 @@ post:
   copyright:  # 版权声明
     enable: true
     content: '本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！'
+  prev_next:  # 文章底部上一篇下一篇功能
+    enable: true
   custom:  # 文章底部自定义内容
     enable: false
     content: '<img src="https://octodex.github.com/images/jetpacktocat.png" class="rounded mx-auto d-block mt-5" style="width:150px; height:150px;">' # 自定义区域，支持 HTML，可自行插入赞赏码、公众号二维码等内容
@@ -281,7 +297,7 @@ livere:
 archive:
   banner_img: /img/default.png
   banner_img_height: 80  # available: 0 - 100
-
+  subtitle:  # 打字机内容
 
 #---------------------------
 # 分类归档页
@@ -290,7 +306,7 @@ archive:
 category:
   banner_img: /img/default.png
   banner_img_height: 80  # available: 0 - 100
-
+  subtitle:  # 打字机内容
 
 #---------------------------
 # 标签归档页
@@ -299,6 +315,7 @@ category:
 tag:
   banner_img: /img/default.png
   banner_img_height: 80  # available: 0 - 100
+  subtitle:  # 打字机内容
   tagcloud: # 标签云
     min_font: 15
     max_font: 30
@@ -314,6 +331,7 @@ tag:
 about:  # 以下仅为页面顶部的基本信息，更多内容请在 ./pages/about.md 中编辑，支持 markdown 和 HTML
   banner_img: /img/default.png
   banner_img_height: 80  # available: 0 - 100
+  subtitle:  # 打字机内容
   avatar: /img/avatar.png # 头像
   name: myname
   introduce: info / info / info # 支持 HTML
@@ -330,7 +348,7 @@ about:  # 以下仅为页面顶部的基本信息，更多内容请在 ./pages/a
 page404:
   banner_img: /img/default.png
   banner_img_height: 100  # available: 0 - 100
-  subtitle: 'Page not found'
+  subtitle: 'Page not found'  # 打字机内容
 
 
 #---------------------------
@@ -340,6 +358,7 @@ page404:
 links:
   banner_img: /img/default.png
   banner_img_height: 80  # available: 0 - 100
+  subtitle:  # 打字机内容
   items:  # 键是友链标题、值的列表内容分别是 [链接, 简介, 头像]，头像可以省略
     Fluid Docs: [https://hexo.fluid-dev.com/docs/, 主题使用指南, /img/favicon.png]
     Fluid Repo: [https://github.com/fluid-dev/hexo-theme-fluid, 主题 GitHub 仓库, /img/favicon.png]
