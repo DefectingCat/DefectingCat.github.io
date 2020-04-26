@@ -33,35 +33,27 @@ internal_img: /img
 # Third-party library
 #---------------------------
 
+# 图标库，包含了大量社交类图标，主题依赖的不包含在内，因此可自行修改，详见 https://hexo.fluid-dev.com/docs/icon/
+# Icon library, which includes many social icons, does not include those theme dependent, so your can modify link by yourself. Detail: https://hexo.fluid-dev.com/docs/en/icon/
+iconfont: //at.alicdn.com/t/font_1736178_ijqayz9ro8k.css
+
 anchor: https://cdn.staticfile.org/anchor-js/4.2.2/
 
-font_awesome: https://cdn.staticfile.org/font-awesome/5.12.1/
-
-github_markdown: https://cdn.staticfile.org/github-markdown-css/3.0.1/
+github_markdown: https://cdn.staticfile.org/github-markdown-css/4.0.0/
 
 jquery: https://cdn.staticfile.org/jquery/3.4.1/
 
 bootstrap: https://cdn.staticfile.org/twitter-bootstrap/4.4.1/
 
-mdbootstrap: https://cdn.staticfile.org/mdbootstrap/4.13.0/
+highlightjs: https://cdn.staticfile.org/highlight.js/9.18.1/
 
-popper: https://cdn.staticfile.org/popper.js/1.16.1/umd/
-
-prettify: https://cdn.staticfile.org/prettify/188.0.0/
-
-# 高亮主题的路径，只支持 min.css，文件名需要与 _config.highlight.theme 对应
-# the path of highlight theme, only support `min.css` file，filename need to be the same as _config.highlight.theme
-prettify_theme: /lib/prettify/
-
-tocbot: https://cdn.staticfile.org/tocbot/4.10.0/
+tocbot: https://cdn.staticfile.org/tocbot/4.11.1/
 
 typed: https://cdn.staticfile.org/typed.js/2.0.11/
 
 fancybox: https://cdn.staticfile.org/fancybox/3.5.7/
 
-smooth_scroll: https://cdn.staticfile.org/smoothscroll/1.4.10/
-
-mathjax: https://cdn.staticfile.org/mathjax/2.7.7/
+mathjax: https://cdn.staticfile.org/mathjax/3.0.5/es5/
 
 katex: https://cdn.staticfile.org/KaTeX/0.11.1/
 
@@ -70,3 +62,11 @@ aplayer: https://cdn.staticfile.org/aplayer/1.10.1/
 busuanzi: https://busuanzi.ibruce.info/busuanzi/2.3/
 
 clipboard: https://cdn.staticfile.org/clipboard.js/2.0.6/
+
+mermaid: https://cdn.staticfile.org/mermaid/8.4.8/
+
+valine: https://cdn.staticfile.org/valine/1.4.4/
+
+gitalk: https://cdn.staticfile.org/gitalk/1.6.2/
+
+blueimp-md5: https://cdn.staticfile.org/blueimp-md5/2.13.0/

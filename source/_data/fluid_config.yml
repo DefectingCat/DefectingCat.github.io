@@ -15,13 +15,15 @@ favicon: /defect/images/img/favicon.png # 网站标签页的 icon
 
 apple_touch_icon: /defect/images/img/apple-touch-icon.png # 用于苹果设备的 icon
 
-title_join_string: ' ~ '  # 浏览器标签页中的标题分隔符，效果： 文章名 ~ 站点名
+title_join_string: ' - '  # 浏览器标签页中的标题分隔符，效果： 文章名 ~ 站点名
 
 force_https: false  # 强制所有链接升级为 HTTPS（适用于图片等资源出现 HTTP 混入报错）
 
 highlight: # 代码高亮
   enable: true
-  theme: tranquil-heart # available: github-v2 | tomorrow | tomorrow-night | tomorrow-night-eighties，更多主题可从 https://jmblog.github.io/color-themes-for-google-code-prettify/ 获取，保存为 `*.min.css` 到 `source/lib/prettify/`，在其中 .prettyprint{ background: ***; ...} 的background 值后加上 !important，例如：.prettyprint{background:#fafbfc!important; ...}
+  theme: 'Atom One Dark' # 高亮样式见：https://highlightjs.org/static/demo/  在页面挑选 style 填入
+  bg_color: false  # 是否根据 style 改变代码背景色，如果 style 是白色背景最好关闭此项
+  copy_btn: true  # 是否开启复制代码的按钮
 
 fun_features: # 一些好玩的功能
   typing: # 为 subtitle 添加打字机效果
@@ -44,9 +46,17 @@ color:  # 主体颜色配置，可以从这里寻找启发： https://www.webdes
   navbar_bg_color: "#9DC8C8"
   navbar_text_color: "white"
   text_color: "#3c4858"
+  sec_text_color: "#718096"         # 全局次级字体色（摘要、简介等位置）
+  post_text_color: "#2c3e50"        # 文章正文字体色
+  post_heading_color: "#1a202c"     # 文章标题标签字体色（h1 h2 h3...）
   link_color: "#3c4858"
   link_hover_color: "#1abc9c"
   board_color: "#fff"
+
+font:  # 主题字体配置
+  font_size: 16px                   # 全局字号
+  font_family:                      # 全局字体
+  code_font_size: 85%               # 代码的字号
 
 custom_js:   # 指定自定义 js 文件路径，路径是相对 source 目录，如 /js/custom.js
 custom_css:   /css/xfy.css # 指定自定义 css 文件路径，路径是相对 source 目录，如 /css/custom.css
@@ -89,14 +99,14 @@ aplayer:  # 音乐播放器
 #---------------------------
 navbar:
   blog_title:  # 导航栏左侧的标题，为空则按 hexo config.title 显示
-  menu:  # 可自行增减，若想减去某个入口，可以将值留空，显示文本关联 languages
-    home: /
-    archive: /archives/
-    category: /categories/
-    tag: /tags/
-    about: /about/
-    links: /links/  # 友链页，把前面#去掉即可展示
-    PGP: /pgp/
+  menu:  # 可自行增减，key 用来关联 languages/*.yml，如不存在关联则显示 key 本身的值；icon 是 css class，可以省略；增加 name 可以强制显示指定名称
+    - { key: 'home', link: '/', icon: 'iconfont icon-home-fill' }
+    - { key: 'archive', link: '/archives/', icon: 'iconfont icon-archive-fill' }
+    - { key: 'category', link: '/categories/', icon: 'iconfont icon-category-fill' }
+    - { key: 'tag', link: '/tags/', icon: 'iconfont icon-tags-fill' }
+    - { key: 'about', link: '/about/', icon: 'iconfont icon-user-fill' }
+    - { key: 'links', link: '/links/', icon: 'iconfont icon-link-fill' }  # 友链页，把前面#去掉即可展示
+    - { key: 'PGP', link: '/pgp/', icon: 'iconfont icon-link-fill' }
 
 search: # 搜索栏
   enable: true
@@ -141,6 +151,7 @@ scroll_top_arrow:  # 向顶部滚动的箭头
 index:
   banner_img: /defect/images/img/index.png  # 首页 Banner 头图，以下相同
   banner_img_height: 90  # 头图高度，屏幕百分比，available: 0 - 100
+  banner_mask_alpha: 0.3  # 头图黑色蒙版的透明度，available: 0 - 1.0， 0 是完全透明（无蒙版），1 是完全不透明
   post_default_img: '' # 默认的文章封面图，当没有指定 index_img 时会使用该图片，若都为空则不显示任何图片
   slogan:  # 首页副标题的独立设置
     enable: true  # 为 false 则不显示任何内容
@@ -157,6 +168,7 @@ index:
 page:
   banner_img: /defect/images/img/post.jpg
   banner_img_height: 90  # available: 0 - 100
+  banner_mask_alpha: 0.3  # available: 0 - 1.0
 
 #---------------------------
 # 文章页
@@ -165,10 +177,11 @@ page:
 post:
   banner_img: /defect/images/img/post.jpg
   banner_img_height: 75  # available: 0 - 100
+  banner_mask_alpha: 0.3  # available: 0 - 1.0
   meta:  # 文章标题下方的信息
     date:  # 文章日期
       enable: true
-      format: "dddd, MMMM Do YYYY, h:mm a"  # 格式参照 ISO-8601 日期格式化
+      format: "LL a"  # 格式参照 ISO-8601 日期格式化
     wordcount:  # 字数统计
       enable: true
       format: "{} 字"  # 显示的文本，{}是数字的占位符（必须包含)，下同
@@ -179,11 +192,13 @@ post:
       enable: false
       format: "{} 次"
   updated:
-    enable: false
-    content: 本文最后更新于：
+    enable: turn
+    content: 本文最后水于： # 描述文字
+    relative: true  # 是否使用相对时间表示，比如："3 天前"
   toc:  # 右侧导航条
     enable: true
     headingSelector: h1,h2,h3,h4,h5,h6
+    collapseDepth: 0  # 层级的折叠深度，0 是全部折叠，6 是全部不折叠
   copyright:  # 版权声明
     enable: true
     content: '<a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0❤</a> '
@@ -201,6 +216,10 @@ post:
     enable: true
     specific: true  # 开启后，只有在文章 Front-matter 里指定 `math: true` 才会在文章页启动公式转换，以便在页面不包含公式时提高加载速度
     engine: mathjax  # 公式引擎  available: mathjax | katex
+  mermaid:  # 流程图，基于 mermaid-js，文档：http://mermaid-js.github.io/mermaid/
+    enable: true  # 开启后文章默认可用，自定义页面如需使用，需在 Front-matter 中指定 `mermaid: true`
+    specific: false  # 开启后，只有在文章 Front-matter 里指定 `mermaid: true` 才会在文章页启动公式转换，以便在页面不包含公式时提高加载速度
+    options: { theme: 'default' }  # 接口选项，具体可见：http://mermaid-js.github.io/mermaid/#/mermaidAPI
 
 #---------------------------
 # 评论
@@ -243,34 +262,23 @@ gitalk:
 # You can get your appid and appkey from https://leancloud.cn
 # More info available at https://valine.js.org
 valine:
-  appid:  # your leancloud application appid
-  appkey:  # your leancloud application appkey
-  notify: false # mail notifier, See: https://github.com/xCss/Valine/wiki
-  verify: false # Verification code
-  placeholder: 说点什么 # comment box placeholder
-  avatar: retro # gravatar style https://valine.js.org/avatar.html
-  pageSize: 10 # pagination size
+  appid:  # 从 LeanCloud 的应用中得到的 appId
+  appkey:  # 从 LeanCloud 的应用中得到的 APP Key
+  placeholder: 说点什么 # 评论框占位提示符
+  path: window.location.pathname # 当前文章页路径，用于区分不同的文章页，以保证正确读取该文章页下的评论列表
+  avatar: retro # Gravatar 头像展示方式
+  meta: ['nick', 'mail', 'link']  # 评论者相关属性
+  pageSize: 10 # 评论列表分页，每页条数
+  lang: zh-CN # zh-CN | zh-TW | en | ja
+  highlight: false # 代码高亮
+  recordIP: false # 是否记录评论者IP
+  serverURLs: # 该配置适用于国内自定义域名用户, 海外版本会自动检测(无需手动填写)
 
-# Changyan
-# You can get your appid from http://changyan.kuaizhan.com/setting/common/isv-mgr
-# Install: http://changyan.kuaizhan.com/static/help/f-fitself.html
+# 畅言
+# http://changyan.kuaizhan.com/
 changyan:
-  appid: ''            # your changyan application appid        # 畅言ID
-  conf: ''             # conf                                   # 畅言设置
-  notify: false        # beian warning message                  # 备案提示
-  libopen: true        # open laboratory                        # 畅言实验室功能开关
-  cyEmoji: true        # comments emoji                         # 评论表情
-  cyWallsplugin: true  # Hot text matching                      # 热文配图
-  cyReping: true       # hot comments                           # 热门评论
-  cyReward: true       # reward                                 # 打赏
-  cyQing: true         # Light comment                          # 轻评论
-  cyHotusers: true     # User evaluation                        # 热评用户
-  cyHotnews: true      # Hot news                               # 热门新闻
-  cyHotnewswall: true  # News wall                              # 新闻墙
-  cyPk: ''             # Topic debate                           # 辩论
-  cyPoll: true         # vote                                   # 投票
-  cyBarrage: true      # Picture barrage                        # 图片弹幕
-  cyTvbarrage: true    # Video barrage                          # 视频弹幕
+  appid: ''
+  appkey: ''                  # 视频弹幕
 
 # Livere 来必力
 # You can get your uid from https://www.livere.com/my_Livere
@@ -285,6 +293,7 @@ livere:
 archive:
   banner_img: /defect/images/img/Sensei_sakura.png
   banner_img_height: 90  # available: 0 - 100
+  banner_mask_alpha: 0.3  # available: 0 - 1.0
   subtitle:  # 打字机内容
 
 
@@ -295,6 +304,7 @@ archive:
 category:
   banner_img: /defect/images/img/category.png
   banner_img_height: 80  # available: 0 - 100
+  banner_mask_alpha: 0.3  # available: 0 - 1.0
   subtitle:  # 打字机内容
 
 
@@ -305,6 +315,7 @@ category:
 tag:
   banner_img: /defect/images/img/tags.png
   banner_img_height: 80  # available: 0 - 100
+  banner_mask_alpha: 0.3  # available: 0 - 1.0
   subtitle:  # 打字机内容
   tagcloud: # 标签云
     min_font: 15
@@ -321,16 +332,17 @@ tag:
 about:  # 以下仅为页面顶部的基本信息，更多内容请在 ./pages/about.md 中编辑，支持 markdown 和 HTML
   banner_img: /defect/images/img/about.jpg
   banner_img_height: 90  # available: 0 - 100
+  banner_mask_alpha: 0.3  # available: 0 - 1.0
   avatar: /defect/images/img/avatar.png # 头像
   subtitle: 嘤嘤嘤 # 打字机内容
   name: Defectink
   introduce: '!@#$%^&*' # 支持 HTML
-  icons: # 更多图标可从 https://fontawesome.com/v5.10.0/icons?d=gallery 查找，并以 "图标名: url" 的格式添加在下方
-    "fab fa-github": https://github.com/DefectingCat
-    "fab fa-twitter": https://twitter.com/Defect___
-    "fab fa-telegram": https://t.me/Defectink
-    "fas fa-envelope": mailto:i@defect.ink
-    "fab fa-weixin qrcode": /defect/images/img/qrcode.png # 添加 qrcode 后，点击不再跳转，而是悬浮二维码，因此值需要是二维码图片地址
+  icons: # 更多图标可从 https://github.com/fluid-dev/static/blob/master/hexo-theme-fluid/iconfont.png 查找，class 代表图标的 css class
+    - { class: 'iconfont icon-github-fill', link: 'https://github.com/DefectingCat' }
+    - { class: 'iconfont icon-twitter-fill', link: 'https://twitter.com/Defect___' }
+    - { class: 'iconfont icon-telegram-fill', link: 'https://t.me/Defectink' }
+    - { class: 'iconfont icon-telegram-fill', link: 'mailto:i@defect.ink' }
+    - { class: 'iconfont icon-wechat-fill', qrcode: '/defect/images/img/qrcode.png' }  # 添加 qrcode 后，点击不再跳转，而是悬浮二维码，需要指定 image
 
 
 #---------------------------
@@ -340,6 +352,7 @@ about:  # 以下仅为页面顶部的基本信息，更多内容请在 ./pages/a
 page404:
   banner_img: /defect/images/img/Sensei_dark.png
   banner_img_height: 100  # available: 0 - 100
+  banner_mask_alpha: 0.3  # available: 0 - 1.0
   subtitle: 'Page not found (+_+)?'
 
 
@@ -350,10 +363,36 @@ page404:
 links:
   banner_img: /defect/images/img/friend.jpg
   banner_img_height: 90  # available: 0 - 100
+  banner_mask_alpha: 0.3  # available: 0 - 1.0
   subtitle: 小伙伴 # 打字机内容
-  items:
-    Cunzher’s Blog: [https://cunzher.now.sh/, 以医德观人生。, https://ypcdnsave.cunzher.cn/img/logo.png]
-    SimpleZero: [http://arc.defectink.com, 嘤嘤嘤 ,https://mikuac.com/images/zero.png]
-    Feng'blog: [https://1984n.win, 嘤嘤嘤 ,https://cdn.v2ex.com/gravatar/bf7a5bd302ccc8021d13d77bd09c9310?s=100&r=g]
-    Locyoo: [https://blog.locyoo.com, 嘤嘤嘤]
-    碧池喵: [https://9yo.cc, 嘤嘤嘤 ,https://q1.qlogo.cn/g?b=qq&nk=1245240736&s=640]
+  items:  # intro 与 image 可省略
+    - {
+      title: 'Cunzher’s Blog',
+      intro: '以医德观人生。',
+      link: 'https://cunzher.now.sh/',
+      image: 'https://ypcdnsave.cunzher.cn/img/logo.png'
+    }
+    - {
+      title: 'SimpleZero',
+      intro: '嘤嘤嘤',
+      link: 'https://mikuac.com/',
+      image: 'https://mikuac.com/images/zero.png'
+    }
+    - {
+      title: 'Feng''blog',
+      intro: '嘤嘤嘤',
+      link: 'https://1984n.win',
+      image: 'https://cdn.v2ex.com/gravatar/bf7a5bd302ccc8021d13d77bd09c9310?s=100&r=g'
+    }
+    - {
+      title: 'Locyoo',
+      intro: '嘤嘤嘤',
+      link: 'https://blog.locyoo.com',
+      image: '/defect/images/img/backup.png'
+    }
+    - {
+      title: '碧池喵',
+      intro: '嘤嘤嘤',
+      link: 'https://1984n.win',
+      image: 'https://q1.qlogo.cn/g?b=qq&nk=1245240736&s=640'
+    }

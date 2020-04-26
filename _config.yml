@@ -106,7 +106,7 @@ deploy:
   message: ❤
 
 # minifier
-all_minifier: true
+all_minifier: false
 
 html_minifier:
   enable: true
