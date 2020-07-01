@@ -93,6 +93,9 @@ aplayer:  # 音乐播放器
     - { name: 'name', artist: 'artist', url: '/songs/test.mp3', cover: '/img/cover.jpg' }
     - { name: 'name', artist: 'artist', url: 'https://...url.mp3', cover: 'https://...cover.jpg' }
 
+version:  # 主题版本相关
+  check: true  # 每次生成页面后，检测主题是否为最新版本
+
 #---------------------------
 # 页头
 # Header
@@ -207,9 +210,6 @@ post:
   custom:  # 文章底部自定义内容
     enable: false
     content: '<img src="https://octodex.github.com/images/jetpacktocat.png" class="rounded mx-auto d-block mt-5" style="width:150px; height:150px;">' # 自定义区域，支持 HTML，可自行插入赞赏码、公众号二维码等内容
-  comments:  # 评论
-    enable: true  # 开启评论
-    type: disqus  # 指定使用的评论模块  available: disqus | valine | gitalk | utterances | changyan | livere
   image_zoom:  # 文章图片可点击放大
     enable: true
   math:  # 数学公式，开启之前需要更换 Markdown 渲染器，否则复杂公式会有兼容问题，具体请见 https://fluid-dev.github.io/hexo-fluid-docs/guide/#数学公式
@@ -220,7 +220,9 @@ post:
     enable: true  # 开启后文章默认可用，自定义页面如需使用，需在 Front-matter 中指定 `mermaid: true`
     specific: false  # 开启后，只有在文章 Front-matter 里指定 `mermaid: true` 才会在文章页启动公式转换，以便在页面不包含公式时提高加载速度
     options: { theme: 'default' }  # 接口选项，具体可见：http://mermaid-js.github.io/mermaid/#/mermaidAPI
-
+  comments:  # 评论
+    enable: true  # 开启评论
+    type: disqus  # 指定使用的评论模块  available: disqus | valine | gitalk | utterances | changyan | livere  推荐 utterances
 #---------------------------
 # 评论
 # Comments
@@ -240,7 +242,11 @@ utterances:
 # Disqus
 disqus:
   shortname: defectink
-
+  # The following are Disqusjs configurations, please ignore if DisqusJS is not required
+  # 以下为 Disqusjs 支持, 国内用户如果想使用 Disqus 建议配合使用
+  # https://github.com/SukkaW/DisqusJS
+  disqusjs: false # 设置为 true 开启 DisqusJS
+  apikey: # DisqusJS 向 API 发起请求时使用的 API Key
 # Gitalk
 # You can get yout ClientID and ClientSecret from https://github.com/settings/applications/new
 # More info available at https://github.com/gitalk/gitalk#options
