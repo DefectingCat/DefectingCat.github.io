@@ -18,8 +18,10 @@ comments: ture
 
 [公开密钥密码学🔑 ](/defect/public-key-cryptgraphy.html)
 
-## 我的公钥
+## 我的公钥🔒！
 
-[我的公钥🔒！](https://1drv.ms/u/s!ArC4gW7Dc7wWhd5PD8R_o6Mmhp2LxA?e=Ivpa8X)
+* [Gits](https://gist.github.com/DefectingCat/d76be64d0da465e026eb7f17e126df39)
+
+* [Onedrive](https://1drv.ms/u/s!ArC4gW7Dc7wWhd5PD8R_o6Mmhp2LxA?e=Ivpa8X)
 
 </div>
