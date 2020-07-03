@@ -958,7 +958,7 @@ typeof test2;
 
 > 不建显式的创建基本包装类型的对象。
 
-### Boolean类型
+## Boolean类型
 
 Boolean有基本类型与引用类型。使用Boolean对象构造的值为引用类型。Boolean类型的实例重写了valueOf()与toString()。
 
@@ -979,7 +979,7 @@ console.log(b2 && bb);  //false
 
 > 建议不要使用Boolean对象。
 
-### Number类型
+## Number类型
 
 Number类型也重写了valueOf()、toLocaleString()和toString()。
 
@@ -1045,7 +1045,7 @@ console.log(num instanceof Number);		// false
 console.log(num2 instanceof Number);	// true
 ```
 
-### String类型
+## String类型
 
 String类型是字符串的对象包装类型。
 
