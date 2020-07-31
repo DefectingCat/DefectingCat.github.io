@@ -106,34 +106,34 @@ deploy:
   message: ❤
 
 # minifier
-# all_minifier: true
+all_minifier: true
 
-# html_minifier:
-#   enable: true
-#   ignore_error: false
-#   silent: false
-#   exclude:
+html_minifier:
+  enable: true
+  ignore_error: false
+  silent: false
+  exclude:
 
-# css_minifier:
-#   enable: true
-#   silent: false
-#   exclude: 
-#     - '*.min.css'
+css_minifier:
+  enable: true
+  silent: false
+  exclude: 
+    - '*.min.css'
 
-# js_minifier:
-#   enable: true
-#   mangle: true
-#   silent: false
-#   output:
-#   compress:
-#   exclude: 
-#     - '*.min.js'
+js_minifier:
+  enable: true
+  mangle: true
+  silent: false
+  output:
+  compress:
+  exclude: 
+    - '*.min.js'
 
-# image_minifier:
-#   enable: true
-#   interlaced: false
-#   multipass: false
-#   optimizationLevel: 2
-#   pngquant: false
-#   progressive: false
-#   silent: false
+image_minifier:
+  enable: true
+  interlaced: false
+  multipass: false
+  optimizationLevel: 2
+  pngquant: false
+  progressive: false
+  silent: false
