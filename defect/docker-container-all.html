@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><link rel="apple-touch-icon" sizes="76x76" href="/defect/images/img/apple-touch-icon.png"><link rel="icon" type="image/png" href="/defect/images/img/favicon.png"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,shrink-to-fit=no"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="theme-color" content="#9DC8C8"><meta name="description" content=""><meta name="author" content="Defectink"><meta name="keywords" content=""><title>Docker-全面容器化！ - Defectink</title><link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css"><link rel="stylesheet" href="/lib/hint/hint.min.css"><link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css"><link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css"><link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/xfy.css"><script src="/js/utils.js"></script><meta name="generator" content="Hexo 4.2.0"></head><body><header style="height:75vh"><nav id="navbar" class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar"><div class="container"><a class="navbar-brand" href="/">&nbsp;<strong>Defectink</strong>&nbsp;</a> <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><div class="animated-icon"><span></span><span></span><span></span></div></button><div class="collapse navbar-collapse" id="navbarSupportedContent"><ul class="navbar-nav ml-auto text-center"><li class="nav-item"><a class="nav-link" href="/"><i class="iconfont icon-home-fill"></i> 首页</a></li><li class="nav-item"><a class="nav-link" href="/archives/"><i class="iconfont icon-archive-fill"></i> 归档</a></li><li class="nav-item"><a class="nav-link" href="/categories/"><i class="iconfont icon-category-fill"></i> 分类</a></li><li class="nav-item"><a class="nav-link" href="/tags/"><i class="iconfont icon-tags-fill"></i> 标签</a></li><li class="nav-item"><a class="nav-link" href="/about/"><i class="iconfont icon-user-fill"></i> 关于</a></li><li class="nav-item"><a class="nav-link" href="/links/"><i class="iconfont icon-link-fill"></i> 友链</a></li><li class="nav-item"><a class="nav-link" href="/pgp/"><i class="iconfont icon-link-fill"></i> PGP</a></li><li class="nav-item" id="search-btn"><a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a></li></ul></div></div></nav><div class="banner intro-2" id="background" parallax="true" style="background:url(/defect/images/img/post.jpg) no-repeat center center;background-size:cover"><div class="full-bg-img"><div class="mask flex-center" style="background-color:rgba(0,0,0,.3)"><div class="container text-center white-text fade-in-up"><span class="h2" id="subtitle"></span><div class="mt-3 post-meta"><i class="iconfont icon-date-fill" aria-hidden="true"></i> <time datetime="2019-12-19 11:11">2019年12月19日 上午</time></div><div class="mt-1"><span class="post-meta mr-2"><i class="iconfont icon-chart"></i> 4.4k 字 </span><span class="post-meta mr-2"><i class="iconfont icon-clock-fill"></i> 62 分钟</span></div></div></div></div></div></header><main><div class="container-fluid"><div class="row"><div class="d-none d-lg-block col-lg-2"></div><div class="col-lg-8 nopadding-md"><div class="container nopadding-md" id="board-ctn"><div class="py-5" id="board"><div class="post-content mx-auto" id="post"><p class="note note-info">本文最后水于：1 小时前</p><article class="markdown-body"><p>自上篇<a href="https://www.defectink.com/defect/docker-build-own-images.html" target="_blank" rel="noopener">Docker - 构建属于自己的镜像</a>以来，发现Docker非常的有意思。主要是非常的方便，并且在可以跨平台的情况下部署环境对于以后迁移也是一件极其有利的事。研究了Dockerfile的编写以及实践。一些基础的实践之后，对于Docker的工作方式以及操作命令都有了一些熟悉。也逐渐了发现了它的一些优点。</p><p>翻开自己的旧机器里的多种环境交杂在一起的配置，时间长了连配置文件在哪都找不到了。管理起来比较复杂。那些服务器的管理面板并不是很喜欢，而且相对于Docker来说，管理面板只是简化了部署的操作，并没有达到方便管理的目的。到最后可能它的软件目录，镜像源都是按照它的想法去放的。对于自己并没有完全的掌控。当然不能完全拿管理面板与Docker来相比，二者完全是两种技术。只是相较于方便管理这方面来对比一下。</p><p>而最近研究的Docker，无疑是最满意的了。在保持宿主机不乱的情况下，可以完全的掌控自己的运行环境。于是就有了将自己目前跑了挺长时间的一套blog环境都迁移到Docker上。对于以后若是迁移机器也会更加的方便。</p><h2 id="涉及到的操作"><a href="#涉及到的操作" class="headerlink" title="涉及到的操作"></a>涉及到的操作</h2><ul><li>Dockerfile</li><li>docker-compose.yml</li><li>apache virtualhost</li><li>php-fpm</li><li>http2</li><li>apache https</li><li>certbot with docker</li><li>apache proxy</li></ul><h2 id="目前环境"><a href="#目前环境" class="headerlink" title="目前环境"></a>目前环境</h2><p>先来简单看下当前跑在机器上的环境：</p><p>基本的LAMP环境，加上一些自定义的应用，与一个服务器监控软件。其中apache有多个虚拟主机，全部都使用了https。</p><p>咋一看是一套很简单的环境，其中apache配置稍多一点。但是实际在迁移到Docker的操作起来还是比较复杂的。并且为了镜像的最小化，apache基于的镜像都是alpine。配置与常用的Ubuntu略有不同。</p><h2 id="容器化"><a href="#容器化" class="headerlink" title="容器化"></a>容器化</h2><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>将多个运行LAMP分别拆分出三个运行环境，使用docker-compose来捆绑运行。</p><p>目录树</p><pre><code class="hljs css">.
+├── <span class="hljs-selector-tag">apache</span>
+│   ├── <span class="hljs-selector-tag">Dockerfile</span>
+│   ├── <span class="hljs-selector-tag">httpd</span><span class="hljs-selector-class">.conf</span>
+│   └── <span class="hljs-selector-tag">sites</span>
+│       ├── 000<span class="hljs-selector-tag">-default-ssl</span><span class="hljs-selector-class">.conf</span>
+│       └── 000<span class="hljs-selector-tag">-default</span><span class="hljs-selector-class">.conf</span>
+├── <span class="hljs-selector-tag">docker-compose</span><span class="hljs-selector-class">.yml</span>
+├── <span class="hljs-selector-tag">mysql</span>
+│   └── <span class="hljs-selector-tag">backup</span>
+├── <span class="hljs-selector-tag">php</span>
+│   └── <span class="hljs-selector-tag">Dockerfile</span>
+└── <span class="hljs-selector-tag">www</span>
+    └── <span class="hljs-selector-tag">html</span>
+        └── <span class="hljs-selector-tag">index</span><span class="hljs-selector-class">.php</span></code></pre><p>首先创建一个用于存放整个运行环境的<code>Docker</code>父文件夹。然后根据不同的镜像来划分不同的子文件夹，子文件夹内存放的就是各个镜像的<code>Dockerfile</code>与配置文件等。将docker-compose.yml存放与父目录下。</p><p>apache与php-fpm通信借助Docker的网络，实现内部的通信。</p><h2 id="Apahce"><a href="#Apahce" class="headerlink" title="Apahce"></a>Apahce</h2><p>在当前的apache目录下，主要文件夹的划分为<code>Dockerfile</code>、<code>httpd.conf</code>和sites文件夹。</p><h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><p>虽然httpd有了一个单独的镜像，但是还是需要使用Dockerfile来对其进行自定义配置。为了尽量减小镜像的大小。这里使用基于alpine的apache。</p><p>在Docker hub中的<a href="https://hub.docker.com/_/httpd" target="_blank" rel="noopener">httpd</a>当前支持的tag：</p><p><img src="images/Docker%E5%85%A8%E9%9D%A2%E5%AE%B9%E5%99%A8%E5%8C%96/image-20191221185631177.png" srcset="/defect/images/img/loading.gif" alt="image-20191221185631177"></p><p>整个Dockerfile：</p><pre><code class="hljs dockerfile"><span class="hljs-keyword">FROM</span> httpd:alpine
+<span class="hljs-keyword">RUN</span><span class="bash"> sed -i <span class="hljs-string">'s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g'</span> /etc/apk/repositories \
+	&amp;&amp; apk update \
+        &amp;&amp; apk upgrade</span>
+<span class="hljs-keyword">COPY</span><span class="bash"> sites/ /usr/<span class="hljs-built_in">local</span>/apache2/conf/sites/</span>
+<span class="hljs-keyword">COPY</span><span class="bash"> httpd.conf /usr/<span class="hljs-built_in">local</span>/apache2/conf/httpd.conf</span></code></pre><p>所以<code>FROM</code>里使用的就是带alpine的tag了。我还尝试过测试使用基于alpine的空载运行apache大概节约了1MB的内存。</p><pre><code class="hljs angelscript"><span class="hljs-number">176</span>d166ee52a        testa               <span class="hljs-number">0.00</span>%             <span class="hljs-number">4.484</span>MiB / <span class="hljs-number">3.607</span>GiB   <span class="hljs-number">0.12</span>%         
+<span class="hljs-number">3</span>dac39c11385        test                <span class="hljs-number">0.00</span>%             <span class="hljs-number">5.664</span>MiB / <span class="hljs-number">3.607</span>GiB   <span class="hljs-number">0.15</span>%</code></pre><p>对于跑在国内的机器上，alpine也有国内的源。并且替换的也很简单，一句话就好了。这样在后续的更新源和安装软件就没有那么苦恼了。</p><pre><code class="hljs awk">sed -i <span class="hljs-string">'s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g'</span> <span class="hljs-regexp">/etc/</span>apk<span class="hljs-regexp">/repositories</span></code></pre><p>剩下的<code>COPY</code>就是复制自定义的配置文件到容器里去了。</p><h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>首先，之前的环境中apache是有多个虚拟主机，并且每个主机都启用了ssl以及一些其他的配置。所以第一步是需要修改容器的配置文件。也就是要先获取默认的配置文件。</p><p>优雅的获取apache默认配置文件：</p><pre><code class="hljs stata">docker <span class="hljs-keyword">run</span> --<span class="hljs-keyword">rm</span> httpd:2.4 <span class="hljs-keyword">cat</span> /usr/<span class="hljs-keyword">local</span>/apache2/<span class="hljs-keyword">conf</span>/httpd.<span class="hljs-keyword">conf</span> &gt; httpd.<span class="hljs-keyword">conf</span></code></pre><p>默认的ssl配置文件：</p><pre><code class="hljs stata">docker <span class="hljs-keyword">run</span> --<span class="hljs-keyword">rm</span> httpd:2.4 <span class="hljs-keyword">cat</span> /usr/<span class="hljs-keyword">local</span>/apache2/<span class="hljs-keyword">conf</span>/extra/httpd-ssl.<span class="hljs-keyword">conf</span> &gt; ssl.<span class="hljs-keyword">conf</span></code></pre><p>容器的配置文件路径：</p><pre><code class="hljs stata">/usr/<span class="hljs-keyword">local</span>/apache2/<span class="hljs-keyword">conf</span>/httpd.<span class="hljs-keyword">conf</span></code></pre><p>获取到了默认的配置文件之后，在apache的文件夹内可以先自定义<code>httpd.conf</code>。并且尝试启动一次，没用问题后可以继续配置虚拟主机。</p><p>由于不同的站点都交给了虚拟主机的配置文件来处理。所以<code>httpd.conf</code>主要是负责一些mod的配置，和一些全局的配置了。还有就是将余下的配置文件<code>Include</code>进来了。</p><p>后期还有需要添加更多的虚拟主机的配置文件，到时候一个一个的<code>Include</code>操作太过繁琐。所以创建个专门存放配置文件的文件夹，再在<code>httpd.conf</code>里将整个文件夹<code>Include</code>进去。这样就最简单的解决了操作繁琐的问题。</p><p>创建一个<code>sites</code>文件夹用于存放配置文件，<code>COPY</code>到容器内相应的目录：</p><pre><code class="hljs gradle"><span class="hljs-keyword">COPY</span> sites<span class="hljs-regexp">/ /u</span>sr<span class="hljs-regexp">/local/</span>apache2<span class="hljs-regexp">/conf/</span>sites<span class="hljs-regexp">/</span></code></pre><p>在<code>httpd.conf</code>中相应的引入：</p><pre><code class="hljs gradle"><span class="hljs-keyword">Include</span> <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/apache2/</span>conf<span class="hljs-regexp">/sites/</span>*.conf</code></pre><p>{*}这一操作方法还是学自Ubuntu下的apache，它的配置目录下有两个文件夹<code>sites-available</code>和<code>sites-enabled</code>。在主要的apache2.conf中引入配置文件。</p><pre><code class="hljs http"># Include generic snippets of statements
+IncludeOptional conf-enabled/*.conf
+
+# Include the virtual host configurations:
+IncludeOptional sites-enabled/*.conf</code></pre><p><code>httpd.conf</code>中的虚拟主机配置不需要修改了。所有的站点可以都在Include中的配置文件中准备。基本上<code>httpd.conf</code>就是为引入配置文件和启用mod所准备的。</p><h3 id="Module"><a href="#Module" class="headerlink" title="Module"></a>Module</h3><p>在基于alpine中的apache，所有的mod加载都写在了配置文件<code>httpd.conf</code>里。只需要取消注释就可以加载/启用模组了。</p><p>这次添加的module：</p><pre><code class="hljs apache"><span class="hljs-attribute"><span class="hljs-nomarkup">LoadModule</span></span> deflate_module modules/mod_deflate.so
+<span class="hljs-attribute"><span class="hljs-nomarkup">LoadModule</span></span> proxy_module modules/mod_proxy.so
+<span class="hljs-attribute"><span class="hljs-nomarkup">LoadModule</span></span> proxy_connect_module modules/mod_proxy_connect.so
+<span class="hljs-attribute"><span class="hljs-nomarkup">LoadModule</span></span> proxy_ftp_module modules/mod_proxy_ftp.so
+<span class="hljs-attribute"><span class="hljs-nomarkup">LoadModule</span></span> proxy_http_module modules/mod_proxy_http.so
+<span class="hljs-attribute"><span class="hljs-nomarkup">LoadModule</span></span> proxy_fcgi_module modules/mod_proxy_fcgi.so
+<span class="hljs-attribute"><span class="hljs-nomarkup">LoadModule</span></span> setenvif_module modules/mod_setenvif.so
+<span class="hljs-attribute"><span class="hljs-nomarkup">LoadModule</span></span> mpm_event_module modules/mod_mpm_event.so
+<span class="hljs-attribute"><span class="hljs-nomarkup">LoadModule</span></span> http2_module modules/mod_http2.so
+<span class="hljs-attribute"><span class="hljs-nomarkup">LoadModule</span></span> proxy_http2_module modules/mod_proxy_http2.so
+<span class="hljs-attribute"><span class="hljs-nomarkup">LoadModule</span></span> ssl_module modules/mod_ssl.so
+<span class="hljs-attribute"><span class="hljs-nomarkup">LoadModule</span></span> socache_shmcb_module modules/mod_socache_shmcb.so
+<span class="hljs-attribute"><span class="hljs-nomarkup">LoadModule</span></span> rewrite_module modules/mod_rewrite.so
+<span class="hljs-attribute"><span class="hljs-nomarkup">LoadModule</span></span> headers_module modules/mod_headers.so
+<span class="hljs-comment">#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so</span></code></pre><p>这些mod都是作用于何？</p><ul><li><p>mod_deflate是一个压缩算法。</p></li><li><p>mod_socache_shmcb共享对象缓存提供程序。</p></li><li><p>因为需要配置反代和与php-fpm工作，所以需要启用多个proxy配置文件。</p></li><li><p>因为需要用到http2，所以工作模式得修改为event。同时注释掉默认的工作模式prefork。自然也需要mod_http2</p></li><li><p>https是不可或缺的，所以mod_ssl不可缺少。</p></li><li><p>后续的博客需要用到伪静态，mod_rewrite也不可少。</p></li><li><p>在最近也添加了多个header头，需要用到mod_headers。</p></li></ul><blockquote><p>info：根据自己需要启用module是一个良好的习惯，过多的module会影响性能。</p></blockquote><h3 id="虚拟主机"><a href="#虚拟主机" class="headerlink" title="虚拟主机"></a>虚拟主机</h3><p>前面提到，专门创建了一个sites文件夹来存放虚拟主机的配置文件，目前sites文件夹还是空的。既然<code>httpd.conf</code>以及准备就绪，那么接下来就是填满sites文件夹了。</p><p>在还未添加虚拟主机时，默认的站点配置文件全部都写在<code>httpd.conf</code>里。默认的根目录在htdocs。所以在第一次启动测试时，访问的时这里的html文件。</p><pre><code class="hljs apache"><span class="hljs-attribute"><span class="hljs-nomarkup">DocumentRoot</span></span> <span class="hljs-string">"/usr/local/apache2/htdocs"</span></code></pre><p>这里的配置可以不用动，全部操作交给虚拟主机就好。</p><p>整个虚拟主机（default.conf）配置文件：</p><pre><code class="hljs pgsql">&lt;VirtualHost *:<span class="hljs-number">80</span>&gt;
+ProtocolsHonorOrder <span class="hljs-keyword">On</span>
+Protocols h2 h2c
+<span class="hljs-keyword">Header</span> <span class="hljs-keyword">set</span> X-Frame-<span class="hljs-keyword">Options</span> "SAMEORIGIN"
+<span class="hljs-keyword">Header</span> <span class="hljs-keyword">always</span> <span class="hljs-keyword">set</span> <span class="hljs-keyword">Strict</span>-Transport-<span class="hljs-keyword">Security</span> "max-age=63072000; includeSubdomains;"
+<span class="hljs-keyword">Header</span> <span class="hljs-keyword">set</span> Content-<span class="hljs-keyword">Security</span>-<span class="hljs-keyword">Policy</span> "default-src 'self' https://cdn.defectink.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maxcdn.bootstrapcdn.com https://ajax.googleapis.com https://cdn.defectink.com; img-src *; style-src 'self' 'unsafe-inline' https://cdn.defectink.com https://maxcdn.bootstrapcdn.com https://fonts.googleapis.com/; font-src 'self' https://cdn.defectink.com https://fonts.gstatic.com/ https://maxcdn.bootstrapcdn.com; form-action 'self' https://cdn.defectink.com; upgrade-insecure-requests;"
+<span class="hljs-keyword">Header</span> <span class="hljs-keyword">set</span> X-Content-<span class="hljs-keyword">Type</span>-<span class="hljs-keyword">Options</span> nosniff
+<span class="hljs-keyword">Header</span> <span class="hljs-keyword">always</span> <span class="hljs-keyword">set</span> Referrer-<span class="hljs-keyword">Policy</span> "no-referrer-when-downgrade"
+<span class="hljs-keyword">Header</span> <span class="hljs-keyword">always</span> <span class="hljs-keyword">set</span> Feature-<span class="hljs-keyword">Policy</span> "vibrate 'self'; sync-xhr 'self' https://cdn.defectink.com https://www.defectink.com"
+    # Proxy .php requests <span class="hljs-keyword">to</span> port <span class="hljs-number">9000</span> <span class="hljs-keyword">of</span> the php-fpm container
+    ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://php:<span class="hljs-number">9000</span>/var/www/html/<span class="hljs-meta">$1</span>
+    ServerName www.defectink.com
+    DocumentRoot /var/www/html/
+    &lt;Directory /var/www/html/&gt;
+        DirectoryIndex <span class="hljs-keyword">index</span>.php
+        <span class="hljs-keyword">Options</span> Indexes FollowSymLinks
+        AllowOverride <span class="hljs-keyword">All</span>
+        Require <span class="hljs-keyword">all</span> granted
+    &lt;/Directory&gt;
+    # Send apache logs <span class="hljs-keyword">to stdout</span> <span class="hljs-keyword">and</span> stderr
+    CustomLog /proc/self/fd/<span class="hljs-number">1</span> common
+    ErrorLog /proc/self/fd/<span class="hljs-number">2</span>
+RewriteEngine <span class="hljs-keyword">on</span>
+RewriteCond %&#123;SERVER_NAME&#125; =www.defectink.com
+RewriteRule ^ https://%&#123;SERVER_NAME&#125;%&#123;REQUEST_URI&#125; [<span class="hljs-keyword">END</span>,NE,R=permanent]
+&lt;/VirtualHost&gt;</code></pre><h4 id="虚拟主机优先级"><a href="#虚拟主机优先级" class="headerlink" title="虚拟主机优先级"></a>虚拟主机优先级</h4><p>在apache中，虚拟主机的配置文件是拥有优先级的。优先级的意思就是，当一个域名指向当前机器的ip，而配置文件中没有绑定的ServerName时，默认被引导到的页面。</p><p>优先级的顺序是根据虚拟主机的配置文件名来决定的。名称首字母越靠前，优先级越高。使用数字开头将大于子母开头。</p><blockquote><p>000-default will be the default, because it goes “numbers, then letters”.</p></blockquote><p>可以使用命令来查看当前的默认站点：</p><pre><code class="hljs bash">httpd -S</code></pre><pre><code class="hljs bash">apache2ctl -S</code></pre><h3 id="SSL"><a href="#SSL" class="headerlink" title="SSL"></a>SSL</h3><p>这里的ssl配置文件是来自于容器内的默认配置文件，使用上述的方法可以很方便的导出。</p><p>整个ssl（default-ssl.conf）配置文件：</p><pre><code class="hljs pgsql"><span class="hljs-keyword">Listen</span> <span class="hljs-number">443</span>
+
+SSLCipherSuite HIGH:MEDIUM:!MD5:!RC4:!<span class="hljs-number">3</span>DES
+SSLProxyCipherSuite HIGH:MEDIUM:!MD5:!RC4:!<span class="hljs-number">3</span>DES
+SSLHonorCipherOrder <span class="hljs-keyword">on</span> 
+SSLProtocol <span class="hljs-keyword">all</span> -SSLv3
+SSLProxyProtocol <span class="hljs-keyword">all</span> -SSLv3
+SSLPassPhraseDialog  builtin
+SSLSessionCache        "shmcb:/usr/local/apache2/logs/ssl_scache(512000)"
+SSLSessionCacheTimeout  <span class="hljs-number">300</span>
+
+&lt;VirtualHost *:<span class="hljs-number">443</span>&gt;
+ProtocolsHonorOrder <span class="hljs-keyword">On</span>
+Protocols h2 h2c
+<span class="hljs-keyword">Header</span> <span class="hljs-keyword">set</span> X-Frame-<span class="hljs-keyword">Options</span> "SAMEORIGIN"
+<span class="hljs-keyword">Header</span> <span class="hljs-keyword">always</span> <span class="hljs-keyword">set</span> <span class="hljs-keyword">Strict</span>-Transport-<span class="hljs-keyword">Security</span> "max-age=63072000; includeSubdomains;"
+<span class="hljs-keyword">Header</span> <span class="hljs-keyword">set</span> Content-<span class="hljs-keyword">Security</span>-<span class="hljs-keyword">Policy</span> "default-src 'self' https://cdn.defectink.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maxcdn.bootstrapcdn.com https://ajax.googleapis.com https://cdn.defectink.com; img-src *; style-src 'self' 'unsafe-inline' https://cdn.defectink.com https://maxcdn.bootstrapcdn.com https://fonts.googleapis.com/; font-src 'self' https://cdn.defectink.com https://fonts.gstatic.com/ https://maxcdn.bootstrapcdn.com; form-action 'self' https://cdn.defectink.com; upgrade-insecure-requests;"
+<span class="hljs-keyword">Header</span> <span class="hljs-keyword">set</span> X-Content-<span class="hljs-keyword">Type</span>-<span class="hljs-keyword">Options</span> nosniff
+<span class="hljs-keyword">Header</span> <span class="hljs-keyword">always</span> <span class="hljs-keyword">set</span> Referrer-<span class="hljs-keyword">Policy</span> "no-referrer-when-downgrade"
+<span class="hljs-keyword">Header</span> <span class="hljs-keyword">always</span> <span class="hljs-keyword">set</span> Feature-<span class="hljs-keyword">Policy</span> "vibrate 'self'; sync-xhr 'self' https://cdn.defectink.com https://www.defectink.com"
+# Proxy .php requests <span class="hljs-keyword">to</span> port <span class="hljs-number">9000</span> <span class="hljs-keyword">of</span> the php-fpm container
+ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://php:<span class="hljs-number">9000</span>/var/www/html/<span class="hljs-meta">$1</span>
+# General setup <span class="hljs-keyword">for</span> the virtual host
+DocumentRoot "/var/www/html/"
+ServerName www.defectink.com:<span class="hljs-number">443</span>
+ServerAdmin i@defect.ink
+    &lt;Directory /var/www/html/&gt;
+        DirectoryIndex <span class="hljs-keyword">index</span>.php
+        <span class="hljs-keyword">Options</span> Indexes FollowSymLinks
+        AllowOverride <span class="hljs-keyword">All</span>
+        Require <span class="hljs-keyword">all</span> granted
+    &lt;/Directory&gt;
+ErrorLog /proc/self/fd/<span class="hljs-number">2</span>
+TransferLog /proc/self/fd/<span class="hljs-number">1</span>
+
+SSLEngine <span class="hljs-keyword">on</span>
+SSLCertificateFile "/etc/letsencrypt/live/www.defectink.com/fullchain.pem"
+SSLCertificateKeyFile "/etc/letsencrypt/live/www.defectink.com/privkey.pem"
+&lt;FilesMatch "\.(cgi|shtml|phtml|php)$"&gt;
+    SSLOptions +StdEnvVars
+&lt;/FilesMatch&gt;
+&lt;Directory "/usr/local/apache2/cgi-bin"&gt;
+    SSLOptions +StdEnvVars
+&lt;/Directory&gt;
+BrowserMatch "MSIE [2-5]" \
+         nokeepalive ssl-unclean-shutdown \
+         downgrade<span class="hljs-number">-1.0</span> force-response<span class="hljs-number">-1.0</span>
+CustomLog /proc/self/fd/<span class="hljs-number">1</span> \
+          "%t %h %&#123;SSL_PROTOCOL&#125;x %&#123;SSL_CIPHER&#125;x \"%r\" %b"
+
+&lt;/VirtualHost&gt;</code></pre><p>这里的主要配置点就在<code>SSLCertificateFile</code>和<code>SSLCertificateKeyFile</code>。关于配合certbot申请证书，在前一篇水过。有兴趣的小伙伴可以去了解更多。<a href="https://www.defectink.com/defect/docker-build-own-images.html#menu_index_8" target="_blank" rel="noopener">Docker - 构建属于自己的镜像</a>。</p><p>值得注意的是，在一个<code>httpd.conf</code>文件中只能有一个<code>Listen 443</code>字段。而默认的ssl配置文件中就包含一个<code>Listen 443</code>字段。当复制多个默认的配置文件时，会导致apache运行错误。因为所有的配置文件都会被引入到<code>httpd.conf</code>，而一个apache只能监听一次端口，也就是说只能有一个<code>Listen 443</code>在配置文件中。</p><p>可以考虑将其写在监听80端口下面：</p><pre><code class="hljs angelscript">#Listen <span class="hljs-number">12.34</span><span class="hljs-number">.56</span><span class="hljs-number">.78</span>:<span class="hljs-number">80</span>
+Listen <span class="hljs-number">80</span>
+Listen <span class="hljs-number">443</span></code></pre><h3 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h3><p>这里虚拟主机的默认配置时将日志发送到stdout和stderr。可以理解为输出到终端上。</p><pre><code class="hljs armasm"># Send apache logs to stdout <span class="hljs-keyword">and </span>stderr
+<span class="hljs-symbol">CustomLog</span> /<span class="hljs-meta">proc</span>/<span class="hljs-keyword">self/fd/1 </span><span class="hljs-meta">common</span>
+<span class="hljs-symbol">ErrorLog</span> /<span class="hljs-meta">proc</span>/<span class="hljs-keyword">self/fd/2</span></code></pre><p>当然也可以实现日志的持久化保存。将其映射到宿主机的目录下就好了。</p><pre><code class="hljs maxima">CustomLog /<span class="hljs-built_in">var</span>/<span class="hljs-built_in">log</span>/access.<span class="hljs-built_in">log</span> common
+ErrorLog /<span class="hljs-built_in">var</span>/<span class="hljs-built_in">log</span>/<span class="hljs-built_in">error</span>.<span class="hljs-built_in">log</span></code></pre><h2 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h2><p>PHP这里使用fpm，配合docker-compose的内部网络与apache进行通信。</p><h3 id="Dockerfile-1"><a href="#Dockerfile-1" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><pre><code class="hljs routeros"><span class="hljs-keyword">FROM</span> php:7.4-fpm-alpine
+<span class="hljs-builtin-name">RUN</span> mv <span class="hljs-string">"<span class="hljs-variable">$PHP_INI_DIR</span>/php.ini-production"</span> <span class="hljs-string">"<span class="hljs-variable">$PHP_INI_DIR</span>/php.ini"</span>
+COPY php.ini <span class="hljs-variable">$PHP_INI_DIR</span>/conf.d/
+<span class="hljs-builtin-name">RUN</span> sed -i <span class="hljs-string">'s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g'</span> /etc/apk/repositories \
+        &amp;&amp; apk update \
+        &amp;&amp; apk<span class="hljs-built_in"> upgrade </span>\
+        &amp;&amp; docker-php-ext-install mysqli \
+        &amp;&amp; docker-php-ext-install pdo_mysql</code></pre><h3 id="php-ini"><a href="#php-ini" class="headerlink" title="php.ini"></a>php.ini</h3><p>优雅的获取容器内的php.ini文件：</p><pre><code class="hljs groovy">docker cp <span class="hljs-string">somephp:</span><span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/etc/</span>php<span class="hljs-regexp">/ /</span>root</code></pre><p>修改过后的配置文件可以在Dockerfile中copy，也可以在compose.yml中映射。只要到了宿主机的正确位置就可以生效。</p><p>官方的描述是这样的方法：</p><pre><code class="hljs dockerfile"><span class="hljs-keyword">RUN</span><span class="bash"> mv <span class="hljs-string">"<span class="hljs-variable">$PHP_INI_DIR</span>/php.ini-production"</span> <span class="hljs-string">"<span class="hljs-variable">$PHP_INI_DIR</span>/php.ini"</span></span>
+<span class="hljs-keyword">COPY</span><span class="bash"> php.ini <span class="hljs-variable">$PHP_INI_DIR</span>/conf.d/</span></code></pre><h3 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h3><p>如果需要安装typecho这样的blog程序的话，再连接sql时需要安装mysql的拓展，写在Dockerfile就好了：</p><pre><code class="hljs cmake">docker-php-ext-<span class="hljs-keyword">install</span> pdo_mysql</code></pre><p>如果还需要其他的拓展的话，还可以在Dockerfile里自定义安装。可以使用<code>pecl</code>来安装，然后使用<code>docker-php-ext-enable</code>来启用它。</p><blockquote><p>use <code>pecl install</code> to download and compile it, then use <code>docker-php-ext-enable</code> to enable it:</p></blockquote><pre><code class="hljs angelscript">FROM php:<span class="hljs-number">7.4</span>-cli
+RUN pecl install redis<span class="hljs-number">-5.1</span><span class="hljs-number">.1</span> \
+    &amp;&amp; pecl install xdebug<span class="hljs-number">-2.8</span><span class="hljs-number">.1</span> \
+    &amp;&amp; docker-php-ext-enable redis xdebug</code></pre><p>或者直接使用<code>docker-php-ext-install</code>来安装：</p><pre><code>&amp;&amp; docker-php-ext-install mysqli \
+&amp;&amp; docker-php-ext-install pdo_mysql</code></pre><p>至于更多的拓展，还可以编译安装：</p><pre><code class="hljs livescript">FROM php:<span class="hljs-number">5.6</span>-cli
+RUN curl -fsSL <span class="hljs-string">'https://xcache.lighttpd.net/pub/Releases/3.2.0/xcache-3.2.0.tar.gz'</span> -o xcache.tar.gz <span class="hljs-string">\</span>
+    &amp;&amp; mkdir -p xcache <span class="hljs-string">\</span>
+    &amp;&amp; tar -xf xcache.tar.gz -C xcache --strip-components=<span class="hljs-number">1</span> <span class="hljs-string">\</span>
+    &amp;&amp; rm xcache.tar.gz <span class="hljs-string">\</span>
+    &amp;&amp; ( <span class="hljs-string">\</span>
+        cd xcache <span class="hljs-string">\</span>
+        &amp;&amp; phpize <span class="hljs-string">\</span>
+        &amp;&amp; ./configure --enable-xcache <span class="hljs-string">\</span>
+        &amp;&amp; make -j <span class="hljs-string">"$(nproc)"</span> <span class="hljs-string">\</span>
+        &amp;&amp; make install <span class="hljs-string">\</span>
+    ) <span class="hljs-string">\</span>
+    &amp;&amp; rm -r xcache <span class="hljs-string">\</span>
+    &amp;&amp; docker-php-ext-enable xcache</code></pre><h2 id="MySql"><a href="#MySql" class="headerlink" title="MySql"></a>MySql</h2><p>mysql主要修改的一些配置使用启动时的环境变量就可以了，不需要修改其配置文件的情况下，便用不到Dockerfile了。直接使用官方的镜像就好了。</p><h3 id="Docker-Secrets"><a href="#Docker-Secrets" class="headerlink" title="Docker Secrets"></a>Docker Secrets</h3><p>如果担心密码写在docker-compose.yml里不安全的话，可以考虑使用docker secret。不过secret需要使用swarm集群。单台主机只使用docker-compose可能会更加方便一点。</p><p>并且在compose中生成的是两个虚拟网络，只有apache在前端网络映射了端口。mysql完全放在后端，除了虚拟网络和宿主机都无法与其通信。所以密码的安全并不用太过于担心。如果mysql需要对外提供服务，那就需要多担心一下了。</p><pre><code class="hljs routeros">$ docker <span class="hljs-builtin-name">run</span> --name some-mysql -e <span class="hljs-attribute">MYSQL_ROOT_PASSWORD_FILE</span>=/run/secrets/mysql-root -d mysql:tag</code></pre><blockquote><p>映射了目录后，配置的密码都会被持久化保存。再次修改docker-compose.yml中的变量将不会生效。</p></blockquote><h3 id="数据持久化"><a href="#数据持久化" class="headerlink" title="数据持久化"></a>数据持久化</h3><p>对于docker来说，尽量不要在容器内发生写的操作为好。此外，对于数据库来，数据肯定是需要持久化存储的。官方推荐的是：</p><blockquote><p>Important note: There are several ways to store data used by applications that run in Docker containers. We encourage users of the <code>mysql</code> images to familiarize themselves with the options available, including:</p><ul><li>Let Docker manage the storage of your database data <a href="https://docs.docker.com/engine/tutorials/dockervolumes/#adding-a-data-volume" target="_blank" rel="noopener">by writing the database files to disk on the host system using its own internal volume management</a>. This is the default and is easy and fairly transparent to the user. The downside is that the files may be hard to locate for tools and applications that run directly on the host system, i.e. outside containers.</li><li>Create a data directory on the host system (outside the container) and <a href="https://docs.docker.com/engine/tutorials/dockervolumes/#mount-a-host-directory-as-a-data-volume" target="_blank" rel="noopener">mount this to a directory visible from inside the container</a>. This places the database files in a known location on the host system, and makes it easy for tools and applications on the host system to access the files. The downside is that the user needs to make sure that the directory exists, and that e.g. directory permissions and other security mechanisms on the host system are set up correctly.</li></ul></blockquote><p>说白了就是映射出来为最佳解决方案。如果在compose.yml中使用<code>-v</code>映射，而不添加宿主机的目录位置的话。文件将会被映射到一个随机的目录。</p><p>推荐方案：</p><pre><code class="hljs groovy">$ docker run --name some-mysql -v <span class="hljs-regexp">/my/</span>own<span class="hljs-regexp">/datadir:/</span>var<span class="hljs-regexp">/lib/</span>mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d <span class="hljs-string">mysql:</span>tag</code></pre><h3 id="备份与恢复"><a href="#备份与恢复" class="headerlink" title="备份与恢复"></a>备份与恢复</h3><p>针对单个或多个数据库都可以导出为sql文件。在docker中当然也是同样。甚至密码可以使用变量<code>$MYSQL_ROOT_PASSWORD</code>来代替。</p><p>导入：</p><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> -i mysql sh -c <span class="hljs-string">'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" typecho'</span> &lt; /data/docker/typecho.sql</code></pre><p>导出：</p><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> mysql sh -c <span class="hljs-string">'exec mysqldump typecho -uroot -p"$MYSQL_ROOT_PASSWORD"'</span> &gt; /data/docker/mysql/backup/typecho.sql</code></pre><h2 id="Docker-compose"><a href="#Docker-compose" class="headerlink" title="Docker-compose"></a>Docker-compose</h2><p>整个配置文件：</p><p>docker-compose.yml</p><pre><code class="hljs dockerfile">version: <span class="hljs-string">"3.2"</span>
+services:
+  php:
+    container_name: php
+    build: <span class="hljs-string">'./php/'</span>
+    networks:
+      - backend
+    volumes:
+      - ./www/:/var/www/
+  apache:
+    container_name: apache
+    build: <span class="hljs-string">'./apache/'</span>
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - frontend
+      - backend
+    ports:
+      - <span class="hljs-string">"80:80"</span>
+      - <span class="hljs-string">"443:443"</span>
+    volumes:
+      - ./www/:/var/www/
+      - /etc/letsencrypt/:/etc/letsencrypt/
+      - ./apache/logs/:/var/log/
+  mysql:
+    container_name: mysql
+    image: mysql:<span class="hljs-number">5.7</span>
+    volumes:
+      - ./mysql/sqldata/:/var/lib/mysql
+    networks:
+      - backend
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    command: [<span class="hljs-string">'mysqld'</span>, <span class="hljs-string">'--character-set-server=utf8mb4'</span>]
+  bark: 
+    container_name: bark
+    build: <span class="hljs-string">'./bark'</span>
+    ports: 
+      - <span class="hljs-string">"8181"</span>
+    depends_on:
+      - apache
+    networks:
+      - backend
+networks:
+  frontend:
+  backend:</code></pre><h3 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h3><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><pre><code class="hljs applescript">It <span class="hljs-keyword">does</span> <span class="hljs-keyword">not</span> belong <span class="hljs-keyword">to</span> any <span class="hljs-keyword">of</span> this network's subnets</code></pre><p>这个问题很有意思，在配置文件中设置了网络段。也在服务下写了相同的地址段，它依然说我的网段不一样。</p><p>导致这个问题的原因是在自定义配置网段之前启动过相同的网络，在docker网络下它已经定义过网段了。再次重新手动指定网络地址时，会和之前的不一样。</p><p>只需要删除之前的网络，在重新运行<code>docker-sompose up</code>一遍就可以了。</p><p>查看网络：</p><pre><code class="hljs bash">docker network ls</code></pre><p>删除：</p><pre><code class="hljs bash">docker network rm docker_backend</code></pre><h3 id="此外"><a href="#此外" class="headerlink" title="此外"></a>此外</h3><pre><code class="hljs yaml">  <span class="hljs-bullet">-</span> <span class="hljs-string">backend</span>
+<span class="hljs-attr">ipv4_address:</span> <span class="hljs-number">172.18</span><span class="hljs-number">.0</span><span class="hljs-number">.10</span></code></pre><p>不同的语法写在一起也会导致错误。</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://www.digitalocean.com/community/questions/how-to-set-the-default-virtual-host-on-apache-2" target="_blank" rel="noopener">How to set the default virtual host on Apache 2?</a></li><li><a href="https://stackoverflow.com/questions/45648821/docker-compose-up-error-invalid-address" target="_blank" rel="noopener">docker-compose up error, Invalid address</a></li><li><a href="https://docs.docker.com/compose/networking/" target="_blank" rel="noopener">Networking in Compose</a></li><li><a href="https://www.cloudreach.com/en/insights/blog/containerize-this-how-to-use-php-apache-mysql-within-docker-containers/" target="_blank" rel="noopener">Containerize This! How to use PHP, Apache, MySQL within Docker containers</a></li></ul><pre><code class="hljs awk">docker run -it --rm --name certbot \
+   -v <span class="hljs-string">"/etc/letsencrypt:/etc/letsencrypt"</span> \
+   -v <span class="hljs-string">"/var/lib/letsencrypt:/var/lib/letsencrypt"</span> \
+   -v <span class="hljs-string">"/data/docker/web/www/:/data/docker/web/www/"</span> \
+   certbot<span class="hljs-regexp">/certbot certonly -n --webroot \
+   -w /</span>data<span class="hljs-regexp">/docker/</span>web<span class="hljs-regexp">/www/</span>test -d test.defectink.com \
+   -w <span class="hljs-regexp">/data/</span>docker<span class="hljs-regexp">/web/</span>www<span class="hljs-regexp">/html -d www.defectink.com \
+   -w /</span>data<span class="hljs-regexp">/docker/</span>web<span class="hljs-regexp">/www/i</span>ndex -d index.defectink.com \
+   -w <span class="hljs-regexp">/data/</span>docker<span class="hljs-regexp">/web/</span>www<span class="hljs-regexp">/api -d api.defectink.com</span></code></pre><pre><code class="hljs angelscript">docker run --rm --name myadmin -d --network docker_backend --link mysql_db_server:mysql -e PMA_HOST=<span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.4</span> -p <span class="hljs-number">3002</span>:<span class="hljs-number">80</span> phpmyadmin/phpmyadmin</code></pre><pre><code class="hljs jboss-cli">certbot certonly -n <span class="hljs-params">--webroot</span> -w <span class="hljs-string">/data/docker/web/www/html</span> -d www.defectink.com <span class="hljs-params">--post-hook</span> <span class="hljs-string">"docker restart apache"</span></code></pre><pre><code class="hljs dts">certbot certonly -n --webroot -w <span class="hljs-meta-keyword">/data/</span>docker<span class="hljs-meta-keyword">/web/</span>www/html -d www.defectink.com
+certbot certonly -n --webroot -w <span class="hljs-meta-keyword">/data/</span>docker<span class="hljs-meta-keyword">/web/</span>www/index -d index.defectink.com
+certbot certonly -n --webroot -w <span class="hljs-meta-keyword">/data/</span>docker<span class="hljs-meta-keyword">/web/</span>www/test -d test.defectink.com
+certbot certonly -n --webroot -w <span class="hljs-meta-keyword">/data/</span>docker<span class="hljs-meta-keyword">/web/</span>www/api -d api.defectink.com</code></pre></article><hr><div><div class="post-metas mb-3"><div class="post-meta mr-3"><i class="iconfont icon-category"></i> <a class="hover-with-bg" href="/categories/%E5%AE%9E%E8%B7%B5/">实践</a></div><div class="post-meta"><i class="iconfont icon-tags"></i> <a class="hover-with-bg" href="/tags/Linux/">Linux</a></div></div><p class="note note-warning"><a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0❤</a></p><div class="post-prevnext row"><div class="post-prev col-6"><a href="/defect/javascript-notes-reference-type.html"><i class="iconfont icon-arrowleft"></i> <span class="hidden-mobile">JavaScript笔记-引用类型</span> <span class="visible-mobile">上一篇</span></a></div><div class="post-next col-6"><a href="/defect/header-practice-have-to-win-this-a.html"><span class="hidden-mobile">Header实践-得拿下这个A</span> <span class="visible-mobile">下一篇</span> <i class="iconfont icon-arrowright"></i></a></div></div></div><div class="comments" id="comments"><div class="disqus" style="width:100%"><div id="disqus_thread"></div><script type="text/javascript">function loadDisqus(){var e,t;(t=(e=document).createElement("script")).src="//defectink.disqus.com/embed.js",t.setAttribute("data-timestamp",new Date),(e.head||e.body).appendChild(t)}createObserver(loadDisqus,"disqus_thread")</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="nofollow noopener noopener">comments powered by Disqus.</a></noscript></div></div></div></div></div></div><div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn"><div id="toc"><p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p><div id="tocbot"></div></div></div></div></div></main><a id="scroll-top-button" href="#" role="button"><i class="iconfont icon-arrowup" aria-hidden="true"></i></a><div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable modal-lg" role="document"><div class="modal-content"><div class="modal-header text-center"><h4 class="modal-title w-100 font-weight-bold">搜索</h4><button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body mx-3"><div class="md-form mb-5"><input type="text" id="local-search-input" class="form-control validate"> <label data-error="x" data-success="v" for="local-search-input">关键词</label></div><div class="list-group" id="local-search-result"></div></div></div></div></div><footer class="mt-5"><div class="text-center py-3"><div><a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a></div><div class="beian"><a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">皖ICP备17017808号</a></div></div></footer><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script><script src="/js/debouncer.js"></script><script src="/js/main.js"></script><script src="/js/lazyload.js"></script><script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script><script src="/js/clipboard-use.js"></script><script src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js"></script><script>$(document).ready(function(){var t=$("#board-ctn").offset().top;tocbot.init({tocSelector:"#tocbot",contentSelector:"article.markdown-body",headingSelector:"h1,h2,h3,h4,h5,h6",linkClass:"tocbot-link",activeLinkClass:"tocbot-active-link",listClass:"tocbot-list",isCollapsedClass:"tocbot-is-collapsed",collapsibleClass:"tocbot-is-collapsible",collapseDepth:0,scrollSmooth:!0,headingsOffset:-t}),0<$(".toc-list-item").length&&$("#toc").css("visibility","visible")})</script><script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script><script>var typed=new Typed("#subtitle",{strings:["  ","Docker-全面容器化！&nbsp;"],cursorChar:"❤",typeSpeed:70,loop:!1});typed.stop(),$(document).ready(function(){$(".typed-cursor").addClass("h2"),typed.start()})</script><script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script><script>anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "❤"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))</script><script src="/js/local-search.js"></script><script>var path="/local-search.xml",inputArea=document.querySelector("#local-search-input");inputArea.onclick=function(){searchFunc(path,"local-search-input","local-search-result"),this.onclick=null}</script><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script>$("#post img:not(.no-zoom img, img[no-zoom]), img[zoom]").each(function(){var t=document.createElement("a");$(t).attr("data-fancybox","images"),$(t).attr("href",$(this).attr("src")),$(this).wrap(t)})</script><script src="https://cdn.staticfile.org/mermaid/8.5.0/mermaid.min.js"></script><script>window.mermaid&&mermaid.initialize({theme:"default"})</script></body></html>
