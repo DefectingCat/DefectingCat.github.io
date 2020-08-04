@@ -1144,7 +1144,7 @@ SubType.prototype = new SuperType;
 ```js
 function inherit(subtype, supertype) {
     let prototype = Object.create(supertype.prototype);
-    prototype.constructor = prototype;
+    prototype.constructor = subtype;
     subtype.prototype = prototype;
 }
 
