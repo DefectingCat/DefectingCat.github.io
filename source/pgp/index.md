@@ -10,7 +10,7 @@ comments: ture
 
 ## Pretty Good Privac
 
-![pgp](/defect/images/pgp/pgp.png)
+![pgp](../images/pgp/pgp.png)
 
 在这个信息横飞的时代，安全隐私也成为了不可或缺的一部分。非对称加密或许一种优良的解决方案。pgp的形成一定程度上实现了隐私的存在。
 
