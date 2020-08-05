@@ -95,17 +95,7 @@ About content
 - [x] Support for LaTeX
 - [x] Support for mermaid
 - [x] Music player
-
-## FAQ
-
-#### Code highlighting exception
-
-- Please confirm that the above "Turn off default highlighting" step has been completed.
-- Try "clean" command: `hexo clean && hexo g` `hexo clean && hexo g`
-
-#### Configuration cannot take effect
-
-- Please check if the configuration file conforms to the yml syntax, such as spaces after the colon, 2 spaces for indentation, etc.
+- [x] Dark mode
 
 ## Contributors
 

@@ -2,30 +2,30 @@
 .navbar
   background-color transparent
   font-size 0.875rem
-  color $navbar-text-color
   box-shadow 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)
   -webkit-box-shadow 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)
 
-  a
-    color $navbar-text-color
+  .navbar-brand
+    color var(--navbar-text-color)
 
-    &:hover
-      background-color rgba(0, 0, 0, 0.1)
-
-    & > i
-      font-size 0.875rem
+  .navbar-toggler .animated-icon span
+    background-color var(--navbar-text-color)
 
   .nav-item .nav-link
     display block
+    color var(--navbar-text-color)
+    transition color .2s, background-color .2s
+
+    &:hover
+      color var(--link-hover-color)
+      background-color rgba(0, 0, 0, 0.1)
+
+    i
+      font-size 0.875rem
 
   .navbar-toggler
     border-width 0
     outline 0
-
-  &.navbar-dark .breadcrumb .nav-item .nav-link, &.navbar-dark .navbar-nav .nav-item .nav-link
-    color #fff
-    -webkit-transition .35s
-    transition .35s
 
   @media (min-width: 600px)
     &.scrolling-navbar
@@ -44,7 +44,7 @@
 
   .dropdown-menu
     font-size 0.875rem
-    color $navbar-text-color
+    color var(--navbar-text-color)
     background-color rgba(0, 0, 0, 0.3)
     border none
     -webkit-transition background .5s ease-in-out,padding .5s ease-in-out
@@ -53,14 +53,12 @@
     @media (max-width: 991.98px)
       text-align center
 
-  .dropdown-item:hover
-    color $link-hover-color
+  .dropdown-item
+    color var(--navbar-text-color)
 
-  .dropdown-collapse
-    if $navbar-glass-enable
-      ground-glass($navbar-glass-px, $navbar-bg-color, $navbar-glass-alpha)
-    else
-      background-color $navbar-bg-color
+    &:hover, &:focus
+      color var(--link-hover-color)
+      background-color rgba(0, 0, 0, 0.1)
 
   @media (min-width: 992px)
     .dropdown:hover > .dropdown-menu
@@ -134,23 +132,11 @@
           -o-transform rotate(-135deg)
           transform rotate(-135deg)
 
-.navbar-custom
-  color $navbar-text-color
-
-  a
-    color $navbar-text-color
-
-.top-nav-collapse
+.navbar .dropdown-collapse, .top-nav-collapse, .navbar-col-show
   if $navbar-glass-enable
     ground-glass($navbar-glass-px, $navbar-bg-color, $navbar-glass-alpha)
   else
-    background-color $navbar-bg-color
-
-.navbar-col-show
-  if $navbar-glass-enable
-    ground-glass($navbar-glass-px, $navbar-bg-color, $navbar-glass-alpha)
-  else
-    background-color $navbar-bg-color
+    background-color var(--navbar-bg-color)
 
 @media (max-width: 767px)
   .navbar
@@ -171,16 +157,19 @@
   font-size 1rem
   margin-bottom 2rem
   font-family $font-family
-  color $post-text-color
+  color var(--post-text-color)
 
   h1, h2, h3, h4, h5, h6
-    color $post-heading-color
+    color var(--post-heading-color)
     font-weight bold
     margin-bottom .75em
     margin-top 2em
 
     &:focus
       outline none
+
+  a
+    color var(--post-link-color)
 
   hr
     height .2em
@@ -212,6 +201,9 @@
     box-shadow $img-shadow
     border-radius 3px
 
+  blockquote
+    color var(--sec-text-color)
+
   details
     cursor pointer
 
@@ -226,7 +218,7 @@
     border-radius 3px
 
     pre
-      background-color initial
+      background-color initial !important
 
 // Rewrite mdb.css
 .list-group-item
@@ -241,32 +233,43 @@
   margin-top 3rem
   justify-content center
 
-  & a, & .current
+  .space
+    align-self flex-end
+
+  a, .current
     outline 0
     border 0
     background-color transparent
     font-size .9rem
     padding .5rem .75rem
     line-height 1.25
-    -webkit-border-radius .125rem
     border-radius .125rem
-    -webkit-transition all .3s linear
-    -o-transition all .3s linear
-    transition all .3s linear
+    transition background-color .2s ease-in-out
 
-  & a:hover, & .current
-    background-color $link-hover-bg-color
+  a:hover, .current
+    background-color var(--link-hover-bg-color)
 
 // Rewrite modal
 .modal-dialog .modal-content
+  background-color var(--board-bg-color)
   border 0
   border-radius .125rem
   -webkit-box-shadow 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)
   box-shadow 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)
 
+.close
+  color var(--text-color)
+
+  &:hover
+    color var(--link-hover-color)
+
+  &:focus
+    outline 0
+
 .modal-dialog .modal-content .modal-header
   border-top-left-radius .125rem
   border-top-right-radius .125rem
+  border-bottom 1px solid #dee2e6
 
 .md-form
   position relative
@@ -323,6 +326,7 @@
       height auto
       padding .6rem 0 .4rem 0
       margin 0 0 .5rem 0
+      color var(--text-color)
       background-color transparent
       border-radius 0
 
@@ -391,6 +395,7 @@ input[type=checkbox]
 
   &:checked
     background #2f4154
+    margin-right .5rem !important
 
     &:before
       left 0.0625rem
@@ -405,5 +410,28 @@ input[type=checkbox]
       height 0.875rem
 
 // Rewrite list-group
-.list-group-item-action:focus, .list-group-item-action:hover
-  background-color $link-hover-bg-color
+.list-group-item-action
+  color var(--text-color)
+
+  &:focus, &:hover
+    color var(--link-hover-color)
+    background-color var(--link-hover-bg-color)
+
+// Rewrite valine
+.v[data-class=v]
+  .status-bar, .veditor, .vinput, .vbtn, p, pre code
+    color var(--text-color) !important
+
+  .vicon
+    fill var(--text-color) !important
+
+// Rewrite gitalk
+.gt-container
+
+  .gt-comment-content:hover
+    -webkit-box-shadow none
+    box-shadow none
+
+  .gt-comment-body
+    color var(--text-color) !important
+    transition color .2s ease-in-out
