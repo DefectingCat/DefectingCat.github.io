@@ -100,10 +100,14 @@ theme: fluid
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: 'git'
-  repo: git@github.com:DefectingCat/DefectingCat.github.io.git
-  branch: master
-  message: ❤
+  - type: 'git'
+    repo: git@github.com:DefectingCat/DefectingCat.github.io.git
+    branch: master
+    message: ❤
+  - type: 'git'
+    repo: git@e.coding.net:Defectink/blog/blog.git
+    branch: master
+    message: ❤
 
 # minifier
 all_minifier: true
