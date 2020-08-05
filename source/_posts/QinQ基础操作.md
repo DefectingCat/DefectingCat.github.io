@@ -4,7 +4,7 @@ date: 2019-05-29 16:21:15
 tags: Network
 categories: 网络
 url: basic-knowledge-of-qinq
-index_img: /defect/images/QinQ基础操作/qinq.jpg
+index_img: /images/QinQ基础操作/qinq.jpg
 ---
 
 > QwQ♥
@@ -73,7 +73,7 @@ Tips：Dot1q终结子接口和QinQ终结子接口不支持透传不带VLAN的报
 
 QinQ报文有着固定的格式，就是在802.1Q的标签上再堆叠一层802.1Q标签。QinQ报文比普通的vlan标签多4个字节。vlan帧最小帧长为68字节。
 
-![ethernet-QinQ-format2](images/QinQ基础操作/ethernet-QinQ-format2.png)
+![ethernet-QinQ-format2](../images/QinQ基础操作/ethernet-QinQ-format2.png)
 
 | 字段                | 长度        | 含义                                                         |
 | ------------------- | ----------- | ------------------------------------------------------------ |
@@ -89,13 +89,13 @@ QinQ报文有着固定的格式，就是在802.1Q的标签上再堆叠一层802.
 
 ### 报文示例
 
-![报文](images/QinQ基础操作/报文-1582421531943.png)
+![报文](../images/QinQ基础操作/报文-1582421531943.png)
 
 ### TPID（Tag Protocol Identifier）
 
 TPID：标签协议标识ID（Tag Protocol Identifier）是Vlan tag中的一个字段，标识该vlan tag的协议类型。IEEE 802.1Q协议规定QinQ的外层vlan标签的type值为：（0x8100）。
 
-![外层type](images/QinQ基础操作/外层type.png)
+![外层type](../images/QinQ基础操作/外层type.png)
 
 > IEEE802.1Q协议定义的以太网帧的VLAN Tag。802.1Q Tag位于SA（Source Address）和Length/Type之间。通过检查对应的TPID值，设备可确定收到的帧承载的是运营商VLAN标记还是用户VLAN标记。接收到帧之后，设备将配置的TPID值与帧中TPID字段的值进行比较。如果二者匹配，则该帧承载的是对应的VLAN标记。例如，如果帧承载TPID值为0x8100的VLAN标记，而用户网络VLAN标记的TPID值配置为0x8200，设备将认为该帧没有用户VLAN标记。也就是说，设备认为该帧是Untagged报文。
 > 另外，不同运营商的系统可能将QinQ帧外层VLAN标记的TPID设置为不同值。为实现与这些系统的兼容性，可以修改TPID值，使QinQ帧发送到公网时，承载与特定运营商相同的TPID值，从而实现与该运营商设备之间的互操作性。以太网帧的TPID与不带VLAN标记的帧的协议类型字段位置相同。为避免在网络中转发和处理数据包时出现问题，不可将TPID值设置为下表中的任意值：
@@ -118,7 +118,7 @@ TPID：标签协议标识ID（Tag Protocol Identifier）是Vlan tag中的一个�
 
 拓扑：
 
-![基本qinq](images/QinQ基础操作/基本qinq.png)
+![基本qinq](../images/QinQ基础操作/基本qinq.png)
 
 如图示，SW2和SW3用于模拟运营商之间的Internet，SW1和SW4为客户内网。基本QinQ的配置就作用于SW2和SW3之间，将客户内网内的vlan10与vlan20封装上一层vlan100，用于再SW2和SW3之间传输。
 
@@ -164,7 +164,7 @@ SW1的`G 0/0/1`为trunk接口，对应连接的SW2的`G 0/0/1`为基本二层Qin
 
 使用PC1发送ICMP包到PC3，数据包内容为：
 
-![报文2](images/QinQ基础操作/报文2.png)
+![报文2](../images/QinQ基础操作/报文2.png)
 
 其中，可以看到内层的802.1q的vlan标签ID为10，type为（0x0800）；外层的，也就是SW2封装的vlan标签ID为100，type为（0x8100）。
 
@@ -172,7 +172,7 @@ SW1的`G 0/0/1`为trunk接口，对应连接的SW2的`G 0/0/1`为基本二层Qin
 
 拓扑和上述一样：
 
-![灵活拓扑](images/QinQ基础操作/灵活拓扑.png)
+![灵活拓扑](../images/QinQ基础操作/灵活拓扑.png)
 
 我们在模拟internet的SW2和SW3之间添加了一个vlan 200，用于配置灵活的QinQ的vlan 20堆叠一个vlan 200的tag。
 
@@ -201,11 +201,11 @@ interface GigabitEthernet0/0/2
 
 * vlan10
 
-![报文3](images/QinQ基础操作/报文3.png)
+![报文3](../images/QinQ基础操作/报文3.png)
 
 * vlan20
 
-![vlan20](images/QinQ基础操作/vlan20.png)
+![vlan20](../images/QinQ基础操作/vlan20.png)
 当两台PC机正常通信的时候，可以看到不同vlan封装的外层vlan tag也是不一样的。这就是基于vlan的灵活QinQ。
 
 ## 上述拓扑

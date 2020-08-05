@@ -4,7 +4,7 @@ date: 2020-07-03 15:13:05
 tags: JavaScript
 categories: 笔记
 url: javascript-scope-and-chain
-index_img: /defect/images/JavaScript的作用域与链/index.jpg
+index_img: /images/JavaScript的作用域与链/index.jpg
 ---
 
 JavaScript是一门动态语言，也常称呼为弱类型/解释型的语言。除了不需要明确写出数据类型外，JavaScript的作用域也和其他类型的语言不同。并且作用域还以链的方式互相连接。
@@ -244,7 +244,7 @@ function x() {
 x();
 ```
 
-![scope](images/JavaScript的作用域与链/scope.png)
+![scope](../images/JavaScript的作用域与链/scope.png)
 
 在作用域链内部的函数可以向上方位外部函数作用域内的变量，直至全局作用域。而作用域外的函数不能访问内部函数的变量。
 

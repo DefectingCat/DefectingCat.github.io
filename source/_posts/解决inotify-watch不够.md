@@ -4,7 +4,7 @@ date: 2019-05-29 9:05:01
 tags: Linux
 categories: 踩坑
 url: fixed-inotify-watch-not-enough
-index_img: /defect/images/解决inotify-watch不够/logo.jpg
+index_img: /images/解决inotify-watch不够/logo.jpg
 ---
 
 > Failed to add /run/systemd/ask-password to directory watch: No space left on device

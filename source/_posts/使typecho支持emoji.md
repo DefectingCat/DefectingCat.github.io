@@ -4,7 +4,7 @@ date: 2019-05-12 13:41:57
 tags: typecho
 categories: 实践
 url: make-typecho-support-the-emoji
-index_img: /defect/images/使typecho支持emoji/1118031526.jpg
+index_img: /images/使typecho支持emoji/1118031526.jpg
 ---
 
 ## Emoji？
@@ -76,7 +76,7 @@ $db->addServer(array (
 
 
 
-[1]: ./images/使typecho支持emoji/2721696195.png
-[2]: ./images/使typecho支持emoji/1431864746.png
-[3]: ./images/使typecho支持emoji/175217384.png
-[4]: ./images/使typecho支持emoji/4188132525.png
+[1]: ../images/使typecho支持emoji/2721696195.png
+[2]: ../images/使typecho支持emoji/1431864746.png
+[3]: ../images/使typecho支持emoji/175217384.png
+[4]: ../images/使typecho支持emoji/4188132525.png

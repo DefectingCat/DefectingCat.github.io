@@ -4,7 +4,7 @@ date: 2019-06-26 16:42:41
 tags: typecho
 categories: 踩坑
 url: alioss-for-typecho
-index_img: /defect/images/AliOssForTypecho/logo.jpg
+index_img: /images/AliOssForTypecho/logo.jpg
 ---
 
 原作大佬：
