@@ -159,8 +159,8 @@ footer:
     uv_format: "总访客数 {} 人"
 
   beian:  # The footer of China's website policy, other areas keep disable
-    enable: false
-    icp_text: #皖ICP备17017808号 # ICP证号
+    enable: true
+    icp_text: 皖ICP备17017808号 # ICP证号
     police_text:  # 公安备案号，不填则只显示ICP
     police_code: 17017808 # 公安备案的编号，用于URL跳转查询
     police_icon: /img/police_beian.png # 公安备案的图片. 为空时不显示备案图片
@@ -375,7 +375,7 @@ about:  # 以下仅为页面顶部的基本信息，更多内容请在 ./pages/a
     - { class: 'iconfont icon-github-fill', link: 'https://github.com/DefectingCat' }
     - { class: 'iconfont icon-twitter-fill', link: 'https://twitter.com/Defect___' }
     - { class: 'iconfont icon-telegram-fill', link: 'https://t.me/Defectink' }
-    - { class: 'iconfont icon-telegram-fill', link: 'mailto:i@defect.ink' }
+    - { class: 'iconfont icon-mail', link: 'mailto:i@defect.ink' }
     - { class: 'iconfont icon-wechat-fill', qrcode: '/images/img/qrcode.png' }  # 添加 qrcode 后，点击不再跳转，而是悬浮二维码，需要指定 image
 
 

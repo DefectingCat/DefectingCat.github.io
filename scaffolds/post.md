@@ -4,5 +4,5 @@ date: {{ date }}
 tags:
 categories: 
 url:
-index_img: /defect/
+index_img: /images/
 ---
