@@ -101,16 +101,16 @@ theme: fluid
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   - type: 'git'
-    repo: git@github.com:DefectingCat/DefectingCat.github.io.git
+    repo: https://DefectingCat:b266e9fd0460c0dae27f1f4513607522dde2c8db@github.com/DefectingCat/DefectingCat.github.io.git
     branch: master
     message: ❤
   - type: 'git'
-    repo: git@e.coding.net:Defectink/blog/blog.git
+    repo: https://DefectingCat:01c33352e0c6836d1e50acc0b5d571780ec0a85b@e.coding.net/Defectink/blog/blog.git
     branch: master
     message: ❤
 
 # minifier
-all_minifier: false
+all_minifier: true
 
 html_minifier:
   enable: true
