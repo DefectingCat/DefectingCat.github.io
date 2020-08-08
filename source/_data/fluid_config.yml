@@ -274,7 +274,7 @@ disqus:
   # 以下为 Disqusjs 支持, 国内用户如果想使用 Disqus 建议配合使用
   # https://github.com/SukkaW/DisqusJS
   disqusjs: true # 设置为 true 开启 DisqusJS
-  apikey: # DisqusJS 向 API 发起请求时使用的 API Key
+  apikey: uLPmTxSU1b8Ty8a8tpXZzlBl1NaURmrJFI5RDyIerCl38c7wqJhNDRwPypGaYe8x # DisqusJS 向 API 发起请求时使用的 API Key
 # Gitalk
 # You can get yout ClientID and ClientSecret from https://github.com/settings/applications/new
 # More info available at https://github.com/gitalk/gitalk#options
