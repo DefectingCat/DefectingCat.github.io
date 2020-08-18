@@ -127,3 +127,93 @@ frames["rightFrame"]<br/>
 
 所有的这些对象都是window的属性，都可以通过`window.parent`、`window.top`等形式来访问。同时也意味着可以将不同层级的window对象连缀起来，例如`window.parent.parent.frames[0]`。
 
+> 在使用框架的情况下，浏览器中会存在多个Global对象。在每个框架中定义的全局变量会自动成为框架中window对象的属性。由于每个window对象都包含类型的构造函数，因此每个框架都有一套自己的构造函数，这些构造函数一一对应，但并不相等。例如，`top.Object`并不等于`top.frames[0].Object`。这个问题会影响到对跨框架传递的对象使用instanceof操作符。
+
+### 窗口位置
+
+用来确定和修改window对象位置的属性和方法有很多。IE、Safari、Opera和Chrome都提供了`screenLeft`和`screenTop`来确定相对于屏幕左边和上边的位置。Firefox则在`screenX`和`screenY`属性中提供相同的窗口位置信息。
+
+目前Chrome和Firefox均支持这两个属性。不过难免会出现只支持其中一个的情况，可以使用个简单的判断语句来进行判断。
+
+```js
+let leftPos = (typeof window.screenLeft == 'number') ? window.screenLeft : window.screenX;
+
+let topPos = (typeof window.screenTop == 'number') ? window.screenTop : window.screenY;
+```
+
+各家浏览器对BOM多数没有统一的标准，最后导致的结果就是确定窗口位置不一，不同的浏览器给出的相对位置都不太一样。
+
+最总结果，就是无法在跨浏览器的条件下去的窗口左边和上边的精确位置。不过，使用`moveTo()`和`moveBy()`倒是有可能将窗口精确的移动到一个新的位置。
+
+`moveTo()`接收的是新位置的x和y坐标的值，而`moveBy()`接收的是在水平和垂直方向移动的像素数。
+
+```js
+// 移动窗口到屏幕左上角
+window.moveTo(0, 0);
+
+// 向下移动100像素
+window.moveBy(0 ,100);
+
+window.moveTo(200, 200);
+window.moveBy(-50, 0);
+```
+
+不过这几种方法在目前的浏览器里几乎都是被禁用的。另外这两个方法都不适用于框架，只能对最外层的window对象使用。
+
+### 窗口大小
+
+同样的原因，跨浏览器确定窗口大小可不是一件简单的事情。各个主流浏览器均提供了4个属性：innerWidth、innerHeight、outerWidth和outerHeight。不同的浏览器对其返回的值，以及相对的计算位置都不同。所以这里就不详记了。
+
+Chrome与Firefox在1080p分辨率下输出的inner和outer的值：
+
+![](../images/BOM/2020-08-15-10-19-42.png)
+
+另外一些浏览器在`document.documentElement.clientWidth`和`document.documentElement.clientHeight`保存了页面视口的信息。在IE6中，这些属性必须是在标准模式下才有效；如果是混杂模式，就必须通过`document.body`中的`clientWidth`和`clientHeight`取得相同的信息。
+
+> 远离IE有益身体健康。
+
+虽然最终无法确定浏览器本身的大小，但是可以取得页面视口的大小。
+
+```js
+let pageWidth = window.innerWdith;
+let pageHeight = window.innerHeight;
+
+if (typeof pageWidth != 'number') {
+    if (document.compatMode == "CSS1Compat"){
+        pageWidth = document.documentElement.clientWidth;
+        pageHeight = document.documentElement.clientHeight;
+    } else {
+        pageWidth = document.body.clientWidth;
+        pageHeight = document.body.clientHeight;
+    }
+}
+```
+
+> 对于移动设备，以及移动设备的IE浏览器情况则更加的有趣。移动开发咨询师Peter-Paul Koch记录他的研究：[https://quirksmode.org/mobile/viewports2.html](https://quirksmode.org/mobile/viewports2.html)
+
+另外，使用`resizeTo()`和`resizeBy()`方法可调整浏览器窗口的大小。这两个方法都接收两个参数，其中To接收浏览器窗口的新高度和新宽度，By接收新值与旧值之差。
+
+```js
+// 调整到100*100
+window.resizeTo(100, 100);
+
+// 调整到200*150
+window.resizeBy(100, 50);
+
+// 300*300
+window.resizeTo(300, 300);
+```
+
+现代的浏览器几乎都是禁用这两个方法的，同样，这两个方法也不适用于框架，只能对最外层的window对象使用。
+
+### 导航和打开窗口
+
+`window.open()`方法既可以导航到一个特定的URL，也可以打开一个新的浏览器窗口。这个方法可以接收4个参数：要加载的URL、窗口目标、一个特性字符串以及一个表示新页面是否取代浏览器历史记录中当前加载页面的布尔值。
+
+如果第二个参数为当前已有的窗口或框架的名称，那么就会在具有该名称的窗口或框架打开参数指定的URL。
+
+```js
+window.open('https://www.defectink.com', 'topFrame');
+// 同等于：<a href="https://www.defectink.com" target="topFrame"></a>
+```
+
