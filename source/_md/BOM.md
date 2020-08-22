@@ -217,3 +217,179 @@ window.open('https://www.defectink.com', 'topFrame');
 // 同等于：<a href="https://www.defectink.com" target="topFrame"></a>
 ```
 
+**弹出窗口**
+
+`window.open()`会返回一个对新窗口的引用，引用的对象与其他window对象大致相同。
+
+```js
+let gg = window.open('https://google.com/', '_blank');
+// global {window: global, self: global, location: {…}, closed: false, frames: global, …}
+```
+
+目前的大部分浏览器都不允许跨标签页的操作，不过`window.close()`方法依然可以用，用来关闭创建的窗口。弹窗关闭后，对其的引用还在，但是除了检测窗口是否已经关闭以外，已经没有其他用处了。
+
+```js
+gg.closed;
+// true
+```
+
+新创建的window对象有一个opner属性，其中保存着打开它的原始窗口对象。这个属性旨在弹出窗口中的最外层window对象(top)中有定义，而且指向调用`window.open()`的窗口或框架
+
+```js
+gg.opener == window
+true
+gg.opener === window
+true
+```
+
+有些浏览器会在单独的进程中运行每个标签页。当一个标签页打开另一个标签页时，如果两个window对象需要互相通信，那么新标签页就不能运行在单独的进程中。在Chrome中，将新创建的标签页的opener属性设置为null，即表示在单独的进程中运行新标签页。
+
+```js
+gg.opener = null
+```
+
+将opener属性设置为null就是告诉浏览器新创建的标签页不需要与打开它的标签页通信，因此可以在独立的进程中运行。标签页之间的联系一旦切断，将没有办法恢复。
+
+**安全限制**
+
+曾经有段时间，广告商在网上使用弹出窗口达到了肆无忌惮的水平。他们经常把弹出窗口打扮成系统对话框的模样，引诱用户去点击其中的广告。
+
+目前的主流浏览器对`window.open()`打开的窗口都会强制的显示状态栏或者地址栏，也禁止其模仿系统对话框的样子。此外，有的浏览器只根据用户操作来创建窗口。这样一来，在页面尚未加载完成时嗲用`window.open()`的语句根本不会执行。而且还可能将错误消息提示给用户。
+
+**弹出窗口屏蔽程序**
+
+现代的大多数浏览器都带有内置的弹窗屏蔽程序，而没有此类程序的浏览器也可以通过安装拓展来实现此功能。于是，在弹窗被屏蔽时，就应该考虑两种情况。如果是浏览器屏蔽的弹窗，那么`window.open()`很可能返回null；如果是拓展程序，那么很可能报错一个错误。利用这个返回值就能确定弹窗是否被屏蔽。
+
+```js
+let blocked = false;
+try {
+    let gg = window.open('https://google.com', '_blank');
+    if (gg == null) {
+        blocked = true;
+    }
+} catch (ex) {
+    blocked = true;
+}
+if (blocked == true) {
+    console.error('The popup was blocked!');
+}
+```
+
+上述利用`try...catch`语句来检测弹窗是被浏览器屏蔽还是被拓展程序屏蔽的。检测弹出窗口支是一方面，它并不会阻止浏览器显示与被屏蔽窗口的有关消息。
+
+### 间歇调用与超时调用
+
+JavaScript是单线程的语言，但它允许通过设置超时值和间歇时间值来调度代码在特定的时刻执行。前者在指定时间后执行代码，后者是每隔指定的时间就执行一次代码。
+
+超时调用所用到的是window对象的`setTimeout()`方法，它接受两个参数：要执行的代码和以毫秒表示的时间（即在代码执行前等待的毫秒数）。其中，第一个参数可以是包含JS代码的字符串（就和在`eval()`函数中使用的字符串一样），也可以是一个函数，不过更加推荐使用函数而不是字符串，传递字符串可能会导致性能损失。
+
+```js
+setTimeout(() => {
+    console.log('xfy!');
+}), 1000);
+```
+
+第二个参数是等待的毫秒数，但经过该时间后的指定代码不一定会执行。因为JavaScript是一个单线程的解释器，使用的是类似轮询的工作机制，一定时间内只能工作一段代码。为了控制要执行的代码，就有一个JavaScript任务队列。这些任务会按照将它们添加到队列的顺序执行。`setTimeout()`的第二个参数就是指定时间后添加到任务队列，如果队列是空的，那么添加代码就会立即执行。如果队列不是空的，那么就要等待前面的代码执行完。
+
+`setTimeout()`会返回一个数值ID，表示超时调用。这个超时调用ID是计划执行代码的唯一标识符，可以通过它来去掉超时调用。可以使用`clearTimeout()`来取消超时调用计划，它的参数就是其唯一标识符ID。
+
+```js
+// 设置
+let timeIdentity = setTimeout(() => {
+    console.log('xfy!');
+}, 100000);
+
+// 取消
+clearTimeout(timeIdentity);
+```
+
+> 超时调用的代码都是在全局作用域下执行的，因此函数中的this在非严格模式下指向window，严格模式下是undefined。
+
+间歇调用与超时调用类似，不过它是按照指定的时间间隔来重复的执行代码，直至间隔调用被取消或者被页面卸载。设置间歇调用的方法是`setInterval()`，它接受的参数与`setTimeout()`相同：要执行的代码（字符串或函数）和每次执行之前间隔的毫秒数。
+
+```js
+let xfy = 'xf';
+setInterval(() => {
+    xfy += 'y';
+    console.log(xfy); 
+}, 1000)
+
+let xfy = 'fy';
+setInterval(() => {
+    xfy = 'x' + xfy;
+    console.log(xfy); 
+}, 500)
+```
+
+调用`setInterval()`同样也是返回一个间歇调用ID，使用`clearInterval()`方法来取消未执行的间歇调用。不过，间歇调用在不干涉的情况下将会一直执行下去。所以使用`clearInterval()`的重要性远高于`clearTimeout()`。
+
+```js
+let xfy = 'fy';
+let num = 0;
+let max = 100;
+let ID;
+function xxfy() {
+    xfy = 'x' + xfy;
+    num ++;
+    console.log(xfy);
+    if (num == max) {
+        clearInterval(ID);
+        console.log('--- xfy! ----');
+    }
+}
+
+ID = setInterval(xxfy, 100);
+```
+
+这个例子类似于设置一个有时间间隔的循环。这个模式也可以使用超时调用来实现。
+
+```js
+let xfy = 'fy';
+let num = 0;
+let max = 5;
+function xxfy() {
+    xfy = 'x' + xfy;
+    num ++;
+    console.log(xfy);
+    if (num < max) {
+        // 未达次数则再次调用
+        setTimeout(xxfy, 500);
+    } else {
+        console.log('--- xfy! ----');
+    }
+}
+
+setTimeout(xxfy, 500);
+```
+
+在使用超时调用时就没有必要再跟踪ID，因为每次执行完时其就会自动停止。一般情况下，使用超时调用来模拟间歇调用是一种最佳模式。原因是一个间歇调用可能会在前一个间歇调用执行结束前启动。而使用超时调用来模拟间歇调用以达到相同的效果，则可以完全避免这一点。
+
+## 系统对话框
+
+系统对话框通过`alert()`、`confirm()`和`prompt()`方法调用。系统对话框和正在浏览器中显示的网页没有关系，也不包含HTML。它的外观是由系统及浏览器决定的，而不是CSS。此外，通过这几个方法打开的系统对话框都是同步和模态的。也就是说，显示这几个对话框的时候代码将会暂停运行，而关掉对话框后将继续运行。
+
+`alert()`方法用于生成一个带有文本的弹窗，它接受的参数就是要显示的文本字符串。它只能显示消息，点击确定按钮后将消失。
+
+第二种为`comfirm()`方法，它也是接受一个显示文本的字符串，但是它还有“确认”与“取消”两个按钮。这两个按钮分别返回true和false。可以配合if语句来让用户选择性的执行，这种操作通常在用户想要删除的时候使用，例如删除电子邮件的时候。
+
+```js
+if (confirm('Are you sure?')) {
+    alert('Of course, sure!');
+} else {
+    alert('No!');
+}
+```
+
+第三个是`prompt()`方法，它会出现一个显示文本和输入框。它就收两个参数，分别是用于显示文本的字符串和输入框内的默认字符串（可以为空）。如果点击确定，则返回输入框内的内容，如果取消或者关闭窗口，则返回null。
+
+```js
+let h = prompt('Hello!', 'Michael');
+if (h != null) {
+    alert('Nice to meet you, ' + h);
+}
+```
+
+除此之外，目前的现代浏览器都会在第二个弹窗开始出现一个复选框，以便用户阻止后续的弹窗，除非用户刷新页面。
+
+还有两个可以通过JavaScript调用的对话框，他们是window对象的`print()`和`find()`方法，分别用于打开打印窗口和查找窗口。
+
