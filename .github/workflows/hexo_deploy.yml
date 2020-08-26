@@ -43,7 +43,7 @@ jobs:
         npm install
     
     - name: deploy
-      run: |
+    - run: |
         # publish
         hexo cl
         hexo g
