@@ -393,3 +393,160 @@ if (h != null) {
 
 还有两个可以通过JavaScript调用的对话框，他们是window对象的`print()`和`find()`方法，分别用于打开打印窗口和查找窗口。
 
+## location对象
+
+location是最有的BOM对象之一，它提供了与当前窗口中加载的文档有关的信息，还提供了一些导航功能。location是一个很特别的对象，它既是window对象的属性，也是document对象的属性。也就是说`window.location`和`document.location`引用的是同一个对象。
+
+### 属性
+
+`Location `接口不继承任何属性，但是实现了那些来自 [`URLUtils`](https://developer.mozilla.org/zh-CN/docs/Web/API/URLUtils) 的属性。
+
+- [`Location.href`](https://developer.mozilla.org/zh-CN/docs/Web/API/Location/href)
+
+  包含整个URL的一个[`DOMString`](https://developer.mozilla.org/zh-CN/docs/Web/API/DOMString)
+
+- [`Location.protocol`](https://developer.mozilla.org/zh-CN/docs/Web/API/Location/protocol)
+
+  包含URL对应协议的一个[`DOMString`](https://developer.mozilla.org/zh-CN/docs/Web/API/DOMString)，最后有一个":"。
+
+- [`Location.host`](https://developer.mozilla.org/zh-CN/docs/Web/API/Location/host)
+
+  包含了域名的一个[`DOMString`](https://developer.mozilla.org/zh-CN/docs/Web/API/DOMString)，可能在该串最后带有一个":"并跟上URL的端口号。
+
+- [`Location.hostname`](https://developer.mozilla.org/zh-CN/docs/Web/API/Location/hostname)
+
+  包含URL域名的一个[`DOMString`](https://developer.mozilla.org/zh-CN/docs/Web/API/DOMString)。
+
+- [`Location.port`](https://developer.mozilla.org/zh-CN/docs/Web/API/Location/port)
+
+  包含端口号的一个[`DOMString`](https://developer.mozilla.org/zh-CN/docs/Web/API/DOMString)。
+
+- [`Location.pathname`](https://developer.mozilla.org/zh-CN/docs/Web/API/Location/pathname)
+
+  包含URL中路径部分的一个[`DOMString`](https://developer.mozilla.org/zh-CN/docs/Web/API/DOMString)，开头有一个“`/"。`
+
+- [`Location.search`](https://developer.mozilla.org/zh-CN/docs/Web/API/Location/search)
+
+   包含URL参数的一个[`DOMString`](https://developer.mozilla.org/zh-CN/docs/Web/API/DOMString)，开头有一个`“?”`。
+
+- [`Location.hash`](https://developer.mozilla.org/zh-CN/docs/Web/API/Location/hash)
+
+  包含块标识符的[`DOMString`](https://developer.mozilla.org/zh-CN/docs/Web/API/DOMString)，开头有一个`“#”。`
+
+- [`Location.username`](https://developer.mozilla.org/zh-CN/docs/Web/API/Location/username)
+
+  包含URL中域名前的用户名的一个[`DOMString`](https://developer.mozilla.org/zh-CN/docs/Web/API/DOMString)。
+
+- [`Location.password`](https://developer.mozilla.org/zh-CN/docs/Web/API/Location/password)
+
+  包含URL域名前的密码的一个 [`DOMString`](https://developer.mozilla.org/zh-CN/docs/Web/API/DOMString)。
+
+- [`Location.origin`](https://developer.mozilla.org/zh-CN/docs/Web/API/Location/origin) 只读
+
+  包含页面来源的域名的标准形式[`DOMString`](https://developer.mozilla.org/zh-CN/docs/Web/API/DOMString)。
+
+### 方法
+
+`Location`没有继承任何方法，但实现了来自[`URLUtils`](https://developer.mozilla.org/zh-CN/docs/Web/API/URLUtils)的方法。
+
+- [`Location.assign()`](https://developer.mozilla.org/zh-CN/docs/Web/API/Location/assign)
+
+  加载给定URL的内容资源到这个Location对象所关联的对象上。
+
+- [`Location.reload()`](https://developer.mozilla.org/zh-CN/docs/Web/API/Location/reload)
+
+  重新加载来自当前 URL的资源。他有一个特殊的可选参数，类型为 [`Boolean`](https://developer.mozilla.org/zh-CN/docs/Web/API/Boolean)，该参数为true时会导致该方法引发的刷新一定会从服务器上加载数据。如果是 `false`或没有制定这个参数，浏览器可能从缓存当中加载页面。
+
+- [`Location.replace()`](https://developer.mozilla.org/zh-CN/docs/Web/API/Location/replace)
+
+  用给定的URL替换掉当前的资源。与 `assign()` 方法不同的是用 `replace()`替换的新页面不会被保存在会话的历史 [`History`](https://developer.mozilla.org/zh-CN/docs/Web/API/History)中，这意味着用户将不能用后退按钮转到该页面。
+
+- [`Location.toString()`](https://developer.mozilla.org/zh-CN/docs/Web/API/Location/toString)
+
+  返回一个[`DOMString`](https://developer.mozilla.org/zh-CN/docs/Web/API/DOMString)，包含整个URL。 它和读取[`URLUtils.href`](https://developer.mozilla.org/zh-CN/docs/Web/API/URLUtils/href)的效果相同。但是用它是不能够修改Location的值的。
+
+### 查询字符串参数
+
+虽然通过location对象可以查询到大部分信息，但是访问URL包含的查询字符串的属性并没有那么方便。尽管可以通过search属性返回从问号到URL末尾的所有内容，但却没有办法逐个访问每个字符串查询参数。为此，可以创建一个方法来解析查询字符串。
+
+```js
+function search() {
+    let ur = document.location.search;
+    // 去除问号
+    let qs = ur.length > 0 ? ur.substring(1) : ''; 
+
+    let args = {},
+        items,
+        item,
+        name,
+        value;
+
+    // 以&分割为数组
+    items = qs.length ? qs.split('&') : [];
+    let len = items.length;
+
+    for (let i = 0; i < len; i ++) {
+        // 将第一项以=分割
+        item = items[i].split('=');
+        // =前后分别为键和值
+        name = decodeURIComponent(item[0]);
+        value = decodeURIComponent(item[1]);
+        if (name.length) {
+            args[name] = value;
+        }
+    }
+    return args;
+}
+```
+
+例如百度的查询字符串长这样：
+
+```
+ie=utf-8&wd=javascript
+```
+
+这个方法并不是很复杂，第一步就是去除查询字符串开头的问号，在它有值的情况下。接下来根据和（&）号来分割查询字符串。分割之后暂存在一个数组中，之后使用for循环，再将查询字符串以等号分割键和值，将键和值分别保存在两个变量之中。如果二者都有值，那么在将其按对象的方式写入对象中。其结果是这样的：
+
+```js
+search();
+{ie: "utf-8", wd: "javascript"}
+```
+
+这样，每个查询字符串参数都成了返回对象的属性。这样就极大的方便了对每个参数的访问。
+
+### 位置操作
+
+location对象可以通过很多方式来修改浏览器的位置。最常用的方式是使用`assign()`方法来为其传递一个URL。
+
+```js
+location.assign('https://www.baidu.com');
+```
+
+这样，就会立即打开新URL并在浏览器历史记录中生成一条记录。如果将window.location和location.href设置为一个url值，也会以该值调用`assign()`。
+
+```js
+window.location = 'https://www.baidu.com';
+location.href = 'https://www.baidu.com';
+```
+
+其他属性，除了hash以外都会刷新页面。
+
+```js
+location.hash = 'test';
+location.search = '?q=javascript';
+location.hostname = 'www.yahoo.com';
+location.pathname = 'dir';
+location.port = 8080;
+```
+
+上述值修改url之后都会产生浏览器历史记录，并且可以通过“后退”来访问前一个页面。可以通过`replace()`方法来禁用历史记录。
+
+```js
+location.replace('https://www.baidu.com/')
+```
+
+另外，可以使用`reload()`方法来刷新页面。
+
+```js
+location.reload();      // 可能会度缓存
+location.reload(true);  // 强制从服务器下载
