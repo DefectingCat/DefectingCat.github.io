@@ -21,15 +21,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
+    - uses: actions/setup-node@v1
+    - with:
         node-version: ${{ matrix.node-version }}
     - run: npm -v
     
     - name: setup hexo env
       env: 
         ACTION_DEPLOY_KEY: ${{ secrets.HEXO_DEPLOY_KEY }}
-    - run: |
+      run: |
         # set up private key for deploy
         mkdir -p ~/.ssh/
         echo "$HEXO_DEPLOY_KEY" | tr -d '\r' > ~/.ssh/id_rsa # 配置秘钥
@@ -43,7 +43,7 @@ jobs:
         npm install
     
     - name: deploy
-    - run: |
+      run: |
         # publish
         hexo cl
         hexo g
