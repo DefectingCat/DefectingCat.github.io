@@ -11,7 +11,7 @@
           });
         });
       }
-      waitElementVisible(loadDisqus, 'disqus_thread');
+      waitElementVisible('disqus_thread', loadDisqus);
     </script>
     <noscript>Please enable JavaScript to view the
       <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener">comments powered by Disqus.</a>
@@ -21,11 +21,11 @@
   <div class="disqus" style="width:100%">
     <div id="disqus_thread"></div>
     <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = '<%= page.permalink %>';
+        this.page.identifier = '<%= url_for(page.path) %>';
+      };
       function loadDisqus() {
-        var disqus_config = function () {
-          this.page.url = '<%= config.url %>/<%= page.path %>';
-          this.page.identifier = '/<%= page.path %>';
-        };
         (function () {
           var d = document,
             s = d.createElement('script');
