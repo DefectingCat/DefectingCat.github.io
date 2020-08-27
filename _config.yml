@@ -104,10 +104,6 @@ deploy:
     repo: git@github.com:DefectingCat/DefectingCat.github.io.git
     branch: master
     message: ❤
-  # - type: 'git'
-  #   repo: https://DefectingCat:01c33352e0c6836d1e50acc0b5d571780ec0a85b@e.coding.net/Defectink/blog/blog.git
-  #   branch: master
-  #   message: ❤
 
 # minifier
 all_minifier: true
@@ -141,3 +137,29 @@ image_minifier:
   pngquant: false
   progressive: false
   silent: false
+
+# feed
+feed:
+  type:
+    - atom
+    - rss2
+  path:
+    - /xml/atom.xml
+    - /xml/rss.xml
+  limit: 20
+  hub:
+  content:
+  content_limit: 140
+  content_limit_delim: ' '
+  order_by: -date
+  icon: icon.png
+  autodiscovery: true
+  template:
+
+# sitemap
+sitemap:
+  path: /xml/sitemap.xml
+  template: ./source/_data/sitemap_template.xml
+  rel: false
+  tags: true
+  categories: true
