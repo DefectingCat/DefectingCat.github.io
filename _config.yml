@@ -13,7 +13,7 @@ timezone: ''
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://defect.ink
+url: https://www.defectink.com
 root: /
 permalink: defect/:url.html
 permalink_defaults:
