@@ -125,13 +125,32 @@ navbar:
     px: 3  # 模糊像素，只能为数字，数字越大模糊度越高
     alpha: 0.7   # 透明度，只能为数字，范围 0~1，数字越大透明度越低，注意透明过度可能看不清菜单字体
   menu:  # 可自行增减，key 用来关联 languages/*.yml，如不存在关联则显示 key 本身的值；icon 是 css class，可以省略；增加 name 可以强制显示指定名称
-    - { key: 'home', link: '/', icon: 'iconfont icon-home-fill' }
-    - { key: 'archive', link: '/archives/', icon: 'iconfont icon-archive-fill' }
-    - { key: 'category', link: '/categories/', icon: 'iconfont icon-category-fill' }
-    - { key: 'tag', link: '/tags/', icon: 'iconfont icon-tags-fill' }
-    - { key: 'about', link: '/about/', icon: 'iconfont icon-user-fill' }
-    - { key: 'links', link: '/links/', icon: 'iconfont icon-link-fill' }  # 友链页，把前面#去掉即可展示
-    - { key: 'PGP', link: '/pgp/', icon: 'iconfont icon-clipcheck' }
+  #   - { key: 'home', link: '/', icon: 'iconfont icon-home-fill' }
+  #   - {
+  #     key: '索引',
+  #     icon: 'iconfont icon-books',
+  #     submenu: [
+  #       { key: 'category', link: '/categories/', icon: 'iconfont icon-category-fill' },
+  #       { key: 'tag', link: '/tags/', icon: 'iconfont icon-tags-fill' }
+  #     ]
+  # }
+  #   - { key: 'archive', link: '/archives/', icon: 'iconfont icon-archive-fill' }
+  #   - { key: 'about', link: '/about/', icon: 'iconfont icon-user-fill' }
+  #   - { key: '小伙伴', link: '/links/', icon: 'iconfont icon-link-fill' }
+  #   - { key: 'PGP', link: '/pgp/', icon: 'iconfont icon-clipcheck' }
+  - { key: '🏠 首页', link: '/', icon: '' }
+  - {
+    key: '📕 索引',
+    icon: '',
+    submenu: [
+      { key: '🎁 分类 ', link: '/categories/', icon: '' },
+      { key: '🎐 标签', link: '/tags/', icon: '' }
+    ]
+}
+  - { key: '📂 归档', link: '/archives/', icon: '' }
+  - { key: '🎃 关于', link: '/about/', icon: '' }
+  - { key: '🙆‍♀️ 小伙伴', link: '/links/', icon: '' }
+  - { key: '🔐 PGP', link: '/pgp/', icon: '' }
 
 search: # 搜索栏
   enable: true
@@ -434,8 +453,8 @@ links:
       image: '/images/img/backup.png'
     }
     - {
-      title: '碧池喵',
-      intro: '嘤嘤嘤',
-      link: 'https://1984n.win',
-      image: 'https://q1.qlogo.cn/g?b=qq&nk=1245240736&s=640'
+      title: '萌萌哒の柯基',
+      intro: '仰望大佬的菜鸡〒▽〒',
+      link: 'https://www.heroyf.club/',
+      image: 'https://file.heroyf.club/logo.jpg'
     }

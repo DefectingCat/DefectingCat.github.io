@@ -1,104 +1,133 @@
 img {
-  border-radius: 0.8rem;
-  transition: all 0.5s;
-  -webkit-transition: all 0.5;
-  -ms-transition: all 0.5;
+    border-radius: 0.5rem;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5;
+    -ms-transition: all 0.5;
 }
+
 img:hover {
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  -ms-transition: all 0.5s;
-  transform: scale(1.05);
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    transform: scale(1.05);
 }
+
+
 /*ul and ol*/
+
 .markdown-body a {
-  background-color: transparent;
-  text-decoration: none;
-  color: #00f4e8;
-  transition: all 0.12s;
+    background-color: transparent;
+    text-decoration: none;
+    color: #00f4e8;
+    transition: all 0.12s;
 }
+
 .markdown-body li:hover {
-  text-shadow: 3px 3px 2px rgba(47,47,47,0.341);
+    text-shadow: 3px 3px 2px rgba(47, 47, 47, 0.341);
 }
+
+
 /*ol使用css排序进行定义序号*/
+
 .markdown-body ol {
-  counter-reset: xxx 0 !important;
+    counter-reset: xxx 0 !important;
 }
+
 .markdown-body ol li:before {
-  content: counter(xxx, decimal) "." !important;
-  counter-increment: xxx 1 !important;
-  position: absolute;
-  font-family: 'Comic Sans MS', 'Open Sans', 'Microsoft Yahei', 'Microsoft Yahei', -apple-system, sans-serif !important;
-  color: #000;
-  top: 0;
-  left: 0;
-  text-align: center;
-  font-size: 1.2em;
-  opacity: 0.5;
-/*使用行高来调整前缀的上下位置*/
-  line-height: 1.33;
-  text-shadow: 4px 4px 1px rgba(0,0,0,0.1);
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
+    content: counter(xxx, decimal) "." !important;
+    counter-increment: xxx 1 !important;
+    position: absolute;
+    font-family: 'Comic Sans MS', 'Open Sans', 'Microsoft Yahei', 'Microsoft Yahei', -apple-system, sans-serif !important;
+    color: #000;
+    top: 0;
+    left: 0;
+    text-align: center;
+    font-size: 1.2em;
+    opacity: 0.5;
+    /*使用行高来调整前缀的上下位置*/
+    line-height: 1.33;
+    text-shadow: 4px 4px 1px rgba(0, 0, 0, 0.1);
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
 }
+
 .markdown-body ol li:hover:before {
-  -webkit-transform: scale(2);
-  -ms-transform: scale(2);
-  transform: scale(2);
-  opacity: 1;
-  text-shadow: 2px 2px 1px rgba(0,0,0,0.1);
-  -webkit-transition: 0.1s;
-  transition: 0.1s;
+    -webkit-transform: scale(2);
+    -ms-transform: scale(2);
+    transform: scale(2);
+    opacity: 1;
+    text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.1);
+    -webkit-transition: 0.1s;
+    transition: 0.1s;
 }
+
 .markdown-body ol li {
-  list-style: none;
-  position: relative;
-  padding: 0 0 0 2.1em;
-  margin: 0 0 0 10px;
-  text-shadow: 0px 0px 0px rgba(0,0,0,0.1);
-  -webkit-transition: 0.12s;
-  transition: 0.12s;
-/*ul使用插入圆点来模拟无序列表*/
+    list-style: none;
+    position: relative;
+    padding: 0 0 0 2.1em;
+    margin: 0 0 0 10px;
+    text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+    -webkit-transition: 0.12s;
+    transition: 0.12s;
+    /*ul使用插入圆点来模拟无序列表*/
 }
+
 .markdown-body ul li:before {
-  position: absolute;
-  content: '\2022';
-  font-family: Arial;
-  color: #000;
-  top: 0;
-  left: 0;
-  text-align: center;
-  font-size: 1.5em;
-  opacity: 0.5;
-/*使用行高来调整前缀的位置*/
-  line-height: 1;
-  text-shadow: 4px 4px 1px rgba(0,0,0,0.1);
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
+    position: absolute;
+    content: '\2022';
+    font-family: Arial;
+    color: #000;
+    top: 0;
+    left: 0;
+    text-align: center;
+    font-size: 1.5em;
+    opacity: 0.5;
+    /*使用行高来调整前缀的位置*/
+    line-height: 1;
+    text-shadow: 4px 4px 1px rgba(0, 0, 0, 0.1);
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
 }
+
 .markdown-body ul li:hover:before {
-  -webkit-transform: scale(2);
-  -ms-transform: scale(2);
-  transform: scale(2);
-  opacity: 1;
-  text-shadow: 2px 2px 1px rgba(0,0,0,0.1);
-  -webkit-transition: 0.1s;
-  transition: 0.1s;
+    -webkit-transform: scale(2);
+    -ms-transform: scale(2);
+    transform: scale(2);
+    opacity: 1;
+    text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.1);
+    -webkit-transition: 0.1s;
+    transition: 0.1s;
 }
+
 .markdown-body ul li {
-  list-style: none;
-  position: relative;
-  padding: 0 0 0 1.5em;
-  margin: 0 0 0 10px;
-  text-shadow: 0px 0px 0px rgba(0,0,0,0.1);
-  -webkit-transition: 0.12s;
-  transition: 0.12s;
+    list-style: none;
+    position: relative;
+    padding: 0 0 0 1.5em;
+    margin: 0 0 0 10px;
+    text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+    -webkit-transition: 0.12s;
+    transition: 0.12s;
 }
+
 .note.note-warning {
-  background-color: rgba(163,243,241,0.631);
-  border-color: #ff81c0 !important;
+    background-color: rgba(163, 243, 241, 0.631);
+    border-color: #ff81c0 !important;
 }
+
 ::selection {
-  background: #a2f1f1;
-  text-shadow: 0px 0px 25px;
+    background: #a2f1f1;
+    text-shadow: 0px 0px 25px;
+}
+
+.navbar .nav-item .nav-link {
+    font-size: 0.9rem;
+}
+
+.modal-dialog .modal-content {
+    border-radius: 0.4rem;
+}
+
+.markdown-body p>img,
+.markdown-body p>a>img {
+    border-radius: 0.425rem;
 }
