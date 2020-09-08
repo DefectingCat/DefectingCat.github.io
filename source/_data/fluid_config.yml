@@ -32,7 +32,7 @@ fun_features: # 一些好玩的功能
     cursorChar: "❤" # 游标字符
     loop: false # 是否循环播放效果
   anchorjs: # 为文章内容中的标题添加锚图标
-    enable: true
+    enable: false
     element: h1,h2,h3,h4,h5,h6
     placement: right # icon放置的位置： left | right
     visible: hover # 默认悬浮显示，可选：hover（鼠标在元素上悬浮时显示） | always（一直显示） | touch（移动端触摸显示）
@@ -58,7 +58,7 @@ color:  # 主体颜色配置，可以从这里寻找启发： https://www.webdes
   sec_text_color_dark: "#a7a9ad"
   post_text_color: "#2c3e50"        # 文章正文字体色
   post_text_color_dark: "#c4c6c9"
-  post_heading_color: "#1a202c"     # 文章标题标签字体色（h1 h2 h3...）
+  post_heading_color: "#666"     # 文章标题标签字体色（h1 h2 h3...）
   post_heading_color_dark: "#c4c6c9"
   post_link_color: "#0366d6"        # 文章超链接字体色
   post_link_color_dark: "#1589e9" 
