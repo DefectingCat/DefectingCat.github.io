@@ -110,7 +110,7 @@ deploy:
     message: ❤
 
 # minifier
-all_minifier: false
+all_minifier: true
 
 html_minifier:
   enable: true

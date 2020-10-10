@@ -153,3 +153,110 @@ console.log(square.area);   // 736
 
 ### 静态方法
 
+`static`关键字用于定义一个类的静态方法。调用静态方法不需要实例化该类，但不能通过一个类实例来调用静态方法。
+
+通常，一个函数也是基于对象的，所以函数也有自己的属性，函数的`prototype`就是一个很好的例子。而一个类中的静态方法就相当于给这个构造函数定义了一个它自己的属性。不是在`prototype`上的属性是不会继承到实例上的。
+
+```js
+class test {
+    constructor(xx, yy) {
+        this.x = xx;
+        this.y = yy;
+    }
+
+    add() {
+        return this.x + this.y;
+    }
+
+    static tt() {
+        return '嘤嘤嘤';
+    }
+}
+```
+
+```js
+test.tt()
+"嘤嘤嘤"
+```
+
+静态方法类似于将一个构造函数直接用作于一个工具函数。
+
+### 原型和静态方法包装
+
+在`class`体内部执行的代码总是在严格模式下执行，即使没有设置`'use strict'`。所以当调用静态或原型方法时没有指定`this`的值，那么方法内的`this`值将被置为`undefined`。
+
+```js
+class test {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    show() {
+        return this;
+    }
+
+    static ss() {
+        return this;
+    }
+}
+```
+
+这是一个简单的返回`this`的函数，它有两个，分别是继承给实例的属性和静态方法。若`this`的传入值为`undefined`，则在严格模式下不会发生自动装箱，`this`的返回值是`undefined`。
+
+```js
+let xfy = new test();
+xfy.show();
+let t = xfy.show;
+t(); // undefined
+
+test.ss()
+let tt = test.ss;
+tt(); // undefined
+```
+
+而在传统的构造函数写法下，`this`的值会发生自动装箱，将指向全局对象
+
+```js
+function Test(x, y) {
+    this.x = x;
+    this.y = y;
+}
+
+Test.prototype.show = function () {
+    return this;
+}
+
+Test.ss = function () {
+    return this;
+}
+
+let xfy = new Test();
+xfy.show();
+let t = xfy.show;
+t(); // Global Object
+
+Test.ss()
+let tt = Test.ss;
+tt(); // Global Object
+```
+
+### 实例属性
+
+实例的属性必须定义在类的`constructor`方法里
+
+```js
+class test() {
+    constructor(h, w) {
+        this.w = w;
+        this.h = h;
+    }
+}
+```
+
+静态的或原型的数据必须定义在类的外面
+
+```js
+test.staticWidth = 20;
+test.prototype.height = 33;
+```
