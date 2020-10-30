@@ -1,6 +1,6 @@
 ---
 title: hexo
-index_img: /images/hexo/index.png
+index_img: /images/hexo/index.webp
 date: 2017-08-30 11:08:19
 tags: [Linux, HTML]
 categories: 实践
@@ -70,7 +70,7 @@ $ npm install
 hexo init web
 ```
 
-![init](../images/hexo/init.png)
+![init](../images/hexo/init.webp)
 
 过程略长，稍等即可
 
@@ -119,7 +119,7 @@ hexo server -p 80 -s
 
 正常情况下便可以直接进行访问，为如下页面。
 
-![web](../images/hexo/web.png)
+![web](../images/hexo/web.webp)
 
 Cannot GET /  ？
 

@@ -4,7 +4,7 @@ date: 2020-07-27 16:42:32
 tags: JavaScript
 categories: 笔记
 url: javascript-object-oriented-programming
-index_img: /images/JavaScript面向对象的程序设计/logo.png
+index_img: /images/JavaScript面向对象的程序设计/logo.webp
 ---
 
 > Standing on Shoulders of Giants.
@@ -17,7 +17,7 @@ ECMAScript中没有类的概念，所以它的对象也与基于类的语言中�
 
 ECMAScript-262的对象定义为：“无序属性的集合，其属性可以是基本值、对象和函数。”也就是说对象是一个没有属性的键值映射对，其值可以是数据和函数。
 
-![logo](../images/JavaScript面向对象的程序设计/logo.png)
+![logo](../images/JavaScript面向对象的程序设计/logo.webp)
 
 ## 属性类型
 
@@ -526,7 +526,7 @@ for-in循环会便利所有能访问、可枚举(enumerated)的属性。无论�
 
 这里的two实例重写了`toString()`方法，可以被for-in循环遍历出来。
 
-![image-20200726171729248](../images/JavaScript面向对象的程序设计/image-20200726171729248.png)
+![image-20200726171729248](../images/JavaScript面向对象的程序设计/image-20200726171729248.webp)
 
 若要更方便的取出实例的自有属性，可以使用`Object.keys()`方法。它会返回所有自有的可枚举的属性。返回结果为一个数组，出现顺序与for-in循环相同。
 

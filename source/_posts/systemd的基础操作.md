@@ -4,7 +4,7 @@ date: 2019-06-14 14:42:41
 tags: Linux
 categories: Linux
 url: basic-knowledge-of-systemd
-index_img: /images/systemd的基础操作/logo.png
+index_img: /images/systemd的基础操作/logo.webp
 ---
 
 ## 什么是systemd？

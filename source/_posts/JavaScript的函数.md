@@ -1,6 +1,6 @@
 ---
 title: JavaScript的函数
-index_img: /images/JavaScript的函数/index.jpg
+index_img: /images/JavaScript的函数/index.webp
 date: 2020-08-07 11:26:10
 tags: JavaScript
 categories: 笔记

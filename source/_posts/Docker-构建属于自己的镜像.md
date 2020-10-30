@@ -4,7 +4,7 @@ date: 2019-11-29 09:30:33
 tags: Linux
 categories: 实践
 url: docker-build-own-image
-index_img: /images/Docker-构建属于自己的镜像/logo.png
+index_img: /images/Docker-构建属于自己的镜像/logo.webp
 ---
 
 以前一直在使用别人构建好的镜像来使用Docker容器，在一次想搭建一个完整的Web环境时，发现使用过多容器非常难以管理。并且容器之间的交互通信变的困难。当然，也可以使用Docker Compose来捆绑多个镜像运行；不过对于运行服务较少的来说，使用Dockerfile来构建成一个镜像也是件好事。

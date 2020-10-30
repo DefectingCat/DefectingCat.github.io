@@ -4,12 +4,12 @@ date: 2020-01-06 09:14:53
 tags: JavaScript
 categories: 笔记
 url: javascript-notes-reference-type
-index_img: /images/JavaScript笔记-引用类型/javascript.jpg
+index_img: /images/JavaScript笔记-引用类型/javascript.webp
 ---
 
 > 这是来自Professional JavaScript for Web Develops第五章的笔记。
 
-![javascript](../images/JavaScript笔记-引用类型/javascript.jpg)
+![javascript](../images/JavaScript笔记-引用类型/javascript.webp)
 
 ## 基本类型和引用类型
 

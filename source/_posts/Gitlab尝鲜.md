@@ -4,7 +4,7 @@ date: 2019-06-19 15:42:41
 tags: Linux
 categories: 实践
 url: try-the-gitlab
-index_img: /images/Gitlab尝鲜/52152339.png
+index_img: /images/Gitlab尝鲜/52152339.webp
 ---
 
 ## Gitlab?
@@ -17,7 +17,7 @@ index_img: /images/Gitlab尝鲜/52152339.png
 
 最早，它是完全免费的开源软件，按照 MIT 许可证分发。毕竟人家是公司，后来Gitlab被拆分成GitLab CE（社区版）和 GitLab EE（企业版）。和如今的模式一样，ce是完全免费使用的社区版，而ee是可以进行试用且更多功能的收费版。
 
-![52152339](../images/Gitlab尝鲜/52152339.png)
+![52152339](../images/Gitlab尝鲜/52152339.webp)
 
 ## 安装部署
 
@@ -25,7 +25,7 @@ index_img: /images/Gitlab尝鲜/52152339.png
 
 我当前是部署在Ubuntu上的，系统信息：
 
-![411390967](../images/Gitlab尝鲜/411390967.png)
+![411390967](../images/Gitlab尝鲜/411390967.webp)
 
 	官方是推荐系统空闲内存在4GB以上的，对于类似我们这样的个人使用的较少的来说，推荐空闲内存是2GB以上。毕竟它会自己运行一套nginx、redis等服务端。
 
@@ -71,7 +71,7 @@ sudo EXTERNAL_URL="https://gitlab.example.com" apt-get install gitlab-ce
 
 ## 使用
 
-![99634888](../images/Gitlab尝鲜/99634888.png)
+![99634888](../images/Gitlab尝鲜/99634888.webp)
 
 简洁多彩的界面也时非常的好看的。默认没有配置邮件的情况下是可以随意注册的，我们也可以在后台配置里关闭自动注册，作为一个私人的git仓库。也可以手动添加用户给想尝鲜的小伙伴们。
 

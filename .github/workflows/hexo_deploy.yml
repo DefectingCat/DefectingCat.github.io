@@ -24,7 +24,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm -v
+    - run: apt install yarn -y
     
     - name: setup hexo env
       env: 
@@ -46,6 +46,4 @@ jobs:
     - name: deploy
       run: |
         # publish
-        hexo cl
-        hexo g
-        hexo d
+        yarn go

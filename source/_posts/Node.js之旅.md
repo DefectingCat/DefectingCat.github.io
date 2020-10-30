@@ -1,6 +1,6 @@
 ---
 title: Node.js之旅
-index_img: /images/Node.js之旅/2020-09-03-16-16-04.png
+index_img: /images/Node.js之旅/2020-09-03-16-16-04.webp
 date: 2020-09-03 16:09:29
 tags: [JavaScript, Node]
 categories: 笔记
@@ -11,7 +11,7 @@ url: get-starting-for-node-js
 
 Node.js不仅仅是服务器上的JavaScript。
 
-![](../images/Node.js之旅/2020-09-03-14-54-53.png)
+![](../images/Node.js之旅/2020-09-03-14-54-53.webp)
 
 ## 并不熟悉的JavaScript
 

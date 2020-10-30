@@ -4,7 +4,7 @@ date: 2019-06-29 12:12:41
 tags: Tools
 categories: 实践
 url: online-ascii-video
-index_img: /images/ASCII在线视频流/logo.jpg
+index_img: /images/ASCII在线视频流/logo.webp
 ---
 
 什么是ASCII？
@@ -18,7 +18,7 @@ ASCII（American Standard Code for Information Interchange，美国信息交换�
 
 这是来自某位大佬胡乱起的名字。🤣
 
-![图像-1](../images/ASCII在线视频流/图像-1.png)
+![图像-1](../images/ASCII在线视频流/图像-1.webp)
 
 ## 那么如何安装呢？
 
@@ -59,7 +59,7 @@ ffmpeg -i demo.mp4 -r 5 -ss 00:01:13 -t 00:00:15 %03d.png
 将demo视频的第1分13秒后的15秒以每秒5帧的速度保存为图像，图像名格式为001.png 002.png ……
 效果如下：
 
-![图像-2](../images/ASCII在线视频流/图像-2.png)
+![图像-2](../images/ASCII在线视频流/图像-2.webp)
 
 ```bash
 ➜  ~ ls time

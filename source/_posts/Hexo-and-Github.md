@@ -1,6 +1,6 @@
 ---
 title: Hexo and Github
-index_img: /images/Hexo-and-Github/index.png
+index_img: /images/Hexo-and-Github/index.webp
 date: 2017-09-14 22:06:12
 tags: [Linux, HTML]
 categories: 实践
@@ -21,9 +21,9 @@ url: hexo-and-github
 
 在个人资料页面选择仓库（Repositories），并单击New来创建一个新的仓库：
 
-![profile](../images/Hexo-and-Github/profile.png)
+![profile](../images/Hexo-and-Github/profile.webp)
 
-![repository](../images/Hexo-and-Github/repository.png)
+![repository](../images/Hexo-and-Github/repository.webp)
 
 • Repository name：仓库名称（需要使用格式为"Your_github_name.github.io"。Your_github_name一定要为你的github昵称，否则出现404状况）
 • Description：仓库描述（选填）
@@ -34,7 +34,7 @@ url: hexo-and-github
 
 随后便能看到自己刚刚创建的仓库了（下图为未创建一个README文件来初始化仓库）
 
-![create](../images/Hexo-and-Github/create.png)
+![create](../images/Hexo-and-Github/create.webp)
 
 ## 关联Github
 
@@ -99,11 +99,11 @@ npm install hexo-deployer-git --save
 
 查看刚刚所部署的仓库
 
-![ggg](../images/Hexo-and-Github/ggg.png)
+![ggg](../images/Hexo-and-Github/ggg.webp)
 
 访问域名测试
 
-![web](../images/Hexo-and-Github/web.png)
+![web](../images/Hexo-and-Github/web.webp)
 
 到此就成功部署到Github并运行成功了呢。
 

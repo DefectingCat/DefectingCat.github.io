@@ -145,3 +145,33 @@ background: linear-gradient(to bottom,transparent 60%,rgba(189,202,219,.3) 0) no
     padding-bottom: .3em;
     border-bottom: 0px solid #eaecef !important;
 }
+
+/* 浪漫雅园！！ */
+/* @font-face {
+    font-family: "LMYY";
+    src: url("https://cdn.defectink.com/static/fonts/yayuan.woff")
+}
+* {
+    font-family: "LMYY" !important;
+} */
+/* 代码块里的字太小 */
+/* .markdown-body pre code {
+    font-size: 100% !important;
+} */
+
+/* 滚动条，webkit赛高！ */
+::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background-color: darkgray;
+    border-radius: 10px;
+}
+
+.v[data-class=v] .vwrap .vedit {
+    position: relative;
+    padding-top: 10px;
+    background: no-repeat right bottom url(https://cdn.defectink.com/static/images/iloli.gif);
+    background-size: 20%;
+} 

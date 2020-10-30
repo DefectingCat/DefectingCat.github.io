@@ -4,7 +4,7 @@ date: 2019-05-18 12:31:45
 tags: Tools
 categories: 实践
 url: multi-platform-real-time-synchronization-by-resilio-sync
-index_img: /images/Resilio-Sync多平台实时同步/res.png
+index_img: /images/Resilio-Sync多平台实时同步/res.webp
 ---
 
 > 备份，同步一步到位。🏹
@@ -74,16 +74,16 @@ Windows是我们平常接触最多的一款GUI操作系统了，对于安装软�
 
 安装界面仅仅只需要一步
 
-![rs安装](../images/Resilio-Sync多平台实时同步/rs安装.png)
+![rs安装](../images/Resilio-Sync多平台实时同步/rs安装.webp)
 合适的选择后，对于较新的Windows平台可是直接打开一个软件窗口
 
-![入门sync](../images/Resilio-Sync多平台实时同步/入门sync.png)
+![入门sync](../images/Resilio-Sync多平台实时同步/入门sync.webp)
 
 接受了几个隐私政策与EULA之后（有空还是要多留意条款之类的），我们就可以正常使用了。
 
 打开后的简洁的界面
 
-![打开](../images/Resilio-Sync多平台实时同步/打开.png)
+![打开](../images/Resilio-Sync多平台实时同步/打开.webp)
 
 配置之类的稍后再说，再将自己的其他平台的机器也给完成安装。
 
@@ -310,7 +310,7 @@ root     29385  0.3  0.4 589864  9676 ?        Ssl  15:43   0:00 /usr/bin/rslsyn
 
 成后运行后的界面与Windows完全一样。毕竟二者是同一种方式展示的UI界面。
 
-![home_centos](../images/Resilio-Sync多平台实时同步/home_centos.png)
+![home_centos](../images/Resilio-Sync多平台实时同步/home_centos.webp)
 
 ## 同步
 
@@ -318,19 +318,19 @@ root     29385  0.3  0.4 589864  9676 ?        Ssl  15:43   0:00 /usr/bin/rslsyn
 
 在保证权限都是正常的情况下，添加在A机器添加我们需要进行同步的文件夹。选择好了之后就是三种分享链接的方式。
 
-![开始同步](../images/Resilio-Sync多平台实时同步/开始同步.png)
+![开始同步](../images/Resilio-Sync多平台实时同步/开始同步.webp)
 
 分别是“链接”、“密钥”和二维码三种方式。
 
 随后我们就可以使用三种方式的其中一种，例如使用我最喜欢的密钥，选择好读写权限后，在需要同步的B机器上输入复制过来的密钥。
 
-![输入密钥](../images/Resilio-Sync多平台实时同步/输入密钥.png)
+![输入密钥](../images/Resilio-Sync多平台实时同步/输入密钥.webp)
 
 然后等着他们自己开始同步就OK了。在多平台的环境下也是不会影响正常工作的。
 
 除此之外，对于同步的文件夹还有一些其他的选项可以配置。具体就看自己的需要来配置了🌭
 
-![其他选项](../images/Resilio-Sync多平台实时同步/其他选项.png)
+![其他选项](../images/Resilio-Sync多平台实时同步/其他选项.webp)
 
 ## 参考&推荐阅读
 

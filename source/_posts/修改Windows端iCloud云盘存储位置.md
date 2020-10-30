@@ -4,7 +4,7 @@ date: 2019-11-18 12:53:53
 tags: Windows
 categories: 踩坑
 url: modify-icloud-storage-location-on-windows
-index_img: /images/修改Windows端iCloud云盘存储位置/logo.jpeg
+index_img: /images/修改Windows端iCloud云盘存储位置/logo.webp
 ---
 
 
@@ -30,11 +30,11 @@ C:\WINDOWS\system32>mklink /D C:\Users\Defectink\iCloudDrive D:\iCloudDrive
 
 没有退出按钮？
 
-![image-20191029200503950](../images/修改Windows端iCloud云盘存储位置/image-20191029200503950.png)
+![image-20191029200503950](../images/修改Windows端iCloud云盘存储位置/image-20191029200503950.webp)
 
 > 如果先退出再复制文件可能会导致意外
 
-![image-20191029200837325](../images/修改Windows端iCloud云盘存储位置/image-20191029200837325.png)
+![image-20191029200837325](../images/修改Windows端iCloud云盘存储位置/image-20191029200837325.webp)
 
 ## 启动文件夹
 

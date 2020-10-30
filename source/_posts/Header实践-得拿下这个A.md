@@ -4,7 +4,7 @@ date: 2019-12-18 16:42:53
 tags: HTML
 categories: 实践
 url: header-practice-have-to-win-this-a
-index_img: /images/Header实践-得拿下这个A/header-security.png
+index_img: /images/Header实践-得拿下这个A/header-security.webp
 ---
 
 [Header安全检测](https://securityheaders.com/)
@@ -192,13 +192,13 @@ Feature-Policy: <directive> <allowlist>
 
 ## 测试
 
-![image-20191218171928050](../images/Header实践-得拿下这个A/image-20191218171928050.png)
+![image-20191218171928050](../images/Header实践-得拿下这个A/image-20191218171928050.webp)
 
 ### 为什么没有A+？
 
 因为CSP的一个报错，拒绝加载内联的JS脚本。可以使用`unsafe-inline`来启用内联脚本。但是启用了`unsafe-inline`之后，就得不到A+了。
 
-![image-20191218172218399](../images/Header实践-得拿下这个A/image-20191218172218399.png)
+![image-20191218172218399](../images/Header实践-得拿下这个A/image-20191218172218399.webp)
 
 ```
 Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-eval' https://maxcdn.bootstrapcdn.com https://ajax.googleapis.com https://cdn.defectink.com". Either the 'unsafe-inline' keyword

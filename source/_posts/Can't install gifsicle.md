@@ -1,6 +1,6 @@
 ---
 title: Can't install gifsicle
-index_img: /images/Can't%20install%20gifsicle/index.png
+index_img: /images/Can't%20install%20gifsicle/index.webp
 date: 2020-08-04 14:03:00
 tags: network
 categories: 踩坑
@@ -71,7 +71,7 @@ The `Command failed` just write some ips for hosts, then `npm install` will be w
 
 So, 
 
-![批注 2020-08-04 135700](../images/Can't%20install%20gifsicle/批注%202020-08-04%20135700.jpg)
+![批注 2020-08-04 135700](../images/Can't%20install%20gifsicle/批注%202020-08-04%20135700.webp)
 
 
 

@@ -4,7 +4,7 @@ date: 2020-07-03 15:13:05
 tags: JavaScript
 categories: 笔记
 url: javascript-scope-and-chain
-index_img: /images/JavaScript的作用域与链/index.jpg
+index_img: /images/JavaScript的作用域与链/index.webp
 ---
 
 JavaScript是一门动态语言，也常称呼为弱类型/解释型的语言。除了不需要明确写出数据类型外，JavaScript的作用域也和其他类型的语言不同。并且作用域还以链的方式互相连接。

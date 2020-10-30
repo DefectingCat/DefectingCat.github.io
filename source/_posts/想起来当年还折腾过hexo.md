@@ -4,7 +4,7 @@ date: 2018-06-29 12:12:41
 tags: [Linux, HTML]
 categories: 实践
 url: hexo-again
-index_img: /images/想起来当年还折腾过hexo/index.png
+index_img: /images/想起来当年还折腾过hexo/index.webp
 ---
 
 ## Hexo
@@ -314,6 +314,6 @@ defect.ink
 记录的虽然不是太多，也可能不是那么详细。但是还是大致的顺着搭建成功这么一个放向来的的。
 所以就留下一个截图的纪念吧?
 
-![截图纪念](https://cdn.defectink.com/2019/01/%E9%A1%B5%E9%9D%A2%E9%A2%84%E8%A7%88.png-shuiyin)
+![截图纪念](https://cdn.defectink.com/2019/01/%E9%A1%B5%E9%9D%A2%E9%A2%84%E8%A7%88.webp-shuiyin)
 
 ~~图丢了~~

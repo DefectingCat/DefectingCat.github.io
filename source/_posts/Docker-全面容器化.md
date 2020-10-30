@@ -4,7 +4,7 @@ date: 2019-12-19 11:11:33
 tags: Linux
 categories: 实践
 url: docker-container-all
-index_img: /images/Docker全面容器化/logo.png
+index_img: /images/Docker全面容器化/logo.webp
 ---
 
 自上篇[Docker - 构建属于自己的镜像](https://www.defectink.com/defect/docker-build-own-images.html)以来，发现Docker非常的有意思。主要是非常的方便，并且在可以跨平台的情况下部署环境对于以后迁移也是一件极其有利的事。研究了Dockerfile的编写以及实践。一些基础的实践之后，对于Docker的工作方式以及操作命令都有了一些熟悉。也逐渐了发现了它的一些优点。
@@ -72,7 +72,7 @@ apache与php-fpm通信借助Docker的网络，实现内部的通信。
 
 在Docker hub中的[httpd](https://hub.docker.com/_/httpd)当前支持的tag：
 
-![image-20191221185631177](../images/Docker全面容器化/image-20191221185631177.png)
+![image-20191221185631177](../images/Docker全面容器化/image-20191221185631177.webp)
 
 整个Dockerfile：
 

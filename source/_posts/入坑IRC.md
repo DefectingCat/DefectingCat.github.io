@@ -1,6 +1,6 @@
 ---
 title: 入坑IRC
-index_img: /images/入坑IRC/logo.png
+index_img: /images/入坑IRC/logo.webp
 date: 2020-08-22 18:37:36
 tags: [tools,IRC,Linux]
 categories: 日常
@@ -43,7 +43,7 @@ IRC并不像现代的聊天软件一样，需要先注册账号才能使用。�
 
 输入注册命令后就会收到认证的邮件，邮件大概是这样的（freenode）：
 
-![](../images/入坑IRC/2020-08-22-11-55-07.png)
+![](../images/入坑IRC/2020-08-22-11-55-07.webp)
 
 将邮件里的内容再输入一遍就注册完成了。
 
@@ -75,7 +75,7 @@ IRC并不像现代的聊天软件一样，需要先注册账号才能使用。�
 4. Select `SASL (username + password)` for the `Login method` field
 5. In the `Password` field, enter your NickServ password
 
-![](../images/入坑IRC/2020-08-22-15-28-26.png)
+![](../images/入坑IRC/2020-08-22-15-28-26.webp)
 
 ## 频道
 

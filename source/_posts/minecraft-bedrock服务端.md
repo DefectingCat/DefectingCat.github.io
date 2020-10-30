@@ -4,7 +4,7 @@ date: 2019-05-16 14:21:37
 tags: Minecraft
 categories: 实践
 url: minecraft-bedrock-server
-index_img: /images/Minecraft-bedrock服务端/217940907.jpg
+index_img: /images/Minecraft-bedrock服务端/217940907.webp
 ---
 
 ## Minecraft

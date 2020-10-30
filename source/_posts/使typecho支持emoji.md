@@ -13,7 +13,7 @@ emoji是我们身边常见的且神奇的表情符号，它被称为绘文字（
 
 Emoji的编码是Unicode字符集中的一部分，特定形象的Emoji表情符号对应到特定的Unicode字节。也就是说emoji是unicode编码。好处是无论在什么地方使用都不像是图片那么难处理，以及可以直接写在数据库内。
 
-![emoji_unicode.png][1]
+![emoji_unicode.webp][1]
 
 ### 词语发音
 
@@ -29,7 +29,7 @@ Emoji的编码是Unicode字符集中的一部分，特定形象的Emoji表情符
 
 现在多数的软件、网站等都已经广泛的支持emoji表情了。自己也是非常的喜欢这类表情，特别喜欢微软家的，那种扁平的风格真的很招人喜爱。
 
-![1557663679707.png][2]
+![1557663679707.webp][2]
 
 但是最近使用typecho的时候遇到点小问题，发现新安装的typecho居然不支持使用emoji。在文章等页面使用了emoji之后，保存会提示数据库查询错误。
 
@@ -53,7 +53,7 @@ alter table typecho_users convert to character set utf8mb4 collate utf8mb4_unico
 
 修改后就可以看到表的‘排序规则’(charset)为可以使用emoji的`utf8mb4`了。
 
-![2019-05-12T12:27:33.png][3]
+![2019-05-12T12:27:33.webp][3]
 
 ### 修改typecho配置文件
 
@@ -72,11 +72,11 @@ $db->addServer(array (
 
 全部修改完成后就能正常的在typecho中使用emoji了
 
-![2019-05-12T12:31:18.png][4]
+![2019-05-12T12:31:18.webp][4]
 
 
 
-[1]: ../images/使typecho支持emoji/2721696195.png
-[2]: ../images/使typecho支持emoji/1431864746.png
-[3]: ../images/使typecho支持emoji/175217384.png
-[4]: ../images/使typecho支持emoji/4188132525.png
+[1]: ../images/使typecho支持emoji/2721696195.webp
+[2]: ../images/使typecho支持emoji/1431864746.webp
+[3]: ../images/使typecho支持emoji/175217384.webp
+[4]: ../images/使typecho支持emoji/4188132525.webp

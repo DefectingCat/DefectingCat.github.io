@@ -11,7 +11,7 @@ index_img: /images/Teamspeak-Server/logo.jpg
 
 ## Teamspeak？
 
-![teamspeak](../images/Teamspeak-Server/teamspeak.png)
+![teamspeak](../images/Teamspeak-Server/teamspeak.webp)
 
 Teamspeak是一套专有的VoIP软件。所谓VoIP软件，就是基于网络协议的语音通话。而Teamspeak就是和现在市面上大多数即时通讯软件差不多，可以发送即时消息以及多人语音通话。
 
@@ -219,7 +219,7 @@ firewall-cmd --reload
 前面有介绍过TS使用的是C/S架构，我们搭建好了服务端当然是为了连接它。连接它比我们想象的要简单的多，打开软件后直接在工具栏就能找到连接这一选项。
 单击连接，就可以根据服务器地来连接我们搭建好的服务端了。
 
-![连接服务器](../images/Teamspeak-Server/连接服务器.png)
+![连接服务器](../images/Teamspeak-Server/连接服务器.webp)
 
 我们可以看到有三个选项框，第一个是服务器地址，其次是服务器密码，最后是用于展示给其他人的昵称
 默认新安装的服务端是没有密码的，如果我们是连接一个新服务器的话，是可以将密码留空登陆。
@@ -233,20 +233,20 @@ firewall-cmd --reload
 
 如果是第一次连接至ts的新服务器，那么我们连接成功后就会立马弹出一个用于输入token的对话框。我们将刚刚创建服务器时给我们的token填入即可。这样就可以直接在客户端修改自己的服务器了。
 
-![token](../images/Teamspeak-Server/token.png)
+![token](../images/Teamspeak-Server/token.webp)
 
 因为ts默认在使用客户端时会自动创建一个用户身份，每个身份都是不相同的。**那如果我们更换电脑连接自己的服务器时，或者想给其他人一个修改服务器的权限时该怎么办呢？**
 
 - 导出当前的用户身份
 
 在工具栏的“工具-身份”这个标签中，我们可以看到自己当前账户身份。直接右击便可以执行导出操作。在其他地方使用相同方法导入就可以继续使用这个身份了。
-![身份](../images/Teamspeak-Server/身份.png)
+![身份](../images/Teamspeak-Server/身份.webp)
 
 - 新建token码
 
 当我们想给其他身份的用户修改服务器的权限的时候，我们可以使用新建权限码的方式来提升其他用户的权限。
 在工具栏的“权限-权限码清单”中就可以找的新建权限码的按钮以及已经新建过的权限码清单。新建时也可以选择不同的权限来进一步控制。使用权限码就和我们第一次使用时一样操作即可。
-![权限码](../images/Teamspeak-Server/权限码.png)
+![权限码](../images/Teamspeak-Server/权限码.webp)
 
 ### 翻译插件
 
@@ -254,16 +254,16 @@ firewall-cmd --reload
 
 打开软件后，打开“工具-选项”(Alt+P)，找到“插件(add-ons)”这一选项卡。
 
-![插件](../images/Teamspeak-Server/插件.png)
+![插件](../images/Teamspeak-Server/插件.webp)
 
 默认看到的是当前本地的插件，我们可以选择“Browse online"来查看在线可以下载安装的插件。选择筛选器为”翻译“然后输入”Chinese“就可以找到一款繁体中文的插件。点击进入插件的详情页面就可以看到”install“。单击安装即可。
 
-![繁体中文](../images/Teamspeak-Server/繁体中文.png)
+![繁体中文](../images/Teamspeak-Server/繁体中文.webp)
 
 Install完成之后重新打开软件就会应用上翻译了。如果没有成功应用，可以再去刚刚插件地方看看有没有启用。
 除了翻译插件之外，TS还有很多种类的插件，以及界面皮肤等。和刚刚安装翻译插件的方法一摸一样。
 
-![TS3](../images/Teamspeak-Server/TS3-1582422801541.png)
+![TS3](../images/Teamspeak-Server/TS3-1582422801541.webp)
 
 ## 参考
 
