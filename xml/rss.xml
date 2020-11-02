@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>🍭Defectink</title>
+    <link>https://www.defectink.com/</link>
+    
+    <image>
+      <url>https://www.defectink.com/icon.png</url>
+      <title>🍭Defectink</title>
+      <link>https://www.defectink.com/</link>
+    </image>
+    
+    <atom:link href="https://www.defectink.com/xml/rss.xml" rel="self" type="application/rss+xml"/>
+    
+    <description></description>
+    <pubDate>Mon, 02 Nov 2020 02:17:16 GMT</pubDate>
+    <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>Vue3中的响应数据</title>
+      <link>https://www.defectink.com/defect/response-data-in-Vue3.html</link>
+      <guid>https://www.defectink.com/defect/response-data-in-Vue3.html</guid>
+      <pubDate>Mon, 02 Nov 2020 10:01:55 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;h2 id=&quot;实时渲染&quot;&gt;&lt;a href=&quot;#实时渲染&quot; class=&quot;headerlink&quot;</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/">笔记</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/JavaScript/">JavaScript</category>
+      
+      <category domain="https://www.defectink.com/tags/Vue/">Vue</category>
+      
+      
+      <comments>https://www.defectink.com/defect/response-data-in-Vue3.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>JavaScript-可迭代对象与for-of</title>
+      <link>https://www.defectink.com/defect/javascript-iterable-object-and-for-of.html</link>
+      <guid>https://www.defectink.com/defect/javascript-iterable-object-and-for-of.html</guid>
+      <pubDate>Thu, 29 Oct 2020 17:15:48 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;h2 id=&quot;Iterable-object（可迭代对象）&quot;&gt;&lt;a href=&quot;#Iterable-object（可迭代对象）&quot; class=&quot;headerlink&quot; title=&quot;Iterable object（可迭代对象）&quot;&gt;&lt;/a&gt;Iterable</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/">笔记</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/JavaScript/">JavaScript</category>
+      
+      
+      <comments>https://www.defectink.com/defect/javascript-iterable-object-and-for-of.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>Vue.js-起步!</title>
+      <link>https://www.defectink.com/defect/Vue-js-get-started.html</link>
+      <guid>https://www.defectink.com/defect/Vue-js-get-started.html</guid>
+      <pubDate>Thu, 22 Oct 2020 11:21:22 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;p&gt;在我打算学习vue的时候，正是其3.0版本发布不久的时候。很庆幸生活在这个时代，但困扰我的是是否应该由旧版本的2.x开始学习？一向选择困难的我最终打算两个版本一起学习，从2.x开始入门，顺便还能一睹其与3.0版本的变化。&lt;/p&gt;
+&lt;h2 id=&quot;起步&quot;&gt;&lt;a</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/">笔记</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/JavaScript/">JavaScript</category>
+      
+      <category domain="https://www.defectink.com/tags/Vue/">Vue</category>
+      
+      
+      <comments>https://www.defectink.com/defect/Vue-js-get-started.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>Node.js之旅</title>
+      <link>https://www.defectink.com/defect/get-starting-for-node-js.html</link>
+      <guid>https://www.defectink.com/defect/get-starting-for-node-js.html</guid>
+      <pubDate>Thu, 03 Sep 2020 16:09:29 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Node.js® is a JavaScript runtime built on Chrome’s V8 JavaScript</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/">笔记</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/JavaScript/">JavaScript</category>
+      
+      <category domain="https://www.defectink.com/tags/Node/">Node</category>
+      
+      
+      <comments>https://www.defectink.com/defect/get-starting-for-node-js.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>入坑IRC</title>
+      <link>https://www.defectink.com/defect/irc-getting-started.html</link>
+      <guid>https://www.defectink.com/defect/irc-getting-started.html</guid>
+      <pubDate>Sat, 22 Aug 2020 18:37:36 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;h2 id=&quot;IRC&quot;&gt;&lt;a href=&quot;#IRC&quot; class=&quot;headerlink&quot; title=&quot;IRC&quot;&gt;&lt;/a&gt;IRC&lt;/h2&gt;&lt;p&gt;IRC的全称为Internet Relay</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E6%97%A5%E5%B8%B8/">日常</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/Linux/">Linux</category>
+      
+      <category domain="https://www.defectink.com/tags/tools/">tools</category>
+      
+      <category domain="https://www.defectink.com/tags/IRC/">IRC</category>
+      
+      
+      <comments>https://www.defectink.com/defect/irc-getting-started.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>JavaScript的函数</title>
+      <link>https://www.defectink.com/defect/function-of-javascript.html</link>
+      <guid>https://www.defectink.com/defect/function-of-javascript.html</guid>
+      <pubDate>Fri, 07 Aug 2020 11:26:10 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;p&gt;函数表达式是JavaScript中一个强大同时容易令人困惑的特性。&lt;/p&gt;
+&lt;p&gt;定义函数的方式有两种：函数声明和函数表达式。&lt;/p&gt;
+&lt;p&gt;函数声明首先是&lt;code&gt;function&lt;/code&gt;关键字，其后是函数的名字，这就是指定函数名字的方式。&lt;/p&gt;
+&lt;pre&gt;&lt;c</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/">笔记</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/JavaScript/">JavaScript</category>
+      
+      
+      <comments>https://www.defectink.com/defect/function-of-javascript.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>Can&#39;t install gifsicle</title>
+      <link>https://www.defectink.com/defect/cant-install-gifsicle.html</link>
+      <guid>https://www.defectink.com/defect/cant-install-gifsicle.html</guid>
+      <pubDate>Tue, 04 Aug 2020 14:03:00 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;h2 id=&quot;Hexo-all-minifier&quot;&gt;&lt;a href=&quot;#Hexo-all-minifier&quot; class=&quot;headerlink&quot; title=&quot;Hexo-all-minifier&quot;&gt;&lt;/a&gt;Hexo-all-minifier&lt;/h2&gt;&lt;p&gt;In a long</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E8%B8%A9%E5%9D%91/">踩坑</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/network/">network</category>
+      
+      
+      <comments>https://www.defectink.com/defect/cant-install-gifsicle.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>JavaScript面向对象的程序设计</title>
+      <link>https://www.defectink.com/defect/javascript-object-oriented-programming.html</link>
+      <guid>https://www.defectink.com/defect/javascript-object-oriented-programming.html</guid>
+      <pubDate>Mon, 27 Jul 2020 16:42:32 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Standing on Shoulders of</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/">笔记</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/JavaScript/">JavaScript</category>
+      
+      
+      <comments>https://www.defectink.com/defect/javascript-object-oriented-programming.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>JavaScript的作用域与链</title>
+      <link>https://www.defectink.com/defect/javascript-scope-and-chain.html</link>
+      <guid>https://www.defectink.com/defect/javascript-scope-and-chain.html</guid>
+      <pubDate>Fri, 03 Jul 2020 15:13:05 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;p&gt;JavaScript是一门动态语言，也常称呼为弱类型/解释型的语言。除了不需要明确写出数据类型外，JavaScript的作用域也和其他类型的语言不同。并且作用域还以链的方式互相连接。&lt;/p&gt;
+&lt;h2 id=&quot;预编译&quot;&gt;&lt;a href=&quot;#预编译&quot;</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/">笔记</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/JavaScript/">JavaScript</category>
+      
+      
+      <comments>https://www.defectink.com/defect/javascript-scope-and-chain.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>写作与协作</title>
+      <link>https://www.defectink.com/defect/write-and-cooperation.html</link>
+      <guid>https://www.defectink.com/defect/write-and-cooperation.html</guid>
+      <pubDate>Mon, 29 Jun 2020 12:12:41 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;p&gt;出于对速度无理的追求，最终还是放弃了使用动态内容。转战静态blog。以前也稍微尝试过hexo，所以决定还是主要为hexo为主了。&lt;/p&gt;
+&lt;p&gt;在之前试过的typecho、wordpress之中，越是臃肿复杂的程序，1M的带宽越是不够。再详细的折腾了hexo之后，发现了最佳</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E5%AE%9E%E8%B7%B5/">实践</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/Tools/">Tools</category>
+      
+      
+      <comments>https://www.defectink.com/defect/write-and-cooperation.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>JavaScript笔记-引用类型</title>
+      <link>https://www.defectink.com/defect/javascript-notes-reference-type.html</link>
+      <guid>https://www.defectink.com/defect/javascript-notes-reference-type.html</guid>
+      <pubDate>Mon, 06 Jan 2020 09:14:53 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;blockquote&gt;
+&lt;p&gt;这是来自Professional JavaScript for Web Develops第五章的笔记。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/">笔记</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/JavaScript/">JavaScript</category>
+      
+      
+      <comments>https://www.defectink.com/defect/javascript-notes-reference-type.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>Docker-全面容器化！</title>
+      <link>https://www.defectink.com/defect/docker-container-all.html</link>
+      <guid>https://www.defectink.com/defect/docker-container-all.html</guid>
+      <pubDate>Thu, 19 Dec 2019 11:11:33 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;p&gt;自上篇&lt;a href=&quot;https://www.defectink.com/defect/docker-build-own-images.html&quot;&gt;Docker -</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E5%AE%9E%E8%B7%B5/">实践</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/Linux/">Linux</category>
+      
+      
+      <comments>https://www.defectink.com/defect/docker-container-all.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>Header实践-得拿下这个A</title>
+      <link>https://www.defectink.com/defect/header-practice-have-to-win-this-a.html</link>
+      <guid>https://www.defectink.com/defect/header-practice-have-to-win-this-a.html</guid>
+      <pubDate>Wed, 18 Dec 2019 16:42:53 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;p&gt;&lt;a</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E5%AE%9E%E8%B7%B5/">实践</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/HTML/">HTML</category>
+      
+      
+      <comments>https://www.defectink.com/defect/header-practice-have-to-win-this-a.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>Docker-构建属于自己的镜像</title>
+      <link>https://www.defectink.com/defect/docker-build-own-image.html</link>
+      <guid>https://www.defectink.com/defect/docker-build-own-image.html</guid>
+      <pubDate>Fri, 29 Nov 2019 09:30:33 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;p&gt;以前一直在使用别人构建好的镜像来使用Docker容器，在一次想搭建一个完整的Web环境时，发现使用过多容器非常难以管理。并且容器之间的交互通信变的困难。当然，也可以使用Docker</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E5%AE%9E%E8%B7%B5/">实践</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/Linux/">Linux</category>
+      
+      
+      <comments>https://www.defectink.com/defect/docker-build-own-image.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>修改Windows端iCloud云盘存储位置</title>
+      <link>https://www.defectink.com/defect/modify-icloud-storage-location-on-windows.html</link>
+      <guid>https://www.defectink.com/defect/modify-icloud-storage-location-on-windows.html</guid>
+      <pubDate>Mon, 18 Nov 2019 12:53:53 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;p&gt;自从有了水果之后，除了天天被人嘲讽之外，还花了大手笔买了一个月6块的iCloud</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E8%B8%A9%E5%9D%91/">踩坑</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/Windows/">Windows</category>
+      
+      
+      <comments>https://www.defectink.com/defect/modify-icloud-storage-location-on-windows.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>ASCII在线视频流</title>
+      <link>https://www.defectink.com/defect/online-ascii-video.html</link>
+      <guid>https://www.defectink.com/defect/online-ascii-video.html</guid>
+      <pubDate>Sat, 29 Jun 2019 12:12:41 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;p&gt;什么是ASCII？&lt;/p&gt;
+&lt;p&gt;来自百度百科的解释：&lt;br&gt;ASCII（American Standard Code for Information</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E5%AE%9E%E8%B7%B5/">实践</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/Tools/">Tools</category>
+      
+      
+      <comments>https://www.defectink.com/defect/online-ascii-video.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>bark-水果自定义通知大法🍎</title>
+      <link>https://www.defectink.com/defect/bark-custom-notification-for-apple.html</link>
+      <guid>https://www.defectink.com/defect/bark-custom-notification-for-apple.html</guid>
+      <pubDate>Fri, 28 Jun 2019 12:12:41 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;blockquote&gt;
+&lt;p&gt;ding~&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;用了一段时间的水果了，发现它的通知来的还是非常及时的。基本上只要连接了网络，通知都不会落下。简单了解过IOS的通知机制：APP→水果服务器→你的机器。也就是说这三个步骤都能够正常通信的情况下，我</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E8%B8%A9%E5%9D%91/">踩坑</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/Tools/">Tools</category>
+      
+      
+      <comments>https://www.defectink.com/defect/bark-custom-notification-for-apple.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>AliOssForTypecho</title>
+      <link>https://www.defectink.com/defect/alioss-for-typecho.html</link>
+      <guid>https://www.defectink.com/defect/alioss-for-typecho.html</guid>
+      <pubDate>Wed, 26 Jun 2019 16:42:41 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;p&gt;原作大佬：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E8%B8%A9%E5%9D%91/">踩坑</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/typecho/">typecho</category>
+      
+      
+      <comments>https://www.defectink.com/defect/alioss-for-typecho.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>Gitlab尝鲜</title>
+      <link>https://www.defectink.com/defect/try-the-gitlab.html</link>
+      <guid>https://www.defectink.com/defect/try-the-gitlab.html</guid>
+      <pubDate>Wed, 19 Jun 2019 15:42:41 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;h2 id=&quot;Gitlab&quot;&gt;&lt;a href=&quot;#Gitlab&quot; class=&quot;headerlink&quot; title=&quot;Gitlab?&quot;&gt;&lt;/a&gt;Gitlab?&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;GitLab&lt;/strong&gt;是由GitLab Inc.开发，使用&lt;a</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/%E5%AE%9E%E8%B7%B5/">实践</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/Linux/">Linux</category>
+      
+      
+      <comments>https://www.defectink.com/defect/try-the-gitlab.html#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>systemd的基础操作</title>
+      <link>https://www.defectink.com/defect/basic-knowledge-of-systemd.html</link>
+      <guid>https://www.defectink.com/defect/basic-knowledge-of-systemd.html</guid>
+      <pubDate>Fri, 14 Jun 2019 14:42:41 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;h2 id=&quot;什么是systemd？&quot;&gt;&lt;a href=&quot;#什么是systemd？&quot; class=&quot;headerlink&quot;</description>
+          
+        
+      
+      
+      
+      
+      <category domain="https://www.defectink.com/categories/Linux/">Linux</category>
+      
+      
+      <category domain="https://www.defectink.com/tags/Linux/">Linux</category>
+      
+      
+      <comments>https://www.defectink.com/defect/basic-knowledge-of-systemd.html#disqus_thread</comments>
+      
+    </item>
+    
+  </channel>
+</rss>
