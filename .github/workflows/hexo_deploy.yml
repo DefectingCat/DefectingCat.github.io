@@ -40,10 +40,9 @@ jobs:
         git config --global user.name 'DefectingCat' 
         git config --global user.email 'i@defect.ink'
         # install dependencies
-        npm install hexo -g
         npm install
     
     - name: deploy
       run: |
         # publish
-        yarn go
+        npm run go
