@@ -6,6 +6,6 @@ $(document).ready(function () {
     });
     // 失焦时添加回来
     $("#comments").on("blur", ".v[data-class=v] .vwrap .vedit", function () {
-        $(this).animate({"background-size":"20%"});
+        $(this).animate({"background-size":"15%"});
     });
 });

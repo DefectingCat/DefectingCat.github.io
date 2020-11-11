@@ -1,7 +1,7 @@
 ---
 title: pgp
 date: 2020-02-23 17:03:44
-comments: ture
+comment: true
 ---
 
 <div class="markdown-body">
