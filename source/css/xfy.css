@@ -12,6 +12,9 @@ img:hover {
     transform: scale(1.05);
 }
 
+.index-img img {
+    border-radius: 0.66rem !important;
+}
 
 /*ul and ol*/
 

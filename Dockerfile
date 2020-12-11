@@ -5,8 +5,8 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
         && apk update \
         && apk upgrade \
         && apk add --no-cache yarn \
-        && yarn \
-        && yarn run dev
+        && npm install \
+        && npm run dev
 
 FROM nginx:alpine
 COPY --from=builder /root/public/ /usr/share/nginx/html

@@ -550,3 +550,96 @@ location.replace('https://www.baidu.com/')
 ```js
 location.reload();      // 可能会度缓存
 location.reload(true);  // 强制从服务器下载
+```
+
+## navigator对象
+
+navigator对象现已成为识别客户端浏览器的事实标准。可以使用只读的`windows.navigator`属性来检索navigator对象
+
+```js
+window.navigator
+Navigator {vendorSub: "", productSub: "20030107", vendor: "Google Inc.", maxTouchPoints: 0, userActivation: UserActivation, …}
+appCodeName: "Mozilla"
+appName: "Netscape"
+appVersion: "5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.193 Safari/537.36"
+bluetooth: Bluetooth {}
+clipboard: Clipboard {}
+// ......
+```
+
+每个浏览器都有自己的navigator对象的一套属性，不过他们也有一些共同的属性。
+
+### 检测插件
+
+navigator对象还有一个plugins属性，通过`navigator.plugins`来访问到浏览器的插件。不过这并不能用来检测Chrome的拓展。
+
+利用plugins属性，可以这样来做一个间的的检测插件的小方法：
+
+```js
+function plus(name) {
+    name = name.toLowerCase();
+    for (let i of navigator.plugins) {
+        let res = i.name.toLowerCase().includes(name);
+        return res;
+    }
+}
+```
+
+这里使用了es6的`includes`方法，当然也可以使用es5的`indexOf`来实现
+
+```js
+function plus(name) {
+    name = name.toLowerCase();
+    for (let i of navigator.plugins) {
+        if (i.name.toLowerCase().indexOf(name) > -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+```
+
+使用字符查找的方法来确定其名称是否有指定字符时会有个小缺陷，例如需要查找`chrome pdf viewer`，在传入一个字母`c`的时候，就能够返回`true`，无法确定具体找到哪个插件。只有继续增加参数的长度才能确定，。
+
+我这里根据上述函数稍稍修改了下，将匹配到的结果都由一个数组保存，最后返回整个数组，有点类似于搜索结果。
+
+```js
+function plus(name) {
+    name = name.toLowerCase();
+    let out = [];
+    for (let i of navigator.plugins) {
+        let res = i.name.toLowerCase().includes(name);
+        if (res) {
+            out.push(i.name);
+        }
+    }
+    return out;
+}
+```
+
+这时的数组就会保存所有匹配到的字符：
+
+```js
+plus('chrome')
+(2) ["Chrome PDF Plugin", "Chrome PDF Viewer"]
+```
+
+## history对象
+
+history保存着用户上网浏览的历史记录。history是windows对象的属性，所以每个标签乃至每个框架都有自己的history对象与特定的window对象关联。出于安全考虑，我们没有办法得知用户浏览过的url，但是借由用户访问过的页面，同样可以在不知道实际url的情况下实现前进和后退。
+
+使用`go()`方法可以实现在历史记录中跳转。
+
+```js
+// 后退一页
+history.go(-1);
+// 前进一页
+history.go(1);
+// 前进两页
+history.go(2);
+```
+
+另外，还有两个简写的方法`back()`和`forward()`来代替`go()`方法。顾名思义，这两个方法可以模仿浏览器的“后退”和“前进”动作。
+
+history甚至还有一个length属性，用来保存历史记录的数量。

@@ -23,3 +23,7 @@ Wordpress到typecho，换来换去的主题，最后还是选择了纯静态。�
 ## 全部艺能
 
 !@#$%^&*()
+
+## 还活着的服务
+
+<a class="btn" href="https://stats.defectink.com/" title="status" target="_blank">监控👀</a>
