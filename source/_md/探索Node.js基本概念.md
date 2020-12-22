@@ -67,3 +67,4 @@ let fs = require('fs');
 import fs from 'fs';
 ```
 
+ES2015的module

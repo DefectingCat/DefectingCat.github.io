@@ -21,7 +21,7 @@
     "gulp-htmlmin": "^5.0.1",
     "gulp-uglify": "^3.0.2",
     "gulp-uglify-es": "^2.0.0",
-    "hexo": "^5.2.0",
+    "hexo": "^5.3.0",
     "hexo-cli": "^4.2.0",
     "hexo-deployer-git": "^2.1.0",
     "hexo-generator-archive": "^1.0.0",
@@ -38,6 +38,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.10"
+    "@babel/preset-env": "^7.12.11"
   }
 }
