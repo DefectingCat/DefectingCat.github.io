@@ -1,3 +1,12 @@
+---
+title: 某咸鱼的AJAX入门🐟
+date: 2020-12-24 19:41:02
+tags: JavaScript
+categories: 笔记
+url: ajax-getting-started
+index_img: /images/某咸鱼的AJAX入门/logo.webp
+---
+
 ## Ajax
 
 AJAX是异步的JavaScript和XML（Asynchronous JavaScript And XML）。简单点说，就是使用`XMLHttpRequest`对象与服务器通信。 它可以使用JSON，XML，HTML和text文本等格式发送和接收数据。AJAX最吸引人的就是它的“异步”特性，也就是说它可以在不重新刷新页面的情况下与服务器通信，交换数据，或更新页面。
@@ -6,6 +15,8 @@ AJAX最主要的两个特性：
 
 * 在不重新加载页面的情况下发送请求给服务器。
 * 接受并使用从服务器发来的数据。
+
+![](../images/某咸鱼的AJAX入门/2020-12-24-19-40-22.webp)
 
 ## 发送http请求
 
@@ -132,3 +143,66 @@ function handler() {
     }
 }
 ```
+
+## jQuery中的AJAX
+
+jquery极大的简化了原生js的一些繁琐操作，同时它也提供一些ajax方法来简化操作。
+
+### ajax方法
+
+jQuery提供了一个`$.ajax()`方法，方便去操作ajax。该方法是 jQuery 底层 AJAX 实现。简单易用的高层实现见`$.get`,`$.post`等。`$.ajax()`返回其创建的 XMLHttpRequest 对象。大多数情况下无需直接操作该函数。
+
+这个方法接受一个参数，这个参数为键值对集合（对象），其中包含了AJAX 请求的键值对集合，所有选项都是可选的。也可以通过`$.ajaxSetup()`设置任何选项的默认值。
+
+```js
+$.ajax({
+    url: 'test.txt',
+    async: false
+});
+```
+
+### 回调
+
+和原生js一样，jQuery也可以通过参数来设定是否同步执行（async）。当异步执行时，可以使用`success`参数来执行一个回调函数。回调函数支持传递一个参数，参数为response。
+
+```js
+$.ajax({
+    url: 'test.txt',
+    success: function (result) {
+        $('.title').html(result);
+    }
+});
+```
+
+### 其他方法
+
+jQuery同样提供了一些其他简易易用的方法，例如`load()`方法，通过 AJAX 请求从服务器加载数据，并把返回的数据放置到指定的元素中。
+
+按照传统的方法利用jQuery来写一个传递文本到元素可能需要这样：
+
+```js
+$(document).ready(function () {
+    $('.btn').click(function () {
+        $.ajax({
+            url: 'test.txt',
+            success: function (result) {
+                $('.title').html(result);
+            }
+        });
+    })
+})
+```
+
+而`load()`方法更加简洁，往往只可能需要一行：
+
+```js
+$(document).ready(function () {
+    $('.btn').click(function () {
+        $('.title').load('test.txt');
+    })
+})
+```
+
+不过越是简洁的方法越是难以捉摸以及不方便自定义其他的参数。
+
+无论怎么说，jQuery提供了更加便利的手段来完成原本繁琐的事情，且仅仅只是多用了300+kb的源码。

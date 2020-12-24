@@ -11,10 +11,11 @@
     "go": "hexo cl && hexo g && gulp && hexo d"
   },
   "hexo": {
-    "version": "5.2.0"
+    "version": "5.3.0"
   },
   "dependencies": {
     "babel": "^6.23.0",
+    "commitizen": "^4.2.2",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
     "gulp-htmlclean": "^2.7.22",
