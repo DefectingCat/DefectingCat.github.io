@@ -8,7 +8,9 @@
     "deploy": "hexo deploy",
     "server": "hexo server",
     "dev": "hexo cl && hexo g && gulp",
-    "go": "hexo cl && hexo g && gulp && hexo d"
+    "go": "hexo cl && hexo g && gulp && hexo d",
+    "cz": "cz",
+    "cl": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "hexo": {
     "version": "5.3.0"
@@ -16,6 +18,7 @@
   "dependencies": {
     "babel": "^6.23.0",
     "commitizen": "^4.2.2",
+    "conventional-changelog-cli": "^2.1.1",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
     "gulp-htmlclean": "^2.7.22",
