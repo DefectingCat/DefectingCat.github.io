@@ -1,6 +1,15 @@
 ## 0.0.1 (2020-12-30)
 
 
+### Bug Fixes
+
+* 修复一篇文章 Front-matter 出错 ([9028892](https://e.coding.net/Defectink/blog/blog/commits/9028892e17bd378a18d3d50135cf80e1444479af))
+
+
+
+## 0.0.1 (2020-12-30)
+
+
 ### Features
 
 * **更新文章:** ajax入门 ([de59640](https://e.coding.net/Defectink/blog/blog/commits/de59640a4b9a7c779340ceb28000dd0e80f87ac1))
