@@ -1,6 +1,6 @@
 {
   "name": "hexo-site",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "build": "hexo generate",
@@ -10,7 +10,7 @@
     "dev": "hexo cl && hexo g && gulp",
     "go": "hexo cl && hexo g && gulp && hexo d",
     "cz": "cz",
-    "cl": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+    "cl": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "hexo": {
     "version": "5.3.0"
