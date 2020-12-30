@@ -10,7 +10,7 @@ layout: about
 
 才会成长。
 
-Wordpress到typecho，换来换去的主题，最后还是选择了纯静态。或许这次才会真的沉静下浮躁的心来。
+Wordpress 到 typecho，换来换去的主题，最后还是选择了纯静态。或许这次才会真的沉静下浮躁的心来。
 
 ## 到底还是
 
@@ -27,3 +27,7 @@ Wordpress到typecho，换来换去的主题，最后还是选择了纯静态。�
 ## 还活着的服务
 
 <a class="btn" href="https://stats.defectink.com/" title="status" target="_blank">监控👀</a>
+
+## 排版
+
+某咸鱼正在根据 [中文文案排版指北](https://github.com/sparanoid/chinese-copywriting-guidelines) 来更新文章。

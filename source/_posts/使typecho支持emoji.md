@@ -1,5 +1,5 @@
 ---
-title: 使typecho支持emoji🎈
+title: 使 typecho 支持 emoji🎈
 date: 2019-05-12 13:41:57
 tags: typecho
 categories: 实践

@@ -1,5 +1,5 @@
 ---
-title: Resilio Sync多平台实时同步
+title: Resilio Sync 多平台实时同步
 date: 2019-05-18 12:31:45
 tags: Tools
 categories: 实践

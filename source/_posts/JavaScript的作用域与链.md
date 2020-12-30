@@ -1,5 +1,5 @@
 ---
-title: JavaScript的作用域与链
+title: JavaScript 的作用域与链
 date: 2020-07-03 15:13:05
 tags: JavaScript
 categories: 笔记

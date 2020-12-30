@@ -1,5 +1,5 @@
 ---
-title: JavaScript笔记-引用类型
+title: JavaScript 笔记-引用类型
 date: 2020-01-06 09:14:53
 tags: JavaScript
 categories: 笔记

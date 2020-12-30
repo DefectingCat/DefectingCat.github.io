@@ -1,5 +1,5 @@
 ---
-title: JavaScript的函数
+title: JavaScript 的函数
 index_img: /images/JavaScript的函数/index.webp
 date: 2020-08-07 11:26:10
 tags: JavaScript

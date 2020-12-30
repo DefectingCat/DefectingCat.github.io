@@ -1,5 +1,5 @@
 ---
-title: JavaScript-可迭代对象与for-of
+title: JavaScript-可迭代对象与 for-of
 date: 2020-10-29 17:15:48
 tags: JavaScript
 categories: 笔记

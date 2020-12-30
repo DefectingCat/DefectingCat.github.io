@@ -1,5 +1,5 @@
 ---
-title: systemd的基础操作
+title: systemd 的基础操作
 date: 2019-06-14 14:42:41
 tags: Linux
 categories: Linux

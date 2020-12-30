@@ -1,5 +1,5 @@
 ---
-title: 入坑IRC
+title: 入坑 IRC
 index_img: /images/入坑IRC/logo.webp
 date: 2020-08-22 18:37:36
 tags: [tools,IRC,Linux]

@@ -1,5 +1,5 @@
 ---
-title: JavaScript实践-乘法表
+title: JavaScript 实践-乘法表
 date: 2020-12-11 14:58:46
 tags: JavaScript
 categories: 实践

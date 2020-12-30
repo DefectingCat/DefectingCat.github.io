@@ -1,5 +1,5 @@
 ---
-title: 想起来当年还折腾过hexo
+title: 想起来当年还折腾过 hexo
 date: 2018-06-29 12:12:41
 tags: [Linux, HTML]
 categories: 实践

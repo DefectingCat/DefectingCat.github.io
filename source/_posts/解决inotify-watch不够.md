@@ -1,5 +1,5 @@
 ---
-title: 解决inotify watch不够⌚
+title: 解决 inotify watch 不够⌚
 date: 2019-05-29 9:05:01
 tags: Linux
 categories: 踩坑

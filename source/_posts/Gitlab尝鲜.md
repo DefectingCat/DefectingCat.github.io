@@ -1,5 +1,5 @@
 ---
-title: Gitlab尝鲜
+title: Gitlab 尝鲜
 date: 2019-06-19 15:42:41
 tags: Linux
 categories: 实践

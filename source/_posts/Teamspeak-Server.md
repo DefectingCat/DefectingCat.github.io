@@ -1,5 +1,5 @@
 ---
-title: 开黑之路-Teamspeak Server搭建
+title: 开黑之路-Teamspeak Server 搭建
 date: 2019-05-29 8:05:00
 tags: Player
 categories: Player
