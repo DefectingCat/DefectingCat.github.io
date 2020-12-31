@@ -1,11 +1,11 @@
-<!--
- * @Author: your name
- * @Date: 2020-12-28 09:04:40
- * @LastEditTime: 2020-12-29 19:17:03
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \blog\source\_md\构造函数与绑定this.md
--->
+---
+title: 构造函数与绑定this
+date: 2020-12-31 09:04:40
+tags: JavaScript
+categories: 实践
+url: constructor-and-bind-this
+index_img: /images/构造函数与绑定this/2020-12-31-10-11-54.webp
+---
 
 ## 丢失this
 
