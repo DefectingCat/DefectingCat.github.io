@@ -16,6 +16,7 @@ DOM（文档对象模型，Document Object Model)，是针对 HTML 和 XML 文�
 
 **节点类型常量**
 
+<<<<<<< HEAD
 | 常量                               | 值   | 描述                                                                                                                                                                                                                          |
 | :--------------------------------- | :--- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Node.ELEMENT_NODE`                | `1`  | 一个 [`元素`](https://developer.mozilla.org/zh-CN/docs/Web/API/Element) 节点，例如 [`p`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/p) 和 [`div`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/div)。 |
@@ -26,6 +27,18 @@ DOM（文档对象模型，Document Object Model)，是针对 HTML 和 XML 文�
 | `Node.DOCUMENT_NODE`               | `9`  | 一个 [`Document`](https://developer.mozilla.org/zh-CN/docs/Web/API/Document) 节点。                                                                                                                                           |
 | `Node.DOCUMENT_TYPE_NODE`          | `10` | 描述文档类型的 [`DocumentType`](https://developer.mozilla.org/zh-CN/docs/Web/API/DocumentType) 节点。例如 `<!DOCTYPE html>` 就是用于 HTML5 的。                                                                               |
 | `Node.DOCUMENT_FRAGMENT_NODE`      | `11` | 一个 [`DocumentFragment`](https://developer.mozilla.org/zh-CN/docs/Web/API/DocumentFragment) 节点                                                                                                                             |
+=======
+| 常量                               | 值   | 描述                                                                                                                                                                                                                              |
+| :--------------------------------- | :--- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Node.ELEMENT_NODE`                | `1`  | 一个 [`元素`](https://developer.mozilla.org/zh-CN/docs/Web/API/Element) 节点，例如 [`p`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/p) 和 [`div`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/div)。 |
+| `Node.TEXT_NODE`                   | `3`  | [`Element`](https://developer.mozilla.org/zh-CN/docs/Web/API/Element) 或者 [`Attr`](https://developer.mozilla.org/zh-CN/docs/Web/API/Attr) 中实际的 [`文字`](https://developer.mozilla.org/zh-CN/docs/Web/API/Text)               |
+| `Node.CDATA_SECTION_NODE`          | `4`  | 一个 [`CDATASection`](https://developer.mozilla.org/zh-CN/docs/Web/API/CDATASection)，例如 `<!CDATA[[ … ]]>`。                                                                                                                    |
+| `Node.PROCESSING_INSTRUCTION_NODE` | `7`  | 一个用于XML文档的 [`ProcessingInstruction`](https://developer.mozilla.org/zh-CN/docs/Web/API/ProcessingInstruction) ，例如 `<?xml-stylesheet ... ?>` 声明。                                                                       |
+| `Node.COMMENT_NODE`                | `8`  | 一个 [`Comment`](https://developer.mozilla.org/zh-CN/docs/Web/API/Comment) 节点。                                                                                                                                                 |
+| `Node.DOCUMENT_NODE`               | `9`  | 一个 [`Document`](https://developer.mozilla.org/zh-CN/docs/Web/API/Document) 节点。                                                                                                                                               |
+| `Node.DOCUMENT_TYPE_NODE`          | `10` | 描述文档类型的 [`DocumentType`](https://developer.mozilla.org/zh-CN/docs/Web/API/DocumentType) 节点。例如 `<!DOCTYPE html>` 就是用于 HTML5 的。                                                                                   |
+| `Node.DOCUMENT_FRAGMENT_NODE`      | `11` | 一个 [`DocumentFragment`](https://developer.mozilla.org/zh-CN/docs/Web/API/DocumentFragment) 节点                                                                                                                                 |
+>>>>>>> master
 
 **已经弃用的节点类型**
 
@@ -150,8 +163,13 @@ Document --> HTMLDocument.prototype --> document
 
 document 对象是 window 的一个属性，所以它可以全局访问。它有一下特点：
 
+<<<<<<< HEAD
 * 类型值为9；
 * Name 为`#document`；
+=======
+* nodeType 为 9；
+* nodeName 为`#document`；
+>>>>>>> master
 * 其他值均为`null`；
 
 它有四种可能的子节点：DocumentType、Element、ProcessingInstruction 或 Comment。
@@ -221,4 +239,54 @@ HTMLDocument 类型也有一个独有的查询 DOM 的方法：
 
 * `getElementByName()`：返回带有特定 name Attribute 的元素。
 
+<<<<<<< HEAD
 同样的，它返回的也是一个 NodeList 集合。
+=======
+同样的，它返回的也是一个 NodeList 集合。
+
+#### 特殊集合
+
+除了一些常见的属性和方法之外，document 对象还提供了一些特殊的集合。这些集合都是 HTMLDocument 对象为访问文档常用的部分提供了快捷方式。
+
+* `document.anchors`：文档中所有带 name 特性的`<a>`元素；
+* `document.applets`：文档中所有`<applets>`元素，已经弃用；
+* `document.forms`：文档中所有`<form>`元素；
+* `document.images`：文档中所有`<img>`元素，与`document.getElementByTagName('img')`结果相同；
+* `document.links`：文档中所有带`herf`特性的`<a>`元素。
+
+这些特殊的集合也都是动态的。
+
+#### DOM 一致性检测
+
+DOM 分为多个级别，也包含多个部分，因此检测浏览器实现了 DOM 的哪些部分就十分必要了。`document.implementation`属性就是提供检测方法的对象。
+
+#### 文档写入
+
+将输出流写入到网页中的能力已经存在很多年了，这个能力体现在四个方法中：`write()`、`writeIn()`、`open()`和`close()`。
+
+写入文本：
+
+* `write()`：接受一个参数，原样写入；
+* `writeIn()`：接受一个参数，添加换行符`\n`写入。
+
+```html
+  <body>
+    <p>The current date and time is:</p>
+  </body>
+  <script>
+    document.write(`<strong>${(new Date()).toString()}</strong>`)
+  </script>
+```
+
+在页面呈现期间直接使用`document.write()`向页面添加内容是正常的，但是如果等页面渲染完毕了再使用`document.write()`添加内容就会**重写覆盖整个页面**。
+
+### Element 类型
+
+除了 Document 类型之外，Element 类型就是 Web 编程中最常用的类型了。它用于表现 XML 或 HTML 元素。
+
+* nodeType 为 1；
+* nodeName 为元素的标签名；
+* nodeValue 为 null；
+* parentNode 可能是 Document 或 Element；
+
+>>>>>>> master
