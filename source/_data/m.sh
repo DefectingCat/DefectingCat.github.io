@@ -1,4 +1,4 @@
 git checkout backup
-git merge file
+git merge master
 git push
-git checkout file
+git checkout master
