@@ -7,6 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
+    "serve": "hexo cl && hexo s",
     "dev": "hexo cl && hexo g && gulp",
     "go": "hexo cl && hexo g && gulp && hexo d",
     "cz": "cz",
