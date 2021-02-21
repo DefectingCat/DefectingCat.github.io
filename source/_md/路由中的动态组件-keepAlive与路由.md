@@ -77,7 +77,7 @@ data() {
 ```js
 activated() {
   console.log("activated");
-  if (!(location.pathname === this.path)) {
+  if (!(this.$route.path === this.path)) {
     this.$router.push(this.path);
   }
 },
@@ -87,7 +87,7 @@ beforeRouteLeave(to, from, next) {
 },
 ```
 
-另外这个判断是必须的：`if (!(location.pathname === this.path))`。如果不判断当前的 URL 是否与缓存的 URL 一致，那么当组件激活时就会无条件的运行`this.$router.push(this.path);`，导致同一条路由被重写两遍。
+另外这个判断是必须的：`if (!(this.$route.path === this.path))`。如果不判断当前的 URL 是否与缓存的 URL 一致，那么当组件激活时就会无条件的运行`this.$router.push(this.path);`，导致同一条路由被重写两遍。
 
 并得到这样的错误：
 
@@ -101,4 +101,7 @@ Uncaught (in promise) NavigationDuplicated: Avoided redundant navigation to curr
 
 ### 不缓存呢
 
-在组件被创建时，`data`方法也会初始化，其中的值也会跟着初始化，没有办法记录路由离开前的 URL。
+在组件被创建时，会调用`created`方法，但是`data`方法也会初始化，其中的值也会跟着初始化，没有办法记录路由离开前的 URL。
+
+如果将其`path`存储在组件之外那么也可以实现记录 URL，不过这种情况还是在组件内定义单独的数据为好，并用不上 Vuex。
+

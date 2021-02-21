@@ -1,0 +1,62 @@
+version: "3.2"
+services:
+  #frontend
+  nginx:
+    container_name: nginx
+    image: nginx:alpine
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d/:/etc/nginx/conf.d:ro
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    restart: always
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes: 
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot -d git.defectink.com --non-interactive --agree-tos -m defect.y@outlook.com
+    networks:
+      - frontend
+  gitea:
+    container_name: gitea
+    image: gitea/gitea
+    volumes: 
+      - ./gitea:/data
+    depends_on: 
+      - nginx
+      # - db
+    networks: 
+      - backend
+    ports:
+      # - "3000:3000"
+      - "22:22"
+    restart: always
+  vlmcsd:
+    container_name: vlmcsd
+    build: './vlmcsd'
+    restart: always
+    ports:
+      - "1688:1688"
+  # db:
+  #   image: mariadb
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: 68682582
+  #     MYSQL_DATABASE: gitea
+  #     MYSQL_USER: gitea
+  #     MYSQL_PASSWORD: 68682582
+  #   volumes:
+  #     - ./db/:/var/lib/mysql
+  #   networks: 
+  #     - backend
+  #   restart: always
+networks:
+  frontend:
+  backend:
