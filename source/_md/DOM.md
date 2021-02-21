@@ -268,3 +268,228 @@ DOM 分为多个级别，也包含多个部分，因此检测浏览器实现了 
 * nodeValue 为 null；
 * parentNode 可能是 Document 或 Element；
 
+要取得元素的标签名，除了使用`nodeName`外，还可以使用`tagName`。二者返回的值相等。
+
+```js
+ele.tagName == ele.nodeName // true
+```
+
+#### HTML 元素
+
+HTMLElement 类型继承自 Element 并添加了一些属性，所有的 HTML 元素都由他们和其子类型表示。
+
+可以直接访问/修改 HTML 元素的属性：
+
+```html
+<div id="the_div" class="active" title="balabala">
+```
+
+```js
+let div = document.querySelector('.active');
+div.id;
+div.className;
+div.title;
+```
+
+#### 取得特性
+
+`element.getAttribute()`可以获取非元素属性的 Attribute 值，通常用来设置一些自定义的值。
+
+```html
+<div id="the_div" class="active" title="balabala" data-v-xfy="balabala">
+```
+
+```js
+let div = document.querySelector('#the_div');
+div.getAttribute('data-v-xfy');
+```
+
+行内样式 style 和 onclick 这两个属性通过`element.getAttribute()`返回的值并不相同。
+
+style 属性返回的是以编程方式访问的元素样式，onclick 返回的是相应的 JavaScript 代码字符串。
+
+#### 设置特性
+
+`element.setAttribute()`可以设置 Attribute 值，主要作用与`element.getAttribute()`相同。
+
+#### attributes
+
+attributes 返回一个 NamedNodeMap 与 NodeList 类似，也是一个“动态”的集合。
+
+它也拥有类似的方法：
+
+* `getNamedItem(name)`
+* `setNamedItem(name)`
+* `removeNamedItem(name)`
+* `item(pos)`
+
+当然它还是一个类数组，可以直接使用方括号语法来访问对应的属性：
+
+```js
+div.attributes['id']
+// id=​"the_div"
+div.attributes[0]
+// data-v-xfy=​"balabala"
+
+div.attributes[0].nodeValue
+// "balabala"
+```
+`attributes`方法虽然不常用，但是它可以用于遍历元素的所有 Attributes：
+
+```js
+function outputAttributes(node) {
+  let pairs = [];
+  for (let i of node.attributes) { 
+    pairs.push(`${i.nodeName}=${i.nodeValue}`)
+  }
+  return pairs.join(' ');
+}
+```
+
+#### 创建元素
+
+使用`document.createElement()`方法可以创建新元素，同时还可以设置元素的特性，添加更多的子节点，以及执行其他操作。
+
+```js
+let div = document.createElement('div');
+div.id = 'root';
+div.className = 'active';
+```
+
+> IE 支持传入整个完整的元素标签，也可以包含属性。
+
+#### 元素的子节点
+
+`element.childNodes`属性能够遍历所有的子节点，不仅仅只是元素节点。
+
+```js
+for (let i of div.childNodes) {
+  if (i.nodeType == 1) {
+    //  do something...
+  }
+}
+```
+
+此方法只会遍历直接子元素，如果要取得包含的所有子元素，可以使用`getElementsByTagName('')`：
+
+```js
+let ul = document.querySelector('ul');
+let li = ul.getElementsByTagName('li');
+```
+
+### Text 类型
+
+文本节点由 Text 类型表示。纯文本中可以包含转义后的 HTML 字符，但是不能包含 HTML 代码。
+
+* nodeType 为 3；
+* nodeName 为 `#text`；
+* nodeValue 的值为节点所包含的文本；
+* parentNode 是一个 Element；
+
+在默认情况下，每个可以包含内容的元素最多只能有一个文本节点，而且必须确实有内容存在。
+
+#### 创建文本节点
+
+使用`document.createTextNode()`可以创建新文本节点。
+
+```js
+var element = document.createElement("div");
+element.className = "message";
+            
+var textNode = document.createTextNode("Hello world!");
+element.appendChild(textNode);
+            
+document.body.appendChild(element);
+```
+
+在某些情况下，一个元素内也可能包含多个子文本节点。
+
+```js
+var element = document.createElement("div");
+element.className = "message";
+            
+var textNode = document.createTextNode("Hello world!");
+element.appendChild(textNode);
+
+var anotherTextNode = document.createTextNode("Yippee!");
+element.appendChild(anotherTextNode);
+            
+document.body.appendChild(element);
+```
+
+如果两个文本节点是相邻的同胞节点，那么这两个节点中的文本就会连起来显示，中间不会有空格。
+
+#### 规范化文本节点
+
+当一个元素中存在多个文本节点时，就难以分清哪个节点对应哪些文本。在父元素下使用`normalize()`方法可以所有文本节点合并成一个节点。这个方法是由 Node 定义的，因而在所有节点类型中都存在。
+
+```js
+var element = document.createElement("div");
+element.className = "message";
+            
+var textNode = document.createTextNode("Hello world!");
+element.appendChild(textNode);
+
+var anotherTextNode = document.createTextNode("Yippee!");
+element.appendChild(anotherTextNode);
+            
+document.body.appendChild(element);
+
+console.log(element.childNodes.length) // 2
+element.normalize()
+console.log(element.childNodes.length) // 1
+```
+
+#### 分割节点
+
+与 `normalize()`相反，`splitText()`用于按照指定位置分割文本节点。
+
+```js
+element.childNodes.splitText(5)
+```
+
+### Comment 类型
+
+注释是通过 Comment 类型来表示的。
+
+* nodeType 为 8；
+* nodeName 为 `#comment`；
+* nodeValue 为注释的内容；
+* parentNode 可能是 Document 或 Element；
+* 不支持（没有）子节点；
+
+浏览器不会识别位于`<html>`标签外的注释。
+
+### DocumentType 类型
+
+* nodeType 为 10；
+* nodeName 为 doctype 名；
+* nodeValue 为 null
+* parentNode 为 Document；
+* 不支持（没有）子节点；
+
+在 DOM1 级中，DocumentType 对象不能动态创建。
+
+### DocumentFragment 类型
+
+DocumentFragment 是一种文档片段，它可以在插入文档前操作 DOM，不会像完整文档那样占用资源。
+
+* nodeType 为 11；
+* nodeName 为 `#document-fragment`；
+* nodeValue 为 null；
+* parentNode 为 null；
+* 子节点可以是大部分节点类型；
+
+```js
+let frag = document.createDocumentFragment();
+let ul = document.createElement('ul');
+
+for (let i = 0; i < 5; i++) {
+  let li = document.createElement('li');
+  li.innerText = `Item ${i + 1}`
+  ul.append(li);
+}
+
+frag.append(ul);
+```
+
