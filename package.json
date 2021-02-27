@@ -14,11 +14,11 @@
     "cl": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "hexo": {
-    "version": "5.3.0"
+    "version": "5.4.0"
   },
   "dependencies": {
     "babel": "^6.23.0",
-    "commitizen": "^4.2.2",
+    "commitizen": "^4.2.3",
     "conventional-changelog-cli": "^2.1.1",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
@@ -26,9 +26,9 @@
     "gulp-htmlmin": "^5.0.1",
     "gulp-uglify": "^3.0.2",
     "gulp-uglify-es": "^2.0.0",
-    "hexo": "^5.3.0",
+    "hexo": "^5.4.0",
     "hexo-cli": "^4.2.0",
-    "hexo-deployer-git": "^2.1.0",
+    "hexo-deployer-git": "^3.0.0",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-category": "^1.0.0",
     "hexo-generator-feed": "^3.0.0",
@@ -36,13 +36,15 @@
     "hexo-generator-sitemap": "^2.1.0",
     "hexo-generator-tag": "^1.0.0",
     "hexo-renderer-ejs": "^1.0.0",
-    "hexo-renderer-marked": "^3.3.0",
+    "hexo-renderer-marked": "^4.0.0",
     "hexo-renderer-stylus": "^2.0.1",
     "hexo-server": "^2.0.0",
-    "hexo-theme-fluid": "^1.8.7"
+    "hexo-theme-fluid": "^1.8.7",
+    "npm-check-updates": "^11.1.9",
+    "nunjucks": "^3.2.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.11"
+    "@babel/core": "^7.13.8",
+    "@babel/preset-env": "^7.13.8"
   }
 }
