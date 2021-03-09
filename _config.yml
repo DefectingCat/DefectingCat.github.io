@@ -105,7 +105,7 @@ deploy:
     branch: gh-pages
     message: ❤
   - type: 'git'
-    repo: git@e.coding.net:Defectink/blog/blog.git
+    repo: git@e.coding.net:Defectink/xfy/blog.git
     branch: gh-pages
     message: ❤
 
