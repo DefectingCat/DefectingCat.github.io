@@ -39,12 +39,12 @@
     "hexo-renderer-marked": "^4.0.0",
     "hexo-renderer-stylus": "^2.0.1",
     "hexo-server": "^2.0.0",
-    "hexo-theme-fluid": "^1.8.7",
-    "npm-check-updates": "^11.1.9",
+    "hexo-theme-fluid": "^1.8.8",
+    "npm-check-updates": "^11.2.0",
     "nunjucks": "^3.2.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.8",
-    "@babel/preset-env": "^7.13.8"
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10"
   }
 }
