@@ -167,3 +167,43 @@ HTML 元素支持使用一个与事件名称同名的 Attribute 来监听对应�
 2. 使用 with 拓展作用域时会在不同浏览器中导致不同的结果。
 3. HTML 与 JavaScript 代码紧密耦合。
 
+### DOM0 级事件处理程序
+
+DOM0 级事件处理程序是以前时代常见的传统方式，它是将一个函数赋值给一个事件处理程序属性。这和 HTML 事件处理程序有点类似，不够它将 JavaScript 代码和 HTML 完美的解耦合了。
+
+```js
+let btn = document.querySelector('#b');
+btn.onclick = function() {
+  alert('test');
+}
+```
+
+DOM0 级方法指定的事件处理程序被认为是元素的方法，所以这时候的函数是在元素的作用域中运行的。也就是说，this 引用的是当前元素：
+
+```js
+let btn = document.querySelector('#b');
+btn.onclick = function() {
+  alert(this);
+}
+```
+
+以这种方式添加的事件处理程序会在事件流的冒泡流阶段被处理。
+
+### DOM2 级事件处理程序
+
+DOM2 级不再是元素的方法，它通过定义的两个方法来为元素添加或删除事件处理程序。这也是目前现代笔记常用的方法。
+
+DOM2 级定义了两个方法：
+
+* `addEventListener()`
+* `removeEventListener()`
+
+他们都接受三个三个参数：
+
+```js
+element.addEventListener('事件名', '事件处理程序函数', '捕获/冒泡')
+```
+
+为 true 时表示在捕获阶段调用函数，为 false 时表示在冒泡阶段调用函数。默认为冒泡流。
+
+## 事件对象
