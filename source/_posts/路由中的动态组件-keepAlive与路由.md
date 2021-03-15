@@ -1,3 +1,12 @@
+---
+title: 路由中的动态组件-keepAlive与路由
+date: 2021-01-24 11:01:30
+tags: [JavaScript, Vue]
+categories: 笔记
+url: router-with-keepalive
+index_img: /images/路由中的动态组件-keepAlive与路由/logo.webp
+---
+
 ## 真正的动态组件
 
 `<keep-alive>`经常配合`componentIs`来动态的切换组件，当组件再次被切换回来的时候，组件的状态依然被保存。
@@ -95,7 +104,7 @@ beforeRouteLeave(to, from, next) {
 Uncaught (in promise) NavigationDuplicated: Avoided redundant navigation to current location: ""
 ```
 
-![](../images/路由中的动态组件-keepAlive与路由/2021-01-20-10-08-18.png)
+![](../images/路由中的动态组件-keepAlive与路由/2021-01-20-10-08-18.webp)
 
 这个错误的主要原因是因为同一条路由被重写两遍：NavigationDuplicated。
 
