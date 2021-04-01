@@ -24,9 +24,13 @@ Wordpress 到 typecho，换来换去的主题，最后还是选择了纯静态�
 
 !@#$%^&*()
 
+## 咸鱼🐟的日常
+
+<figure><embed src="https://wakatime.com/share/@Defectink/85ff8e9f-ed9d-42f0-9e45-53210053ae07.svg"></embed></figure>
+
 ## 还活着的服务
 
-<a class="btn" href="https://stats.defectink.com/" title="status" target="_blank">监控👀</a>
+[监控👀](https://stats.defectink.com/)
 
 ## 排版
 

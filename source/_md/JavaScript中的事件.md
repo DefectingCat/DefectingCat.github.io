@@ -206,4 +206,6 @@ element.addEventListener('事件名', '事件处理程序函数', '捕获/冒泡
 
 为 true 时表示在捕获阶段调用函数，为 false 时表示在冒泡阶段调用函数。默认为冒泡流。
 
+此外，当使用匿名函数时，`removeEventListener()`
+
 ## 事件对象

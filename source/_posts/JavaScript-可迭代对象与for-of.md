@@ -405,6 +405,46 @@ function aSlice(arr, star, end) {
 
 有索引属性和 `length` 属性的对象被称为 **类数组对象**。这种对象可能还具有其他属性和方法，但是没有数组的内建方法。
 
+## 补充
+
+### this
+
+```ts
+const ourOwnIterator = {
+  next() {
+    return {
+      value: "It's works.",
+      done: true,
+    };
+  },
+};
+const myIteratorable = {
+  values: 0,
+  [Symbol.iterator]() {
+    // iterator 得将 this return 出去，next 方法才能使用 this
+    return this;
+  },
+  next() {
+    if (this.values === 10) {
+      return {
+        value: null,
+        done: true,
+      };
+    } else {
+      return {
+        value: this.values++,
+        done: false,
+      };
+    }
+  },
+};
+for (let i of myIteratorable) {
+  console.log(i);
+}
+```
+
+> 2021年4月5日 00点28分
+
 ## 参考&推荐
 
 * [迭代协议](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Iteration_protocols)
