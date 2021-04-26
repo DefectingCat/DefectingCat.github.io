@@ -17,7 +17,7 @@ url: https://www.defectink.com
 root: /
 permalink: defect/:url.html
 permalink_defaults:
-pretty_urls: 
+pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
   trailing_html: true # Set to false to remove trailing '.html' from permalinks
 
@@ -115,8 +115,8 @@ feed:
     - atom
     - rss2
   path:
-    - /xml/atom.xml
-    - /xml/rss.xml
+    - /atom.xml
+    - /rss.xml
   limit: 20
   hub:
   content:
@@ -129,7 +129,7 @@ feed:
 
 # sitemap
 sitemap:
-  path: /xml/sitemap.xml
+  path: /sitemap.xml
   template: ./source/_data/sitemap_template.xml
   rel: false
   tags: true
