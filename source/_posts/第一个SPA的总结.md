@@ -1,23 +1,94 @@
+---
+title: 第一个SPA的踩坑总结
+date: 2021-05-13 14:18:24
+tags: [JavaScript, Vue, TypeScript]
+categories: 踩坑
+url: first-one-SPA
+index_img: /images/第一个SPA的总结/logo.webp
+---
+
 ## 重制版
 
 在没有写完的情况下弃坑了，后来在写另一个 Vue3 的练手项目时想起来这个曾经入手 Vue2 的入门项目。
 
 所以打算使用 Vue3 + TypeScript 重构一下。
 
-目前进度：
-
-- [x] 首页
-  - [x] 详情页
-  - [ ] 添加到购物车
-  - [ ] 收藏
-- [x] 分类
-  - [x] 标签滚动
-- [ ] 购物车
-- [ ] 我的
-
 [仓库地址](https://github.com/DefectingCat/gugu-mall)
 
 ## TypeScript
+
+### Vuex
+
+在 Vuex 中正确的使用了 TypeScript 可以直接静态提示 state 的类型以及属性。而在 Vuex 中为 state 注解需要用到官方的泛型。
+
+第一步，为 state 做注解：
+
+```ts
+// types/state.ts
+type CartObj = {
+  iid: string | string[];
+  imgURL: string;
+  title: string | undefined;
+  desc: string | undefined;
+  newPrice: string | undefined;
+};
+
+export type State = {
+  cartList: CartObj[];
+};
+```
+
+在 store 中，使用`createStore()`方法创建 store 时，在泛型中传入刚刚定义好的类型：
+
+```ts
+// types
+import { State } from '@/types/store';
+
+export default createStore<State>({
+  state: {
+    cartList: [],
+  },
+  mutations,
+  actions,
+  getters,
+  // modules: {},
+});
+```
+
+这时，state 中的数据就已经被注解类型了。
+
+在官方类型注解文件中可以看到`createStore()`方法中参数使用的接口，其中 state 直接被注解为泛型 S。而 mutations 等，需要使用各自的接口。
+
+```ts
+export interface StoreOptions<S> {
+  state?: S | (() => S);
+  getters?: GetterTree<S, S>;
+  actions?: ActionTree<S, S>;
+  mutations?: MutationTree<S>;
+  modules?: ModuleTree<S>;
+  plugins?: Plugin<S>[];
+  strict?: boolean;
+  devtools?: boolean;
+}
+```
+
+到这里仅仅只是注解完了 state，接着就是 mutations。这里的 mutations 使用接口 MutationTree 并传递一个泛型，将刚刚注解的 state 传递过去。
+
+```ts
+// mutations.ts
+import { MutationTree } from 'vuex';
+// types
+import { CartObj } from '@/types/detail';
+import { State } from '@/types/store';
+
+const mutations: MutationTree<State> = {
+  addCart(state, info: CartObj): void {
+    console.log(state);
+  },
+};
+
+export default mutations;
+```
 
 ### 索引签名
 
@@ -112,7 +183,7 @@ props: {
 
 ## v-for
 
-### 控制`v-for`
+### 控制 v-for
 
 ```html
 <span v-for="index of goods.services.length - 2" :key="index">
@@ -525,7 +596,7 @@ module.exports = {
 style="width: 48%; margin-top: 10px"
 ```
 
-![](../images/第一个SPA的总结/2021-03-01-12-15-31.png)
+![](../images/第一个SPA的总结/2021-03-01-12-15-31.webp)
 
 当然也可以使用 space-evently
 
@@ -565,7 +636,123 @@ style="width: 48%; margin-top: 10px"
 }
 ```
 
-![](../images/第一个SPA的总结/2021-03-12-10-48-27.png)
+![](../images/第一个SPA的总结/2021-03-12-10-48-27.webp)
+
+### 动画
+
+在尾期的时候，觉得有些地方过渡的不是很自然，于是想添加一些动画。
+
+#### 滑动缓入动画
+
+在商品列表被滑动进入视口时，想添加一个缓入的动画，这样看上去会显得自然一点（应该吧）。既然是进入视口时发生的动画，第一个想到的自然是使用 IntersectionObserver API 来检测是否与视口相交。如果检测到相交之后，则添加对应的行内样式。
+
+```ts
+    // 使用 Intersection Observer API 来监听项目是否和视口相交
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // 断言为 HTMLElement 才可操作 style
+          const target = entry.target as HTMLElement;
+          setTimeout(() => {
+            target.style.transform = `translateY(0px)`;
+            target.style.opacity = `1`;
+          }, 300);
+          // 动画完成后取消监听
+          observer.unobserve(entry.target);
+        }
+      });
+    });
+    // vfor 循环中使用两个方法添加列表监听
+    const setList1Ref = (el: { $el: HTMLElement }) => {
+      el ? observer.observe(el.$el) : void 0;
+    };
+    const setList2Ref = (el: { $el: HTMLElement }) => {
+      el ? observer.observe(el.$el) : void 0;
+    };
+```
+
+元素本身的样式则提前准备好过渡：
+
+```css
+  // 视口相交动画
+  transform: translateY(35px);
+  opacity: 0;
+  transition: all 0.2s ease;
+```
+
+这里也顺便提一下，Vue3 中使用 ref 拿取`v-for`循环中的节点需要在节点上绑定一个方法，之后会在更新时自动触发方法。这里就是使用方法来为每个节点添加监视的。
+
+```html
+<GoodsListItem
+  class="goods-list__col__item"
+  v-for="item of goods[currentTab].list1"
+  :key="item"
+  :item="item"
+  :ref="setList1Ref"
+/>
+```
+
+```ts
+ const setList1Ref = (el: { $el: HTMLElement }) => {
+   el ? observer.observe(el.$el) : void 0;
+ };
+```
+
+#### 列表动画
+
+在个人的 Profile 页面有几个无序列表用来展示对应的选项，由于关于页做了个卡片的效果，所以给它写了个简单的 CSS 动画，在每次进入页面时都会执行一次。
+
+```css
+@keyframes slidein {
+  from {
+    transform: translateY(10px);
+  }
+  to {
+    transform: translateY(-20px);
+  }
+}
+@keyframes spin {
+  from {
+    transform: translateY(5px);
+  }
+  to {
+    transform: translateY(-25px);
+  }
+}
+```
+
+但总感觉还少点什么，于是就给列表也加了一些小过渡。但所有列表同时过渡也不是很自然，于是做了点小操作让它们并不是同一时间开始动画，持续时间也略有不同，这样看上去更和谐一点。
+
+具体的实现方式是使用同样的方式拿到`v-for`循环中的所有元素节点，然后再`onMounted`之后触发动画。
+
+第一个列表的动画持续时间是 200 ms，后面每个的持续时间都增加 100 ms。同时开始也设置了个延迟为 100 ms 后执行，后续每个也递增 100 ms。这样就有了种阶梯的感觉。
+
+```ts
+  const setListItem = (el: HTMLElement) => {
+    content.list?.push(el);
+  };
+  const listAnimat = () => {
+    // 手搓动画
+    // 每个动画间隔增加100ms，持续实际增加100ms
+    let time = 0.2;
+    let timeout = 0;
+    for (const i of content.list) {
+      setTimeout(() => {
+        i.style.transform = `translateY(0px)`;
+        i.style.transition = `all ${time}s`;
+        i.style.opacity = `1`;
+      }, timeout);
+      time += 0.1;
+      timeout += 100;
+    }
+  };
+
+// 组件内使用
+    onMounted(async () => {
+      await nextTick();
+      listAnimat();
+    });
+```
 
 ## 后端
 
@@ -599,12 +786,46 @@ docker cp 979534a50979:/guguMall.tar.gz /
 
 > windows （PowerShell）环境下`/`也就是 C 盘
 
+### 恢复
+
+```bash
+mongorestore -h 127.0.0.1 -d guguMall ./guguMall
+```
+
 ### CORS
 
-## ToDo
+跨域是经典的问题了，主要是用来保护客户端的。这里使用 CORS 来解决，做了个简单的中间件：
 
-- [x] 分类页面滚动
-- [x] 分类页面 list 小圆角
-- [ ] 首页子组件切换保留滚动位置
-- [ ] 每周推荐使用 Grid 布局
-- [ ] 整体 UI 美化
+```ts
+import { Context } from 'koa';
+
+export async function cors(ctx: Context, next: () => Promise<unknown>) {
+  // 允许来自所有域名请求
+  ctx.set('Access-Control-Allow-Origin', '*');
+  // 这样就能只允许 http://localhost:8080 这个域名的请求了
+  // ctx.set("Access-Control-Allow-Origin", "http://localhost:8080");
+  // 设置所允许的HTTP请求方法
+  ctx.set('Access-Control-Allow-Methods', 'OPTIONS, GET, PUT, POST, DELETE');
+  // 字段是必需的。它也是一个逗号分隔的字符串，表明服务器支持的所有头信息字段.
+  ctx.set(
+    'Access-Control-Allow-Headers',
+    'x-requested-with, accept, origin, content-type'
+  );
+  // 服务器收到请求以后，检查了Origin、Access-Control-Request-Method和Access-Control-Request-Headers字段以后，确认允许跨源请求，就可以做出回应。
+  // Content-Type表示具体请求中的媒体类型信息
+  ctx.set('Content-Type', 'application/json;charset=utf-8');
+  /*
+  CORS请求时，XMLHttpRequest对象的getResponseHeader()方法只能拿到6个基本字段：
+      Cache-Control、
+      Content-Language、
+      Content-Type、
+      Expires、
+      Last-Modified、
+      Pragma。
+  */
+  // 需要获取其他字段时，使用Access-Control-Expose-Headers，
+  // getResponseHeader('myData')可以返回我们所需的值
+  // ctx.set('Access-Control-Expose-Headers', 'myData');
+  await next();
+}
+```
