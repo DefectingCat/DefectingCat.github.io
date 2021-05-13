@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "babel": "^6.23.0",
-    "commitizen": "^4.2.3",
+    "commitizen": "^4.2.4",
     "conventional-changelog-cli": "^2.1.1",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
@@ -38,13 +38,13 @@
     "hexo-renderer-ejs": "^1.0.0",
     "hexo-renderer-marked": "^4.0.0",
     "hexo-renderer-stylus": "^2.0.1",
-    "hexo-server": "^2.0.0",
-    "hexo-theme-fluid": "^1.8.9",
-    "npm-check-updates": "^11.4.1",
+    "hexo-theme-fluid": "^1.8.10",
     "nunjucks": "^3.2.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.15",
-    "@babel/preset-env": "^7.13.15"
+    "@babel/core": "^7.14.2",
+    "@babel/preset-env": "^7.14.2",
+    "npm-check-updates": "^11.5.11",
+    "hexo-server": "^2.0.0"
   }
 }
