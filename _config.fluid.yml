@@ -273,13 +273,6 @@ lazyload:
 # Icon library, which includes many social icons, does not include those theme dependent, so your can modify link by yourself. See: https://hexo.fluid-dev.com/docs/en/icon/
 iconfont: //at.alicdn.com/t/font_1736178_kmeydafke9r.css
 
-# 主题版本相关
-# Theme version
-version:
-  # 每次生成页面后，检测主题是否为最新版本
-  # If true, check whether Fluid is the latest version after hexo generate
-  check: false
-
 
 #---------------------------
 # 页头
@@ -395,7 +388,7 @@ footer:
   statistics:
     enable: false
 
-    # 统计数据来源，如果使用 leancloud 需要设置 `web_analytics: leancloud` 中的参数；如果使用 busuanzi 可能会有请求失败的情况
+    # 统计数据来源，使用 leancloud 需要设置 `web_analytics: leancloud` 中的参数；使用 busuanzi 不需要额外设置，但是有时不稳定，另外本地运行时 busuanzi 显示统计数据很大属于正常现象，部署后会正常
     # Data source. If use leancloud, you need to set the parameter in `web_analytics: leancloud`
     # Options: busuanzi | leancloud
     source: "busuanzi"
@@ -595,6 +588,9 @@ post:
   # Zoom feature of images
   image_zoom:
     enable: true
+    # 放大后图片链接替换规则，可用于将压缩图片链接替换为原图片链接，如 ['-slim', ''] 是将链接中 `-slim` 移除；如果想使用正则请使用 `re:` 前缀，如 ['re:\\d{3,4}\\/\\d{3,4}\\/', '']
+    # The image url replacement when zooming, the feature can be used to replace the compressed image to the original image, eg: ['-slim', ''] removes `-slim` from the image url when zooming; if you want to use regular, use prefix `re:`, eg: ['re:\\d{3,4}\\/\\d{3,4}\\/','']
+    img_url_replace: ['', '']
 
   # 脚注语法，会在文章底部生成脚注，如果 Markdown 渲染器本身支持，则建议关闭，否则可能会冲突
   # Support footnote syntax, footnotes will be generated at the bottom of the post page. If the Markdown renderer itself supports it, please disable it, otherwise it may conflict
@@ -690,16 +686,16 @@ gitalk:
   pagerDirection: last
   distractionFreeMode: false
   createIssueManually: true
-  # 默认 proxy 已失效，解决方法请见下方链接
-  # The default proxy is invalid, please see the links for the solution
+  # 默认 proxy 可能会失效，解决方法请见下方链接
+  # The default proxy may be invalid, refer to the links for solutions
   # https://github.com/gitalk/gitalk/issues/429
   # https://github.com/Zibri/cloudflare-cors-anywhere
-  proxy: <your own proxy>/https://github.com/login/oauth/access_token
+  proxy: https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token
 
 # Valine
 # 基于 LeanCloud
 # Based on LeanCloud
-# See: https://valine.js.org/configuration.html
+# See: https://valine.js.org/
 valine:
   appid: dD9t7mcIBVzJWag5ez6GPy2v-MdYXbMMI
   appkey: bWG6pmKsEscrH4JjrpNNAAy6
@@ -711,11 +707,15 @@ valine:
   lang: zh-CN
   highlight: true
   recordIP: false
-  serverURLs:
+  serverURLs: ''
+  emojiCDN:
+  emojiMaps:
+  enableQQ: false
+  requiredFields: []
 
 # Waline
-# 一款从 Valine 衍生的带后端的评论插件
-# A comment plugin with backend derived from Valine
+# 从 Valine 衍生而来，额外增加了服务端和多种功能
+# Derived from Valine, with self-hosted service and new features
 # See: https://waline.js.org/
 waline:
   serverURL: ''
@@ -726,11 +726,11 @@ waline:
   pageSize: 10
   lang: zh-CN
   highlight: true
-  avatarCDN:
+  avatarCDN: ''
   avatarForce: false
   requiredFields: []
-  emojiCDN: ''
-  emojiMaps: {}
+  emojiCDN:
+  emojiMaps:
   anonymous:
 
 # 畅言 Changyan
@@ -749,14 +749,15 @@ livere:
   uid: ''
 
 # Remark42
-# 需要自己运行后端服务
-# Need to run the backend service yourself
+# 需要自托管服务端
+# Based on self-hosted service
 # See: https://remark42.com
 remark42:
   host:
   site_id:
   max_shown_comments: 10
   locale: zh
+  components: ['embed']
 
 # Twikoo
 # 基于腾讯云开发
@@ -766,6 +767,15 @@ twikoo:
   envId:
   region: ap-shanghai
   path: window.location.pathname
+
+# Cusdis
+# 基于第三方服务或自托管服务
+# Based on third-party or self-hosted service
+# See https://cusdis.com
+cusdis:
+  host:
+  app_id:
+  lang: zh-cn
 
 #---------------------------
 # 归档页
@@ -955,44 +965,44 @@ static_prefix:
   internal_css: /css
   internal_img: /images/img
 
-  anchor: https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/
+  anchor: https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/
 
   github_markdown: https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/
 
-  jquery: https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/
+  jquery: https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/
 
-  bootstrap: https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/
+  bootstrap: https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/
 
-  highlightjs: https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/
+  highlightjs: https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/
 
-  prismjs: https://cdn.jsdelivr.net/npm/prismjs@1.22.0/
+  prismjs: https://cdn.jsdelivr.net/npm/prismjs@1.23.0/
 
-  tocbot: https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/
+  tocbot: https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/
 
-  typed: https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/
+  typed: https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/
 
   fancybox: https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/
 
   nprogress: https://cdn.jsdelivr.net/npm/nprogress@0.2.0/
 
-  mathjax: https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/
+  mathjax: https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/
 
-  katex: https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/
+  katex: https://cdn.jsdelivr.net/npm/katex@0.13.10/dist/
 
   busuanzi: https://busuanzi.ibruce.info/busuanzi/2.3/
 
-  clipboard: https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/
+  clipboard: https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/
 
-  mermaid: https://cdn.jsdelivr.net/npm/mermaid@8.8.3/dist/
+  mermaid: https://cdn.jsdelivr.net/npm/mermaid@8.10.1/dist/
 
   valine: https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/
 
-  waline: https://cdn.jsdelivr.net/npm/@waline/client@0.14.8/dist/
+  waline: https://cdn.jsdelivr.net/npm/@waline/client@0.16.2/dist/
 
-  gitalk: https://cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/
+  gitalk: https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/
 
-  disqusjs: https://cdn.jsdelivr.net/npm/disqusjs@1.0/dist/
+  disqusjs: https://cdn.jsdelivr.net/npm/disqusjs@1.3.0/dist/
 
-  twikoo: https://cdn.jsdelivr.net/npm/twikoo@1.3.0/dist/
+  twikoo: https://cdn.jsdelivr.net/npm/twikoo@1.3.1/dist/
 
   hint: /lib/hint/
