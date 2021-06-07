@@ -1,3 +1,12 @@
+---
+title: TypeScript临碎笔记
+date: 2021-06-02 12:13:06
+tags: TypeScript
+categories: 笔记
+url: typescript-pieces
+index_img: /images/TypeScript%E4%B8%B4%E7%A2%8E%E7%AC%94%E8%AE%B0/logo.svg
+---
+
 ## 类型
 
 ```ts
@@ -646,7 +655,7 @@ function trainAnimal(animal: Bird | Dog) {
 }
 ```
 
-![image-20210329172943170](images/TypeScript%E4%B8%B4%E7%A2%8E%E7%AC%94%E8%AE%B0/image-20210329172943170.png)
+![image-20210329172943170](../images/TypeScript%E4%B8%B4%E7%A2%8E%E7%AC%94%E8%AE%B0/image-20210329172943170.png)
 
 ### 类型保护
 

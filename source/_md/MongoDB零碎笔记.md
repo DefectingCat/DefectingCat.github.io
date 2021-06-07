@@ -40,8 +40,6 @@ db.names.insertOne({name:'xfy'})
 
 id 不可修改。
 
-![image-20210413233218343](images/MongoDB%E9%9B%B6%E7%A2%8E%E7%AC%94%E8%AE%B0/image-20210413233218343.png)
-
 ## 关系型数据库
 
 ### ACID 设计模式

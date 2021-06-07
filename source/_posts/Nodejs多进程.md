@@ -1,3 +1,12 @@
+---
+title: Nodejs多进程
+date: 2021-06-01 13:32:29
+tags: [JavaScript, Nodejs]
+categories: 实践
+url: nodejs-multi-process
+index_img: /images/Nodejs%E5%A4%9A%E8%BF%9B%E7%A8%8B/logo.webp
+---
+
 众所周知，JavaScript 是一门单线程的语言。但它的实现环境可以帮助我们创建多进程甚至是多线程，这样在遇到高压力的性能计算时，可以更好的利用多核 CPU 资源。
 
 ## 基本概念

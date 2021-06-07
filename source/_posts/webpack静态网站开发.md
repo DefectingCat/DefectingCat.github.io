@@ -1,13 +1,22 @@
+---
+title: webpack静态网站开发
+date: 2021-05-29 21:03:20
+tags: [JavaScript, Webpack]
+categories: 实践
+url: webpack-web-develop
+index_img: /images/webpack%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99%E5%BC%80%E5%8F%91/logo.webp
+---
+
+## webpack
+
+模块 loader 可以链式调用。链中的每个 loader 都将对资源进行转换。链会逆序执行。第一个 loader 将其结果（被转换后的资源）传递给下一个 loader，依此类推。最后，webpack 期望链中的最后的 loader 返回 JavaScript。
+
 ### 初始化环境
 
 ```bash
 yarn init
 yarn add webpack webpack-cli -D
 ```
-
-## webpack
-
-模块 loader 可以链式调用。链中的每个 loader 都将对资源进行转换。链会逆序执行。第一个 loader 将其结果（被转换后的资源）传递给下一个 loader，依此类推。最后，webpack 期望链中的最后的 loader 返回 JavaScript。
 
 ### 配置文件
 
@@ -373,4 +382,3 @@ module.exports = {
   },
 };
 ```
-

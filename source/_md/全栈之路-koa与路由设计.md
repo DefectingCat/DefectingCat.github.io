@@ -4,6 +4,38 @@
 
 * [How to watch and reload ts-node when TypeScript files change](https://stackoverflow.com/questions/37979489/how-to-watch-and-reload-ts-node-when-typescript-files-change)
 
+```bash
+yarn add eslint prettier eslint-plugin-prettier eslint-config-prettier -D
+```
+
+```bash
+yarn add @typescript-eslint/parser @typescript-eslint/eslint-plugin -D
+```
+
+```js
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+    node: true,
+  },
+  parser: '@typescript-eslint/parser',
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+  ],
+  plugins: ['@typescript-eslint', 'prettier'],
+  parserOptions: {
+    ecmaVersion: 12,
+    sourceType: 'module',
+  },
+  rules: {},
+};
+```
+
+
+
 ## 参数
 
 参数`ctx`是由koa传入的封装了request和response的变量，我们可以通过它访问request和response，`next`是koa传入的将要处理的下一个异步函数。
@@ -264,6 +296,4 @@ app.use(async (ctx, next) => {
   }
 });
 ```
-
-## mongodb
 
