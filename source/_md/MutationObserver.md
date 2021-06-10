@@ -60,5 +60,3 @@ observer.disconnect();
 document.body.className = '456';
 // 没有输出
 ```
-
-测试
