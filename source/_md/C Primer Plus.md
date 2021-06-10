@@ -114,3 +114,4 @@ char words[50];
 `gets()`函数不会检查数组的长度，也就是它不知道数组何时会结束。如果输入的字符过长，就会导致缓冲区溢出（buffer overflow）。
 
 在类 UNIX 系统中，会提示`Segmentation fault`。
+

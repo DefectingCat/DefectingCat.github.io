@@ -1,7 +1,9 @@
 ---
-title: about
+title: 关于
 date: 2020-02-29 13:07:34
-layout: about
+layout: docs
+seo_title: 关于
+bottom_meta: false
 ---
 
 ![:xfy](https://count.getloli.com/get/@:xfy?theme=rule34)

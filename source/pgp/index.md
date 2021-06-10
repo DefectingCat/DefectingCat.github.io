@@ -1,7 +1,7 @@
 ---
-title: pgp
+title: post
 date: 2020-02-23 17:03:44
-comment: 'valine'
+index: true
 ---
 
 <div class="markdown-body">

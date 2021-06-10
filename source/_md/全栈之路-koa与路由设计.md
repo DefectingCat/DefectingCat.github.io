@@ -1,40 +1,5 @@
 最近想使用 koa 与 mongodb 做一个简单的后端。
 
-## 监听文件更改
-
-* [How to watch and reload ts-node when TypeScript files change](https://stackoverflow.com/questions/37979489/how-to-watch-and-reload-ts-node-when-typescript-files-change)
-
-```bash
-yarn add eslint prettier eslint-plugin-prettier eslint-config-prettier -D
-```
-
-```bash
-yarn add @typescript-eslint/parser @typescript-eslint/eslint-plugin -D
-```
-
-```js
-module.exports = {
-  env: {
-    browser: true,
-    es2021: true,
-    node: true,
-  },
-  parser: '@typescript-eslint/parser',
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'prettier',
-  ],
-  plugins: ['@typescript-eslint', 'prettier'],
-  parserOptions: {
-    ecmaVersion: 12,
-    sourceType: 'module',
-  },
-  rules: {},
-};
-```
-
-
 
 ## 参数
 

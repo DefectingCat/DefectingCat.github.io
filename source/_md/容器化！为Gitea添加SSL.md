@@ -126,3 +126,8 @@ location / {
 ### 自动续期
 
 letsencrypt 获取免费的证书很是方便，但是必须要三个月续期一次。
+
+```bash
+0 4 1 * * /bin/sh /data/docker/xfy/certbot/renew.sh
+```
+

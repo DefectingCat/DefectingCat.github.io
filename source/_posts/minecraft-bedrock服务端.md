@@ -30,17 +30,17 @@ index_img: /images/Minecraft-bedrock服务端/217940907.webp
 
 服务端我们可以免费的在[官方网站](<https://www.minecraft.net/en-us/download/server/bedrock/>)下载，目前只支持Windows与Ubuntu版本。在Windows上运行推荐使用Windows10/Windows Server 2016及以后的版本。
 
-![2019-05-13T05:16:24.png][1]
+![2019-05-13T05:16:24.webp][1]
 
-[1]: ../images/Minecraft-bedrock服务端/4100402335.png
+[1]: ../images/Minecraft-bedrock服务端/4100402335.webp
 
 Windows版本与Ubuntu版本的文件几乎差不多，下载后直接解压，我们就能够看到一个可执行的`bedrock_server.exe`文件。当没有任何需求时，直接执行它就可以启动并正常使用服务端了。
 
 启动后我们可以看到一个类似这样的命令提示符的界面：
 
-![2019-05-15T13:18:43.png][2]
+![2019-05-15T13:18:43.webp][2]
 
-[2]: ../images/Minecraft-bedrock服务端/3200057918.png
+[2]: ../images/Minecraft-bedrock服务端/3200057918.webp
 
 此时的服务器端就已经启动完成了，若能直接访问服务器，就可以直接开始游戏了🥓。
 
@@ -80,9 +80,9 @@ stop
 
 配置文件可以修改大多数服务端的配置，主要是针对游戏服务器的修改。像是对于游戏内的具体修改并没有写在配置文件内，例如对玩家的修改以及修改世界的选项。这些操作选项需要我们手动赋予一个玩家“操作员”的权限，这样，该玩家就会有对目前游戏的整个世界的完整操作权限。
 
-![2019-05-15T15:27:50.png][3]
+![2019-05-15T15:27:50.webp][3]
 
-[3]: ../images/Minecraft-bedrock服务端/2032314932.png
+[3]: ../images/Minecraft-bedrock服务端/2032314932.webp
 
 在游戏的目录下有个名为`permissions.json`的json文件，在默认情况下它是空的，我们可以根据帮助文件提供的格式直接赋予某个玩家权限：
 
@@ -124,17 +124,17 @@ stop
 
 最简单也是最直接的备份方式就是直接备份当前服务端的整个文件夹，如果这个操作太过于麻烦的话，或者说文件夹已经达到了臃肿的地步了。我们可以使用预留的备份命令，可以生成`.db`的文件用于copy。文档的详细解释：
 
-| Command     | Description                                                  |
-| ----------- | ------------------------------------------------------------ |
-| save hold   | This will ask the server to prepare for a backup. It’s asynchronous and will return immediately. |
+| Command     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| save hold   | This will ask the server to prepare for a backup. It’s asynchronous and will return immediately.                                                                                                                                                                                                                                                                                                                                                                                                 |
 | save query  | After calling `save hold` you should call this command repeatedly to see if the preparation has finished. When it returns a success it will return a file list (with lengths for each file) of the files you need to copy. The server will not pause while this is happening, so some files can be modified while the backup is taking place. As long as you only copy the files in the given file list and truncate the copied files to the specified lengths, then the backup should be valid. |
-| save resume | When you’re finished with copying the files you should call this to tell the server that it’s okay to remove old files again. |
+| save resume | When you’re finished with copying the files you should call this to tell the server that it’s okay to remove old files again.                                                                                                                                                                                                                                                                                                                                                                    |
 
 我们可以直接使用`save hold`来生成备份文件，然后再使用`save query`来查询文件的位置。*注意：当我们的世界名称使用中文时，可能会出现在终端中文乱码的情况*，例如：
 
-![2019-05-15T15:50:09.png][4]
+![2019-05-15T15:50:09.webp][4]
 
-[4]: ../images/Minecraft-bedrock服务端/1339714059.png
+[4]: ../images/Minecraft-bedrock服务端/1339714059.webp
 
 此时最佳解决办法就是换个世界名称。但是直接在配置文件中更换名称后，会导致重新创建一个新的世界。为了避免这个现象，达到给旧世界更换名称的操作。我们需要同时修改三个地方的名称，并保持一致：
 

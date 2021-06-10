@@ -2,6 +2,14 @@
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
 
+import:
+  meta:
+  link:
+    - <link rel="icon" type="image/png" sizes="32x32" href="/images/img/favicon.webp">
+    - <link rel="stylesheet" href="/css/xfy.css">
+  script:
+    - <script></script>
+
 # Site
 title: 🍭Defectink
 subtitle: '只要心还在跳'
@@ -49,8 +57,13 @@ highlight:
   line_number: false
   auto_detect: false
   tab_replace: ''
-  wrap: true
-  hljs: false
+  wrap: false
+  hljs: true
+prismjs:
+  enable: false
+  preprocess: true
+  line_number: false
+  tab_replace: ''
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -79,7 +92,8 @@ meta_generator: true
 date_format: YYYY-MM-DD
 time_format: HH:mm:ss
 ## Use post's date for updated date unless set in front-matter
-use_date_for_updated: false
+# use_date_for_updated: false
+updated_option: 'date'
 
 # Pagination
 ## Set per_page to 0 to disable pagination
@@ -93,9 +107,8 @@ exclude:
 ignore:
 
 # Extensions
-## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: fluid
+theme: volantis
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -104,28 +117,24 @@ deploy:
     repo: git@github.com:DefectingCat/DefectingCat.github.io.git
     branch: gh-pages
     message: ❤
-  - type: 'git'
-    repo: git@e.coding.net:Defectink/xfy/blog.git
-    branch: gh-pages
-    message: ❤
 
 # feed
-feed:
-  type:
-    - atom
-    - rss2
-  path:
-    - /atom.xml
-    - /rss.xml
-  limit: 20
-  hub:
-  content:
-  content_limit: 140
-  content_limit_delim: ' '
-  order_by: -date
-  icon: icon.png
-  autodiscovery: true
-  template:
+# feed:
+#   type:
+#     - atom
+#     - rss2
+#   path:
+#     - /atom.xml
+#     - /rss.xml
+#   limit: 20
+#   hub:
+#   content:
+#   content_limit: 140
+#   content_limit_delim: ' '
+#   order_by: -date
+#   icon: icon.png
+#   autodiscovery: true
+#   template:
 
 # sitemap
 sitemap:

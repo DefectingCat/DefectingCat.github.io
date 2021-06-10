@@ -244,7 +244,7 @@ function x() {
 x();
 ```
 
-![scope](../images/JavaScript的作用域与链/scope.png)
+![scope](../images/JavaScript的作用域与链/scope.webp)
 
 在作用域链内部的函数可以向上方位外部函数作用域内的变量，直至全局作用域。而作用域外的函数不能访问内部函数的变量。
 

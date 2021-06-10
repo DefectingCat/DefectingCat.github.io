@@ -7,3 +7,5 @@ public/
 .deploy*/
 package-lock.json
 yarn.lock
+.next/
+out/
