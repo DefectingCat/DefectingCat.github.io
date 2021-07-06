@@ -45,12 +45,12 @@ post_asset_folder: false
 relative_link: false
 future: true
 highlight:
-  enable: false
+  enable: true
   line_number: false
   auto_detect: false
   tab_replace: ''
-  wrap: true
-  hljs: false
+  wrap: false
+  hljs: true
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -95,7 +95,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: fluid
+theme: oranges
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html

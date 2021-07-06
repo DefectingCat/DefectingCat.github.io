@@ -191,7 +191,7 @@ btn.onclick = function() {
 
 ### DOM2 级事件处理程序
 
-DOM2 级不再是元素的方法，它通过定义的两个方法来为元素添加或删除事件处理程序。这也是目前现代笔记常用的方法。
+DOM2 级不再是元素的方法，它通过定义的两个方法来为元素添加或删除事件处理程序。这也是目前现代比较常用的方法。
 
 DOM2 级定义了两个方法：
 
@@ -206,6 +206,69 @@ element.addEventListener('事件名', '事件处理程序函数', '捕获/冒泡
 
 为 true 时表示在捕获阶段调用函数，为 false 时表示在冒泡阶段调用函数。默认为冒泡流。
 
-此外，当使用匿名函数时，`removeEventListener()`
+此外，因为对象的引用性，当使用匿名函数时，`removeEventListener()`无法移除一个匿名的处理程序。
 
-## 事件对象
+`addEventListener()`还可以将第三个参数接收为一个配置对象：
+
+```js
+document.addEventListener('click', handleClick, {
+    capture: true,
+    once: true,
+    passive: true
+})
+```
+
+* capture：在捕获阶段调用函数；
+* once：事件监听器在触发一次后自动移除；
+* passive：表示事件处理程序永远不会调用`preventDefault()`；
+
+## 自定义事件
+
+客户端 JavaScript 的事件 API 非常强大，使用它可以自定义和派发自己事件。也就是说除了已经定义好的事件类型之外，我们还可以定义自定义的事件类型。
+
+如果某个 JavaScript 对象上有`addEventListener()`方法，那它就是一个事件目标。着意味着该对象也有一个`dispatchEvent()`方法。`dispatchEvent()`就是下发自定义事件的，它下发的事件可以被`addEventListener()`监听到。
+
+而自定义的事件可以通过`new CustomEvent()`来创建。`CustomEvent()`的第一个参数是一个字符串，表示事件类型；第二个参数是一个对象，用于指定事件对象的属性。
+
+来看一个刻意设计的例子：
+
+```js
+    const btn = document.querySelector('#btn');
+    const p = document.querySelector('#state');
+
+    btn.addEventListener('click', () => {
+      document.dispatchEvent(
+        new CustomEvent('busy', {
+          detail: true,
+        })
+      );
+      setTimeout(() => {
+        document.dispatchEvent(
+          new CustomEvent('busy', {
+            detail: false,
+          })
+        );
+      }, 1000);
+    });
+
+    document.addEventListener('busy', (e) => {
+      if (e.detail) {
+        p.textContent = 'Now loading...';
+        p.style.color = 'red';
+      } else {
+        p.textContent = 'Idle.';
+        p.style.color = 'green';
+      }
+    });
+```
+
+这里自定义了一个 busy 事件，用于表示正在请求某些内容。这里的例子在点击了按钮后模拟开始加载，并使用`document.dispatchEvent()`下发了一个新的事件。同样在加载完成后，再下发一个同样的事件，并在事件对象中携带不同的属性用于表示加载完成。
+
+后面为`document.addEventListener('busy')`监听了下发的事件，并根据传递的事件对象中的属性值来修改状态。
+
+<iframe src="https://codesandbox.io/embed/jovial-hooks-zmfce?fontsize=14&hidenavigation=1&theme=light&view=preview"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="自定义事件"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>

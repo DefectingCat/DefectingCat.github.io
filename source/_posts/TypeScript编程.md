@@ -816,3 +816,8 @@ type Arg = SecondArg<F>; // Arg = number
 可见`[].slice`的第二个参数是 number 类型，而且在编译时便可知晓这一点。Java 能做到吗？
 
 > ↑《Programming TypeScript》中文版 6.5.2 章原话。
+
+## 异步
+
+### 事件发射器
+
