@@ -1,0 +1,165 @@
+# 相关配置说明
+# favicon: 网站图标
+# avatar: 主题用户头像与昵称
+# rss: rss订阅
+# gtag: Google 分析
+# comments: 文章评论系统
+# gitalk
+# disqus
+# navbar: 主题页面导航栏
+# catalog: 文章目录
+# prevnext: 文章末尾的上一页与下一页
+# friends: 友链
+# footer: 页脚信息
+# search: 文章搜索
+
+# enable: 是否开启相应功能，可选true || false
+
+# 网站图标
+favicon:
+  enable: true
+  icon: /images/favicon.webp
+  touch_icon: /images/favicon.webp
+
+# 用户头像与昵称
+avatar:
+  author_photo: /images/mona.jpg
+  author_nickname: xfy
+  path: /
+
+# 文章评论系统
+comments:
+  enable: true
+  # 目前仅支持gitalk, valine, disqus评论，选择喜欢的一种开启即可
+
+  gitalk:
+    # https://github.com/gitalk/gitalk#usage查看官方教程
+    enable: false
+    clientID:
+    clientSecret:
+    repo:
+    owner:
+    admin:
+    id: location.pathname
+    distractionFreeMode: false
+
+  valine:
+    # https://valine.js.org/quickstart.html#%E8%8E%B7%E5%8F%96APP-ID-%E5%92%8C-APP-Key
+    # 进入以上网址查看官方教程
+    enable: false
+    appId:
+    appKey:
+    placeholder: Welcome!
+    avatar: retro
+    vempty_display: false
+
+  # disqus 需科学上网方可使用
+  disqus:
+    # https://disqus.com/
+    # 注册账号，获取shortname.disqus.com，shortname为你定义的唯一name
+    # 例：我注册配置完毕后的网址为zxcxxxx.disqus.com，https-zxcxxxx-github-io即为shortname
+    enable: false
+    shortname: https-zxcxxxx-github-io
+
+# 主题页面导航栏
+navbar:
+  - name: Home
+    enable: true
+    path: /
+    key: home
+  - name: Archives
+    enable: true
+    path: /archives/
+    key: archives
+  - name: Categories
+    enable: false
+    path: /categories/
+    key: categories
+  - name: Tags
+    enable: true
+    path: /tags/
+    key: tags
+  - name: Friends
+    enable: true
+    path: /friends/
+    key: friends
+  - name: About
+    enable: true
+    path: /about/
+    key: about
+
+# 文章目录
+catalog:
+  enable: true
+
+LaTex:
+  enable: false
+
+# 文章末尾的上一页与下一页
+prevnext:
+  enable: true
+
+# 友链详细信息：支持多个友链
+friends:
+  # nickname: 昵称
+  # site: 地址
+  # meta: 描述
+  - nickname: 非常医学生
+    site: https://www.cunzher.cn
+    meta: '以医德观人生。'
+  - nickname: Zeroの日常
+    site: https://mikuac.com/
+    meta: 
+  - nickname: 'Feng''blog'
+    site: https://1984n.win
+    meta:
+  - nickname: 'Locyoo'
+    site: https://blog.locyoo.com
+    meta:
+  - nickname: '萌萌哒の柯基'
+    site: https://www.heroyf.club/
+    meta: '仰望大佬的菜鸡〒▽〒'
+
+# 页脚信息
+footer:
+  enable: false
+  # social: 社交方式
+  # more: 更多页脚信息
+  social:
+    # name: 名称
+    # icon: 图标，目前仅支持IconFont部分图标
+    # path: 地址
+    - name: github
+      icon: github
+      path: https://github.com/zchengsite/hexo-theme-oranges
+    - name: email
+      icon: envelope
+      path:
+    - name: facebook
+      icon: facebooksquare
+      path:
+    - name: twitter
+      icon: twitter
+      path:
+    - name: wechat
+      icon: wechat
+      path:
+    - name: weibo
+      icon: weibo
+      path:
+    - # rss需安装 hexo-generator-feed 插件
+      # 具体参照https://github.com/hexojs/hexo-generator-feed
+      name: rss
+      icon: rss
+      path: /atom.xml
+
+  more:
+    - name: Copyright © Oranges 2021
+      path: https://github.com/DefectingCat/hexo-theme-oranges
+    - name: Theme by Oranges | Powered by Hexo
+      path: https://github.com/DefectingCat
+
+# 文章搜索
+search:
+  enable: true
+  placeholder:

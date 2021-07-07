@@ -1,3 +1,12 @@
+---
+title: Vue3!
+date: 2021-05-05 18:08:31
+tags: Vue
+categories: 实践
+url: vue3-notes
+index_img: 
+---
+
 > 早期学习 Vue3 API 的笔记。
 
 ## setup

@@ -1,0 +1,79 @@
+/**
+ * 这是整个头部区域的 CSS 
+ */
+
+.header {
+  display: flex;
+  flex-flow: column;
+  height: 285px;
+  min-height: 285px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 头像 */
+.avatar {
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+.avatar img {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+}
+
+.avatar .nickname {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #666;
+  padding-top: 10px;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 导航 */
+.navbar ul li {
+  position: relative;
+  display: inline-block;
+  margin: 0 15px;
+  font-size: 1.65rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.navbar ul li a {
+  padding-bottom: 2px;
+}
+
+.navbar ul li a:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 8px;
+  opacity: 0.3;
+  background-color: gray;
+  width: 100%;
+  border-radius: 3px;
+}
+
+.navbar ul li.active a {
+  color: black;
+}
+
+.navbar ul li.active a::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 8px;
+  opacity: 0.5;
+  background-color: gray;
+  width: 100%;
+  border-radius: 3px;
+}

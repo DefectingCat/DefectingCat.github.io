@@ -1,3 +1,12 @@
+---
+title: MongoDB零碎笔记
+date: 2021-06-07 18:08:31
+tags: JavaScript
+categories: 笔记
+url: mongodb-notes
+index_img: 
+---
+
 ## 数据结构
 
 数据库
@@ -143,12 +152,12 @@ db.createCollection(name, options);
 
 options 参数：
 
-| 字段        | 类型 | 描述                                                         |
-| :---------- | :--- | :----------------------------------------------------------- |
+| 字段        | 类型 | 描述                                                                                                                                                     |
+| :---------- | :--- | :------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | capped      | 布尔 | （可选）如果为 true，则创建固定集合。固定集合是指有着固定大小的集合，当达到最大值时，它会自动覆盖最早的文档。 **当该值为 true 时，必须指定 size 参数。** |
-| autoIndexId | 布尔 | 3.2 之后不再支持该参数。（可选）如为 true，自动在 _id 字段创建索引。默认为 false。 |
-| size        | 数值 | （可选）为固定集合指定一个最大值，即字节数。 **如果 capped 为 true，也需要指定该字段。** |
-| max         | 数值 | （可选）指定固定集合中包含文档的最大数量。                   |
+| autoIndexId | 布尔 | 3.2 之后不再支持该参数。（可选）如为 true，自动在 _id 字段创建索引。默认为 false。                                                                       |
+| size        | 数值 | （可选）为固定集合指定一个最大值，即字节数。 **如果 capped 为 true，也需要指定该字段。**                                                                 |
+| max         | 数值 | （可选）指定固定集合中包含文档的最大数量。                                                                                                               |
 
 ### 集合其他操作
 
@@ -394,16 +403,16 @@ db.user.find({age:{$type: 'number'}}).sort({age: -1})
 
 表达式
 
-| 表达式    | 描述                                           | 实例                                                         |
-| :-------- | :--------------------------------------------- | :----------------------------------------------------------- |
+| 表达式    | 描述                                           | 实例                                                                                  |
+| :-------- | :--------------------------------------------- | :------------------------------------------------------------------------------------ |
 | $sum      | 计算总和。                                     | db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$sum : "$likes"}}}]) |
 | $avg      | 计算平均值                                     | db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$avg : "$likes"}}}]) |
 | $min      | 获取集合中所有文档对应值得最小值。             | db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$min : "$likes"}}}]) |
 | $max      | 获取集合中所有文档对应值得最大值。             | db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$max : "$likes"}}}]) |
-| $push     | 在结果文档中插入值到一个数组中。               | db.mycol.aggregate([{$group : {_id : "$by_user", url : {$push: "$url"}}}]) |
-| $addToSet | 在结果文档中插入值到一个数组中，但不创建副本。 | db.mycol.aggregate([{$group : {_id : "$by_user", url : {$addToSet : "$url"}}}]) |
-| $first    | 根据资源文档的排序获取第一个文档数据。         | db.mycol.aggregate([{$group : {_id : "$by_user", first_url : {$first : "$url"}}}]) |
-| $last     | 根据资源文档的排序获取最后一个文档数据         | db.mycol.aggregate([{$group : {_id : "$by_user", last_url : {$last : "$url"}}}]) |
+| $push     | 在结果文档中插入值到一个数组中。               | db.mycol.aggregate([{$group : {_id : "$by_user", url : {$push: "$url"}}}])            |
+| $addToSet | 在结果文档中插入值到一个数组中，但不创建副本。 | db.mycol.aggregate([{$group : {_id : "$by_user", url : {$addToSet : "$url"}}}])       |
+| $first    | 根据资源文档的排序获取第一个文档数据。         | db.mycol.aggregate([{$group : {_id : "$by_user", first_url : {$first : "$url"}}}])    |
+| $last     | 根据资源文档的排序获取最后一个文档数据         | db.mycol.aggregate([{$group : {_id : "$by_user", last_url : {$last : "$url"}}}])      |
 
 ```js
 db.sc.aggregate([
