@@ -27,7 +27,7 @@
     "gulp-uglify": "^3.0.2",
     "gulp-uglify-es": "^2.0.0",
     "hexo": "^5.4.0",
-    "hexo-cli": "^4.2.0",
+    "hexo-cli": "^4.3.0",
     "hexo-deployer-git": "^3.0.0",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-category": "^1.0.0",
@@ -42,9 +42,9 @@
     "nunjucks": "^3.2.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.2",
-    "@babel/preset-env": "^7.14.2",
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
     "hexo-server": "^2.0.0",
-    "npm-check-updates": "^11.5.11"
+    "npm-check-updates": "^11.8.2"
   }
 }

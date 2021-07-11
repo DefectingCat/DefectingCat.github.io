@@ -23,7 +23,7 @@ favicon:
 
 # 用户头像与昵称
 avatar:
-  author_photo: /images/mona.jpg
+  author_photo: /images/mona.webp
   author_nickname: xfy
   path: /
 
@@ -109,8 +109,8 @@ friends:
     meta: '以医德观人生。'
   - nickname: Zeroの日常
     site: https://mikuac.com/
-    meta: 
-  - nickname: 'Feng''blog'
+    meta:
+  - nickname: "Feng'blog"
     site: https://1984n.win
     meta:
   - nickname: 'Locyoo'

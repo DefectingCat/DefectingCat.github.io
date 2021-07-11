@@ -177,7 +177,7 @@ window.moveBy(-50, 0);
 
 Chrome与Firefox在1080p分辨率下输出的inner和outer的值：
 
-![](../images/BOM/2020-08-15-10-19-42.png)
+![](../images/BOM/2020-08-15-10-19-42.webp)
 
 另外一些浏览器在`document.documentElement.clientWidth`和`document.documentElement.clientHeight`保存了页面视口的信息。在IE6中，这些属性必须是在标准模式下才有效；如果是混杂模式，就必须通过`document.body`中的`clientWidth`和`clientHeight`取得相同的信息。
 

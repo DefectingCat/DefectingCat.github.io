@@ -1,3 +1,12 @@
+---
+title: 自建简易 FaaS 平台
+date: 2021-07-11 12:02:45
+tags: [JavaScript,TypeScript]
+categories: 实践
+url: built-simply-faas
+index_img: 
+---
+
 近些年来，传统的 IaaS、PaaS 已经无法满足人们对资源调度的需求了。各大云厂商相继开始推出自家的 Serverless 服务。Serverless 顾名思义，它是“无服务器”服务器。不过并不是本质上的不需要服务器，而是面向开发者（客户）无需关心底层服务器资源的调度。只需要利用本身业务代码即可完成服务的运行。
 
 Serverless 是近些年的一个发展趋势，它的发展离不开 FaaS 与 BaaS。这里不是着重讨论 Serverless 架构的，而是尝试利用 Node.js 来实现一个最简易的 FaaS 平台。顺便还能对 JavaScript 语言本身做进一步更深的研究。
@@ -10,17 +19,25 @@ Serverless 平台是基于函数作为运行单位的，在不同的函数被调
 
 这里利用 TypeScript 来对 JavaScript 做更严格的类型检查，并使用 ESlint + Prettier 等工具规范代码。
 
+初始化环境：
+
 ```bash
 yarn --init
 ```
+
+添加一些开发必要工具：
 
 ```bash
 yarn add typescript ts-node nodemon -D
 ```
 
+以及对代码的规范：
+
 ```js
 yarn add eslint prettier eslint-plugin-prettier eslint-config-prettier @typescript-eslint/parser @typescript-eslint/eslint-plugin -D
 ```
+
+当然不能忘了 Node 本身的 TypeScript lib。
 
 ```bash
 yarn add @types/node -D
@@ -28,7 +45,7 @@ yarn add @types/node -D
 
 ## 基础能力
 
-在 [Nodejs多进程 - 🍭Defectink (xfy.plus)](https://xfy.plus/defect/nodejs-multi-process.html) 一篇中，我们大概的探讨了进程的使用。这里也是类似。在进程创建时，操作系统将给该进程分配对应的虚拟地址，再将虚拟地址映射到真正的物理地址上。因此，进程无法感知真实的物理地址，只能访问自身的虚拟地址。这样一来，就可以防止两个进程互相修改数据。
+在 [Nodejs多进程 | 🍭Defectink](https://www.defectink.com/defect/nodejs-multi-process.html) 一篇中，我们大概的探讨了进程的使用。这里也是类似。在进程创建时，操作系统将给该进程分配对应的虚拟地址，再将虚拟地址映射到真正的物理地址上。因此，进程无法感知真实的物理地址，只能访问自身的虚拟地址。这样一来，就可以防止两个进程互相修改数据。
 
 所以，我们基于进程的隔离，就是让不同的函数运行再不同的进程中，从而保障各个函数的安全性和隔离性。具体的流程是：我们的主进程（master）来监听函数的调用请求，当请求被触发时，再启动子进程（child）执行函数，并将执行后的结果通过进程间的通信发送给主进程，最终返回到客户端中。
 
@@ -480,3 +497,59 @@ return new VM({ timeout: 5000 }).run(`${fnIIFE} func()`);
 我们可以把每次的事件循环队列内的每次任务执行看作一个 tick，而任务队列就是挂在每个 tick 之后运行的。也就是说微任务只要一直在运行，或者一直在添加，那么就永远进入不到下一次 tick 了。这和同步下死循环问题一样！
 
 事件循环通常包含：setTimout、setInterval和 I/O 操作等，而任务队列通常为：`process.nextTick`、Promise、MutationObserver 等。
+
+VM2 也有类似 VM 的 timeout 设置，但是同样的是，它也是基于事件循环队列所设置的超时。根本来说，它无法限制任务队列中的死循环。
+
+面对这个难题，考虑了很久，也导致这个项目拖了挺长一段时间的。摸索中想到了大概两个方法能够解决这个问题：
+
+1. 继续使用 cluster 模块，cluster 模块没有直接的 API 钩子给我们方便的在主进程中实现计时的逻辑。我们可以考虑重写任务分发算法，在 Round Robin 算法的的基础上实现计时的逻辑。从而控制子进程，当子进程超时时，直接结束子进程的声明周期。
+2. 第二个方法是，放弃使用 cluster 模块，由我们亲自来管理进程的分发已经生命周期，从而达到对子进程设置执行超时时间的限制。
+
+这两个方法都不是什么简单省事的方法，好在我们有优秀的开源社区。正当我被子进程卡主时，得知了一个名为 [Houfeng/safeify: 📦 Safe sandbox that can be used to execute untrusted code. (github.com)](https://github.com/Houfeng/safeify) 的项目。它属于第二种解决办法，对`child_process`的手动管理，从而实现对子进程的完全控制，且设置超时时间。
+
+虽然上述写的 cluster 模块的代码需要重构，并且我们也不需要 cluster 模块了。利用 safeify 就可以进行对子进程的管理了。
+
+所以这里对 Koa 的主进程写法就是最常见的方式，将控制和执行函数的逻辑抽离为一个 middleware，交由路由进行匹配：
+
+```ts
+import Koa from 'koa';
+import runFaaS from './middleware/faas';
+import logger from 'koa-logger';
+import OPTION from './option';
+import router from './routers';
+import bodyParser from 'koa-bodyparser';
+import cors from './middleware/CORS';
+
+const app = new Koa();
+
+app.use(logger());
+app.use(bodyParser());
+app.use(cors);
+// 先注册路由
+app.use(router.routes());
+app.use(router.allowedMethods());
+// 路由未匹配到的则运行函数
+app.use(runFaaS);
+
+console.log(`⚡[Server]: running at http://${OPTION.host}:${OPTION.port} !`);
+
+export default app.listen(OPTION.port);
+```
+
+## 总结
+
+我的简易 FaaS 基本上到这里就告一段落了，对 Devil 的最后针扎就是限制函数的异步执行时间。实际上还有一些可以优化的点。例如对函数执行资源的限制，即便我们对函数的执行时间有了限制，但在函数死循环的几秒钟，它还是占有了我们 100% 的 CPU。如果多个进程的函数都会占满 CPU 的执行，那么到最后服务器的资源可能会被消耗殆尽。
+
+针对这个情况也有解决办法：在 Linux 系统上可以使用 CGroup 来对 CPU 和系统其他资源进程限制。其实 safeify 中也有了对 CGroup 的实现，但我最终没有采用作用这个方案，因为在 Docker 环境中，资源本身已经有了一定的限制，而且 Container 中大部分系统文件都是 readonly 的，CGroup 也不好设置。
+
+还有一个优化的地方就是可以给函数上下文提供一些内置的可以函数，模仿添加 BaaS 的实现，添加一个常用的服务。不过最终这个小功能也没有实现，因为（懒）这本来就是一个对 FaaS 的简单模拟，越是复杂安全性的问题也会随着增加。
+
+## 推荐
+
+无利益相关推荐：
+
+目前市面上大部分对于 Serverless 的书籍都是研究其架构的，对于面向前端的 Serverless 书籍不是很常见。而《前端 Serverless：面向全栈的无服务器架构实战》就是这样一本针对我们前端工程师的书籍，从 Serverless 的介绍，到最后的上云实践，循序渐进。
+
+本篇也大量参考其中。
+
+![book](../images/%E8%87%AA%E5%BB%BA%E7%AE%80%E6%98%93FaaS/book.jpg)
