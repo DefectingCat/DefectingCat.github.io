@@ -1,3 +1,11 @@
+---
+title: JavaScript-代理与反射
+date: 2021-07-12 11:42:03
+tags: JavaScript
+categories: 笔记
+url: javascript-proxy-and-reflect
+---
+
 ECMAScript 6 新增的代理和反射为开发者提供了拦截并向基本操作嵌入额外行为的能力。
 
 ## 反射 API

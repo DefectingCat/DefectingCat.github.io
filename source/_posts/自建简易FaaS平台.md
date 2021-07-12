@@ -4,7 +4,6 @@ date: 2021-07-11 12:02:45
 tags: [JavaScript,TypeScript]
 categories: 实践
 url: built-simply-faas
-index_img: 
 ---
 
 近些年来，传统的 IaaS、PaaS 已经无法满足人们对资源调度的需求了。各大云厂商相继开始推出自家的 Serverless 服务。Serverless 顾名思义，它是“无服务器”服务器。不过并不是本质上的不需要服务器，而是面向开发者（客户）无需关心底层服务器资源的调度。只需要利用本身业务代码即可完成服务的运行。
@@ -553,3 +552,7 @@ export default app.listen(OPTION.port);
 本篇也大量参考其中。
 
 ![book](../images/%E8%87%AA%E5%BB%BA%E7%AE%80%E6%98%93FaaS/book.jpg)
+
+## 把玩
+
+[FaaS]([gugu-mall (defectink.com)](https://demo.defectink.com/faas/#/))

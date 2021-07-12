@@ -1,3 +1,11 @@
+---
+title: JavaScript-编译与闭包
+date: 2021-07-12 11:36:03
+tags: JavaScript
+categories: 笔记
+url: javascript-compile-and-closure
+---
+
 ## 编译原理
 
 尽管 JavaScript 经常被归类为“动态”或“解释执行”的语言，但实际上它是一门编译语言。JavaScript 引擎进行的编译步骤和传统编译语言非常相似，但有些地方可能比预想的要复杂。

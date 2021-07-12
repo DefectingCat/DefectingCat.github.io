@@ -1,3 +1,11 @@
+---
+title: JavaScript-类
+date: 2021-07-12 15:19:24
+tags: JavaScript
+categories: 笔记
+url: javascript-class
+---
+
 ## 对象
 
 ### 将数组当作对象

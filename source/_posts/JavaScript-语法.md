@@ -1,3 +1,11 @@
+---
+title: JavaScript-语法
+date: 2021-07-12 15:20:03
+tags: JavaScript
+categories: 笔记
+url: javascript-syntax
+---
+
 在 JavaScript 中，有很多常见的语法仍然有很多地方容易产生困惑、造成误解。
 
 ## 语句与表达式

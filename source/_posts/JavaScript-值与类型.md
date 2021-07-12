@@ -1,3 +1,11 @@
+---
+title: JavaScript-值与类型
+date: 2021-07-12 11:41:03
+tags: JavaScript
+categories: 笔记
+url: javascript-value-and-type
+---
+
 ## 值与引用
 
 在许多编程语言中，赋值和参数传递可以通过值赋值（value-copy）或者引用复制（reference-copy）来完成。
@@ -221,8 +229,6 @@ parseInt('123xfy')	// 123
 ```js
 parseInt(1/0, 19)  // 18
 ```
-
-
 
 ## 隐式强制类型转换
 

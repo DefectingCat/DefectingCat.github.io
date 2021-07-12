@@ -1,3 +1,11 @@
+---
+title: JavaScript-this全面解析
+date: 2021-07-12 11:38:03
+tags: JavaScript
+categories: 笔记
+url: javascript-fxxk-this
+---
+
 ## this 全面解析
 
 this 和动态作用域有些许类似，他们都是在执行时决定的。this 是在调用时被绑定的，完全取决于函数的调用位置。

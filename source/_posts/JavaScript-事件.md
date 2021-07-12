@@ -1,3 +1,11 @@
+---
+title: JavaScript-事件
+date: 2021-07-12 11:40:03
+tags: JavaScript
+categories: 实践
+url: javascript-event
+---
+
 JavaScript 和 HTML 直接的交互是通过事件实现的。当文档或者浏览器发生交互时，使用侦听器（处理程序）来预定事件，以便事件发生时执行相应的代码。在传统软件工程中被称之为观察员模式。
 
 事件最早是在 IE3 和 Netscape Navigator 2 中出现的。
