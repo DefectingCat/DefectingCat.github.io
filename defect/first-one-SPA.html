@@ -1,0 +1,415 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="keywords" content=""><meta name="author" content="Defectink"><meta name="description" content=""><title>第一个SPA的踩坑总结 | 🍭Defectink</title><link rel="apple-touch-icon" href="/images/favicon.webp"><link rel="icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/base.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="🍭Defectink" type="application/atom+xml"><link rel="alternate" href="/rss.xml" title="🍭Defectink" type="application/rss+xml"></head><body><header class="header"><div class="avatar"><a title="home" href="/"><img src="/images/mona.webp" alt=""></a><div class="nickname"><a href="/">xfy</a></div></div><nav class="navbar"><ul><li class="nav-item" data-path="/"><a href="/">Home</a></li><li class="nav-item" data-path="/archives/"><a href="/archives/">Archives</a></li><li class="nav-item" data-path="/tags/"><a href="/tags/">Tags</a></li><li class="nav-item" data-path="/friends/"><a href="/friends/">Friends</a></li><li class="nav-item" data-path="/about/"><a href="/about/">About</a></li></ul></nav></header><main class="main-container"><link rel="stylesheet" href="/css/github-markdown.css"><article class="container post-details" id="post-details"><div class="post-content"><div class="post-title">第一个SPA的踩坑总结</div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2021-05-13 14:18:24</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span> <span class="span--tag"><a href="/tags/Vue/" title="Vue"><b>#</b> Vue</a></span> <span class="span--tag"><a href="/tags/TypeScript/" title="TypeScript"><b>#</b> TypeScript</a></span></span></div><div class="markdown-body"><h2 id="重制版"><a href="#重制版" class="headerlink" title="重制版"></a>重制版</h2><p>在没有写完的情况下弃坑了，后来在写另一个 Vue3 的练手项目时想起来这个曾经入手 Vue2 的入门项目。</p><p>所以打算使用 Vue3 + TypeScript 重构一下。</p><p><a target="_blank" rel="noopener" href="https://github.com/DefectingCat/gugu-mall">仓库地址</a></p><h2 id="TypeScript"><a href="#TypeScript" class="headerlink" title="TypeScript"></a>TypeScript</h2><h3 id="Vuex"><a href="#Vuex" class="headerlink" title="Vuex"></a>Vuex</h3><p>在 Vuex 中正确的使用了 TypeScript 可以直接静态提示 state 的类型以及属性。而在 Vuex 中为 state 注解需要用到官方的泛型。</p><p>第一步，为 state 做注解：</p><pre><code class="hljs ts"><span class="hljs-comment">// types/state.ts</span>
+<span class="hljs-keyword">type</span> CartObj = &#123;
+  <span class="hljs-attr">iid</span>: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[];
+  imgURL: <span class="hljs-built_in">string</span>;
+  title: <span class="hljs-built_in">string</span> | <span class="hljs-literal">undefined</span>;
+  desc: <span class="hljs-built_in">string</span> | <span class="hljs-literal">undefined</span>;
+  newPrice: <span class="hljs-built_in">string</span> | <span class="hljs-literal">undefined</span>;
+&#125;;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> State = &#123;
+  <span class="hljs-attr">cartList</span>: CartObj[];
+&#125;;</code></pre><p>在 store 中，使用<code>createStore()</code>方法创建 store 时，在泛型中传入刚刚定义好的类型：</p><pre><code class="hljs ts"><span class="hljs-comment">// types</span>
+<span class="hljs-keyword">import</span> &#123; State &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/types/store&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> createStore&lt;State&gt;(&#123;
+  <span class="hljs-attr">state</span>: &#123;
+    <span class="hljs-attr">cartList</span>: [],
+  &#125;,
+  mutations,
+  actions,
+  getters,
+  <span class="hljs-comment">// modules: &#123;&#125;,</span>
+&#125;);</code></pre><p>这时，state 中的数据就已经被注解类型了。</p><p>在官方类型注解文件中可以看到<code>createStore()</code>方法中参数使用的接口，其中 state 直接被注解为泛型 S。而 mutations 等，需要使用各自的接口。</p><pre><code class="hljs ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> StoreOptions&lt;S&gt; &#123;
+  state?: S | (<span class="hljs-function">() =&gt;</span> S);
+  getters?: GetterTree&lt;S, S&gt;;
+  actions?: ActionTree&lt;S, S&gt;;
+  mutations?: MutationTree&lt;S&gt;;
+  modules?: ModuleTree&lt;S&gt;;
+  plugins?: Plugin&lt;S&gt;[];
+  strict?: <span class="hljs-built_in">boolean</span>;
+  devtools?: <span class="hljs-built_in">boolean</span>;
+&#125;</code></pre><p>到这里仅仅只是注解完了 state，接着就是 mutations。这里的 mutations 使用接口 MutationTree 并传递一个泛型，将刚刚注解的 state 传递过去。</p><pre><code class="hljs ts"><span class="hljs-comment">// mutations.ts</span>
+<span class="hljs-keyword">import</span> &#123; MutationTree &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vuex&#x27;</span>;
+<span class="hljs-comment">// types</span>
+<span class="hljs-keyword">import</span> &#123; CartObj &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/types/detail&#x27;</span>;
+<span class="hljs-keyword">import</span> &#123; State &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/types/store&#x27;</span>;
+
+<span class="hljs-keyword">const</span> mutations: MutationTree&lt;State&gt; = &#123;
+  addCart(state, <span class="hljs-attr">info</span>: CartObj): <span class="hljs-built_in">void</span> &#123;
+    <span class="hljs-built_in">console</span>.log(state);
+  &#125;,
+&#125;;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> mutations;</code></pre><h3 id="索引签名"><a href="#索引签名" class="headerlink" title="索引签名"></a>索引签名</h3><p>使用下标访问对象时会要求接口中声明了索引签名，否则不允许直接使用下标的方式访问对象属性。</p><pre><code class="hljs ts"><span class="hljs-keyword">interface</span> State &#123;
+  <span class="hljs-attr">goods</span>: &#123;
+    <span class="hljs-attr">pop</span>: GoodsData;
+    <span class="hljs-keyword">new</span>: GoodsData;
+    sell: GoodsData;
+  &#125;;
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">someFunc</span>(<span class="hljs-params"></span>)  </span>&#123;
+  state.goods[<span class="hljs-keyword">type</span>].list1.push(...p1);
+  state.goods[<span class="hljs-keyword">type</span>].list2.push(...p2);
+  state.goods[<span class="hljs-keyword">type</span>].page = page;
+  <span class="hljs-comment">// No index signature with a parameter of type &#x27;string&#x27; was found on type &#x27;&#123; pop: GoodsData; new: GoodsData; sell: GoodsData; &#125;&#x27;.</span>
+&#125;</code></pre><p>强制用户必须明确的写出索引签名的的原因是：在对象上默认执行的 toString 方法是有害的。例如 v8 引擎上总是会返回 <code>[object Object]</code></p><h3 id="声明一个索引签名"><a href="#声明一个索引签名" class="headerlink" title="声明一个索引签名"></a>声明一个索引签名</h3><pre><code class="hljs ts"><span class="hljs-keyword">interface</span> State &#123;
+  <span class="hljs-attr">goods</span>: &#123;
+    <span class="hljs-attr">pop</span>: GoodsData;
+    <span class="hljs-keyword">new</span>: GoodsData;
+    sell: GoodsData;
+    <span class="hljs-comment">// 索引签名，通过定义接口用来对对象key的约束</span>
+    [key: <span class="hljs-built_in">string</span>]: GoodsData;
+  &#125;;
+&#125;</code></pre><blockquote><p>TypeScript 的索引签名必须是 string 或者 number。symbols 也是有效的，TypeScript 也支持它。</p></blockquote><h3 id="mouseEvent-amp-Elemet"><a href="#mouseEvent-amp-Elemet" class="headerlink" title="mouseEvent &amp; Elemet"></a>mouseEvent &amp; Elemet</h3><p>当使用事件监听器的时候，<code>e.target</code>通常为 Element 类型。而<code>e</code>本身是 mouseevent 类型，所以在<code>e</code>的类型下无法获取到 target 之后的元素方法。</p><p>这时候就可以使用<code>&amp;</code>操作符，在注解类型的时候就将其属性也注解了。</p><pre><code class="hljs ts"><span class="hljs-keyword">const</span> titleClick = <span class="hljs-function">(<span class="hljs-params">e: MouseEvent &amp; &#123; target: Element &#125;</span>) =&gt;</span> &#123;
+  <span class="hljs-keyword">const</span> index = e.target.getAttribute(<span class="hljs-string">&#x27;data-xfy-index&#x27;</span>);
+  state.currentIndex = (index <span class="hljs-keyword">as</span> unknown) <span class="hljs-keyword">as</span> <span class="hljs-built_in">number</span>;
+&#125;;</code></pre><h3 id="HTMLElement"><a href="#HTMLElement" class="headerlink" title="HTMLElement"></a>HTMLElement</h3><p>当需要在页面中获取到 DOM 节点再操作时，有些时候可能需要推断为 HTMLElement 类型。这样才能正确的使用 DOM 方法。</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> CateData = &#123;
+  <span class="hljs-attr">cateTopYs</span>: <span class="hljs-built_in">number</span>[];
+  itemRefs: Record&lt;<span class="hljs-built_in">string</span>, Record&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">number</span>&gt;&gt;[];
+  currentIndex: <span class="hljs-built_in">number</span>;
+  listRefs: HTMLElement[];
+  prePrevious: HTMLElement;
+  preNext: HTMLElement;
+&#125;;</code></pre><p>在创建响应式对象的时候需要直接使用<code>document.createElement()</code>创建一个 HTMLElement</p><pre><code class="hljs ts"><span class="hljs-keyword">const</span> cateData: CateData = reactive(&#123;
+  <span class="hljs-attr">cateTopYs</span>: [],
+  <span class="hljs-attr">itemRefs</span>: [],
+  <span class="hljs-attr">currentIndex</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-comment">// 小圆角</span>
+  <span class="hljs-attr">listRefs</span>: [],
+  <span class="hljs-comment">// 获取到的节点类型时HTMLElement，所以这里需要使用createElement创建一个HTMLElement</span>
+  <span class="hljs-attr">prePrevious</span>: <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&#x27;div&#x27;</span>),
+  <span class="hljs-attr">preNext</span>: <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&#x27;div&#x27;</span>),
+&#125;);</code></pre><h3 id="props-类型"><a href="#props-类型" class="headerlink" title="props 类型"></a>props 类型</h3><pre><code class="hljs js">props: &#123;
+  <span class="hljs-attr">path</span>: &#123;
+    <span class="hljs-comment">// https://stackoverflow.com/questions/64831745/props-typing-in-vue-js-3-with-typescript</span>
+    <span class="hljs-attr">type</span>: <span class="hljs-built_in">Object</span> <span class="hljs-keyword">as</span> PropType&lt;string&gt;,
+  &#125;,
+&#125;,</code></pre><h2 id="v-for"><a href="#v-for" class="headerlink" title="v-for"></a>v-for</h2><h3 id="控制-v-for"><a href="#控制-v-for" class="headerlink" title="控制 v-for"></a>控制 v-for</h3><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;index of goods.services.length - 2&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;index&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span> &#123;&#123; goods.services[index].name &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></code></pre><h3 id="v-for-中的-Ref-数组"><a href="#v-for-中的-Ref-数组" class="headerlink" title="v-for 中的 Ref 数组"></a>v-for 中的 Ref 数组</h3><p>在 Vue 3 中获取循环的 DOM 与 Vue 2 略有不同，在官方文档中有提到：<a target="_blank" rel="noopener" href="https://v3.cn.vuejs.org/guide/migration/array-refs.html#frontmatter-title">v-for 中的 Ref 数组</a>。</p><p>具体操作也不是很复杂，在<code>v-for</code>循环中绑定一个<code>:ref</code> attribute，值为一个方法，方法中能获取到对应的 element。然后 push 到预先准备好的数组内就可以了。</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">SubCategories</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">:ref</span>=<span class="hljs-string">&quot;setItemRef&quot;</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in subCategories&quot;</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item&quot;</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">:data</span>=<span class="hljs-string">&quot;item&quot;</span></span>
+<span class="hljs-tag">/&gt;</span></code></pre><pre><code class="hljs ts"><span class="hljs-keyword">const</span> cateData: CateData = reactive(&#123;
+  <span class="hljs-attr">listRefs</span>: [],
+&#125;);</code></pre><pre><code class="hljs ts"><span class="hljs-keyword">const</span> setListRef = <span class="hljs-function">(<span class="hljs-params">el: HTMLElement</span>) =&gt;</span> &#123;
+  <span class="hljs-keyword">if</span> (el) &#123;
+    cateData.listRefs.push(el);
+  &#125;
+&#125;;</code></pre><p>但是这样有一个问题，那就是这个 setListRef 的执行时机。事实上，这个方法在对应的节点每更新（update）一次，就会执行一次。这样就会导致一个问题，那就是我们通常只需要获取一遍完整的 DOM 节点即可。而每次更新都会将所有的节点 push 到数组内，会导致数组内容成指数型增长，而且内容还是多余的。</p><p>所以通常需要额外添加一个判断：</p><pre><code class="hljs ts"><span class="hljs-keyword">const</span> setListRef = <span class="hljs-function">(<span class="hljs-params">el: HTMLElement</span>) =&gt;</span> &#123;
+  <span class="hljs-comment">// 每次节点改变时，都会触发这个方法，会导致一直push</span>
+  <span class="hljs-comment">// 为了防止长度无限增加，需要添加条件判断</span>
+  <span class="hljs-keyword">if</span> (el &amp;&amp; cateData.listRefs.length &lt; <span class="hljs-number">16</span>) &#123;
+    cateData.listRefs.push(el);
+  &#125;
+&#125;;</code></pre><h2 id="keep-alive"><a href="#keep-alive" class="headerlink" title="keep-alive"></a>keep-alive</h2><p>缓存的组件一定要设置<code>name</code>属性！</p><ul><li><a target="_blank" rel="noopener" href="https://segmentfault.com/q/1010000009117672#">vue.js的keep-alive include无效</a></li></ul><h3 id="Vue-3"><a href="#Vue-3" class="headerlink" title="Vue 3"></a>Vue 3</h3><p>Vue 3 中的 router-view 与 keep-alive 标签使用方式略有不同。</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">router-view</span> <span class="hljs-attr">v-slot</span>=<span class="hljs-string">&quot;&#123; Component &#125;&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">keep-alive</span> <span class="hljs-attr">exclude</span>=<span class="hljs-string">&quot;Detail&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">component</span> <span class="hljs-attr">:is</span>=<span class="hljs-string">&quot;Component&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">keep-alive</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">router-view</span>&gt;</span></code></pre><h3 id="首页滑动位置记录"><a href="#首页滑动位置记录" class="headerlink" title="首页滑动位置记录"></a>首页滑动位置记录</h3><p>本来考虑的是使用事件监听器来监听滚动的位置，并保存。在组件激活时再利用<code>window.scrollTo()</code>方法滚动到离开时的位置。</p><p>不过无脑添加事件监听器可能不是一个非常优雅的办法。后来发现一个简单的方式，利用组件内的导航守卫<code>onBeforeRouteLeave()</code>，在路由离开时记录滚动的位置。当组件激活后再直接给<code>document.documentElement.scrollTop</code>赋值，即可实现记录滚动位置。</p><pre><code class="hljs ts"><span class="hljs-comment">// 切换路由时记录首页滚动的位置</span>
+onBeforeRouteLeave(<span class="hljs-function">() =&gt;</span> &#123;
+  homeData.scrolledY = <span class="hljs-built_in">document</span>.documentElement.scrollTop;
+&#125;);
+onActivated(<span class="hljs-function">() =&gt;</span> &#123;
+  <span class="hljs-built_in">document</span>.documentElement.scrollTop = homeData.scrolledY;
+&#125;);</code></pre><p>另外也可以使用路由导航守卫来代替<code>onActivated()</code>激活时的方法，在进入路由时为<code>document.documentElement.scrollTop</code>赋值。但这样需要注意路由导航的触发顺序几乎都是在更新 DOM 之前：</p><ol><li>导航被触发。</li><li>在失活的组件里调用 <code>beforeRouteLeave</code> 守卫。</li><li>调用全局的 <code>beforeEach</code> 守卫。</li><li>在重用的组件里调用 <code>beforeRouteUpdate</code> 守卫(2.2+)。</li><li>在路由配置里调用 <code>beforeEnter</code>。</li><li>解析异步路由组件。</li><li>在被激活的组件里调用 <code>beforeRouteEnter</code>。</li><li>调用全局的 <code>beforeResolve</code> 守卫(2.5+)。</li><li>导航被确认。</li><li>调用全局的 <code>afterEach</code> 钩子。</li><li>触发 DOM 更新。</li><li>调用 <code>beforeRouteEnter</code> 守卫中传给 <code>next</code> 的回调函数，创建好的组件实例会作为回调函数的参数传入。</li></ol><p>所以需要使用<code>nextTick()</code>方法来更新。不过既然使用了<code>keepAlive</code>，还是使用对应的生命周期更加方便。</p><h3 id="动态组件"><a href="#动态组件" class="headerlink" title="动态组件"></a>动态组件</h3><p>第一次看到动态组件的时候就很开心，原来组件还能这么玩。这里用到的动态组件主要是用到<code>keep-alive</code>来缓存子组件的状态。商品列表的子组件存在一个三栏切换。之前的方案是使用一个组件，每次切换时向里面传递数据，由于只用了一个子组件，每次数据传递完后，还需要重新下载图片。就算用了加载也会发送很多图片的请求。另外，频繁的切换还可能导致节点渲染出现小问题。</p><p>将三栏的切换分别放到三个子组件中，然后再使用动态组件来进行缓存。虽然这三个子组件展示数据用的还是那一个组件（为了组件代码的复用），但是由于数据和状态都缓存了之后，每次仅仅只需要过一次 diff 算法即可。不用再下载图片。</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">keep-alive</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">component</span> <span class="hljs-attr">:is</span>=<span class="hljs-string">&quot;currentTabComponent&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">component</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">keep-alive</span>&gt;</span></code></pre><p>并且将数据单独抽离为一个 hook，直接进行导出。首页不参与数据的修改，本质上修改数据的只有一个组件，数据改动的流向也没有任何变化。</p><pre><code class="hljs ts"><span class="hljs-comment">// hook</span>
+<span class="hljs-comment">// 配合动态组件即可实现商品数据的缓存</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> state: State = reactive(&#123;
+  <span class="hljs-attr">banners</span>: [],
+  <span class="hljs-attr">recommend</span>: [],
+  <span class="hljs-attr">goods</span>: &#123;
+    <span class="hljs-attr">pop</span>: &#123;
+      <span class="hljs-attr">page</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">list1</span>: [],
+      <span class="hljs-attr">list2</span>: [],
+    &#125;,
+    <span class="hljs-attr">new</span>: &#123;
+      <span class="hljs-attr">page</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">list1</span>: [],
+      <span class="hljs-attr">list2</span>: [],
+    &#125;,
+    <span class="hljs-attr">sell</span>: &#123;
+      <span class="hljs-attr">page</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">list1</span>: [],
+      <span class="hljs-attr">list2</span>: [],
+    &#125;,
+  &#125;,
+&#125;);
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">homeRequestEffect</span>(<span class="hljs-params"></span>): <span class="hljs-title">HomeData</span> </span>&#123;
+  <span class="hljs-keyword">const</span> listData: ListData = reactive(&#123;
+    <span class="hljs-attr">loading</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">finished</span>: <span class="hljs-literal">false</span>,
+  &#125;);
+
+  <span class="hljs-comment">// 首页的请求</span>
+  <span class="hljs-keyword">const</span> reqSwiper = <span class="hljs-keyword">async</span> (): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; =&gt; &#123;
+    <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> request(&#123;
+      <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/home/multidata&#x27;</span>,
+    &#125;);
+    state.banners = res.data.banner.list;
+    state.recommend = res.data.recommend.list;
+  &#125;;
+
+  <span class="hljs-comment">// 商品的请求</span>
+  <span class="hljs-keyword">const</span> reqGoods = <span class="hljs-keyword">async</span> (<span class="hljs-keyword">type</span>: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; =&gt; &#123;
+    <span class="hljs-keyword">const</span> page = state.goods[<span class="hljs-keyword">type</span>].page + <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> request(&#123;
+      <span class="hljs-attr">url</span>: <span class="hljs-string">&#x27;/home/data&#x27;</span>,
+      <span class="hljs-attr">params</span>: &#123;
+        <span class="hljs-keyword">type</span>,
+        page,
+      &#125;,
+    &#125;);
+    <span class="hljs-keyword">const</span> paging = <span class="hljs-built_in">Math</span>.floor(res.data.list.length / <span class="hljs-number">2</span>);
+    <span class="hljs-keyword">const</span> p1 = res.data.list.slice(<span class="hljs-number">0</span>, paging);
+    <span class="hljs-keyword">const</span> p2 = res.data.list.slice(paging, res.data.list.length);
+    state.goods[<span class="hljs-keyword">type</span>].list1.push(...p1);
+    state.goods[<span class="hljs-keyword">type</span>].list2.push(...p2);
+    state.goods[<span class="hljs-keyword">type</span>].page = page;
+    listData.loading = <span class="hljs-literal">false</span>;
+  &#125;;
+
+  <span class="hljs-keyword">const</span> &#123; loading, finished &#125; = toRefs(listData);
+  <span class="hljs-keyword">return</span> &#123;
+    loading,
+    finished,
+    reqSwiper,
+    reqGoods,
+  &#125;;
+&#125;</code></pre><h3 id="路由过渡动画"><a href="#路由过渡动画" class="headerlink" title="路由过渡动画"></a>路由过渡动画</h3><p>通过添加 <a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/guide/transitions.html#%E8%BF%87%E6%B8%A1%E6%A8%A1%E5%BC%8F">过渡模式</a> 来定义在多个路由或组件中的平滑过渡</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">transition</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;fade&quot;</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;out-in&quot;</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- ... the buttons ... --&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">transition</span>&gt;</span></code></pre><p>这种方法在 Vue 3 中使用有限制！Vue 3 支持组件多根节点，但目前 transition 只支持但根节点。则多根节点的组件无法使用 transition。</p><h2 id="router"><a href="#router" class="headerlink" title="router"></a>router</h2><h3 id="route-path"><a href="#route-path" class="headerlink" title="route path"></a>route path</h3><p>在<code>setup()</code>中使用<code>route.path</code>只能获取到<code>/</code>目录，原因是因为在<code>&lt;router-view&gt;</code>外的组件只能等路由内的组件加载完成后获取到路由信息。可以在<code>setup()</code>函数中将<code>route.path</code> return 出来。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">setup</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-keyword">const</span> nowPath = computed(<span class="hljs-function">() =&gt;</span> &#123;
+    <span class="hljs-keyword">return</span> route.path;
+  &#125;);
+  <span class="hljs-keyword">return</span> &#123;
+    nowPath,
+  &#125;;
+&#125;</code></pre><p><a target="_blank" rel="noopener" href="https://codesandbox.io/s/router-viewyushengmingzhouqi-wl1jn">demo</a></p><h2 id="axios"><a href="#axios" class="headerlink" title="axios"></a>axios</h2><h3 id="数据拦截器"><a href="#数据拦截器" class="headerlink" title="数据拦截器"></a>数据拦截器</h3><p>使用了数据拦截器后还是 <code>AxiosResponse&lt;any&gt;</code> 类型，导致无法使用请求后的数据。需要自定义一个类型声明：</p><pre><code class="hljs ts"><span class="hljs-comment">// types/axios.d.ts</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;axios&#x27;</span>;
+
+<span class="hljs-keyword">declare</span> <span class="hljs-built_in">module</span> <span class="hljs-string">&#x27;axios&#x27;</span> &#123;
+  <span class="hljs-keyword">interface</span> AxiosInstance &#123;
+    (config: AxiosRequestConfig): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">any</span>&gt;;
+  &#125;
+&#125;</code></pre><p>并在<code>tsconfig.json</code>中将 types 引入。</p><pre><code class="hljs json"><span class="hljs-comment">// tsconfig.json</span>
+<span class="hljs-string">&quot;typeRoots&quot;</span>: [
+  <span class="hljs-string">&quot;./node_modules/@types&quot;</span>,
+  <span class="hljs-string">&quot;./src/types/&quot;</span>,
+],</code></pre><h2 id="Vant-UI"><a href="#Vant-UI" class="headerlink" title="Vant UI"></a>Vant UI</h2><h3 id="List-组件"><a href="#List-组件" class="headerlink" title="List 组件"></a>List 组件</h3><p>在使用 List 组件做瀑布流时，需要注意使用 flxe 或其他布局时，有可能会导致内容无限的加载。</p><p>这是因为 List 在末尾使用了一个 placeholder 来做加载判断。当 placeholder 在视口内的时候，就会触发加载。</p><p>所以当布局被改为横向的时候就会导致无限的触发加载。</p><p>就算 flex 横向排列进行换行也会导致无限加载。如果使用 flex 做横向排列，需要额外再嵌套一个 div 做 wrapper。这个wrapper 内部再使用 flex 横向排列。</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-list</span></span>
+<span class="hljs-tag">    <span class="hljs-attr">v-model:loading</span>=<span class="hljs-string">&quot;loading&quot;</span></span>
+<span class="hljs-tag">    <span class="hljs-attr">:finished</span>=<span class="hljs-string">&quot;finished&quot;</span></span>
+<span class="hljs-tag">    <span class="hljs-attr">finished-text</span>=<span class="hljs-string">&quot;没有更多了&quot;</span></span>
+<span class="hljs-tag">    @<span class="hljs-attr">load</span>=<span class="hljs-string">&quot;onLoad&quot;</span></span>
+<span class="hljs-tag">  &gt;</span>
+    <span class="hljs-comment">&lt;!-- 额外嵌套一个div，将van-list的placeholder挤下去，否则会影响上拉加载 --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;goods-list&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;goods-list__col&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">GoodsListItem</span></span>
+<span class="hljs-tag">          <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;goods-list__col__item&quot;</span></span>
+<span class="hljs-tag">          <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item of goods[currentTab].list1&quot;</span></span>
+<span class="hljs-tag">          <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item&quot;</span></span>
+<span class="hljs-tag">          <span class="hljs-attr">:item</span>=<span class="hljs-string">&quot;item&quot;</span></span>
+<span class="hljs-tag">        /&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;goods-list__col&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">GoodsListItem</span></span>
+<span class="hljs-tag">          <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;goods-list__col__item&quot;</span></span>
+<span class="hljs-tag">          <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item of goods[currentTab].list2&quot;</span></span>
+<span class="hljs-tag">          <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item&quot;</span></span>
+<span class="hljs-tag">          <span class="hljs-attr">:item</span>=<span class="hljs-string">&quot;item&quot;</span></span>
+<span class="hljs-tag">        /&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">van-list</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre><pre><code class="hljs scss"><span class="hljs-selector-class">.goods-list</span> &#123;
+  <span class="hljs-attribute">display</span>: flex;
+  <span class="hljs-attribute">flex-flow</span>: row wrap;
+  <span class="hljs-attribute">justify-content</span>: space-evenly;
+  <span class="hljs-attribute">margin-bottom</span>: <span class="hljs-number">60px</span>;
+  &amp;__col &#123;
+    <span class="hljs-attribute">width</span>: <span class="hljs-number">45%</span>;
+  &#125;
+&#125;</code></pre><h3 id="透传样式"><a href="#透传样式" class="headerlink" title="透传样式"></a>透传样式</h3><p>在 scoped 中的样式是不会直接影响到其他组件的。如果使用了 UI 库，需要针对单个组件内的子组件进行样式修改，可以使用<code>/deep/</code>来对 CSS 进行修饰。使其能够在 scoped 的情况透传到子组件。</p><pre><code class="hljs css"><span class="hljs-comment">/* 穿透到子组件 */</span>
+/deep/ <span class="hljs-selector-class">.van-list__loading</span> &#123;
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;
+&#125;</code></pre><p>但如果是 dart-scss 的话，需要使用<code>::v-deep</code>进行修饰。</p><pre><code class="hljs scss"><span class="hljs-comment">// 穿透到子组件</span>
+::v-deep .van-list__loading &#123;
+  width: <span class="hljs-number">100%</span>;
+&#125;</code></pre><h4 id="透传样式的再次更新"><a href="#透传样式的再次更新" class="headerlink" title="透传样式的再次更新"></a>透传样式的再次更新</h4><pre><code class="hljs scss"><span class="hljs-comment">// 穿透到子组件</span>
+:deep(.van-list__loading) &#123;
+  width: <span class="hljs-number">100%</span>;
+&#125;</code></pre><h2 id="UI-amp-其他"><a href="#UI-amp-其他" class="headerlink" title="UI &amp; 其他"></a>UI &amp; 其他</h2><h3 id="px2vw"><a href="#px2vw" class="headerlink" title="px2vw"></a>px2vw</h3><p>上一个 Vue3 的项目使用的是 rem 布局，每次要换算倒不是非常的麻烦。但是最终的效果还是一般般。</p><p>所以这次试了试 vw 布局。使用的是<code>postcss-px-to-viewport</code>的 postcss 插件。</p><pre><code class="hljs plaintext">yarn add postcss-px-to-viewport -D</code></pre><pre><code class="hljs js"><span class="hljs-built_in">module</span>.exports = &#123;
+  <span class="hljs-attr">plugins</span>: &#123;
+    <span class="hljs-attr">autoprefixer</span>: &#123;&#125;, <span class="hljs-comment">// 用来给不同的浏览器自动添加相应前缀，如-webkit-，-moz-等等</span>
+    <span class="hljs-string">&#x27;postcss-px-to-viewport&#x27;</span>: &#123;
+      <span class="hljs-attr">unitToConvert</span>: <span class="hljs-string">&#x27;px&#x27;</span>, <span class="hljs-comment">// 要转化的单位</span>
+      <span class="hljs-attr">viewportWidth</span>: <span class="hljs-number">375</span>, <span class="hljs-comment">// UI设计稿的宽度</span>
+      <span class="hljs-attr">unitPrecision</span>: <span class="hljs-number">6</span>, <span class="hljs-comment">// 转换后的精度，即小数点位数</span>
+      <span class="hljs-attr">propList</span>: [<span class="hljs-string">&#x27;*&#x27;</span>], <span class="hljs-comment">// 指定转换的css属性的单位，*代表全部css属性的单位都进行转换</span>
+      <span class="hljs-attr">viewportUnit</span>: <span class="hljs-string">&#x27;vw&#x27;</span>, <span class="hljs-comment">// 指定需要转换成的视窗单位，默认vw</span>
+      <span class="hljs-attr">fontViewportUnit</span>: <span class="hljs-string">&#x27;vw&#x27;</span>, <span class="hljs-comment">// 指定字体需要转换成的视窗单位，默认vw</span>
+      <span class="hljs-attr">selectorBlackList</span>: [<span class="hljs-string">&#x27;wrap&#x27;</span>], <span class="hljs-comment">// 指定不转换为视窗单位的类名，</span>
+      <span class="hljs-attr">minPixelValue</span>: <span class="hljs-number">1</span>, <span class="hljs-comment">// 默认值1，小于或等于1px则不进行转换</span>
+      <span class="hljs-attr">mediaQuery</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 是否在媒体查询的css代码中也进行转换，默认false</span>
+      <span class="hljs-attr">replace</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 是否转换后直接更换属性值</span>
+      <span class="hljs-attr">exclude</span>: [<span class="hljs-regexp">/node_modules/</span>], <span class="hljs-comment">// 设置忽略文件，用正则做目录名匹配</span>
+      <span class="hljs-attr">landscape</span>: <span class="hljs-literal">false</span>, <span class="hljs-comment">// 是否处理横屏情况</span>
+    &#125;,
+  &#125;,
+&#125;;</code></pre><h3 id="sass-全局变量"><a href="#sass-全局变量" class="headerlink" title="sass 全局变量"></a>sass 全局变量</h3><p>vue-cli 支持 <a target="_blank" rel="noopener" href="https://cli.vuejs.org/zh/guide/css.html#%E5%90%91%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8-loader-%E4%BC%A0%E9%80%92%E9%80%89%E9%A1%B9">向预处理器-loader-传递选项</a>，从而全局的导入变量文件。</p><p>是不需要额外安装<code>sass-resources-loader</code>的。参考<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/49086021/using-sass-resources-loader-with-vue-cli-v3-x">Using sass-resources-loader with vue-cli v3.x</a></p><pre><code class="hljs js"><span class="hljs-comment">// vue.config.js</span>
+<span class="hljs-built_in">module</span>.exports = &#123;
+  <span class="hljs-attr">css</span>: &#123;
+    <span class="hljs-attr">loaderOptions</span>: &#123;
+      <span class="hljs-comment">// 给 sass-loader 传递选项</span>
+      <span class="hljs-attr">scss</span>: &#123;
+        <span class="hljs-comment">// @/ 是 src/ 的别名</span>
+        <span class="hljs-comment">// 所以这里假设你有 `src/variables.sass` 这个文件</span>
+        <span class="hljs-comment">// 注意：在 sass-loader v8 中，这个选项名是 &quot;prependData&quot;</span>
+        <span class="hljs-attr">prependData</span>: <span class="hljs-string">`@import &quot;~@/assets/css/_variables.scss&quot;;`</span>,
+      &#125;,
+      <span class="hljs-comment">// 默认情况下 `sass` 选项会同时对 `sass` 和 `scss` 语法同时生效</span>
+      <span class="hljs-comment">// 因为 `scss` 语法在内部也是由 sass-loader 处理的</span>
+      <span class="hljs-comment">// 但是在配置 `prependData` 选项的时候</span>
+      <span class="hljs-comment">// `scss` 语法会要求语句结尾必须有分号，`sass` 则要求必须没有分号</span>
+      <span class="hljs-comment">// 在这种情况下，我们可以使用 `scss` 选项，对 `scss` 语法进行单独配置</span>
+      <span class="hljs-comment">// scss: &#123;</span>
+      <span class="hljs-comment">//   additionalData: `@import &quot;~@/variables.scss&quot;;`,</span>
+      <span class="hljs-comment">// &#125;,</span>
+    &#125;,
+  &#125;,
+&#125;;</code></pre><h3 id="平均空间"><a href="#平均空间" class="headerlink" title="平均空间"></a>平均空间</h3><p>使用 flex 布局，在左右设置等距的 padding，然后使用 space-arorund。</p><pre><code class="hljs css"><span class="hljs-selector-class">.goods</span> &#123;
+  <span class="hljs-attribute">display</span>: flex;
+  <span class="hljs-attribute">flex-flow</span>: row wrap;
+  <span class="hljs-attribute">padding</span>: <span class="hljs-number">0px</span> <span class="hljs-number">6px</span> <span class="hljs-number">0</span> <span class="hljs-number">6px</span>;
+  <span class="hljs-attribute">justify-content</span>: space-around;
+&#125;</code></pre><p>内部的单个项目需要指定宽度小于 50%，为中间留空白的空间</p><pre><code class="hljs html">style=&quot;width: 48%; margin-top: 10px&quot;</code></pre><p><img src="../images/%E7%AC%AC%E4%B8%80%E4%B8%AASPA%E7%9A%84%E6%80%BB%E7%BB%93/2021-03-01-12-15-31.webp"></p><p>当然也可以使用 space-evently</p><h3 id="瀑布流"><a href="#瀑布流" class="headerlink" title="瀑布流"></a>瀑布流</h3><p>两列的排列，图片的高度不统一。使用<code>flex</code>的横向换行排列会留出空白。</p><p>使用<code>flex</code>将两列图片分别作为两个容器，纵向排列</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;goods&quot;</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- 从 home 组件接受的 list，循环创建 item --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;col&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">GoodsListItem</span></span>
+<span class="hljs-tag">      <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;(item, index) of list1&quot;</span></span>
+<span class="hljs-tag">      <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.iid + index&quot;</span></span>
+<span class="hljs-tag">      <span class="hljs-attr">:item</span>=<span class="hljs-string">&quot;item&quot;</span></span>
+<span class="hljs-tag">      <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;margin-top: 10px&quot;</span></span>
+<span class="hljs-tag">    /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;col&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">GoodsListItem</span></span>
+<span class="hljs-tag">      <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;(item, index) of list2&quot;</span></span>
+<span class="hljs-tag">      <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.iid + index&quot;</span></span>
+<span class="hljs-tag">      <span class="hljs-attr">:item</span>=<span class="hljs-string">&quot;item&quot;</span></span>
+<span class="hljs-tag">      <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;margin-top: 10px&quot;</span></span>
+<span class="hljs-tag">    /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><pre><code class="hljs css"><span class="hljs-selector-class">.goods</span> <span class="hljs-selector-class">.col</span> &#123;
+  <span class="hljs-attribute">display</span>: flex;
+  <span class="hljs-attribute">flex-flow</span>: column;
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">48%</span>;
+&#125;</code></pre><p><img src="../images/%E7%AC%AC%E4%B8%80%E4%B8%AASPA%E7%9A%84%E6%80%BB%E7%BB%93/2021-03-12-10-48-27.webp"></p><h3 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h3><p>在尾期的时候，觉得有些地方过渡的不是很自然，于是想添加一些动画。</p><h4 id="滑动缓入动画"><a href="#滑动缓入动画" class="headerlink" title="滑动缓入动画"></a>滑动缓入动画</h4><p>在商品列表被滑动进入视口时，想添加一个缓入的动画，这样看上去会显得自然一点（应该吧）。既然是进入视口时发生的动画，第一个想到的自然是使用 IntersectionObserver API 来检测是否与视口相交。如果检测到相交之后，则添加对应的行内样式。</p><pre><code class="hljs ts"><span class="hljs-comment">// 使用 Intersection Observer API 来监听项目是否和视口相交</span>
+<span class="hljs-keyword">const</span> observer = <span class="hljs-keyword">new</span> IntersectionObserver(<span class="hljs-function">(<span class="hljs-params">entries, observer</span>) =&gt;</span> &#123;
+  entries.forEach(<span class="hljs-function">(<span class="hljs-params">entry</span>) =&gt;</span> &#123;
+    <span class="hljs-keyword">if</span> (entry.isIntersecting) &#123;
+      <span class="hljs-comment">// 断言为 HTMLElement 才可操作 style</span>
+      <span class="hljs-keyword">const</span> target = entry.target <span class="hljs-keyword">as</span> HTMLElement;
+      <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;
+        target.style.transform = <span class="hljs-string">`translateY(0px)`</span>;
+        target.style.opacity = <span class="hljs-string">`1`</span>;
+      &#125;, <span class="hljs-number">300</span>);
+      <span class="hljs-comment">// 动画完成后取消监听</span>
+      observer.unobserve(entry.target);
+    &#125;
+  &#125;);
+&#125;);
+<span class="hljs-comment">// vfor 循环中使用两个方法添加列表监听</span>
+<span class="hljs-keyword">const</span> setList1Ref = <span class="hljs-function">(<span class="hljs-params">el: &#123; $el: HTMLElement &#125;</span>) =&gt;</span> &#123;
+  el ? observer.observe(el.$el) : <span class="hljs-built_in">void</span> <span class="hljs-number">0</span>;
+&#125;;
+<span class="hljs-keyword">const</span> setList2Ref = <span class="hljs-function">(<span class="hljs-params">el: &#123; $el: HTMLElement &#125;</span>) =&gt;</span> &#123;
+  el ? observer.observe(el.$el) : <span class="hljs-built_in">void</span> <span class="hljs-number">0</span>;
+&#125;;</code></pre><p>元素本身的样式则提前准备好过渡：</p><pre><code class="hljs css">// 视口相交动画
+<span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateY</span>(<span class="hljs-number">35px</span>);
+<span class="hljs-attribute">opacity</span>: <span class="hljs-number">0</span>;
+<span class="hljs-attribute">transition</span>: all <span class="hljs-number">0.2s</span> ease;</code></pre><p>这里也顺便提一下，Vue3 中使用 ref 拿取<code>v-for</code>循环中的节点需要在节点上绑定一个方法，之后会在更新时自动触发方法。这里就是使用方法来为每个节点添加监视的。</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">GoodsListItem</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;goods-list__col__item&quot;</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item of goods[currentTab].list1&quot;</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item&quot;</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">:item</span>=<span class="hljs-string">&quot;item&quot;</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">:ref</span>=<span class="hljs-string">&quot;setList1Ref&quot;</span></span>
+<span class="hljs-tag">/&gt;</span></code></pre><pre><code class="hljs ts"><span class="hljs-keyword">const</span> setList1Ref = <span class="hljs-function">(<span class="hljs-params">el: &#123; $el: HTMLElement &#125;</span>) =&gt;</span> &#123;
+  el ? observer.observe(el.$el) : <span class="hljs-built_in">void</span> <span class="hljs-number">0</span>;
+&#125;;</code></pre><h4 id="列表动画"><a href="#列表动画" class="headerlink" title="列表动画"></a>列表动画</h4><p>在个人的 Profile 页面有几个无序列表用来展示对应的选项，由于关于页做了个卡片的效果，所以给它写了个简单的 CSS 动画，在每次进入页面时都会执行一次。</p><pre><code class="hljs css"><span class="hljs-keyword">@keyframes</span> slidein &#123;
+  <span class="hljs-selector-tag">from</span> &#123;
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateY</span>(<span class="hljs-number">10px</span>);
+  &#125;
+  <span class="hljs-selector-tag">to</span> &#123;
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateY</span>(-<span class="hljs-number">20px</span>);
+  &#125;
+&#125;
+<span class="hljs-keyword">@keyframes</span> spin &#123;
+  <span class="hljs-selector-tag">from</span> &#123;
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateY</span>(<span class="hljs-number">5px</span>);
+  &#125;
+  <span class="hljs-selector-tag">to</span> &#123;
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateY</span>(-<span class="hljs-number">25px</span>);
+  &#125;
+&#125;</code></pre><p>但总感觉还少点什么，于是就给列表也加了一些小过渡。但所有列表同时过渡也不是很自然，于是做了点小操作让它们并不是同一时间开始动画，持续时间也略有不同，这样看上去更和谐一点。</p><p>具体的实现方式是使用同样的方式拿到<code>v-for</code>循环中的所有元素节点，然后再<code>onMounted</code>之后触发动画。</p><p>第一个列表的动画持续时间是 200 ms，后面每个的持续时间都增加 100 ms。同时开始也设置了个延迟为 100 ms 后执行，后续每个也递增 100 ms。这样就有了种阶梯的感觉。</p><pre><code class="hljs ts">  <span class="hljs-keyword">const</span> setListItem = <span class="hljs-function">(<span class="hljs-params">el: HTMLElement</span>) =&gt;</span> &#123;
+    content.list?.push(el);
+  &#125;;
+  <span class="hljs-keyword">const</span> listAnimat = <span class="hljs-function">() =&gt;</span> &#123;
+    <span class="hljs-comment">// 手搓动画</span>
+    <span class="hljs-comment">// 每个动画间隔增加100ms，持续实际增加100ms</span>
+    <span class="hljs-keyword">let</span> time = <span class="hljs-number">0.2</span>;
+    <span class="hljs-keyword">let</span> timeout = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> i <span class="hljs-keyword">of</span> content.list) &#123;
+      <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;
+        i.style.transform = <span class="hljs-string">`translateY(0px)`</span>;
+        i.style.transition = <span class="hljs-string">`all <span class="hljs-subst">$&#123;time&#125;</span>s`</span>;
+        i.style.opacity = <span class="hljs-string">`1`</span>;
+      &#125;, timeout);
+      time += <span class="hljs-number">0.1</span>;
+      timeout += <span class="hljs-number">100</span>;
+    &#125;
+  &#125;;
+
+<span class="hljs-comment">// 组件内使用</span>
+    onMounted(<span class="hljs-keyword">async</span> () =&gt; &#123;
+      <span class="hljs-keyword">await</span> nextTick();
+      listAnimat();
+    &#125;);</code></pre><h2 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h2><h3 id="备份-mongodb"><a href="#备份-mongodb" class="headerlink" title="备份 mongodb"></a>备份 mongodb</h3><p>mongodb 的备份与其他的关系型数据库非常类似，使用<code>mongodump</code>命令。不过我当前的测试环境是在 docker on windows 上的，并且忘记映射目录了（虽然他会提示 WSL 目录直接映射会有性能问题，但我还是忘了）。</p><p>无论在什么环境的 docker，都可以使用<code>exec</code>来执行容器的命令。可以使用<code>/bin/sh</code>开打开一个伪终端。</p><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> -it 979534a50979 /bin/sh</code></pre><p>然后在容器内使用<code>mongodump</code>的命令来 dump 一份备份。</p><pre><code class="hljs bash">mongodump -h 127.0.0.1 -d guguMall --out /</code></pre><p>由于导出的都是 json 与 bson，可以适当的压缩一下</p><pre><code class="hljs bash">tar -zcvf guguMall.tar.gz guguMall</code></pre><p>然后使用 docker 自带的 copy 命令<code>docker cp</code>来将文件 copy 到宿主机。</p><pre><code class="hljs bash">docker cp 979534a50979:/guguMall.tar.gz /</code></pre><blockquote><p>windows （PowerShell）环境下<code>/</code>也就是 C 盘</p></blockquote><h3 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h3><pre><code class="hljs bash">mongorestore -h 127.0.0.1 -d guguMall ./guguMall</code></pre><h3 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h3><p>跨域是经典的问题了，主要是用来保护客户端的。这里使用 CORS 来解决，做了个简单的中间件：</p><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; Context &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;koa&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cors</span>(<span class="hljs-params">ctx: Context, next: () =&gt; <span class="hljs-built_in">Promise</span>&lt;unknown&gt;</span>) </span>&#123;
+  <span class="hljs-comment">// 允许来自所有域名请求</span>
+  ctx.set(<span class="hljs-string">&#x27;Access-Control-Allow-Origin&#x27;</span>, <span class="hljs-string">&#x27;*&#x27;</span>);
+  <span class="hljs-comment">// 这样就能只允许 http://localhost:8080 这个域名的请求了</span>
+  <span class="hljs-comment">// ctx.set(&quot;Access-Control-Allow-Origin&quot;, &quot;http://localhost:8080&quot;);</span>
+  <span class="hljs-comment">// 设置所允许的HTTP请求方法</span>
+  ctx.set(<span class="hljs-string">&#x27;Access-Control-Allow-Methods&#x27;</span>, <span class="hljs-string">&#x27;OPTIONS, GET, PUT, POST, DELETE&#x27;</span>);
+  <span class="hljs-comment">// 字段是必需的。它也是一个逗号分隔的字符串，表明服务器支持的所有头信息字段.</span>
+  ctx.set(
+    <span class="hljs-string">&#x27;Access-Control-Allow-Headers&#x27;</span>,
+    <span class="hljs-string">&#x27;x-requested-with, accept, origin, content-type&#x27;</span>
+  );
+  <span class="hljs-comment">// 服务器收到请求以后，检查了Origin、Access-Control-Request-Method和Access-Control-Request-Headers字段以后，确认允许跨源请求，就可以做出回应。</span>
+  <span class="hljs-comment">// Content-Type表示具体请求中的媒体类型信息</span>
+  ctx.set(<span class="hljs-string">&#x27;Content-Type&#x27;</span>, <span class="hljs-string">&#x27;application/json;charset=utf-8&#x27;</span>);
+  <span class="hljs-comment">/*</span>
+<span class="hljs-comment">  CORS请求时，XMLHttpRequest对象的getResponseHeader()方法只能拿到6个基本字段：</span>
+<span class="hljs-comment">      Cache-Control、</span>
+<span class="hljs-comment">      Content-Language、</span>
+<span class="hljs-comment">      Content-Type、</span>
+<span class="hljs-comment">      Expires、</span>
+<span class="hljs-comment">      Last-Modified、</span>
+<span class="hljs-comment">      Pragma。</span>
+<span class="hljs-comment">  */</span>
+  <span class="hljs-comment">// 需要获取其他字段时，使用Access-Control-Expose-Headers，</span>
+  <span class="hljs-comment">// getResponseHeader(&#x27;myData&#x27;)可以返回我们所需的值</span>
+  <span class="hljs-comment">// ctx.set(&#x27;Access-Control-Expose-Headers&#x27;, &#x27;myData&#x27;);</span>
+  <span class="hljs-keyword">await</span> next();
+&#125;</code></pre></div><div class="prev-or-next"><div class="post-foot-next"><a href="/defect/vue3-notes.html" target="_self"><i class="iconfont icon-chevronleft"></i> <span>上一页</span></a></div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2021-05-13 14:18:24</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span> <span class="span--tag"><a href="/tags/Vue/" title="Vue"><b>#</b> Vue</a></span> <span class="span--tag"><a href="/tags/TypeScript/" title="TypeScript"><b>#</b> TypeScript</a></span></span></div><div class="post-foot-prev"><a href="/defect/programming-typescript.html" target="_self"><span>下一页</span><i class="iconfont icon-chevronright"></i></a></div></div></div><div id="btn-catalog" class="btn-catalog"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-catalog"></use></svg></div><div class="post-catalog hidden" id="catalog"><div class="title">目录</div><div class="catalog-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E5%88%B6%E7%89%88"><span class="toc-text">重制版</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TypeScript"><span class="toc-text">TypeScript</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vuex"><span class="toc-text">Vuex</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%AD%BE%E5%90%8D"><span class="toc-text">索引签名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E4%B8%80%E4%B8%AA%E7%B4%A2%E5%BC%95%E7%AD%BE%E5%90%8D"><span class="toc-text">声明一个索引签名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mouseEvent-amp-Elemet"><span class="toc-text">mouseEvent &amp; Elemet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTMLElement"><span class="toc-text">HTMLElement</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#props-%E7%B1%BB%E5%9E%8B"><span class="toc-text">props 类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v-for"><span class="toc-text">v-for</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6-v-for"><span class="toc-text">控制 v-for</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#v-for-%E4%B8%AD%E7%9A%84-Ref-%E6%95%B0%E7%BB%84"><span class="toc-text">v-for 中的 Ref 数组</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#keep-alive"><span class="toc-text">keep-alive</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue-3"><span class="toc-text">Vue 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A6%96%E9%A1%B5%E6%BB%91%E5%8A%A8%E4%BD%8D%E7%BD%AE%E8%AE%B0%E5%BD%95"><span class="toc-text">首页滑动位置记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E7%BB%84%E4%BB%B6"><span class="toc-text">动态组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BB"><span class="toc-text">路由过渡动画</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#router"><span class="toc-text">router</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#route-path"><span class="toc-text">route path</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#axios"><span class="toc-text">axios</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="toc-text">数据拦截器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vant-UI"><span class="toc-text">Vant UI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#List-%E7%BB%84%E4%BB%B6"><span class="toc-text">List 组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%8F%E4%BC%A0%E6%A0%B7%E5%BC%8F"><span class="toc-text">透传样式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%8F%E4%BC%A0%E6%A0%B7%E5%BC%8F%E7%9A%84%E5%86%8D%E6%AC%A1%E6%9B%B4%E6%96%B0"><span class="toc-text">透传样式的再次更新</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UI-amp-%E5%85%B6%E4%BB%96"><span class="toc-text">UI &amp; 其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#px2vw"><span class="toc-text">px2vw</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sass-%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-text">sass 全局变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E5%9D%87%E7%A9%BA%E9%97%B4"><span class="toc-text">平均空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%80%91%E5%B8%83%E6%B5%81"><span class="toc-text">瀑布流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E7%94%BB"><span class="toc-text">动画</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BB%91%E5%8A%A8%E7%BC%93%E5%85%A5%E5%8A%A8%E7%94%BB"><span class="toc-text">滑动缓入动画</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%E5%8A%A8%E7%94%BB"><span class="toc-text">列表动画</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF"><span class="toc-text">后端</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E4%BB%BD-mongodb"><span class="toc-text">备份 mongodb</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%81%A2%E5%A4%8D"><span class="toc-text">恢复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CORS"><span class="toc-text">CORS</span></a></li></ol></li></ol></div></div><div class="comments-container"></div></article></main><footer class="footer"><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat/hexo-theme-oranges">Copyright © Oranges 2021</a></div><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat">Theme by Oranges | Powered by Hexo</a></div></footer><div class="back-to-top hidden"><button title="go-top" class="go-top"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-chevronup"></use></svg></button></div></body><script src="/js/iconfont.js"></script><script src="/js/main.js"></script></html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="keywords" content=""><meta name="author" content="Defectink"><meta name="description" content=""><title>JavaScript-类 | 🍭Defectink</title><link rel="apple-touch-icon" href="/images/favicon.webp"><link rel="icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/base.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="🍭Defectink" type="application/atom+xml"><link rel="alternate" href="/rss.xml" title="🍭Defectink" type="application/rss+xml"></head><body><header class="header"><div class="avatar"><a title="home" href="/"><img src="/images/mona.webp" alt=""></a><div class="nickname"><a href="/">xfy</a></div></div><nav class="navbar"><ul><li class="nav-item" data-path="/"><a href="/">Home</a></li><li class="nav-item" data-path="/archives/"><a href="/archives/">Archives</a></li><li class="nav-item" data-path="/tags/"><a href="/tags/">Tags</a></li><li class="nav-item" data-path="/friends/"><a href="/friends/">Friends</a></li><li class="nav-item" data-path="/about/"><a href="/about/">About</a></li></ul></nav></header><main class="main-container"><link rel="stylesheet" href="/css/github-markdown.css"><article class="container post-details" id="post-details"><div class="post-content"><div class="post-title">JavaScript-类</div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2021-07-12 15:19:24</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span></span></div><div class="markdown-body"><h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><h3 id="将数组当作对象"><a href="#将数组当作对象" class="headerlink" title="将数组当作对象"></a>将数组当作对象</h3><p>数组和对象的差距貌似并不大，好像完全可以将一个数组当作对象使用，但这并不是一个好主意。数组和普通的对象都根据其对应的行为和用途进行了优化，所以最好只用对象来存储键/值对，只用数组来存储下标/值对。</p><p>如果试图给一个数组添加一个类似数字的属性，例如字符串<code>&#39;3&#39;</code>，那么在数组进行存储之后会将其作为下标，并且转为数字。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> arr = []
+arr.a = <span class="hljs-number">123</span>
+arr.length  <span class="hljs-comment">// 0</span>
+arr[<span class="hljs-string">&#x27;3&#x27;</span>] = <span class="hljs-number">333</span>
+arr.length  <span class="hljs-comment">// 4</span>
+arr  <span class="hljs-comment">// (4) [空 ×3, 333, a: 123]</span></code></pre><h3 id="Get"><a href="#Get" class="headerlink" title="[[Get]]"></a>[[Get]]</h3><p>对象属性访问有些很微妙同时非常重要的细节，例如一次经典的属性访问：</p><pre><code class="hljs js"><span class="hljs-keyword">const</span> obj = &#123;
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;xfy&#x27;</span>,
+&#125;;
+obj.name;</code></pre><p><code>obj.name</code>是一次属性访问，但这不是简单的在对象 obj 中查找这个属性。</p><p>在语言规范中，<code>obj.name</code>在 obj 上实现了<code>[[Get]]</code>操作（这有点类似于函数调用：<code>[[Get]]()</code>）。对象默认的<code>[[Get]]</code>操作会先在该对象中查找是否具有名称相同的属性，如果有就返回。</p><p>如果没有找到名称相同的属性，则会继续遍历原型链，直到找到为止。如果原型链上也没有找到同名的属性，那么<code>[[Get]]</code>操作就会返回 undefined。</p><pre><code class="hljs js">obj.age; <span class="hljs-comment">// undefined</span></code></pre><p>这和访问变量时行为略微不同，如果引用了一个当前词法作用域中不存在的变量，则会抛出 ReferenceError。</p><p>所以仅通过返回值无法判断一个属性是否存在：</p><pre><code class="hljs js"><span class="hljs-keyword">const</span> myObj = &#123;
+  <span class="hljs-attr">a</span>: <span class="hljs-literal">undefined</span>,
+&#125;;
+myObj.a; <span class="hljs-comment">// undefined</span>
+myObj.b; <span class="hljs-comment">// undefined</span></code></pre><h3 id="Put"><a href="#Put" class="headerlink" title="[[Put]]"></a>[[Put]]</h3><p>有<code>[[Get]]</code>操作就有对应的<code>[[Put]]</code>操作。<code>[[Put]]</code>被触发时，实际行为取决于很多因素，包括对象中是否已经存在这个属性。</p><p>如果已经存在这个属性，<code>[[Put]]</code>算法大概会检查这些内容：</p><ol><li>属性是否是访问描述符 Setter？如果是，则直接调用 Setter。</li><li>属性的数据描述符中 writable 是否是 false？如果是，非严格模式下静默失败，严格模式抛出 TypeError 异常。</li><li>如果都不是，将该值设置为属性的值。</li></ol><h3 id="Getter-和-Setter"><a href="#Getter-和-Setter" class="headerlink" title="Getter 和 Setter"></a>Getter 和 Setter</h3><p>对象有默认的<code>[[Get]]</code>与<code>[[Put]]</code>操作可以分别控制属性值的设置与获取。在 ES5 中可以是使用 getter 和 setter 来改写单个属性的默认操作。</p><blockquote><p>目前只能改写对象的某个属性，未来可能能够修改整个对象的默认行为。</p></blockquote><p>当给一个属性定义了一个 getter 或者 setter 时，这个属性会被定义为“访问描述符”（和“数据描述符”相对）。这会使其忽略他们的 value 和 writable 属性，取而代之的时 set 与 get（还有 configurable 和 enumerable）特性。</p><p>两种定义方式相同，都会在对象中创建一个不包含值的属性。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> obj = &#123;
+  <span class="hljs-keyword">get</span> <span class="hljs-title">a</span>() &#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">123</span>;
+  &#125;,
+&#125;;
+<span class="hljs-built_in">console</span>.log(obj.a);
+
+<span class="hljs-built_in">Object</span>.defineProperty(obj, <span class="hljs-string">&#x27;b&#x27;</span>, &#123;
+  <span class="hljs-attr">get</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.a * <span class="hljs-number">2</span>;
+  &#125;,
+&#125;);
+<span class="hljs-built_in">console</span>.log(obj.b);</code></pre><p>getter 和 setter 通常成对出现</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> myObj = &#123;
+  <span class="hljs-keyword">get</span> <span class="hljs-title">a</span>() &#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>._a_;
+  &#125;,
+  <span class="hljs-keyword">set</span> <span class="hljs-title">a</span>(<span class="hljs-params">val</span>) &#123;
+    <span class="hljs-built_in">this</span>._a_ = val * <span class="hljs-number">3.14</span>;
+  &#125;,
+&#125;;
+myObj.a = <span class="hljs-number">15</span>;
+<span class="hljs-built_in">console</span>.log(myObj.a);</code></pre><h3 id="存在性"><a href="#存在性" class="headerlink" title="存在性"></a>存在性</h3><p>前面介绍过一般情况下对象无法区分属性值不存在还是其值为 undefined。我们可以使用<code>in</code>操作符与<code>Object.hasOwnProperty()</code>方法来判断一个对象中是否有这个属性。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> obj = &#123;
+  <span class="hljs-attr">a</span>: <span class="hljs-number">123</span>,
+&#125;;
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;a&#x27;</span> <span class="hljs-keyword">in</span> obj);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;b&#x27;</span> <span class="hljs-keyword">in</span> obj);
+
+<span class="hljs-built_in">console</span>.log(obj.hasOwnProperty(<span class="hljs-string">&#x27;a&#x27;</span>));
+<span class="hljs-built_in">console</span>.log(obj.hasOwnProperty(<span class="hljs-string">&#x27;b&#x27;</span>));</code></pre><p>这两个方法不同的是：</p><ul><li><code>in</code>会检查属性是否存在于对象以及原型链中；</li><li><code>Object.hasOwnProperty()</code>只会检查属性是否在对象中。</li></ul><pre><code class="hljs js"><span class="hljs-keyword">let</span> obj = &#123;
+  <span class="hljs-attr">a</span>: <span class="hljs-number">123</span>,
+&#125;;
+
+<span class="hljs-keyword">let</span> myObj = <span class="hljs-built_in">Object</span>.create(obj);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;a&#x27;</span> <span class="hljs-keyword">in</span> myObj);</code></pre><p>另外，enumerable 属性描述符直接影响到<code>for/in</code>的遍历，不可枚举的属性<code>for/in</code>会直接忽略。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> obj = &#123;
+  <span class="hljs-attr">a</span>: <span class="hljs-number">123</span>,
+&#125;;
+
+<span class="hljs-built_in">Object</span>.defineProperty(obj, <span class="hljs-string">&#x27;b&#x27;</span>, &#123;
+  <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">value</span>: <span class="hljs-number">456</span>,
+&#125;);
+
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> i <span class="hljs-keyword">in</span> obj) &#123;
+  <span class="hljs-built_in">console</span>.log(i);
+&#125;</code></pre><p>还有另外几个方法也能区分属性是否可枚举：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> obj = &#123;
+  <span class="hljs-attr">a</span>: <span class="hljs-number">123</span>,
+&#125;;
+
+<span class="hljs-built_in">Object</span>.defineProperty(obj, <span class="hljs-string">&#x27;b&#x27;</span>, &#123;
+  <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">value</span>: <span class="hljs-number">456</span>,
+&#125;);
+
+<span class="hljs-built_in">console</span>.log(obj.propertyIsEnumerable(<span class="hljs-string">&#x27;a&#x27;</span>));
+<span class="hljs-built_in">console</span>.log(obj.propertyIsEnumerable(<span class="hljs-string">&#x27;b&#x27;</span>));
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">Object</span>.keys(obj));
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">Object</span>.getOwnPropertyNames(obj));</code></pre><p>他们的区别是：</p><ul><li><code>propertyIsEnumerable()</code>当前对象中的属性是否可枚举，不检查原型链；</li><li><code>Object.keys()</code>返回当前对象所有可枚举属性的数组；</li><li><code>getOwnPropertyNames()</code>会返回对象的所有属性，无论是否可枚举；</li></ul><h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><p>这里记录下<code>[Symbol.iterator]()</code>方法的一些使用习惯。一个可迭代对象需要拥有<code>[Symbol.iterator]()</code>方法才是可迭代对象，而<code>[Symbol.iterator]()</code>方法是这样组成的：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> obj = &#123;
+  <span class="hljs-attr">start</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">end</span>: <span class="hljs-number">10</span>,
+  [<span class="hljs-built_in">Symbol</span>.iterator]() &#123; <span class="hljs-comment">// Symbol.iterator是对象中的一个方法</span>
+    <span class="hljs-keyword">return</span> &#123; <span class="hljs-comment">// 它返回一个next方法</span>
+      <span class="hljs-attr">next</span>: <span class="hljs-function">() =&gt;</span> &#123;
+        <span class="hljs-keyword">return</span> &#123; <span class="hljs-comment">// next方法还需要返回一个包含 value 和 done 的对象</span>
+          <span class="hljs-attr">value</span>: ++<span class="hljs-built_in">this</span>.start,
+          <span class="hljs-attr">done</span>: <span class="hljs-built_in">this</span>.start &gt; <span class="hljs-built_in">this</span>.end,
+        &#125;;
+      &#125;,
+    &#125;;
+  &#125;,
+&#125;;</code></pre><p>Symbol.iterator 是对象中的一个方法，它返回一个 next 方法（当然也可以不返回），而 next 方法还需要返回一个包含 value 和 done 的对象。这样才构成了一个可迭代的对象。</p><p>Symbol.iterator 方法可以直接通过 this 访问原对象，而 next 方法是 Symbol.iterator 方法返回的一个方法，它需要通过 this 来获取原本对象时就需要使用箭头函数，因为普通函数会有自己的 this 值。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> obj = &#123;
+  <span class="hljs-attr">start</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">end</span>: <span class="hljs-number">10</span>,
+  [<span class="hljs-built_in">Symbol</span>.iterator]() &#123;
+    <span class="hljs-keyword">return</span> &#123;
+      <span class="hljs-function"><span class="hljs-title">next</span>(<span class="hljs-params"></span>)</span> &#123;
+        <span class="hljs-keyword">return</span> &#123;
+          <span class="hljs-attr">value</span>: ++<span class="hljs-built_in">this</span>.start, <span class="hljs-comment">// undefined</span>
+          <span class="hljs-attr">done</span>: <span class="hljs-built_in">this</span>.start &gt; <span class="hljs-built_in">this</span>.end,
+        &#125;;
+      &#125;,
+    &#125;;
+  &#125;,
+&#125;;</code></pre><p>另外，Symbol.iterator 也可以不返回 next 方法，它通过返回 this，然后在原对象中定义一个 next 方法。这样迭代器就照样能找到 next 方法，且能够使用 this 了。</p><pre><code class="hljs js"><span class="hljs-comment">// 这样也是可以的</span>
+<span class="hljs-keyword">let</span> obj = &#123;
+  <span class="hljs-attr">start</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">end</span>: <span class="hljs-number">10</span>,
+  [<span class="hljs-built_in">Symbol</span>.iterator]() &#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>;
+  &#125;,
+  <span class="hljs-function"><span class="hljs-title">next</span>(<span class="hljs-params"></span>)</span> &#123;
+    <span class="hljs-keyword">return</span> &#123;
+      <span class="hljs-attr">value</span>: ++<span class="hljs-built_in">this</span>.start,
+      <span class="hljs-attr">done</span>: <span class="hljs-built_in">this</span>.start &gt; <span class="hljs-built_in">this</span>.end,
+    &#125;;
+  &#125;,
+&#125;;</code></pre><h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p>类是一种设计模式。许多语言提供了对于面向类软件设计的原生语法。JavaScript 也有类似的语法，但是和其他语言的类完全不同。</p><p>类意味着复制。</p><p>传统的类被实例化时，它的行为会被复制到实例中。类被继承时，行为也会被复制到子类中。</p><p>多态（在继承链的不同层次名称相同但是功能不同的函数）看起来似乎是从子类中引用父类，但是本质上引用的其实是复制的结果。</p><p>JavaScript 并不会（像类那样）自动创建对象的副本。</p><h2 id="原型"><a href="#原型" class="headerlink" title="原型"></a>原型</h2><p>考虑原型链之前先来看下什么是原型。我在《JavaScript 权威指南》中读到的最容易理解的一句话就是：对象不仅仅是简单的字符串（和 Symbol）到值的映射。除了维持自己的属性之外，JavaScript 对象也可以从其他对象继承属性，这个其他对象称其为“原型”。</p><p>JavaScript 与传统的 OOP 语言不同的是，它没有通常的类的概念。对象的方法通常是继承来的属性，而这种“原型式继承”也是 JavaScript 的主要特性。</p><p>JavaScript 的对象有个特殊的<code>[[Prototype]]</code>内置属性，也就是原型，其实就是对于其他对象的引用。几乎所有对象在创建时<code>[[Prototype]]</code>属性都会被赋予一个非空的值。一个对象的原型是其他的对象的引用，而其他的对象也会拥有原型，这样就形成了所谓的“原型链”。看上去和作用域链有点类似，虽然他们是两种东西，但是某些查找值的行为确实很类似。</p><p><code>[[Prototype]]</code>引用有什么用呢，上述介绍过<code>[[Get]]</code>操作会在当前对象内寻找指定的属性，如果找不到，它就会继续上<code>[[Prototype]]</code>上寻找。</p><blockquote><p>这里对<code>[[Get]]</code>的讨论是不考虑 ES6 的 Proxy 的情况下的。</p></blockquote><p>这样的代码在前面可能已经见过，<code>Object.create</code>应该是用来描述原型最方便的方法了。先不考虑它的实现，它在这里的作用就是将 obj 设置为 otherObj 的原型。这样在对<code>otherObj.name</code>实施<code>[[Get]]</code>操作时，otherObj 本身并 name 这个属性，但是它会随着原型查找到 obj 上，并成功的访问到了值。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> obj = &#123;
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;xfy&#x27;</span>,
+&#125;;
+<span class="hljs-keyword">const</span> otherObj = <span class="hljs-built_in">Object</span>.create(obj);
+<span class="hljs-built_in">console</span>.log(otherObj.name);</code></pre><h3 id="原型链的尽头"><a href="#原型链的尽头" class="headerlink" title="原型链的尽头"></a>原型链的尽头</h3><p>前面说过，一个对象的原型是其他的对象的引用，而其他的对象也会拥有原型，这样就形成了所谓的“原型链”。那么这样的原型链到哪里才是个头呢？</p><p>所有普通的对象原型最终都会指向<code>Object.prototype</code>。这也就是为什么几乎所有对象都有<code>toString()</code>和<code>valueOf()</code>之类的方法了，因为他们是通过原型链访问到 Object 对应的方法的。</p><h3 id="属性设置和屏蔽"><a href="#属性设置和屏蔽" class="headerlink" title="属性设置和屏蔽"></a>属性设置和屏蔽</h3><p>在我刚学 JavaScript 的时候，有人曾告诉过我，如果给一个对象设置一个和其原型链上同名的方法，那么就会屏蔽它的方法，访问到的是该对象自己定义的同名方法。这种情况称之为重写。</p><p>重写方法这里就不多说了，但重写远比我们想象中的更复杂。它只是多种情况下的一种。如果为一个对象 obj 赋值一个 foo 属性，假设它的原型链已经有这个同名的属性了，那么它会出现三种情况：</p><ol><li>如果在<code>[[Prototype]]</code>链上这个同名属性没有被设置为只读（<code>writable:false</code>）属性，那么就会直接在 obj 添加一个 foo 属性，它是屏蔽属性。</li><li>如果<code>[[Prototype]]</code>链上这个同名属性为只读，那么无法修改已有属性或者在 obj 上创建屏蔽属性。在严格模式下会抛出一个错误，非严格模式下会静默失败。</li><li>如果<code>[[Prototype]]</code>链上这个同名属性是一个 setter，那就一定会调用这个 setter。不会创建屏蔽属性，也会重新定义这个 setter。</li></ol><p>前面两种情况都好理解，来看下 setter 的情况：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> myObj = &#123;
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;xfy&#x27;</span>,
+  <span class="hljs-keyword">set</span> <span class="hljs-title">foo</span>(<span class="hljs-params">val</span>) &#123;
+    <span class="hljs-built_in">this</span>._a_ = val * <span class="hljs-number">2</span>;
+  &#125;,
+  <span class="hljs-keyword">get</span> <span class="hljs-title">foo</span>() &#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>._a_;
+  &#125;,
+&#125;;
+<span class="hljs-keyword">const</span> obj = <span class="hljs-built_in">Object</span>.create(myObj);
+obj.foo = <span class="hljs-string">&#x27;110&#x27;</span>;
+<span class="hljs-built_in">console</span>.log(obj.foo); <span class="hljs-comment">// 220</span></code></pre><p>也就说属性屏蔽只是三种情况种的一种而已。</p><blockquote><p>第二种令人意外的情况主要是为了模拟类属性的继承。更令人意外的是它只会发生在使用<code>=</code>赋值中，使用<code>Object.defineProperty()</code>并不会受到影响。</p></blockquote><h3 id="原型式继承"><a href="#原型式继承" class="headerlink" title="原型式继承"></a>原型式继承</h3><p>本咸鱼曾经在读高程三的时候研究过 JavaScript 的原型式继承： <a href="https://www.defectink.com/defect/javascript-object-oriented-programming.html">JavaScript 面向对象的程序设计 - 🍭Defectink</a> 。所以这里不再赘述关于构造函数还有模拟类的历史问题等，这里记录一些那篇文章没有提到的东西。</p><p>那篇文章里记录过 Douglas Crockford 所介绍的实现继承的方法。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">object</span>(<span class="hljs-params">o</span>) </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">F</span>(<span class="hljs-params"></span>) </span>&#123;&#125;;
+    F.prototype = o;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> F();
+&#125;</code></pre><p>也就是<code>Object.create()</code>。</p><p>但当时并没有讨论构造函数之间的继承为什么用这种方式。如果有两个构造函数 Foo 和 Bar，假设 Bar 需要继承自 Foo，那么这两种写法为何不行？</p><pre><code class="hljs js"><span class="hljs-comment">// 引用机制！</span>
+Bar.prototype = Foo.prototype;
+<span class="hljs-comment">// 可能会有副作用</span>
+Bar.prototype = <span class="hljs-keyword">new</span> Foo();</code></pre><p>第一种方法有很严重的问题，因为 JavaScript 中的对象并不是按值赋值的，而是而引用赋值的。直接将<code>Bar.prototype = Foo.prototype</code>，那么二者就会关联起来，任何在子类原型上的修改都会翻译到父类原型上，因为他们本质上是一个 prototype。</p><p>第二种方法确实可能正常关联，但是如果父类 Foo 有一些副作用操作（例如修改状态、注册到其他对象，给 this 添加属性，等等），这样就会影响到子类创建的实例。</p><p>所以合适的方法就是使用<code>Object.create()</code>。但这是在 ES6 之前的情况，ES6 添加了新的辅助函数<code>Object.setPrototypeOf()</code>，可以用标准且可靠的方法来修改关联。</p><pre><code class="hljs js"><span class="hljs-comment">// ES6 之前需要抛弃默认的 Bar.prototype</span>
+Bar.prototype = <span class="hljs-built_in">Object</span>.create(Foo.prototype);
+<span class="hljs-comment">// ES6 之后可以直接修改现有的 Bar.prototype</span>
+<span class="hljs-built_in">Object</span>.setPrototypeOf(Bar.prototype, Foo.prototype);</code></pre><h3 id="检查“类”关联"><a href="#检查“类”关联" class="headerlink" title="检查“类”关联"></a>检查“类”关联</h3><p>在传统的面向类的环境中，检查一个实例（JavaScript 的对象）的继承祖先（JavaScript 的委托关联）通常被称之为内省（反射）。</p><p>在 JavaScript 中也有类似的操作：</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Foo</span>(<span class="hljs-params"></span>) </span>&#123;&#125;
+<span class="hljs-keyword">const</span> obj = <span class="hljs-keyword">new</span> Foo();
+
+obj <span class="hljs-keyword">instanceof</span> Foo; <span class="hljs-comment">// true</span></code></pre><p>instanceof 操作符的左侧是一个对象，右侧是一个函数。它回答的问题是：在 obj 的整条原型链<code>[[Prototype]]</code>上是否有<code>Foo.prototype</code>指向的对象？</p><p>但这个方法只能用在对象和函数之间的关系，如果需要判断两个对象之间是否通过<code>[[Prototype]]</code>关联，只用 instanceof 无法实现。</p><p>可以使用<code>.isPrototypeOf()</code>来检查两个对象之间是否关联，当然，它也可以用来检查“实例”和“类”之间的关联。</p><p>因为 JavaScript 中的类本质上就是使用原型链模仿出的结果，所以判断 obj 与其构造函数 Foo 之间的关系也可以这样：</p><pre><code class="hljs js">Foo.prototype.isPrototypeOf(obj);</code></pre><p>由于类是虚假的，实际上我们并不需要 Foo，只需要它的原型对象 prototype。<code>.isPrototypeOf()</code>回答的问题是：在 obj 的整个原型链中是否出现过<code>Foo.prototype</code>？</p><p>在 ES5 中我们可以直接获取一个对象的原型：</p><pre><code class="hljs js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Foo</span> </span>&#123;
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">name</span>)</span> &#123;
+    <span class="hljs-built_in">this</span>.name = name;
+  &#125;
+  <span class="hljs-function"><span class="hljs-title">sayName</span>(<span class="hljs-params"></span>)</span> &#123;
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.name);
+  &#125;
+&#125;
+
+<span class="hljs-keyword">const</span> obj = <span class="hljs-keyword">new</span> Foo(<span class="hljs-string">&#x27;xfy&#x27;</span>);
+
+<span class="hljs-built_in">Object</span>.getPrototypeOf(obj)
+<span class="hljs-comment">// &#123;constructor: ƒ, sayName: ƒ&#125;</span>
+<span class="hljs-comment">// constructor: class Foo</span>
+<span class="hljs-comment">// sayName: ƒ sayName()</span>
+<span class="hljs-comment">// __proto__: Object</span></code></pre><p>如果经常和 Chrome 之类的浏览器打交道的话，可能还在对象中见到过<code>.__proto__</code>属性。这个属性神奇的引用了<code>[[Prototype]]</code>对象，并且在 ES6 成为了标准。</p></div><div class="prev-or-next"><div class="post-foot-next"><a href="/defect/javascript-proxy-and-reflect.html" target="_self"><i class="iconfont icon-chevronleft"></i> <span>上一页</span></a></div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2021-07-12 15:19:24</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span></span></div><div class="post-foot-prev"><a href="/defect/javascript-syntax.html" target="_self"><span>下一页</span><i class="iconfont icon-chevronright"></i></a></div></div></div><div id="btn-catalog" class="btn-catalog"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-catalog"></use></svg></div><div class="post-catalog hidden" id="catalog"><div class="title">目录</div><div class="catalog-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1"><span class="toc-text">对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86%E6%95%B0%E7%BB%84%E5%BD%93%E4%BD%9C%E5%AF%B9%E8%B1%A1"><span class="toc-text">将数组当作对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get"><span class="toc-text">[[Get]]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Put"><span class="toc-text">[[Put]]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Getter-%E5%92%8C-Setter"><span class="toc-text">Getter 和 Setter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%9C%A8%E6%80%A7"><span class="toc-text">存在性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%8D%E5%8E%86"><span class="toc-text">遍历</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB"><span class="toc-text">类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B"><span class="toc-text">原型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%9A%84%E5%B0%BD%E5%A4%B4"><span class="toc-text">原型链的尽头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E8%AE%BE%E7%BD%AE%E5%92%8C%E5%B1%8F%E8%94%BD"><span class="toc-text">属性设置和屏蔽</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E5%BC%8F%E7%BB%A7%E6%89%BF"><span class="toc-text">原型式继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E2%80%9C%E7%B1%BB%E2%80%9D%E5%85%B3%E8%81%94"><span class="toc-text">检查“类”关联</span></a></li></ol></li></ol></div></div><div class="comments-container"></div></article></main><footer class="footer"><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat/hexo-theme-oranges">Copyright © Oranges 2021</a></div><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat">Theme by Oranges | Powered by Hexo</a></div></footer><div class="back-to-top hidden"><button title="go-top" class="go-top"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-chevronup"></use></svg></button></div></body><script src="/js/iconfont.js"></script><script src="/js/main.js"></script></html>

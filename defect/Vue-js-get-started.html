@@ -1,0 +1,225 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="keywords" content=""><meta name="author" content="Defectink"><meta name="description" content=""><title>Vue.js-起步! | 🍭Defectink</title><link rel="apple-touch-icon" href="/images/favicon.webp"><link rel="icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/base.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="🍭Defectink" type="application/atom+xml"><link rel="alternate" href="/rss.xml" title="🍭Defectink" type="application/rss+xml"></head><body><header class="header"><div class="avatar"><a title="home" href="/"><img src="/images/mona.webp" alt=""></a><div class="nickname"><a href="/">xfy</a></div></div><nav class="navbar"><ul><li class="nav-item" data-path="/"><a href="/">Home</a></li><li class="nav-item" data-path="/archives/"><a href="/archives/">Archives</a></li><li class="nav-item" data-path="/tags/"><a href="/tags/">Tags</a></li><li class="nav-item" data-path="/friends/"><a href="/friends/">Friends</a></li><li class="nav-item" data-path="/about/"><a href="/about/">About</a></li></ul></nav></header><main class="main-container"><link rel="stylesheet" href="/css/github-markdown.css"><article class="container post-details" id="post-details"><div class="post-content"><div class="post-title">Vue.js-起步!</div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2020-10-22 11:21:22</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span> <span class="span--tag"><a href="/tags/Vue/" title="Vue"><b>#</b> Vue</a></span></span></div><div class="markdown-body"><p>在我打算学习vue的时候，正是其3.0版本发布不久的时候。很庆幸生活在这个时代，但困扰我的是是否应该由旧版本的2.x开始学习？一向选择困难的我最终打算两个版本一起学习，从2.x开始入门，顺便还能一睹其与3.0版本的变化。</p><h2 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h2><p>Vue (读音 /vjuː/，类似于 view) 是一套用于构建用户界面的渐进式框架。与其它大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与现代化的工具链以及各种支持类库结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。</p><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>从最基础的开始，可以在单html文件中引入vue。</p><pre><code class="hljs js">&lt;script src=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/npm/vue/dist/vue.js&quot;</span>&gt;&lt;/script&gt;</code></pre><h3 id="声明式渲染"><a href="#声明式渲染" class="headerlink" title="声明式渲染"></a>声明式渲染</h3><p>Vue的核心是采用简介的模板语法来声明式地将数据渲染进DOM系统：</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span>
+    &#123;&#123; message &#125;&#125;
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><pre><code class="hljs js"><span class="hljs-keyword">let</span> app = <span class="hljs-keyword">new</span> Vue(&#123;
+    <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;.app&#x27;</span>,
+    <span class="hljs-attr">data</span>: &#123;
+        <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;Hello world!&#x27;</span>
+    &#125;
+&#125;)</code></pre><p>不得不说Vue的教程确实简单易懂，也可能是因为Vue本身的语法简洁，第一次看到教程里的这个实例时，大部分都是能够理解的。目前为止，已经成功的创建了第一个Vue应用。</p><p>现在数据和DOM已经被建立的关联，所有的东西都是响应式的，刚刚新建的<code>app</code>实例拥有一个<code>app.message</code>的值，在console中修改就能实时的看到相应的属性更新。</p><p>目前就不再和HTML直接进行交互了，一个Vue应用会将其挂在到一个DOM元素上：<code>el: &#39;.app&#39;</code>，然后对其进行完全控制。那个 HTML 是我们的入口，但其余都会发生在新创建的 Vue 实例内部。</p><p>除此之外，Vue还能直接对DOM元素attribute进行绑定</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">v-bind:src</span>=<span class="hljs-string">&#x27;src&#x27;</span> <span class="hljs-attr">v-bind:alt</span>=<span class="hljs-string">&#x27;alt&#x27;</span> <span class="hljs-attr">v-bind:title</span>=<span class="hljs-string">&#x27;message&#x27;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"></span>
+<span class="javascript">    <span class="hljs-keyword">let</span> app = <span class="hljs-keyword">new</span> Vue(&#123;</span>
+<span class="javascript">        <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;.app&#x27;</span>,</span>
+<span class="javascript">        <span class="hljs-attr">data</span>: &#123;</span>
+<span class="javascript">            <span class="hljs-attr">src</span>: <span class="hljs-string">&#x27;https://cdn.defectink.com/images/file_4963947.png&#x27;</span>,</span>
+<span class="javascript">            <span class="hljs-attr">alt</span>: <span class="hljs-string">&#x27;ヽ(✿ﾟ▽ﾟ)ノ&#x27;</span>,</span>
+<span class="javascript">            <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;ヽ(✿ﾟ▽ﾟ)ノ&#x27;</span></span>
+<span class="javascript">        &#125;</span>
+<span class="javascript">    &#125;)</span>
+<span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>这样的操作方法被称之为<strong>指令</strong>。指令带有<code>v-</code>前缀，以表示他们是Vue提供的特殊attribute。它们会在渲染的 DOM 上应用特殊的响应式行为。</p><h3 id="条件与循环"><a href="#条件与循环" class="headerlink" title="条件与循环"></a>条件与循环</h3><p>Vue提供了一个类似于条件语句的指令，切换一个元素的显示也非常的简单，使用<code>v-if</code>语句。</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">&#x27;seen&#x27;</span> <span class="hljs-attr">v-bind:src</span>=<span class="hljs-string">&#x27;src&#x27;</span> <span class="hljs-attr">v-bind:alt</span>=<span class="hljs-string">&#x27;alt&#x27;</span> <span class="hljs-attr">v-bind:title</span>=<span class="hljs-string">&#x27;message&#x27;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"></span>
+<span class="javascript">    <span class="hljs-keyword">let</span> app = <span class="hljs-keyword">new</span> Vue(&#123;</span>
+<span class="javascript">        <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;.app&#x27;</span>,</span>
+<span class="javascript">        <span class="hljs-attr">data</span>: &#123;</span>
+<span class="javascript">            <span class="hljs-attr">src</span>: <span class="hljs-string">&#x27;https://cdn.defectink.com/images/file_4963947.png&#x27;</span>,</span>
+<span class="javascript">            <span class="hljs-attr">alt</span>: <span class="hljs-string">&#x27;ヽ(✿ﾟ▽ﾟ)ノ&#x27;</span>,</span>
+<span class="javascript">            <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;ヽ(✿ﾟ▽ﾟ)ノ&#x27;</span>,</span>
+<span class="javascript">            <span class="hljs-attr">seen</span>: <span class="hljs-literal">true</span></span>
+<span class="javascript">        &#125;</span>
+<span class="javascript">    &#125;);</span>
+<span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>继上一个例子，添加一个和绑定DOM attribute类似的指令：<code>v-if</code>。相应的，它也类似于常见的if语句，当值为<code>true</code>时，则显示这个DOM，反之亦然。当然，所有的内容还都是动态的，在console中继续使用<code>app.seen = false</code>时，DOM元素将会隐藏。</p><p>既然有了if语句，那自然是不能少了for循环的。</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">ol</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;todo in items&quot;</span>&gt;</span>
+        &#123;&#123; todo.txt &#125;&#125;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ol</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"></span>
+<span class="javascript">    <span class="hljs-keyword">let</span> app = <span class="hljs-keyword">new</span> Vue(&#123;</span>
+<span class="javascript">        <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;.app&#x27;</span>,</span>
+<span class="javascript">        <span class="hljs-attr">data</span>: &#123;</span>
+<span class="javascript">            <span class="hljs-attr">items</span>: [</span>
+<span class="javascript">                &#123; <span class="hljs-attr">txt</span>: <span class="hljs-string">&#x27;小&#x27;</span> &#125;,</span>
+<span class="javascript">                &#123; <span class="hljs-attr">txt</span>: <span class="hljs-string">&#x27;小小&#x27;</span> &#125;,</span>
+<span class="javascript">                &#123; <span class="hljs-attr">txt</span>: <span class="hljs-string">&#x27;小小小肥羊&#x27;</span> &#125;</span>
+<span class="javascript">            ]</span>
+<span class="javascript">        &#125;</span>
+<span class="javascript">    &#125;);</span>
+<span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>Vue里的for循环可以用来创建列表等，并且是以数组的方式对其DOM进行控制的。指令<code>v-for=&quot;todo in items&quot;</code>中的<code>items</code>就对应了<code>data</code>中的<code>items</code>数组，而DOM里的参数<code>&#123;&#123; todo.txt &#125;&#125;</code>就相当于<code>items[i].txt</code>。</p><p>并且后续可以使用数组方法对DOM进行直接的操作：</p><pre><code class="hljs js">app.items.push(&#123;<span class="hljs-attr">txt</span>: <span class="hljs-string">&#x27;test&#x27;</span>&#125;);
+<span class="hljs-comment">// 4</span>
+app.items.shift();
+<span class="hljs-comment">// &#123;__ob__: Observer&#125;</span></code></pre><h3 id="处理用户输入"><a href="#处理用户输入" class="headerlink" title="处理用户输入"></a>处理用户输入</h3><p>Vue可以使用指令<code>v-on</code>来对DOM绑定一个事件监听器，通过它来调用在实例中定义的方法</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">v-on:click</span>=<span class="hljs-string">&quot;disableImage&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;切换！&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">v-bind:src</span>=<span class="hljs-string">&quot;src&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"></span>
+<span class="javascript">    <span class="hljs-keyword">let</span> app = <span class="hljs-keyword">new</span> Vue(&#123;</span>
+<span class="javascript">        <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;.app&#x27;</span>,</span>
+<span class="javascript">        <span class="hljs-attr">data</span>: &#123;</span>
+<span class="javascript">            <span class="hljs-attr">src</span>: <span class="hljs-string">&#x27;https://cdn.defectink.com/images/file_4963947.png&#x27;</span></span>
+<span class="javascript">        &#125;,</span>
+<span class="javascript">        <span class="hljs-attr">methods</span>: &#123;</span>
+<span class="javascript">            <span class="hljs-attr">disableImage</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;</span>
+<span class="javascript">                <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.src) &#123;</span>
+<span class="javascript">                    <span class="hljs-built_in">this</span>.src = <span class="hljs-string">&#x27;&#x27;</span>;</span>
+<span class="javascript">                &#125; <span class="hljs-keyword">else</span> &#123;</span>
+<span class="javascript">                    <span class="hljs-built_in">this</span>.src = <span class="hljs-string">&#x27;https://cdn.defectink.com/images/file_4963947.png&#x27;</span>;</span>
+<span class="javascript">                &#125;</span>
+<span class="javascript">            &#125;</span>
+<span class="javascript">        &#125;</span>
+<span class="javascript">    &#125;);</span>
+<span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>这是对事件监听器的一个实例，通过在<code>input</code>上绑定一个事件监听器来触发对实例中定义的方法。在实例中的方法中的<code>this</code>指向于当前实例。</p><p>在实例方法中，我们更新了应用状态，但没有触碰DOM——所有的 DOM 操作都由 Vue 来处理，我们编写的代码只需要关注逻辑层面即可。</p><p>Vue还提供了<code>v-model</code>指令，它能够轻松实现对表单的双向绑定</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">&quot;message&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>
+        &#123;&#123; message &#125;&#125;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"></span>
+<span class="javascript">    <span class="hljs-keyword">let</span> app = <span class="hljs-keyword">new</span> Vue(&#123;</span>
+<span class="javascript">        <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;#app&#x27;</span>,</span>
+<span class="javascript">        <span class="hljs-attr">data</span>: &#123;</span>
+<span class="javascript">            <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;Input something...&#x27;</span></span>
+<span class="javascript">        &#125;</span>
+<span class="javascript">    &#125;);</span>
+<span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h2 id="组件化应用构建"><a href="#组件化应用构建" class="headerlink" title="组件化应用构建"></a>组件化应用构建</h2><p>组件系统是Vue的另一个重要概念，它是一种抽象，允许我们使用小型、独立和通常可复用的组件构建大型应用。一个大型的页面应用将由几个可重复利用的组件构成。</p><p><img src="../images/Vue.js-%E8%B5%B7%E6%AD%A5!/2020-10-16-10-25-35.webp"></p><p>在 Vue 里，一个组件本质上是一个拥有预定义选项的一个 Vue 实例。在 Vue 中注册组件很简单：</p><pre><code class="hljs js">Vue.component(<span class="hljs-string">&#x27;todo-item&#x27;</span>, &#123;
+    <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;&lt;li&gt;这是一个测试&lt;/li&gt;&#x27;</span>
+&#125;);
+
+<span class="hljs-keyword">let</span> app = <span class="hljs-keyword">new</span> Vue(...)</code></pre><p>注册完成后就可以使用使用它来构建一个模板：</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">ol</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">todo-item</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">todo-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ol</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"></span>
+<span class="javascript">    Vue.component(<span class="hljs-string">&#x27;todo-item&#x27;</span>, &#123;</span>
+<span class="javascript">        <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;&lt;li&gt;这是一个测试&lt;/li&gt;&#x27;</span></span>
+<span class="javascript">    &#125;);</span>
+<span class="javascript">    <span class="hljs-keyword">let</span> app = <span class="hljs-keyword">new</span> Vue(&#123;</span>
+<span class="javascript">        <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;#app&#x27;</span></span>
+<span class="javascript">    &#125;)</span>
+<span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>这样一个组件简而易懂，定义一个特定内容的组件，然后在html中渲染出来其内容。但这样还不够，内容都是特定的，每次渲染的都是同样的文本。我们应该能从父作用域将数据传到子组件才对。</p><p>稍微修改一下定义的组件，使其能够接收一个prop。这类似于一个自定义的attribute。</p><pre><code class="hljs js">Vue.component(<span class="hljs-string">&#x27;todo-item&#x27;</span>, &#123;
+  <span class="hljs-comment">// 这个 prop 名为 todo。</span>
+  <span class="hljs-attr">props</span>: [<span class="hljs-string">&#x27;todo&#x27;</span>],
+  <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;&lt;li&gt;&#123;&#123; todo.text &#125;&#125;&lt;/li&gt;&#x27;</span>
+&#125;)</code></pre><p>现在，我们可以使用 v-bind 指令将待办项传到循环输出的每个组件中：</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ol</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">todo-item</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in list&quot;</span> <span class="hljs-attr">v-bind:todo</span>=<span class="hljs-string">&quot;item&quot;</span> <span class="hljs-attr">v-bind:key</span>=<span class="hljs-string">&quot;item.id&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">todo-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ol</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"></span>
+<span class="javascript">    Vue.component(<span class="hljs-string">&#x27;todo-item&#x27;</span>, &#123;</span>
+<span class="javascript">        <span class="hljs-attr">props</span>: [<span class="hljs-string">&#x27;todo&#x27;</span>],</span>
+<span class="javascript">        <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;&lt;li&gt;&#123;&#123; todo.text &#125;&#125;&lt;/li&gt;&#x27;</span></span>
+<span class="javascript">    &#125;);</span>
+<span class="javascript">    <span class="hljs-keyword">let</span> app = <span class="hljs-keyword">new</span> Vue(&#123;</span>
+<span class="javascript">        <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;#app&#x27;</span>,</span>
+<span class="javascript">        <span class="hljs-attr">data</span>: &#123;</span>
+<span class="javascript">            <span class="hljs-attr">list</span>: [</span>
+<span class="javascript">            &#123; <span class="hljs-attr">id</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;蔬菜&#x27;</span> &#125;,</span>
+<span class="javascript">            &#123; <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;奶酪&#x27;</span> &#125;,</span>
+<span class="javascript">            &#123; <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;随便其它什么人吃的东西&#x27;</span> &#125;</span>
+<span class="javascript">            ]</span>
+<span class="javascript">        &#125;</span>
+<span class="javascript">    &#125;);</span>
+<span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>这个实例中，父作用域中的数据通过组件的<code>prop</code>接口进行了良好的解耦。在一个大型应用中，有必要将整个应用程序划分为组件，以使开发更易管理。类似于这样：</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">app-nav</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">app-nav</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">app-view</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">app-sidebar</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">app-sidebar</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">app-content</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">app-content</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">app-view</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><h3 id="与自定义元素的关系"><a href="#与自定义元素的关系" class="headerlink" title="与自定义元素的关系"></a>与自定义元素的关系</h3><p>Vue组件非常类似于<strong>自定义元素</strong>——它是 Web 组件规范的一部分，这是因为 Vue 的组件语法部分参考了该规范。例如 Vue 组件实现了 Slot API 与 is attribute。但是，还是有几个关键差别：</p><ol><li><p>Web Components 规范已经完成并通过，但未被所有浏览器原生实现。目前 Safari 10.1+、Chrome 54+ 和 Firefox 63+ 原生支持 Web Components。相比之下，Vue 组件不需要任何 polyfill，并且在所有支持的浏览器 (IE9 及更高版本) 之下表现一致。必要时，Vue 组件也可以包装于原生自定义元素之内。</p></li><li><p>Vue 组件提供了纯自定义元素所不具备的一些重要功能，最突出的是跨组件数据流、自定义事件通信以及构建工具集成。</p></li></ol><p>虽然 Vue 内部没有使用自定义元素，不过在应用使用自定义元素、或以自定义元素形式发布时，依然有很好的互操作性。Vue CLI 也支持将 Vue 组件构建成为原生的自定义元素。</p><h2 id="Vue-3"><a href="#Vue-3" class="headerlink" title="Vue 3!"></a>Vue 3!</h2><p>对于一个初学者来说，同时学习两个版本可能有些吃力。但我依然想从最基本的开始时就了解了它的变化，并且还发现了一些有意思的收获。</p><h3 id="更简洁的声明"><a href="#更简洁的声明" class="headerlink" title="更简洁的声明"></a>更简洁的声明</h3><p>第一次学习2.x版本时，发现确实如其介绍的那样：</p><blockquote><p>Vue.js 的核心是一个允许采用简洁的模板语法来声明式地将数据渲染进 DOM 的系统</p></blockquote><p>用最直白的方式来看，2.x使用的方式是类似于构造函数来声明一个实例，并且有着固定的搭配：<code>el</code>为DOM的element，<code>data</code>为数据，后续还能继续添加方法：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> app = <span class="hljs-keyword">new</span> Vue(&#123;
+    <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;.app&#x27;</span>,
+    <span class="hljs-attr">data</span>: &#123;
+        <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;Hello world!&#x27;</span>
+    &#125;
+&#125;)</code></pre><p>而Vue3使用了另一种方法：</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;test&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>
+        &#123;&#123; message &#125;&#125;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"></span>
+<span class="javascript">    <span class="hljs-keyword">let</span> count = &#123;</span>
+<span class="javascript">        <span class="hljs-function"><span class="hljs-title">data</span>(<span class="hljs-params"></span>)</span> &#123;</span>
+<span class="javascript">            <span class="hljs-keyword">return</span> &#123;</span>
+<span class="javascript">                <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;Hello world!&#x27;</span></span>
+<span class="javascript">            &#125;</span>
+<span class="javascript">        &#125;</span>
+<span class="javascript">    &#125;</span>
+<span class="javascript"></span>
+<span class="javascript">    Vue.createApp(count).mount(<span class="hljs-string">&#x27;#test&#x27;</span>);</span>
+<span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>Vue3首先使用一个对象字面量创建一个带有<code>data()</code>函数的变量，该函数使用的是一种更简短的<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Method_definitions">定义方法的方法</a>。<code>data()</code>函数的返回值就是实例的数据。</p><p>当变量声明完成后，使用Vue的一个<code>createApp()</code>方法传入，并接着使用<code>mount()</code>方法传入DOM。这样一个Vue的实例就创建挂载完成了，相比较之下，我觉得这种方式对其生命周期有着更清晰的显示。</p><p>当然，也可以跳过创建变量这一步，直接传参，这样看上去更像Vue2。</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>
+        &#123;&#123; message &#125;&#125;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"></span>
+<span class="javascript">    <span class="hljs-keyword">let</span> app = Vue.createApp(&#123;</span>
+<span class="javascript">        <span class="hljs-function"><span class="hljs-title">data</span>(<span class="hljs-params"></span>)</span> &#123;</span>
+<span class="javascript">            <span class="hljs-keyword">return</span> &#123;</span>
+<span class="javascript">                <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;xfy!&#x27;</span></span>
+<span class="javascript">            &#125;</span>
+<span class="javascript">        &#125;,</span>
+<span class="javascript">        <span class="hljs-function"><span class="hljs-title">mounted</span>(<span class="hljs-params"></span>)</span> &#123;</span>
+<span class="javascript">            <span class="hljs-keyword">let</span> id = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> &#123;</span>
+<span class="javascript">                <span class="hljs-built_in">this</span>.message = <span class="hljs-string">&#x27;x&#x27;</span> + <span class="hljs-built_in">this</span>.message;</span>
+<span class="javascript">            &#125;, <span class="hljs-number">1000</span>);</span>
+<span class="javascript">            <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;</span>
+<span class="javascript">                <span class="hljs-built_in">clearInterval</span>(id);</span>
+<span class="javascript">            &#125;, <span class="hljs-number">10000</span>)</span>
+<span class="javascript">        &#125;</span>
+<span class="javascript">    &#125;).mount(<span class="hljs-string">&#x27;#app&#x27;</span>)</span>
+<span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>就拿其官方文档的实例来看，再创建实例时还能方便的为其的添加其他方法，并且其方法名就是生命周期名。例如在挂载后执行<code>mounted()</code>。</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;test&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>
+        &#123;&#123; message &#125;&#125;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"></span>
+<span class="javascript">    <span class="hljs-keyword">let</span> count = &#123;</span>
+<span class="javascript">        <span class="hljs-function"><span class="hljs-title">data</span>(<span class="hljs-params"></span>)</span> &#123;</span>
+<span class="javascript">            <span class="hljs-keyword">return</span> &#123;</span>
+<span class="javascript">                <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;Hello world!&#x27;</span></span>
+<span class="javascript">            &#125;</span>
+<span class="javascript">        &#125;,</span>
+<span class="javascript">        <span class="hljs-function"><span class="hljs-title">mounted</span>(<span class="hljs-params"></span>)</span> &#123;</span>
+<span class="javascript">            <span class="hljs-keyword">let</span> id = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> &#123;</span>
+<span class="javascript">                <span class="hljs-built_in">this</span>.message += <span class="hljs-built_in">this</span>.message;</span>
+<span class="javascript">            &#125;, <span class="hljs-number">1000</span>);</span>
+<span class="javascript">            <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;</span>
+<span class="javascript">                <span class="hljs-built_in">clearInterval</span>(id);</span>
+<span class="javascript">            &#125;,<span class="hljs-number">9000</span>)</span>
+<span class="javascript">        &#125;</span>
+<span class="javascript">    &#125;</span>
+<span class="javascript"></span>
+<span class="javascript">    Vue.createApp(count).mount(<span class="hljs-string">&#x27;#test&#x27;</span>);</span></code></pre><blockquote><p>入门到这里时，2和3目前接触到的只是写法不同。后续以3为基础学习，并和2做比较。</p></blockquote><h2 id="应用实例"><a href="#应用实例" class="headerlink" title="应用实例"></a>应用实例</h2><p>所有的 Vue 组件都是实例，并且接受相同的选项对象。</p><h3 id="创建一个实例"><a href="#创建一个实例" class="headerlink" title="创建一个实例"></a>创建一个实例</h3><p>每个 Vue 应用都是通过用<code>createApp</code>函数创建一个新的应用实例开始的，而2.x则是以一个构造函数开始的。</p><pre><code class="hljs js">Vue.createApp(...);</code></pre><p>创建实例后，我们可以挂载它，将容器传递给<code>mount</code>方法。<code>mount</code>方法接收DOM的选择器（class、ID等）。</p><pre><code class="hljs js">Vue.createApp(...).mount(<span class="hljs-string">&#x27;#id&#x27;</span>);</code></pre><h3 id="根组件"><a href="#根组件" class="headerlink" title="根组件"></a>根组件</h3><p><code>Vue.createApp()</code>方法用于创建一个根组件，当我们挂载一个应用程序时，该组件将为渲染起点。</p><p>一个应用需要被挂载到一个DOM节点上。例如我们需要挂载实例到<code>&lt;div id=&quot;app&quot;&gt;&lt;/div&gt;</code>上，通常的步骤如下：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> rootComponent = &#123; <span class="hljs-comment">/* some data */</span> &#125;;
+<span class="hljs-keyword">let</span> app = Vue.createApp(rootComponent);
+<span class="hljs-keyword">let</span> vm = app.mount(<span class="hljs-string">&#x27;#app&#x27;</span>);</code></pre><p>不像大多数的应用程序方法，<code>mount</code>不会返回应用。相反，它会返回根节点实例。也就说变量<code>vm</code>是根节点的实例。</p><p>Vue2和3虽然都没有完全遵循MVVM模型，但是 Vue 的设计也受到了它的启发。</p><p>一个 Vue 应用由一个通过 createApp 创建的根实例，以及可选的嵌套的、可复用的组件树组成。举个例子，一个 todo 应用的组件树可以是这样的：</p><pre><code class="hljs plaintext">根实例
+└─ TodoList
+   ├─ TodoItem
+   │  ├─ DeleteTodoButton
+   │  └─ EditTodoButton
+   └─ TodoListFooter
+      ├─ ClearTodosButton
+      └─ TodoListStatistics</code></pre><h3 id="节点实例属性"><a href="#节点实例属性" class="headerlink" title="节点实例属性"></a>节点实例属性</h3><p>前面我们遇到了<code>data</code>属性，<code>data</code>中定义的属性通过节点实例暴露出来：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> app = Vue.createApp(&#123;
+    <span class="hljs-function"><span class="hljs-title">data</span>(<span class="hljs-params"></span>)</span> &#123;
+        <span class="hljs-keyword">return</span> &#123;
+            <span class="hljs-attr">meg</span>: <span class="hljs-string">&#x27;greeting something...&#x27;</span>
+        &#125;
+    &#125;
+&#125;);
+<span class="hljs-keyword">let</span> vm = app.mount(<span class="hljs-string">&#x27;#app&#x27;</span>);
+<span class="hljs-built_in">console</span>.log(vm.meg) <span class="hljs-comment">// &#x27;greeting something...&#x27;</span></code></pre><p><code>data</code>中暴露出的属性都会加如其响应式系统，整个实例会被设置一个Proxy代理拦截其行为，从而监听数据的变化并实时渲染到DOM上。</p><p>还有其他各种用户自定义属性的组件选项能够添加到实例，例如<code>methods</code>, <code>props</code>, <code>computed</code>, <code>inject</code>和<code>setup</code>。</p><p>Vue同样也暴露了一些内建的属性，例如<code>$attrs</code>和<code>$emit</code>。他们都有<code>$</code>前缀与用户自定义的属性区分开来。</p><h2 id="生命周期钩子"><a href="#生命周期钩子" class="headerlink" title="生命周期钩子"></a>生命周期钩子</h2><p>每个组件在创建后都要经历一系列初始化的步骤，例如，它需要设置数据监控，编译模板，挂载实例到DOM节点和当数据变化时更新DOM。这一系列操作也被称之为生命周期钩子。</p><p>简单来说，就是一个实例在从最初始的声明到最后的卸载期间不同阶段对其操作的API。</p><p>例如，调用<code>create()</code>钩子，在实例被创建后运行的操作：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> app = Vue.createApp(&#123;
+    <span class="hljs-function"><span class="hljs-title">data</span>(<span class="hljs-params"></span>)</span> &#123;
+        <span class="hljs-keyword">return</span> &#123;
+            <span class="hljs-attr">meg</span>: <span class="hljs-string">&#x27;test&#x27;</span>
+        &#125;
+    &#125;,
+    <span class="hljs-function"><span class="hljs-title">created</span>(<span class="hljs-params"></span>)</span> &#123;
+        <span class="hljs-comment">// `this`指向当前实例</span>
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;instance created!&#x27;</span> + <span class="hljs-built_in">this</span>.meg);
+    &#125;
+&#125;);
+<span class="hljs-keyword">let</span> vm = app.mount(<span class="hljs-string">&#x27;#app&#x27;</span>);</code></pre><p>所有的一系列钩子，他们的<code>this</code>都指向当前调用的活动实例。</p><blockquote><p>注意，不要在一个组件属性或回调中使用箭头函数。例如：<code>created: () =&gt; &#123;console.log(this.a);&#125;;</code>或者<code>vm.$watch(&#39;a&#39;, newValue =&gt; this.myMethod());</code>。箭头函数没有自己的<code>this</code>，<code>this</code>会和其他变量一样，向上层作用域中查找，直到找到为止。通常会遇到这样的报错：<code>Uncaught TypeError: Cannot read property of undefined</code>或<code>Uncaught TypeError: this.myMethod is not a function.</code></p></blockquote><h2 id="生命周期图"><a href="#生命周期图" class="headerlink" title="生命周期图"></a>生命周期图</h2><p>下图可以很清晰的看到Vue3的实例的一个生命周期。</p><p><img src="../images/Vue.js-%E8%B5%B7%E6%AD%A5!/2020-10-22-11-03-33.webp"></p></div><div class="prev-or-next"><div class="post-foot-next"><a href="/defect/get-starting-for-node-js.html" target="_self"><i class="iconfont icon-chevronleft"></i> <span>上一页</span></a></div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2020-10-22 11:21:22</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span> <span class="span--tag"><a href="/tags/Vue/" title="Vue"><b>#</b> Vue</a></span></span></div><div class="post-foot-prev"><a href="/defect/javascript-iterable-object-and-for-of.html" target="_self"><span>下一页</span><i class="iconfont icon-chevronright"></i></a></div></div></div><div id="btn-catalog" class="btn-catalog"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-catalog"></use></svg></div><div class="post-catalog hidden" id="catalog"><div class="title">目录</div><div class="catalog-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%B7%E6%AD%A5"><span class="toc-text">起步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%BC%8F%E6%B8%B2%E6%9F%93"><span class="toc-text">声明式渲染</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E4%B8%8E%E5%BE%AA%E7%8E%AF"><span class="toc-text">条件与循环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E7%94%A8%E6%88%B7%E8%BE%93%E5%85%A5"><span class="toc-text">处理用户输入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BA%94%E7%94%A8%E6%9E%84%E5%BB%BA"><span class="toc-text">组件化应用构建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8E%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%83%E7%B4%A0%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-text">与自定义元素的关系</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-3"><span class="toc-text">Vue 3!</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E7%AE%80%E6%B4%81%E7%9A%84%E5%A3%B0%E6%98%8E"><span class="toc-text">更简洁的声明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%AE%9E%E4%BE%8B"><span class="toc-text">应用实例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%AE%9E%E4%BE%8B"><span class="toc-text">创建一个实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B9%E7%BB%84%E4%BB%B6"><span class="toc-text">根组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7"><span class="toc-text">节点实例属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%92%A9%E5%AD%90"><span class="toc-text">生命周期钩子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%9B%BE"><span class="toc-text">生命周期图</span></a></li></ol></div></div><div class="comments-container"></div></article></main><footer class="footer"><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat/hexo-theme-oranges">Copyright © Oranges 2021</a></div><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat">Theme by Oranges | Powered by Hexo</a></div></footer><div class="back-to-top hidden"><button title="go-top" class="go-top"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-chevronup"></use></svg></button></div></body><script src="/js/iconfont.js"></script><script src="/js/main.js"></script></html>

@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://www.defectink.com/defect/asynchronous-javascript-trust-promise.html</loc>
+    
+    <lastmod>2021-07-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/asynchronous-javascript-now-and-future.html</loc>
+    
+    <lastmod>2021-07-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/javascript-syntax.html</loc>
+    
+    <lastmod>2021-07-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/javascript-class.html</loc>
+    
+    <lastmod>2021-07-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/javascript-proxy-and-reflect.html</loc>
+    
+    <lastmod>2021-07-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/javascript-value-and-type.html</loc>
+    
+    <lastmod>2021-07-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/javascript-event.html</loc>
+    
+    <lastmod>2021-07-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/javascript-fxxk-this.html</loc>
+    
+    <lastmod>2021-07-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/javascript-compile-and-closure.html</loc>
+    
+    <lastmod>2021-07-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/built-simply-faas.html</loc>
+    
+    <lastmod>2021-07-11</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/dark-mode-for-user-experience.html</loc>
+    
+    <lastmod>2021-07-07</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/friends/index.html</loc>
+    
+    <lastmod>2021-07-04</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/index.html</loc>
+    
+    <lastmod>2021-07-04</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/mongodb-notes.html</loc>
+    
+    <lastmod>2021-06-07</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/typescript-pieces.html</loc>
+    
+    <lastmod>2021-06-02</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/nodejs-multi-process.html</loc>
+    
+    <lastmod>2021-06-01</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/webpack-web-develop.html</loc>
+    
+    <lastmod>2021-05-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/programming-typescript.html</loc>
+    
+    <lastmod>2021-05-20</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/first-one-SPA.html</loc>
+    
+    <lastmod>2021-05-13</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/vue3-notes.html</loc>
+    
+    <lastmod>2021-05-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/javascript-lazy-loading-image.html</loc>
+    
+    <lastmod>2021-03-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/javascript-decorator.html</loc>
+    
+    <lastmod>2021-03-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/win10-remote-desktop-password-incorrect.html</loc>
+    
+    <lastmod>2021-02-28</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/mobile-slidershow.html</loc>
+    
+    <lastmod>2021-02-23</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/todolist-exercise.html</loc>
+    
+    <lastmod>2021-02-11</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/classic-slidershow.html</loc>
+    
+    <lastmod>2021-02-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/router-with-keepalive.html</loc>
+    
+    <lastmod>2021-01-24</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/constructor-and-bind-this.html</loc>
+    
+    <lastmod>2020-12-31</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/really-writing-js-javascriptclasses.html</loc>
+    
+    <lastmod>2020-12-30</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/ajax-getting-started.html</loc>
+    
+    <lastmod>2020-12-24</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/browsers-old-friend-bom.html</loc>
+    
+    <lastmod>2020-12-22</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/javascript-practice-multiplication-table.html</loc>
+    
+    <lastmod>2020-12-11</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/response-data-in-Vue3.html</loc>
+    
+    <lastmod>2020-11-02</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/javascript-iterable-object-and-for-of.html</loc>
+    
+    <lastmod>2020-10-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/Vue-js-get-started.html</loc>
+    
+    <lastmod>2020-10-22</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/get-starting-for-node-js.html</loc>
+    
+    <lastmod>2020-09-03</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/irc-getting-started.html</loc>
+    
+    <lastmod>2020-08-22</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/function-of-javascript.html</loc>
+    
+    <lastmod>2020-08-07</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/cant-install-gifsicle.html</loc>
+    
+    <lastmod>2020-08-04</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/javascript-object-oriented-programming.html</loc>
+    
+    <lastmod>2020-07-27</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/javascript-scope-and-chain.html</loc>
+    
+    <lastmod>2020-07-03</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/write-and-cooperation.html</loc>
+    
+    <lastmod>2020-06-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/about/index.html</loc>
+    
+    <lastmod>2020-02-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/pgp/index.html</loc>
+    
+    <lastmod>2020-02-23</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/javascript-notes-reference-type.html</loc>
+    
+    <lastmod>2020-01-06</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/docker-container-all.html</loc>
+    
+    <lastmod>2019-12-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/header-practice-have-to-win-this-a.html</loc>
+    
+    <lastmod>2019-12-18</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/docker-build-own-image.html</loc>
+    
+    <lastmod>2019-11-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/modify-icloud-storage-location-on-windows.html</loc>
+    
+    <lastmod>2019-11-18</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/online-ascii-video.html</loc>
+    
+    <lastmod>2019-06-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/bark-custom-notification-for-apple.html</loc>
+    
+    <lastmod>2019-06-28</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/alioss-for-typecho.html</loc>
+    
+    <lastmod>2019-06-26</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/try-the-gitlab.html</loc>
+    
+    <lastmod>2019-06-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/basic-knowledge-of-systemd.html</loc>
+    
+    <lastmod>2019-06-14</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/public-key-cryptgraphy.html</loc>
+    
+    <lastmod>2019-06-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/auto-backup.html</loc>
+    
+    <lastmod>2019-06-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/basic-knowledge-of-qinq.html</loc>
+    
+    <lastmod>2019-05-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/fixed-inotify-watch-not-enough.html</loc>
+    
+    <lastmod>2019-05-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/teamspeak-server.html</loc>
+    
+    <lastmod>2019-05-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/multi-platform-real-time-synchronization-by-resilio-sync.html</loc>
+    
+    <lastmod>2019-05-18</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/minecraft-bedrock-server.html</loc>
+    
+    <lastmod>2019-05-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/make-typecho-support-the-emoji.html</loc>
+    
+    <lastmod>2019-05-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/hexo-again.html</loc>
+    
+    <lastmod>2018-06-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/hexo-and-github.html</loc>
+    
+    <lastmod>2017-09-14</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/hexo.html</loc>
+    
+    <lastmod>2017-08-30</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/defect/hello-world.html</loc>
+    
+    <lastmod>1999-06-05</lastmod>
+    
+  </url>
+  
+
+  <url>
+    <loc>https://www.defectink.com/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  
+  <url>
+    <loc>https://www.defectink.com/tags/Tools/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/typecho/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/network/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/Linux/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/HTML/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/JavaScript/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/Node/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/Nodejs/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/Network/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/Player/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/Vue/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/Minecraft/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/Webpack/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/Windows/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/tools/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/IRC/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/tags/TypeScript/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+
+  
+  <url>
+    <loc>https://www.defectink.com/categories/%E5%AE%9E%E8%B7%B5/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/categories/%E8%B8%A9%E5%9D%91/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/categories/%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/categories/Player/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/categories/Linux/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.defectink.com/categories/%E6%97%A5%E5%B8%B8/</loc>
+    <lastmod>2021-07-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+</urlset>

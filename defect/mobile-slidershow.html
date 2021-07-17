@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="keywords" content=""><meta name="author" content="Defectink"><meta name="description" content=""><title>移动端触摸轮播图 | 🍭Defectink</title><link rel="apple-touch-icon" href="/images/favicon.webp"><link rel="icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/base.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="🍭Defectink" type="application/atom+xml"><link rel="alternate" href="/rss.xml" title="🍭Defectink" type="application/rss+xml"></head><body><header class="header"><div class="avatar"><a title="home" href="/"><img src="/images/mona.webp" alt=""></a><div class="nickname"><a href="/">xfy</a></div></div><nav class="navbar"><ul><li class="nav-item" data-path="/"><a href="/">Home</a></li><li class="nav-item" data-path="/archives/"><a href="/archives/">Archives</a></li><li class="nav-item" data-path="/tags/"><a href="/tags/">Tags</a></li><li class="nav-item" data-path="/friends/"><a href="/friends/">Friends</a></li><li class="nav-item" data-path="/about/"><a href="/about/">About</a></li></ul></nav></header><main class="main-container"><link rel="stylesheet" href="/css/github-markdown.css"><article class="container post-details" id="post-details"><div class="post-content"><div class="post-title">移动端触摸轮播图</div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2021-02-23 08:57:10</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span> <span class="span--tag"><a href="/tags/Vue/" title="Vue"><b>#</b> Vue</a></span></span></div><div class="markdown-body"><h2 id="迫害移动端"><a href="#迫害移动端" class="headerlink" title="迫害移动端"></a>迫害移动端</h2><p>继上次的<a href="/defect/classic-slider-show.html">经典轮播图的实现方案</a>，这次配合了<code>TouchEvent</code>来实现了移动端的触摸轮播图。</p><p>这次原生的实现方式和 Vue 基本相同，由于需要实现触摸滑动，仅仅靠<code>absolute</code>定位和 Vue 的过渡动画是不够的。所以使用了经典的图片队列，然后克隆两张图片来调换队列。</p><h2 id="封装组件"><a href="#封装组件" class="headerlink" title="封装组件"></a>封装组件</h2><p>这次把整个轮播图图都尝试封装成一个单独的组件，图片的队列和动画延时都由父组件传递 props 过来。</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">TouchSlider</span> <span class="hljs-attr">:images</span>=<span class="hljs-string">&quot;images&quot;</span> <span class="hljs-attr">:animeTime</span>=<span class="hljs-string">&quot;&#x27;500&#x27;&quot;</span> /&gt;</span></code></pre><p>组件内：</p><pre><code class="hljs js">props: &#123;
+  <span class="hljs-comment">// 图片队列</span>
+  <span class="hljs-attr">images</span>: <span class="hljs-built_in">Array</span>,
+  <span class="hljs-comment">// 动画时间</span>
+  <span class="hljs-attr">animeTime</span>: <span class="hljs-built_in">String</span>
+&#125;,</code></pre><h2 id="经典方案的实现"><a href="#经典方案的实现" class="headerlink" title="经典方案的实现"></a>经典方案的实现</h2><p>虽然是用 Vue 来实现的方案，但本质上还是将经典方案封装成一个组件，然后配合上<code>TouchEvent</code>来实现了移动端的触摸轮播图。</p><p>所以第一步还是先使用 Vue 的方式实现经典的布局方案。</p><h3 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h3><p>组件内的布局和之前的经典方案一模一样，外部的 div 使用<code>relative</code>定位，内部的 ul 通过<code>transform</code>来进行位移。</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;slider&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;wrapper&quot;</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- v-for 循环的图片 --&gt;</span> 
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><p>与上次不同的地方是这次 ul 使用的<code>flex</code>布局，而不是针对 li 使用<code>flot</code>。相对于使用浮动<code>flot</code>来说，<code>flex</code>布局更加好控制，也更先进。</p><pre><code class="hljs css"><span class="hljs-selector-class">.slider</span> &#123;
+  <span class="hljs-attribute">position</span>: relative;
+  <span class="hljs-attribute">overflow</span>: hidden;
+&#125;
+<span class="hljs-selector-class">.wrapper</span> &#123;
+  <span class="hljs-attribute">display</span>: flex;
+&#125;</code></pre><h3 id="克隆图片"><a href="#克隆图片" class="headerlink" title="克隆图片"></a>克隆图片</h3><p>在 Vue 里就不那么依赖操作 DOM 了，克隆第一张和最后一张图片也很方便，，对传过来的图片数组取第一个和最后一个项目就可以了。</p><p>整个图片的队列通过<code>v-for</code>来循环生成。</p><pre><code class="hljs html"><span class="hljs-comment">&lt;!-- 克隆最后一张图片 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">&quot;images[images.length - 1].src&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;roll-img&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;item in images&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;&#x27;img&#x27; + item.id&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">&quot;item.src&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;roll-img&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;img&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- 克隆第一张图片 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">&quot;images[0].src&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;roll-img&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></code></pre><h3 id="队列宽度"><a href="#队列宽度" class="headerlink" title="队列宽度"></a>队列宽度</h3><p>经典方案还有个重点就是整个 ul 队列的宽度，它配额偏移量才能准确实现图片的移动。</p><p>这里给图片<code>&lt;img&gt;</code>都上了一个样式，用来决定图片的宽度：</p><pre><code class="hljs css"><span class="hljs-selector-class">.roll-img</span> &#123;
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">600px</span>;
+&#125;</code></pre><p>同时还用了个媒体查询，虽然不能做到实时的响应式，但是根据不同的设备还是能做的刷新后适配不同的设备端的。</p><pre><code class="hljs css"><span class="hljs-keyword">@media</span> <span class="hljs-keyword">only</span> screen <span class="hljs-keyword">and</span> (<span class="hljs-attribute">max-width</span>: <span class="hljs-number">376px</span>) &#123;
+  <span class="hljs-selector-class">.roll-img</span> &#123;
+    <span class="hljs-attribute">width</span>: <span class="hljs-number">375px</span>;
+  &#125;
+&#125;</code></pre><p>既然图片的宽度确定了，那整个 ul 的宽度就是<code>单张图片的宽度 * 图片的数量</code>了。</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;wrapper&quot;</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">:style</span>=<span class="hljs-string">&quot;&#123;</span></span>
+<span class="hljs-string"><span class="hljs-tag">    width: imgWidth * images.length + &#x27;px&#x27;</span></span>
+<span class="hljs-string"><span class="hljs-tag">  &#125;&quot;</span></span>
+<span class="hljs-tag">&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre><p>图片的数量<code>images.length</code>很容易确定，单张图片的宽度需要使用 HTMLElement 上的<code>HTMLElement.offsetWidth</code>方法。它能返回一个元素的布局宽度，这里使用它来获取单个<code>&lt;img&gt;</code>的宽度。获取的时机就在组件被挂载时：</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">mounted</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-comment">// 计算单个图片的宽度，做移动端适配</span>
+  <span class="hljs-built_in">this</span>.imgWidth = <span class="hljs-built_in">this</span>.$refs.img[<span class="hljs-number">0</span>].offsetWidth;
+&#125;</code></pre><p>现在在<code>data()</code>中还只保存了单张图片宽度<code>imgWidth</code>，慢慢来，它会越来越多的。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">data</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-keyword">return</span> &#123;
+    <span class="hljs-comment">// 单张图片的宽度</span>
+    <span class="hljs-attr">imgWidth</span>: <span class="hljs-number">0</span>,
+  &#125;;</code></pre><h3 id="移动方法"><a href="#移动方法" class="headerlink" title="移动方法"></a>移动方法</h3><p>这次依然使用<code>transition</code>过渡来实现移动的动画，控制位置使用<code>translateX</code>。</p><p>第一步先封装一个移动的方法，用了前两次的经验，这次修改了移动图片的方法，并且它接受一个参数，用于判断是否开启过渡动画：</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">move</span>(<span class="hljs-params">anime</span>)</span> &#123;
+  <span class="hljs-comment">// 移动方法，添加过渡动画，根据图片序列移动图片</span>
+  <span class="hljs-keyword">if</span> (anime) &#123;
+    <span class="hljs-built_in">this</span>.transitionX = <span class="hljs-string">`all <span class="hljs-subst">$&#123;<span class="hljs-built_in">this</span>.animeTime&#125;</span>ms`</span>;
+  &#125; <span class="hljs-keyword">else</span> &#123;
+    <span class="hljs-built_in">this</span>.transitionX = <span class="hljs-string">`none`</span>;
+  &#125;
+  <span class="hljs-built_in">this</span>.translateX = -(<span class="hljs-built_in">this</span>.imgWidth + <span class="hljs-built_in">this</span>.imgWidth * <span class="hljs-built_in">this</span>.imgIndex);
+&#125;</code></pre><p>图片移动的距离也使用了一种更好的公式：<code>-(单张图片的宽度 + 单张图片的宽度 * 当前图片索引)</code>。</p><p>这个公式的好处就是队列的位移由图片的索引进行驱动，当需要修改队列的位移的位置时，只需要相应的修改索引值，然后调用移动方法内的公式即可。</p><p><img src="../images/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E8%A7%A6%E6%91%B8%E8%BD%AE%E6%92%AD%E5%9B%BE/2021-02-23-11-23-15.webp"></p><h3 id="默认位置"><a href="#默认位置" class="headerlink" title="默认位置"></a>默认位置</h3><p>上述在<code>mounted()</code>挂载后获取了图片的宽度，现在还需要增加一个在挂载后修改下队列的位置。当克隆了两张图片分别在队列的前后时，队列的默认位置需要向左偏移一个图片的宽度。</p><p>现在在<code>data()</code>中还要再保存一个图片的索引。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">data</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-keyword">return</span> &#123;
+    <span class="hljs-comment">// 单张图片的宽度</span>
+    <span class="hljs-attr">imgWidth</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-comment">// 图片索引，用于控制位置</span>
+    <span class="hljs-attr">imgIndex</span>: <span class="hljs-number">0</span>,
+  &#125;;</code></pre><p>所以在挂载后，图片的索引为0，调用移动方法即可将队列设置为默认的位置：</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">mounted</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-comment">// 计算单个图片的宽度，做移动端适配</span>
+  <span class="hljs-built_in">this</span>.imgWidth = <span class="hljs-built_in">this</span>.$refs.img[<span class="hljs-number">0</span>].offsetWidth;
+  <span class="hljs-built_in">this</span>.move(<span class="hljs-literal">false</span>);
+&#125;</code></pre><h3 id="小圆点"><a href="#小圆点" class="headerlink" title="小圆点"></a>小圆点</h3><p>按钮封装的非常基本，就是普通的按钮添加两个点击事件，分别用于操作图片索引加减。这里就不再多说了。</p><p>按钮的方法：</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">previous</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Date</span>.now() - <span class="hljs-built_in">this</span>.flag &gt; <span class="hljs-built_in">Number</span>(<span class="hljs-built_in">this</span>.animeTime) + <span class="hljs-number">10</span>) &#123;
+    <span class="hljs-built_in">this</span>.imgIndex--;
+    <span class="hljs-built_in">this</span>.move(<span class="hljs-literal">true</span>);
+    <span class="hljs-built_in">this</span>.flag = <span class="hljs-built_in">Date</span>.now();
+  &#125;
+&#125;,
+<span class="hljs-function"><span class="hljs-title">next</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Date</span>.now() - <span class="hljs-built_in">this</span>.flag &gt; <span class="hljs-built_in">Number</span>(<span class="hljs-built_in">this</span>.animeTime) + <span class="hljs-number">10</span>) &#123;
+    <span class="hljs-built_in">this</span>.imgIndex++;
+    <span class="hljs-built_in">this</span>.move(<span class="hljs-literal">true</span>);
+    <span class="hljs-built_in">this</span>.flag = <span class="hljs-built_in">Date</span>.now();
+  &#125;
+&#125;,</code></pre><p>小圆点也不是非常的复杂，简单封装一个<code>&lt;ol&gt;&lt;li&gt;&lt;/li&gt;&lt;/ol&gt;</code>的结构即可。在父组件中通过<code>v-for</code>来循环生成 li，顺便绑定 images 的 index 到 li 的 id 上，用于点击事件。</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">IndexPoint</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;index-point&quot;</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">:num</span>=<span class="hljs-string">&quot;images.length&quot;</span></span>
+<span class="hljs-tag">  @<span class="hljs-attr">pointClick</span>=<span class="hljs-string">&quot;pointClick&quot;</span></span>
+<span class="hljs-tag">&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span></span>
+<span class="hljs-tag">      <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;(item, index) in images&quot;</span></span>
+<span class="hljs-tag">      <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;&#x27;point&#x27; + item.id&quot;</span></span>
+<span class="hljs-tag">      <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;&#123; active: index == pointIndex &#125;&quot;</span></span>
+<span class="hljs-tag">      <span class="hljs-attr">:id</span>=<span class="hljs-string">&quot;index&quot;</span></span>
+<span class="hljs-tag">    &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">IndexPoint</span>&gt;</span></code></pre><p>在点击事件里，将点击的小圆点的 id 赋值到图片的索引，然后再调用<code>move()</code>方法就可以正确的移动到对于的图片上。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">pointClick</span>(<span class="hljs-params">e</span>)</span> &#123;
+  <span class="hljs-built_in">this</span>.imgIndex = e.target.id;
+  <span class="hljs-built_in">this</span>.move(<span class="hljs-literal">true</span>);
+&#125;,</code></pre><h3 id="无限循环"><a href="#无限循环" class="headerlink" title="无限循环"></a>无限循环</h3><p>轮播图的重点就在于能够无限轮播，这里使用的还是和往期一样的方案：当移动到克隆的图片时，偷偷替换图片队列。不同的是，这次没有使用<code>setTimeOut</code>来进行延时调换，而是使用了<code>transitionend</code>事件。该事件就是监听过渡动画完成后调用方法。</p><p>监听的方法还是和以前一样，通过判断图片的索引来确定是否是克隆的图片，然后偷偷调换队列。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">transEnd</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.imgIndex == -<span class="hljs-number">1</span>) &#123;
+    <span class="hljs-comment">// 如果当前序列等于 -1，也就是克隆的图片，则偷偷调整图片队列</span>
+    <span class="hljs-built_in">this</span>.imgIndex = <span class="hljs-built_in">this</span>.images.length - <span class="hljs-number">1</span>;
+    <span class="hljs-built_in">this</span>.move(<span class="hljs-literal">false</span>);
+  &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.imgIndex == <span class="hljs-built_in">this</span>.images.length) &#123;
+    <span class="hljs-comment">// 反之亦然</span>
+    <span class="hljs-built_in">this</span>.imgIndex = <span class="hljs-number">0</span>;
+    <span class="hljs-built_in">this</span>.move(<span class="hljs-literal">false</span>);
+  &#125;
+&#125;,</code></pre><h3 id="自动播放"><a href="#自动播放" class="headerlink" title="自动播放"></a>自动播放</h3><p>自动播放实现的也很简单，定时操作图片的索引即可。</p><p>不过这里遇到一个小 Bug，当 Chrome 在后台时，<code>transitionend</code>事件不会被监听。这就会导致使用了自动播放在后台放一会之后，所有的图片都消失了。</p><p>后来研究了下可以通过<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document/visibilityState"><code>document.visibilityState</code></a>判断浏览器是否处于后台，当其值不等于<code>hidden</code>时，就继续播放。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">autoPlay</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-built_in">this</span>.timer = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> &#123;
+    <span class="hljs-comment">// 当页面处于后台时，transEnd会失效</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">document</span>.visibilityState != <span class="hljs-string">&#x27;hidden&#x27;</span>) &#123;
+      <span class="hljs-built_in">this</span>.imgIndex++;
+      <span class="hljs-built_in">this</span>.move(<span class="hljs-literal">true</span>);
+    &#125;
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">document</span>.visibilityState);
+  &#125;, <span class="hljs-number">3000</span>);
+&#125;,</code></pre><pre><code class="hljs plaintext">visible
+5 hidden
+visible</code></pre><h2 id="触摸事件"><a href="#触摸事件" class="headerlink" title="触摸事件"></a>触摸事件</h2><p>上述方法都是将以前实现的经典方案封装到 Vue 组件里，本次的重点还是触摸的滑动方法。</p><p>触摸由三个事件组成：从 touchstart 到 touchmove 到 touchend。他们分别对应动作：触摸开始、触摸移动和触摸结束。每一次的触摸都会触发这三个事件。</p><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Touch_events">触摸事件</a>有个事件对象<code>touches</code>，它就是实现图片移动的主要原理。<code>touches</code>内保存这触摸时的坐标，在不同的触摸事件里可以根据坐标来移动图片。</p><p>所以这里现在 ul 上绑定对应的三个事件：</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;wrapper&quot;</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">:style</span>=<span class="hljs-string">&quot;&#123;</span></span>
+<span class="hljs-string"><span class="hljs-tag">    width: imgWidth * images.length + &#x27;px&#x27;,</span></span>
+<span class="hljs-string"><span class="hljs-tag">  &#125;&quot;</span></span>
+<span class="hljs-tag">  @<span class="hljs-attr">touchstart</span>=<span class="hljs-string">&quot;touchStart&quot;</span></span>
+<span class="hljs-tag">  @<span class="hljs-attr">touchmove</span>=<span class="hljs-string">&quot;touchMove&quot;</span></span>
+<span class="hljs-tag">  @<span class="hljs-attr">touchend</span>=<span class="hljs-string">&quot;touchEnd&quot;</span></span>
+<span class="hljs-tag">&gt;</span></code></pre><h3 id="触摸开始"><a href="#触摸开始" class="headerlink" title="触摸开始"></a>触摸开始</h3><p>第一个是触摸开始的阶段，当第一次触摸到 ul 时，就会触发这个事件。这个事件非常简单，就保存了两个关键的数据：点击时的 X 坐标和当前的图片位置。方便在移动时判断对应的移动位置。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">touchStart</span>(<span class="hljs-params">e</span>)</span> &#123;
+  <span class="hljs-built_in">this</span>.pausePlay();
+  <span class="hljs-comment">// 触摸开始</span>
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Date</span>.now() - <span class="hljs-built_in">this</span>.flag &gt; <span class="hljs-built_in">Number</span>(<span class="hljs-built_in">this</span>.animeTime) + <span class="hljs-number">10</span>) &#123;
+    <span class="hljs-comment">// 获取点击时的 X 坐标</span>
+    <span class="hljs-built_in">this</span>.startX = e.touches[<span class="hljs-number">0</span>].clientX;
+    <span class="hljs-comment">// 点击开始时保存当前图片的位置</span>
+    <span class="hljs-built_in">this</span>.lastX = <span class="hljs-built_in">this</span>.translateX;
+  &#125;
+&#125;,</code></pre><h3 id="触摸移动"><a href="#触摸移动" class="headerlink" title="触摸移动"></a>触摸移动</h3><p>图片移动的位置就是<code>原先的位置 + 滑动的距离</code>。首先判断滑动的距离，使用当前<code>touchMove</code>的 X 坐标减去<code>touchStart</code>所保存的 X 坐标，就能轻松得出移动了多少距离。</p><p>然后再将图片的过渡动画取消<code>this.transitionX = &#39;none&#39;;</code>，再给图片添加上移动的距离<code>this.translateX = this.lastX + this.moveX;</code></p><p>这里还做了一个简单的判断，当滑动的距离大于单张图片的宽度时<code>this.moveX &gt;= this.imgWidth</code>，就不允许再移动了<code>this.moveX = this.imgWidth;</code>。同样使用正负值来判断左右移动的方向<code>this.moveX &lt; 0 &amp;&amp; this.moveX &lt;= -this.imgWidth</code>。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">touchMove</span>(<span class="hljs-params">e</span>)</span> &#123;
+  <span class="hljs-comment">// 防止在一定时间内过渡滑动</span>
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Date</span>.now() - <span class="hljs-built_in">this</span>.flag &gt; <span class="hljs-built_in">Number</span>(<span class="hljs-built_in">this</span>.animeTime) + <span class="hljs-number">10</span>) &#123;
+    <span class="hljs-comment">// 移动时的坐标减去点击时的坐标等于移动的距离</span>
+    <span class="hljs-built_in">this</span>.moveX = e.touches[<span class="hljs-number">0</span>].clientX - <span class="hljs-built_in">this</span>.startX;
+    <span class="hljs-comment">// 移动图片</span>
+    <span class="hljs-built_in">this</span>.transitionX = <span class="hljs-string">`none`</span>;
+    <span class="hljs-comment">// 防止滑动过渡</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.moveX &gt;= <span class="hljs-built_in">this</span>.imgWidth) &#123;
+      <span class="hljs-built_in">this</span>.moveX = <span class="hljs-built_in">this</span>.imgWidth;
+      <span class="hljs-comment">// 滑动位置等于上次的位置加上手指移动的距离</span>
+      <span class="hljs-built_in">this</span>.translateX = <span class="hljs-built_in">this</span>.lastX + <span class="hljs-built_in">this</span>.moveX;
+    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.moveX &lt; <span class="hljs-number">0</span> &amp;&amp; <span class="hljs-built_in">this</span>.moveX &lt;= -<span class="hljs-built_in">this</span>.imgWidth) &#123;
+      <span class="hljs-built_in">this</span>.moveX = -<span class="hljs-built_in">this</span>.imgWidth;
+      <span class="hljs-built_in">this</span>.translateX = <span class="hljs-built_in">this</span>.lastX + <span class="hljs-built_in">this</span>.moveX;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+      <span class="hljs-built_in">this</span>.translateX = <span class="hljs-built_in">this</span>.lastX + <span class="hljs-built_in">this</span>.moveX;
+    &#125;
+  &#125;
+&#125;,</code></pre><h3 id="触摸结束"><a href="#触摸结束" class="headerlink" title="触摸结束"></a>触摸结束</h3><p>当图片正确的移动后，触摸结束的事件就是对图片做一些判断，保证队列是预期的状态。</p><p>第一个判断就是当滑动了整张图片时，不需要再调用<code>move()</code>方法了，直接对左右方向进行判断，确定图片的索引加减<code>this.moveX &gt; 0 ? this.imgIndex-- : this.imgIndex++;</code>。不过还得再调用一次 <code>this.transEnd()</code>方法来偷偷调换图片队列。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">touchEnd</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Date</span>.now() - <span class="hljs-built_in">this</span>.flag &gt; <span class="hljs-built_in">Number</span>(<span class="hljs-built_in">this</span>.animeTime) + <span class="hljs-number">10</span>) &#123;
+    <span class="hljs-comment">// 防止滑动过渡</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.moveX == <span class="hljs-built_in">this</span>.imgWidth || <span class="hljs-built_in">this</span>.moveX == -<span class="hljs-built_in">this</span>.imgWidth) &#123;
+      <span class="hljs-built_in">this</span>.moveX &gt; <span class="hljs-number">0</span> ? <span class="hljs-built_in">this</span>.imgIndex-- : <span class="hljs-built_in">this</span>.imgIndex++;
+      <span class="hljs-comment">// 当越界时，调用恢复队列</span>
+      <span class="hljs-built_in">this</span>.transEnd();
+      <span class="hljs-comment">// 当触摸大于 70 像素，触发移动动画，移动完整图片</span>
+    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.moveX &gt; <span class="hljs-number">70</span>) &#123;
+      <span class="hljs-built_in">this</span>.imgIndex--;
+      <span class="hljs-built_in">this</span>.move(<span class="hljs-literal">true</span>);
+      <span class="hljs-comment">// 当触摸小于 -70 像素，触发移动动画，移动完整图片</span>
+    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.moveX &lt; -<span class="hljs-number">70</span>) &#123;
+      <span class="hljs-built_in">this</span>.imgIndex++;
+      <span class="hljs-built_in">this</span>.move(<span class="hljs-literal">true</span>);
+      <span class="hljs-comment">// 当在二者之间时，图片归位</span>
+    &#125; <span class="hljs-keyword">else</span> &#123;
+      <span class="hljs-built_in">this</span>.move(<span class="hljs-literal">true</span>);
+    &#125;
+    <span class="hljs-built_in">this</span>.startX = <span class="hljs-number">0</span>;
+    <span class="hljs-built_in">this</span>.moveX = <span class="hljs-number">0</span>;
+    <span class="hljs-built_in">this</span>.flag = <span class="hljs-built_in">Date</span>.now();
+  &#125;
+  <span class="hljs-built_in">this</span>.autoPlay();
+&#125;,</code></pre><h2 id="🚀"><a href="#🚀" class="headerlink" title="🚀"></a>🚀</h2><p>这就是在之前的轮播图上加以实现的移动端轮播图方案，还有一些小方法就没有多嘴了。</p><p>几个方法写的比较冗余，感觉可以再简单一点。主要的是对这个组件封装的很烂，整个<code>TouchSlider.vue</code>一大串。</p><p><a target="_blank" rel="noopener" href="https://git.defectink.com/xfy/vue-touch-slider">项目地址</a></p></div><div class="prev-or-next"><div class="post-foot-next"><a href="/defect/todolist-exercise.html" target="_self"><i class="iconfont icon-chevronleft"></i> <span>上一页</span></a></div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2021-02-23 08:57:10</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span> <span class="span--tag"><a href="/tags/Vue/" title="Vue"><b>#</b> Vue</a></span></span></div><div class="post-foot-prev"><a href="/defect/win10-remote-desktop-password-incorrect.html" target="_self"><span>下一页</span><i class="iconfont icon-chevronright"></i></a></div></div></div><div id="btn-catalog" class="btn-catalog"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-catalog"></use></svg></div><div class="post-catalog hidden" id="catalog"><div class="title">目录</div><div class="catalog-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%AB%E5%AE%B3%E7%A7%BB%E5%8A%A8%E7%AB%AF"><span class="toc-text">迫害移动端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E8%A3%85%E7%BB%84%E4%BB%B6"><span class="toc-text">封装组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%8F%E5%85%B8%E6%96%B9%E6%A1%88%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-text">经典方案的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E5%B1%80"><span class="toc-text">布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%8B%E9%9A%86%E5%9B%BE%E7%89%87"><span class="toc-text">克隆图片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%9F%E5%88%97%E5%AE%BD%E5%BA%A6"><span class="toc-text">队列宽度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%BB%E5%8A%A8%E6%96%B9%E6%B3%95"><span class="toc-text">移动方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E4%BD%8D%E7%BD%AE"><span class="toc-text">默认位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E5%9C%86%E7%82%B9"><span class="toc-text">小圆点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E9%99%90%E5%BE%AA%E7%8E%AF"><span class="toc-text">无限循环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%92%AD%E6%94%BE"><span class="toc-text">自动播放</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A6%E6%91%B8%E4%BA%8B%E4%BB%B6"><span class="toc-text">触摸事件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A6%E6%91%B8%E5%BC%80%E5%A7%8B"><span class="toc-text">触摸开始</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A6%E6%91%B8%E7%A7%BB%E5%8A%A8"><span class="toc-text">触摸移动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A6%E6%91%B8%E7%BB%93%E6%9D%9F"><span class="toc-text">触摸结束</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%80"><span class="toc-text">🚀</span></a></li></ol></div></div><div class="comments-container"></div></article></main><footer class="footer"><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat/hexo-theme-oranges">Copyright © Oranges 2021</a></div><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat">Theme by Oranges | Powered by Hexo</a></div></footer><div class="back-to-top hidden"><button title="go-top" class="go-top"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-chevronup"></use></svg></button></div></body><script src="/js/iconfont.js"></script><script src="/js/main.js"></script></html>

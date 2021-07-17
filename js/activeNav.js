@@ -1,0 +1,1 @@
+const navs=document.querySelectorAll(".nav-item"),pagePath=window.location.pathname;for(const t of navs){const a=t.getAttribute("data-path");a&&a===pagePath&&(t.className="nav-item active")}

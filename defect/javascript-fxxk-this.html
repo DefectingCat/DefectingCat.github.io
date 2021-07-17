@@ -1,0 +1,236 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="keywords" content=""><meta name="author" content="Defectink"><meta name="description" content=""><title>JavaScript-this全面解析 | 🍭Defectink</title><link rel="apple-touch-icon" href="/images/favicon.webp"><link rel="icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/base.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="🍭Defectink" type="application/atom+xml"><link rel="alternate" href="/rss.xml" title="🍭Defectink" type="application/rss+xml"></head><body><header class="header"><div class="avatar"><a title="home" href="/"><img src="/images/mona.webp" alt=""></a><div class="nickname"><a href="/">xfy</a></div></div><nav class="navbar"><ul><li class="nav-item" data-path="/"><a href="/">Home</a></li><li class="nav-item" data-path="/archives/"><a href="/archives/">Archives</a></li><li class="nav-item" data-path="/tags/"><a href="/tags/">Tags</a></li><li class="nav-item" data-path="/friends/"><a href="/friends/">Friends</a></li><li class="nav-item" data-path="/about/"><a href="/about/">About</a></li></ul></nav></header><main class="main-container"><link rel="stylesheet" href="/css/github-markdown.css"><article class="container post-details" id="post-details"><div class="post-content"><div class="post-title">JavaScript-this全面解析</div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2021-07-12 11:38:03</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span></span></div><div class="markdown-body"><h2 id="this-全面解析"><a href="#this-全面解析" class="headerlink" title="this 全面解析"></a>this 全面解析</h2><p>this 和动态作用域有些许类似，他们都是在执行时决定的。this 是在调用时被绑定的，完全取决于函数的调用位置。</p><h3 id="确定调用位置"><a href="#确定调用位置" class="headerlink" title="确定调用位置"></a>确定调用位置</h3><p>当一个函数被调用是，会创建一个活动记录（执行期上下文）。这个记录会包含函数在哪里被调用（调用栈）、函数的调用方式、传入的参数等信息。this 就是这个记录里的一个属性。</p><p>调用位置就是函数在代码中被调用的位置，而不是声明的位置。可以类似于这样来这个记录并分析出函数的真正调用位置。</p><pre><code class="hljs ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;
+  <span class="hljs-comment">// 当前调用栈：foo</span>
+
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;foo&#x27;</span>);
+  bar();
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bar</span>(<span class="hljs-params"></span>) </span>&#123;
+  <span class="hljs-comment">// 当前调用栈：foo --&gt; bar</span>
+
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;bar&#x27;</span>);
+  baz();
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">baz</span>(<span class="hljs-params"></span>) </span>&#123;
+  <span class="hljs-comment">// 当前调用栈：foo --&gt; bar --&gt; baz</span>
+
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;baz&#x27;</span>);
+&#125;
+foo();</code></pre><h3 id="绑定规则"><a href="#绑定规则" class="headerlink" title="绑定规则"></a>绑定规则</h3><p>this 是在运行时动态绑定的，所以在不同的情况下，this 可能会发生各种意料之外的情况。</p><h4 id="默认绑定"><a href="#默认绑定" class="headerlink" title="默认绑定"></a>默认绑定</h4><p>当函数在全局环境下独立调用时，this 会指向为全局对象。</p><pre><code class="hljs ts"><span class="hljs-keyword">var</span> a = <span class="hljs-number">123</span>;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.a); <span class="hljs-comment">// 123</span>
+&#125;</code></pre><p>而当函数处理严格模式下，则不能将全局对象用于默认绑定，因此 this 会绑定到<code>undefined</code></p><pre><code class="hljs ts"><span class="hljs-keyword">var</span> a = <span class="hljs-number">123</span>;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;
+<span class="hljs-meta">  &quot;use strict&quot;</span>
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.a); <span class="hljs-comment">// TypeError: this is undefined</span>
+&#125;</code></pre><p>还有一个微妙的细节，虽然 this 的绑定完全取决于调用的位置，但是只有<code>foo()</code>函数本身处于非严格模式才能绑定到全局对象。如果只是函数执行时所在严格模式下，而本身是非严格模式，则不影响默认绑定规则。</p><pre><code class="hljs ts"><span class="hljs-keyword">var</span> a = <span class="hljs-number">123</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.a);
+&#125;
+
+(<span class="hljs-function">() =&gt;</span> &#123;
+  <span class="hljs-string">&#x27;use strict&#x27;</span>;
+  foo();
+&#125;)();</code></pre><blockquote><p>通常来说不推荐在代码中混用严格模式与非严格模式。</p></blockquote><h4 id="隐式绑定"><a href="#隐式绑定" class="headerlink" title="隐式绑定"></a>隐式绑定</h4><p>另外一种规则是考虑调用位置是否有上下文对象，或者说某个对象是否包含这个函数。</p><pre><code class="hljs ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"><span class="hljs-built_in">this</span>: <span class="hljs-keyword">typeof</span> obj</span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.name);
+&#125;
+<span class="hljs-keyword">const</span> obj = &#123;
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;xfy&#x27;</span>,
+  <span class="hljs-attr">foo</span>: foo
+&#125;;
+obj.foo() <span class="hljs-comment">// xfy</span></code></pre><p>这种方法可以理解为将<code>foo()</code>的函数体赋值给了对象 obj 的一个属性，而执行时是从 obj 作为上下文对象来执行的。所以 this 隐式的绑定到了 obj 对象。</p><p>对象属性引用链中只有上一层或者说最后一层在调用位置中起作用。</p><pre><code class="hljs ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"><span class="hljs-built_in">this</span>: <span class="hljs-keyword">typeof</span> obj</span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.name);
+&#125;
+<span class="hljs-keyword">const</span> obj = &#123;
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;xfy&#x27;</span>,
+  <span class="hljs-attr">foo</span>: foo,
+&#125;;
+obj.foo(); <span class="hljs-comment">// xfy</span>
+
+<span class="hljs-keyword">const</span> alotherObj = &#123;
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;dfy&#x27;</span>,
+  <span class="hljs-attr">obj</span>: obj,
+&#125;;
+alotherObj.obj.foo(); <span class="hljs-comment">// xfy</span></code></pre><p><strong>隐式丢失</strong></p><p>既然会隐式的绑定，那也就会出现隐式的丢失问题。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.name);
+&#125;
+
+<span class="hljs-keyword">const</span> obj = &#123;
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;xfy&#x27;</span>,
+  <span class="hljs-attr">age</span>: <span class="hljs-number">18</span>,
+  foo,
+&#125;;
+
+<span class="hljs-keyword">const</span> bar = obj.foo; <span class="hljs-comment">// 函数别名</span>
+bar();</code></pre><p>虽然 bar 是<code>obj.foo</code>的一个引用，但是它引用的是函数体本身。可以理解为将函数体传递给了 bar 这个变量，这是调用<code>bar()</code>是一个不带任何修饰的函数调用，因此使用了默认绑定。</p><p>另一种常见且出乎意料的情况就是在传递回调函数时：</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.name);
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doFoo</span>(<span class="hljs-params">fn</span>) </span>&#123;
+  fn();
+&#125;
+
+<span class="hljs-keyword">const</span> obj = &#123;
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;xfy&#x27;</span>,
+  <span class="hljs-attr">age</span>: <span class="hljs-number">18</span>,
+  foo,
+&#125;;
+
+doFoo(obj.foo);</code></pre><p>参数传递其实就是一种隐式赋值，因此我们传入函数是也会被隐式赋值。只要函数体被传递后，且调用时脱离了原有的对象，就会导致 this 的隐式丢失。</p><p>包括<code>setTimeout()</code>方法丢失 this 也是同理。</p><h4 id="显式绑定"><a href="#显式绑定" class="headerlink" title="显式绑定"></a>显式绑定</h4><p>因为原型的特性，JavaScript 中函数也自己的属性。大多数宿主环境都会提供<code>call()</code>与<code>apply()</code>来给我们显式的绑定 this。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.name);
+&#125;
+<span class="hljs-keyword">const</span> obj = &#123;
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;xfy&#x27;</span>,
+  <span class="hljs-attr">age</span>: <span class="hljs-number">18</span>,
+  foo,
+&#125;;
+foo.call(obj);</code></pre><blockquote><p>call 与 apply 只是传参不同。</p></blockquote><p>使用显式的绑定可以很好的解决传递参数时隐式丢失 this 的问题</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.name);
+&#125;
+<span class="hljs-keyword">const</span> obj = &#123;
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;xfy&#x27;</span>,
+  <span class="hljs-attr">age</span>: <span class="hljs-number">18</span>,
+  foo,
+&#125;;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bar</span>(<span class="hljs-params"></span>) </span>&#123;
+  foo.call(obj);
+&#125;
+<span class="hljs-built_in">setTimeout</span>(bar, <span class="hljs-number">1000</span>);
+<span class="hljs-comment">// 同理</span>
+<span class="hljs-comment">// setTimeout(() =&gt; &#123;</span>
+<span class="hljs-comment">//   obj.foo();</span>
+<span class="hljs-comment">// &#125;, 1000);</span></code></pre><p>这里在<code>bar()</code>的内部直接手动显式的把<code>foo()</code>绑定到了 obj，无论之后怎么调用，在何处调用。都会手动的将 obj 绑定在<code>foo()</code>上。这种绑定称之为<strong>硬绑定</strong>。</p><p>不过这种绑定是特意的例子，这里手动为<code>foo()</code>绑定到了 obj。在多数情况下，我们可能需要更灵活一点。</p><p>在 <a target="_blank" rel="noopener" href="https://xfy.plus/defect/javascript-decorator.html">JavaScript 装饰器模式🎊 - 🍭Defectink (xfy.plus)</a> 中介绍了这种工作模式。通过一个包装器配合显式绑定就能解决大部分情况下的问题。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">msg</span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.name);
+  <span class="hljs-built_in">console</span>.log(msg);
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">wrapper</span>(<span class="hljs-params">fn, obj</span>) </span>&#123;
+  <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...rest</span>) =&gt;</span> &#123;
+    fn.apply(obj, rest);
+  &#125;;
+&#125;
+<span class="hljs-keyword">const</span> obj = &#123;
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;xfy&#x27;</span>,
+  <span class="hljs-attr">age</span>: <span class="hljs-number">18</span>,
+&#125;;
+<span class="hljs-keyword">const</span> bar = wrapper(foo, obj);
+bar(<span class="hljs-string">&#x27;嘤嘤嘤&#x27;</span>);</code></pre><p>但包装器不仅仅只是用来解决 this 丢失的问题，但对 this 绑定的问题 ES5 提供了内置的方法<code>Function.prototype.bind</code>。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.name);
+&#125;
+<span class="hljs-keyword">const</span> obj = &#123;
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;xfy&#x27;</span>,
+  <span class="hljs-attr">age</span>: <span class="hljs-number">18</span>,
+&#125;;
+<span class="hljs-keyword">const</span> bar = foo.bind(obj);
+bar();</code></pre><h4 id="new-绑定"><a href="#new-绑定" class="headerlink" title="new 绑定"></a>new 绑定</h4><p>在传统面向类的语言中，“构造函数”是类中的一些特殊的方法，使用类时会调用类中的构造函数。通常类似于这样：</p><pre><code class="hljs js">myObj = <span class="hljs-keyword">new</span> MyClass()</code></pre><p>在 JavaScript 中，所有函数都可以被 new 操作符所调用。这种调用称为构造函数调用，实质上并不存在所谓的“构造函函数”，只有对于函数的“构造调用”。</p><p>使用 new 来发生构造函数调用时，会执行：</p><ol><li>创建（构造）一个新对象。</li><li>对新对象执行<code>[[Prototype]]</code>连接。</li><li>对新对象绑定到函数调用的 this。</li><li>如果函数没有返回其他对象，那么在 new 调用后自动返回这个新对象。</li></ol><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Foo</span>(<span class="hljs-params">name</span>) </span>&#123;
+  <span class="hljs-built_in">this</span>.name = name;
+&#125;
+<span class="hljs-keyword">const</span> bar = <span class="hljs-keyword">new</span> Foo(<span class="hljs-string">&#x27;xfy&#x27;</span>);
+<span class="hljs-built_in">console</span>.log(bar.name);</code></pre><p>使用 new 操作符来调用<code>foo()</code>时，会构造一个新对象并把它绑定到<code>foo()</code>中的 this 上。new 是最后一种可以影响函数调用时 this 绑定行为的方法，我们称之为 new 绑定。</p><blockquote><p>ES6 的 class 只是一个语法糖，但是它也解决了一些问题。</p></blockquote><h3 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h3><p>上述描述的四条规则中，如果某处位置可以应用多条规则时，就要考虑到其优先级的问题。</p><p>毫无疑问，默认绑定肯定是优先级最低的绑定。所以先来考虑隐式绑定与显式绑定之间的优先级，用一个简单的方法就能测试出：</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.age);
+&#125;
+
+<span class="hljs-keyword">const</span> xfy = &#123;
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;xfy&#x27;</span>,
+  <span class="hljs-attr">age</span>: <span class="hljs-number">18</span>,
+  foo,
+&#125;;
+<span class="hljs-keyword">const</span> dfy = &#123;
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;dfy&#x27;</span>,
+  <span class="hljs-attr">age</span>: <span class="hljs-number">81</span>,
+  foo,
+&#125;;
+
+xfy.foo();  <span class="hljs-comment">// 18</span>
+dfy.foo();	<span class="hljs-comment">// 81</span>
+
+xfy.foo.call(dfy);	<span class="hljs-comment">// 81</span>
+dfy.foo.call(xfy);	<span class="hljs-comment">// 18</span></code></pre><p>很明显，显式绑定的优先级更高，也就是说在判断时应当先考虑是否存在显式绑定。</p><p>那么 new 绑定与隐式绑定呢？</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">msg</span>) </span>&#123;
+  <span class="hljs-built_in">this</span>.a = msg;
+&#125;
+
+<span class="hljs-keyword">const</span> xfy = &#123;
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;xfy&#x27;</span>,
+  foo,
+&#125;;
+xfy.foo(<span class="hljs-string">&#x27;test&#x27;</span>);
+<span class="hljs-built_in">console</span>.log(xfy);
+
+<span class="hljs-keyword">const</span> obj = <span class="hljs-keyword">new</span> xfy.foo(<span class="hljs-string">&#x27;this is obj&#x27;</span>);
+<span class="hljs-built_in">console</span>.log(obj);</code></pre><p>可以看到这里对对象 xfy 中隐式绑定的函数进行了 new 操作，而最后的 this 被绑定到了新对象 obj 上，并没有修改 xfy 本身的值。所以 new 绑定的优先级比隐式绑定更高。</p><p>那 new 绑定与显式绑定呢？由于<code>call/apply</code>无法与 new 一起使用，所以无法通过<code>new xfy.foo.call(obj)</code>来测试优先级，但是我们可以通过硬绑定<code>bind()</code>来测试。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">msg</span>) </span>&#123;
+  <span class="hljs-built_in">this</span>.a = msg;
+&#125;
+
+<span class="hljs-keyword">const</span> xfy = &#123;
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;xfy&#x27;</span>,
+  foo,
+&#125;;
+
+<span class="hljs-keyword">let</span> obj = &#123;&#125;;
+
+<span class="hljs-keyword">const</span> bar = xfy.foo.bind(obj);
+bar(<span class="hljs-string">&#x27;obj&#x27;</span>);
+<span class="hljs-built_in">console</span>.log(obj);
+
+<span class="hljs-comment">// bar was bind to obj</span>
+<span class="hljs-keyword">const</span> baz = <span class="hljs-keyword">new</span> bar(<span class="hljs-string">&#x27;this is baz&#x27;</span>);
+<span class="hljs-built_in">console</span>.log(obj);
+<span class="hljs-built_in">console</span>.log(baz);</code></pre><p>可以看到，在硬绑定之后，使用 new 操作对象 obj 的值并没有被改变，反而对 new 的新对象进行了修改。</p><p>但这真的说明 new 绑定比硬绑定优先级更高吗？实则不然，上述结果是因为 ES5 中内置的<code>Function.prototype.bind()</code>方法比较复杂，他会对 new 绑定做判断，如果是的话就会使用新创建的 this 替换硬绑定的 this。</p><p>这是来自 <a href="%5BFunction.prototype.bind(">MDN</a> - JavaScript | MDN (mozilla.org)](<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind#polyfill))%E7%9A%84">https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind#polyfill))的</a> polyfill bind 的方法，</p><pre><code class="hljs js"><span class="hljs-comment">//  Yes, it does work with `new (funcA.bind(thisArg, args))`</span>
+<span class="hljs-keyword">if</span> (!<span class="hljs-built_in">Function</span>.prototype.bind)
+  (<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">var</span> ArrayPrototypeSlice = <span class="hljs-built_in">Array</span>.prototype.slice;
+    <span class="hljs-built_in">Function</span>.prototype.bind = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">otherThis</span>) </span>&#123;
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> <span class="hljs-built_in">this</span> !== <span class="hljs-string">&#x27;function&#x27;</span>) &#123;
+        <span class="hljs-comment">// closest thing possible to the ECMAScript 5</span>
+        <span class="hljs-comment">// internal IsCallable function</span>
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>(
+          <span class="hljs-string">&#x27;Function.prototype.bind - what is trying to be bound is not callable&#x27;</span>
+        );
+      &#125;
+
+      <span class="hljs-keyword">var</span> baseArgs = ArrayPrototypeSlice.call(<span class="hljs-built_in">arguments</span>, <span class="hljs-number">1</span>),
+        baseArgsLength = baseArgs.length,
+        fToBind = <span class="hljs-built_in">this</span>,
+        fNOP = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;&#125;,
+        fBound = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+          baseArgs.length = baseArgsLength; <span class="hljs-comment">// reset to default base arguments</span>
+          baseArgs.push.apply(baseArgs, <span class="hljs-built_in">arguments</span>);
+          <span class="hljs-keyword">return</span> fToBind.apply(
+            fNOP.prototype.isPrototypeOf(<span class="hljs-built_in">this</span>) ? <span class="hljs-built_in">this</span> : otherThis,
+            baseArgs
+          );
+        &#125;;
+
+      <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.prototype) &#123;
+        <span class="hljs-comment">// Function.prototype doesn&#x27;t have a prototype property</span>
+        fNOP.prototype = <span class="hljs-built_in">this</span>.prototype;
+      &#125;
+      fBound.prototype = <span class="hljs-keyword">new</span> fNOP();
+
+      <span class="hljs-keyword">return</span> fBound;
+    &#125;;
+  &#125;)();</code></pre><p>在这几段中：</p><pre><code class="hljs js">fNOP.prototype.isPrototypeOf(<span class="hljs-built_in">this</span>) ? <span class="hljs-built_in">this</span> : otherThis,
+<span class="hljs-comment">// 以及</span>
+<span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.prototype) &#123;
+  <span class="hljs-comment">// Function.prototype doesn&#x27;t have a prototype property</span>
+  fNOP.prototype = <span class="hljs-built_in">this</span>.prototype;
+&#125;
+fBound.prototype = <span class="hljs-keyword">new</span> fNOP();</code></pre><p>该 polyfill 检测了是否是使用 new 绑定，并修改 this 为 new 绑定。</p><h4 id="判断-this"><a href="#判断-this" class="headerlink" title="判断 this"></a>判断 this</h4><p>根据上述优先级，可以得出一些判断 this 的结论（优先级从高到低）：</p><ol><li><p>函数是否在 new 中调用（new 绑定）？</p><p>如果是的话， this 绑定的是新创建的对象。<code>const bar = new Foo()</code></p></li><li><p>函数是否通过<code>call/apply</code>或者硬绑定调用（显式绑定）？</p><p>如果是的话，this 绑定的是指定的对象。<code>const bar = foo.call(baz)</code></p></li><li><p>函数是否在某个上下文对象中调用（隐式绑定）？</p><p>如果是的话，this 绑定在那个上下文对象上。<code>const bar = obj.foo()</code></p></li><li><p>上述都不满足，那么就会使用默认绑定。</p></li></ol><h3 id="绑定例外"><a href="#绑定例外" class="headerlink" title="绑定例外"></a>绑定例外</h3><p>凡事都有例外，this 绑定也是同样。在某些情况下看上去可能是绑定某个规则，但实际上应用的可能是默认规则。</p><h4 id="被忽略的-this"><a href="#被忽略的-this" class="headerlink" title="被忽略的 this"></a>被忽略的 this</h4><p>把 null 或者 undefined 作为 this 的绑定对象传入<code>call/apply</code>与 bind 方法时，这些值会被忽略，从而应用默认绑定规则。</p><p>也就是说<code>call/apply</code>传入 null 或者 undefined 时与之间执行函数本身没有区别。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.name);
+&#125;
+foo.call(<span class="hljs-literal">null</span>);</code></pre><p>这样使用<code>call/apply</code>的作用是利用他们的一些特性来解决一些小问题。</p><p>例如：展开数组</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bar</span>(<span class="hljs-params">a, b</span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(a, b);
+&#125;
+bar.apply(<span class="hljs-literal">null</span>, [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>]);</code></pre><p>当然，这在 ES6 中可以使用展开运算符来传递参数：</p><pre><code class="hljs js">bar(...[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>])</code></pre><p>又或是利用 bind 实现柯里化</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bar</span>(<span class="hljs-params">a, b</span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(a, b);
+&#125;
+
+<span class="hljs-keyword">const</span> baz = bar.bind(<span class="hljs-literal">null</span>, <span class="hljs-number">1</span>);
+baz(<span class="hljs-number">2</span>);</code></pre><p>这里都是利用忽略 this 产生的一些副作用，但在某些情况下可能不安全，例如函数可能真的使用到了 this ，这在非严格模式下可能会修改全局对象。</p><p>如果真的需要使用这种方法，可以创建一个 DMZ 对象来代替 null。</p><pre><code class="hljs js"><span class="hljs-keyword">const</span> ¤ = <span class="hljs-built_in">Object</span>.create(<span class="hljs-literal">null</span>);
+foo.call(¤, arg)</code></pre><h4 id="间接引用"><a href="#间接引用" class="headerlink" title="间接引用"></a>间接引用</h4><p>另外需要注意的是，在某些情况下我们可能会无意的创建一个函数的间接引用。间接引用最容易在赋值期间发生：</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>.name);
+&#125;
+<span class="hljs-keyword">const</span> o = &#123;
+  foo,
+&#125;;
+<span class="hljs-keyword">const</span> p = &#123;&#125;;
+(p.foo = o.foo)();</code></pre><p>赋值表达式<code>p.foo = o.foo</code>返回的是目标函数的引用，所以在这里调用实际上是在全局环境下直接调用<code>foo()</code>。根据之前的规则，这里会应用默认绑定。</p></div><div class="prev-or-next"><div class="post-foot-next"><a href="/defect/javascript-compile-and-closure.html" target="_self"><i class="iconfont icon-chevronleft"></i> <span>上一页</span></a></div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2021-07-12 11:38:03</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span></span></div><div class="post-foot-prev"><a href="/defect/javascript-event.html" target="_self"><span>下一页</span><i class="iconfont icon-chevronright"></i></a></div></div></div><div id="btn-catalog" class="btn-catalog"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-catalog"></use></svg></div><div class="post-catalog hidden" id="catalog"><div class="title">目录</div><div class="catalog-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#this-%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90"><span class="toc-text">this 全面解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A%E8%B0%83%E7%94%A8%E4%BD%8D%E7%BD%AE"><span class="toc-text">确定调用位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%91%E5%AE%9A%E8%A7%84%E5%88%99"><span class="toc-text">绑定规则</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E7%BB%91%E5%AE%9A"><span class="toc-text">默认绑定</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%90%E5%BC%8F%E7%BB%91%E5%AE%9A"><span class="toc-text">隐式绑定</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%98%BE%E5%BC%8F%E7%BB%91%E5%AE%9A"><span class="toc-text">显式绑定</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#new-%E7%BB%91%E5%AE%9A"><span class="toc-text">new 绑定</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-text">优先级</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A4%E6%96%AD-this"><span class="toc-text">判断 this</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%91%E5%AE%9A%E4%BE%8B%E5%A4%96"><span class="toc-text">绑定例外</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A2%AB%E5%BF%BD%E7%95%A5%E7%9A%84-this"><span class="toc-text">被忽略的 this</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%97%B4%E6%8E%A5%E5%BC%95%E7%94%A8"><span class="toc-text">间接引用</span></a></li></ol></li></ol></li></ol></div></div><div class="comments-container"></div></article></main><footer class="footer"><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat/hexo-theme-oranges">Copyright © Oranges 2021</a></div><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat">Theme by Oranges | Powered by Hexo</a></div></footer><div class="back-to-top hidden"><button title="go-top" class="go-top"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-chevronup"></use></svg></button></div></body><script src="/js/iconfont.js"></script><script src="/js/main.js"></script></html>

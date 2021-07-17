@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="keywords" content=""><meta name="author" content="Defectink"><meta name="description" content=""><title>JavaScript 装饰器模式🎊 | 🍭Defectink</title><link rel="apple-touch-icon" href="/images/favicon.webp"><link rel="icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/base.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="🍭Defectink" type="application/atom+xml"><link rel="alternate" href="/rss.xml" title="🍭Defectink" type="application/rss+xml"></head><body><header class="header"><div class="avatar"><a title="home" href="/"><img src="/images/mona.webp" alt=""></a><div class="nickname"><a href="/">xfy</a></div></div><nav class="navbar"><ul><li class="nav-item" data-path="/"><a href="/">Home</a></li><li class="nav-item" data-path="/archives/"><a href="/archives/">Archives</a></li><li class="nav-item" data-path="/tags/"><a href="/tags/">Tags</a></li><li class="nav-item" data-path="/friends/"><a href="/friends/">Friends</a></li><li class="nav-item" data-path="/about/"><a href="/about/">About</a></li></ul></nav></header><main class="main-container"><link rel="stylesheet" href="/css/github-markdown.css"><article class="container post-details" id="post-details"><div class="post-content"><div class="post-title">JavaScript 装饰器模式🎊</div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2021-03-09 20:36:26</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span></span></div><div class="markdown-body"><p>JavaScript 的函数非常灵活，它们可以被传递，用作对象。除了 this 难以捉摸以外。</p><h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><p>装饰（decorate），将原函数作为一个参数传递给装饰器。利用函数闭包的特性，在父作用域中保存一些执行后的数据（缓存）或执行一些特殊操作。再将其返回出去，在这个返回的函数根据条件来执行原函数。</p><p>在实际工作中常见到的函数防抖和节流就是装饰器的工作原理。</p><h2 id="缓存装饰器"><a href="#缓存装饰器" class="headerlink" title="缓存装饰器"></a>缓存装饰器</h2><p>一个简单的透明缓存装饰器可以明确的让我们了解到装饰器的工作方式：</p><pre><code class="hljs js"><span class="hljs-comment">// 一个工作缓慢的 slow 函数</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">slow</span>(<span class="hljs-params">ds</span>) </span>&#123;
+  <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">$&#123;ds&#125;</span>`</span>;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cachingDcorator</span>(<span class="hljs-params">fn</span>) </span>&#123;
+  <span class="hljs-comment">// 创建一个 map 用于缓存</span>
+  <span class="hljs-keyword">let</span> cache = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>();
+  <span class="hljs-comment">// 返回一个闭包</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">ds</span>) </span>&#123;
+    <span class="hljs-comment">// 检查缓存中是否有结果</span>
+    <span class="hljs-keyword">if</span> (cache.has(ds)) &#123;
+      <span class="hljs-keyword">return</span> cache.get(ds);
+    &#125;
+    <span class="hljs-comment">// 没有缓存时，执行原函数，并记录缓存</span>
+    <span class="hljs-keyword">let</span> res = fn(ds);
+    cache.set(ds, res);
+    <span class="hljs-keyword">return</span> res;
+  &#125;
+&#125;
+<span class="hljs-comment">// 装饰</span>
+cacheSlow = cachingDcorator(slow);
+<span class="hljs-built_in">console</span>.log(cacheSlow(<span class="hljs-string">&#x27;124&#x27;</span>));</code></pre><p>在装饰器 cachingDcorator 内，父作用域中创建了一个名为 cache 的 map 结构，利用闭包的特性就能够访问这个缓存对象。</p><p>在每次执行时，都将检查是否有对应的缓存。如果有，则跳过执行原函数，直接返回缓存的数据，以减少函数的执行工作。</p><p>上述简单的透明缓存装饰器还有一个问题：带有 this 时会失效。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> worker = &#123;
+  <span class="hljs-function"><span class="hljs-title">foo</span>(<span class="hljs-params"></span>)</span> &#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;嘤嘤嘤&#x27;</span>;
+  &#125;,
+  <span class="hljs-function"><span class="hljs-title">slow</span>(<span class="hljs-params">ds</span>)</span> &#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">$&#123;ds&#125;</span> <span class="hljs-subst">$&#123;<span class="hljs-built_in">this</span>.foo()&#125;</span>`</span>;
+  &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cachingDcorator</span>(<span class="hljs-params">fn</span>) </span>&#123;
+<span class="hljs-meta">  &#x27;use strict&#x27;</span>
+  <span class="hljs-keyword">let</span> cache = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>();
+
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">ds</span>) </span>&#123;
+    <span class="hljs-keyword">if</span> (cache.has(ds)) &#123;
+      <span class="hljs-keyword">return</span> cache.get(ds);
+    &#125;
+
+    <span class="hljs-keyword">let</span> res = fn(ds);
+    cache.set(ds, res);
+    <span class="hljs-keyword">return</span> res;
+  &#125;
+&#125;
+
+<span class="hljs-keyword">let</span> worker.slow = cachingDcorator(worker.slow);
+<span class="hljs-comment">// undefined</span>
+<span class="hljs-built_in">console</span>.log(worker.slow(<span class="hljs-string">&#x27;xfy&#x27;</span>));</code></pre><p>当一个函数被传递到其他变量中，将丢失其上下文 this。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> func = worker.slow;
+func(<span class="hljs-string">&#x27;xfy&#x27;</span>)</code></pre><p>同理，缓存装饰器也是将其函数体作为参数传入到方法中，导致了其丢失了上下文 this。所以这样的装饰器在对象中的方法是用不了的。</p><h2 id="传递-this"><a href="#传递-this" class="headerlink" title="传递 this"></a>传递 this</h2><h3 id="使用-call"><a href="#使用-call" class="headerlink" title="使用 call"></a>使用 call</h3><p>使用 call 可以轻松解决 this 的问题。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> worker = &#123;
+  <span class="hljs-function"><span class="hljs-title">foo</span>(<span class="hljs-params"></span>)</span> &#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;嘤嘤嘤&#x27;</span>;
+  &#125;,
+  <span class="hljs-function"><span class="hljs-title">slow</span>(<span class="hljs-params">ds</span>)</span> &#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">$&#123;ds&#125;</span> <span class="hljs-subst">$&#123;<span class="hljs-built_in">this</span>.foo()&#125;</span>`</span>;
+  &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cachingDcorator</span>(<span class="hljs-params">fn</span>) </span>&#123;
+  <span class="hljs-keyword">let</span> cache = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>();
+
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">ds</span>) </span>&#123;
+    <span class="hljs-keyword">if</span> (cache.has(ds)) &#123;
+      <span class="hljs-keyword">return</span> cache.get(ds);
+    &#125;
+
+    <span class="hljs-keyword">let</span> res = fn.call(<span class="hljs-built_in">this</span>, ds);
+    cache.set(ds, res);
+    <span class="hljs-keyword">return</span> res;
+  &#125;
+&#125;
+
+worker.slow = cachingDcorator(worker.slow);
+
+<span class="hljs-built_in">console</span>.log(worker.slow(<span class="hljs-string">&#x27;xfy&#x27;</span>));</code></pre><p>在将函数体传回对象时<code>worker.slow = cachingDcorator(worker.slow);</code>，在装饰器内部使用了 call 来执行传递的参数<code>fn.call(worker, ds);</code>。详细的传递步骤为：</p><ol><li>worker.slow 被传递为包装器<code>function (ds) &#123; ... &#125;</code>；</li><li>函数作为对象属性执行时，<code>this=worker</code>。（它是点符号 . 之前的对象）；</li><li>在包装器内部，假设结果尚未缓存，<code>func.call(this, ds)</code>将当前的 <code>this</code>（<code>=worker</code>）和当前的参数（<code>=xfy</code>）传递给原始方法。</li></ol><h2 id="传递多个参数"><a href="#传递多个参数" class="headerlink" title="传递多个参数"></a>传递多个参数</h2><p>原生的 Map 仅将单个值作为键（key）。当然可以使用其他的类似 map 的数据结构来存储缓存的值，或者在 map 中嵌套 map。</p><p>还有一种解决方法就是使用一个 hash 函数，来将两个参数做个简单的运算，将其做为一个值保存在 map 的 key 中，并对应结果缓存。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> worker = &#123;
+  <span class="hljs-function"><span class="hljs-title">slow</span>(<span class="hljs-params">x, y</span>)</span> &#123;
+    <span class="hljs-keyword">return</span> x + y;
+  &#125;,
+&#125;;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cachingDcorator</span>(<span class="hljs-params">fn, hash</span>) </span>&#123;
+  <span class="hljs-keyword">let</span> map = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>();
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">let</span> key = hash(<span class="hljs-built_in">arguments</span>);
+    <span class="hljs-keyword">if</span> (map.has(key)) &#123;
+      <span class="hljs-keyword">return</span> map.get(key);
+    &#125;
+
+    <span class="hljs-keyword">let</span> res = fn.call(<span class="hljs-built_in">this</span>, ...arguments);
+    map.set(key, res);
+    <span class="hljs-keyword">return</span> res;
+  &#125;;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hash</span>(<span class="hljs-params">args</span>) </span>&#123;
+  <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">$&#123;args[<span class="hljs-number">0</span>]&#125;</span><span class="hljs-subst">$&#123;args[<span class="hljs-number">1</span>]&#125;</span>`</span>;
+&#125;
+
+worker.slow = cachingDcorator(worker.slow, hash);
+<span class="hljs-built_in">console</span>.log(worker.slow(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>));</code></pre><p>在 JavaScript 中，形参不是必要的。只要传递了实际参数，那么在函数中就能使用<code>arguments</code>这个类数组来获取到所有的参数。</p><p>所以在这里返回的闭包里使用<code>let key = hash(arguments);</code>来获取两个参数做 hash 运算。</p><p>由于是一个类数组，所以它也是可迭代的。在传给原函数参数时，使用了展开（Spread）语法<code>let res = fn.call(this, ...arguments);</code>来将类数组迭代开来。</p><h3 id="使用-apply"><a href="#使用-apply" class="headerlink" title="使用 apply"></a>使用 apply</h3><p>在传递 this 时，我们使用了 call 来传递参数。call 接受参数为逐个传递，在接受多个参数时，我们使用了展开语法来将可迭代对象的参数传递给 call。</p><p>call 与 apply 的唯一区别就是参数的传递方式不同。apply 接受剩余的参数为一个类数组</p><p>所以这里两个调用是等价的：</p><ul><li><code>fn.call(this, ...arguments)</code></li><li><code>fn.apply(this, arguments)</code></li></ul><p>而对于即可迭代又是类数组的对象，例如一个真正的数组，我们使用 call 或 apply 均可，但是 apply 可能会更快，因为大多数 JavaScript 引擎在内部对其进行了优化。</p><p>将所有参数连同上下文一起传递给另一个函数被称为“呼叫转移（call forwarding）”。</p><h3 id="方法借用"><a href="#方法借用" class="headerlink" title="方法借用"></a>方法借用</h3><p>能接受的参数还不够多。</p><p>上述 hash 方法一次只能处理两个参数<code>return &#39;$&#123;args[0]&#125;$&#123;args[1]&#125;&#39;</code>，将其作为 map 的一个 key 来使用。当遇到两个以上参数时就无能为力了。</p><p>所以还需要对 hash 方法做一个小改进，使其能够使用数组的<code>join()</code>方法来将所有的参数合并为一个字符串。</p><p>由于接受的参数<code>arguments</code>是一个类数组，所以它并没有数组的<code>join()</code>方法。这里就需要利用 call 来改变 this 的指向从而“借用”一下数组的<code>join()</code>方法：</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hash</span>(<span class="hljs-params">args</span>) </span>&#123;
+  <span class="hljs-comment">// return Array.prototype.join.call(args);</span>
+  <span class="hljs-keyword">return</span> [].join.call(args);
+&#125;</code></pre><p>这种方式称之为<strong>方法借用</strong>。</p><p>最常见到的方法借用就是判断数据类型。我们都知道 typeof 在判断引用值时有那么一点不准确，这时候有一位大佬却能够准确的判断所有的类型：<code>Object.prototype.toString()</code>方法。</p><p>这个方法原本是用来转换为字符串的，但通过借用它还能 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/toString#%E4%BD%BF%E7%94%A8_tostring()_%E6%A3%80%E6%B5%8B%E5%AF%B9%E8%B1%A1%E7%B1%BB%E5%9E%8B">判断数据类型</a>。</p><pre><code class="hljs js"><span class="hljs-built_in">Object</span>.prototype.toString.call(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>())
+<span class="hljs-comment">// &quot;[object Array]&quot;</span>
+<span class="hljs-keyword">typeof</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>()
+<span class="hljs-comment">// &quot;object&quot;</span></code></pre><blockquote><p>还有一种判断数据类型的方法是：<code>xxx.construtor.name</code></p></blockquote><h2 id="函数属性"><a href="#函数属性" class="headerlink" title="函数属性"></a>函数属性</h2><p>通常，函数装饰器是安全的。不过当遇到原函数拥有自身的属性时，通过装饰器返回的函数就会导致其丢失自身的属性。例如：<code>foo.count</code>。</p><p>一些包装器可能也会包含自身的属性，例如记录函数被调用的次数或者其他的信息。</p><p>可以使用 Proxy 对象来包装函数，来保留函数属性的访问权。Proxy 非常强大，Vue 3 就是使用 Proxy 来创建响应式对象的。从而解决了 Vue 2 不能监听到对象新增属性的问题等。</p><h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>一些装饰器的实例，这段内容也是 javascript.info 的 <a target="_blank" rel="noopener" href="https://zh.javascript.info/call-apply-decorators#tasks">任务</a></p><h3 id="间谍装饰器"><a href="#间谍装饰器" class="headerlink" title="间谍装饰器"></a>间谍装饰器</h3><p>间谍装饰器保存每次函数调用时传递的参数为一个数组。这种装饰器有时对于单元测试很有用。它的高级形式是 <a target="_blank" rel="noopener" href="https://sinonjs.org/">Sinon.JS</a> 库中的<code>sinon.spy</code>。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">work</span>(<span class="hljs-params">x, y</span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(x, y);
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">spy</span>(<span class="hljs-params">fn</span>) </span>&#123;
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ret</span>(<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-comment">// 每次调用原函数时，push 参数到 calls 属性上</span>
+    ret.calls.push(<span class="hljs-string">`calls:<span class="hljs-subst">$&#123;[].join.call(<span class="hljs-built_in">arguments</span>)&#125;</span>`</span>);
+    fn.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>);
+  &#125;
+  <span class="hljs-comment">// 在返回的函数上定义一个属性 calls</span>
+  ret.calls = [];
+
+  <span class="hljs-keyword">return</span> ret;
+&#125;
+
+work = spy(work); 
+
+work(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>);
+work(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>);
+<span class="hljs-built_in">console</span>.log(work.calls);</code></pre><h3 id="延时装饰器"><a href="#延时装饰器" class="headerlink" title="延时装饰器"></a>延时装饰器</h3><p>这是个非常简单的装饰器，用于为函数设置一个延时后执行。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">x</span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(x);
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">delayRun</span>(<span class="hljs-params">fn, ms</span>) </span>&#123;
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;
+      <span class="hljs-comment">// 保持 this 的指向</span>
+      fn.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>);
+    &#125;, ms);
+  &#125;
+&#125;
+
+foo = delayRun(foo, <span class="hljs-number">500</span>);
+
+foo(<span class="hljs-string">&#x27;xfy&#x27;</span>);</code></pre><h3 id="防抖装饰器"><a href="#防抖装饰器" class="headerlink" title="防抖装饰器"></a>防抖装饰器</h3><p>防抖装饰器 debounce 是一个常用的方法。它的主要目的是保证原函数在一定时间内的连续调用只生效一次。</p><p>通常在实际中的作用是：假设用户输入了一些内容，我们想要在用户输入完成时向服务器发送一个请求。</p><p>我们没有必要为每一个字符的输入都发送请求。相反，我们想要等一段时间，然后处理整个结果。</p><p>在 Web 浏览器中，我们可以设置一个事件处理程序 —— 一个在每次输入内容发生改动时都会调用的函数。通常，监听所有按键输入的事件的处理程序会被调用的非常频繁。但如果我们为这个处理程序做一个 1000ms 的 debounce 处理，它仅会在最后一次输入后的 1000ms 后被调用一次。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">x</span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(x);
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">debounce</span>(<span class="hljs-params">fn, ms</span>) </span>&#123;
+  <span class="hljs-keyword">let</span> timer = <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-comment">// 如果延时内频繁被调用，则取消延时，不执行</span>
+    <span class="hljs-keyword">if</span> (timer) <span class="hljs-built_in">clearTimeout</span>(timer);
+    <span class="hljs-comment">// 延时执行</span>
+    timer = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;
+      fn.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>);
+    &#125;, ms);
+  &#125;;
+&#125;
+
+foo = debounce(foo, <span class="hljs-number">1000</span>);
+
+foo(<span class="hljs-number">1</span>);
+foo(<span class="hljs-number">1</span>);
+foo(<span class="hljs-number">1</span>);</code></pre><h3 id="节流装饰器"><a href="#节流装饰器" class="headerlink" title="节流装饰器"></a>节流装饰器</h3><p>节流装饰器 throttle 和防抖装饰器很相似，但是它要复杂一点。与防抖不同的是，节流的主要作用是：让函数保持一定的<strong>时间间隔</strong>被调用执行。</p><ul><li><code>debounce</code>会在“冷却（cooldown）”期后运行函数一次。适用于处理最终结果。</li><li><code>throttle</code>运行函数的频率不会大于所给定的时间 ms 毫秒。适用于不应该经常进行的定期更新。</li></ul><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">x</span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(x);
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">throttle</span>(<span class="hljs-params">fn, ms</span>) </span>&#123;
+  <span class="hljs-comment">// 初始状态为不节流</span>
+  <span class="hljs-keyword">let</span> isThrottle = <span class="hljs-literal">false</span>,
+    savedArgs,
+    savedCont;
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">wrapper</span>(<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-comment">// 如果节流是打开的，则保存当前运行的上下文和参数</span>
+    <span class="hljs-keyword">if</span> (isThrottle) &#123;
+      savedArgs = <span class="hljs-built_in">arguments</span>;
+      savedCont = <span class="hljs-built_in">this</span>;
+      <span class="hljs-keyword">return</span>;
+    &#125;
+    <span class="hljs-comment">// 第一次直接运行原函数</span>
+    fn.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>);
+    <span class="hljs-comment">// 第一次运行完后打开节流</span>
+    isThrottle = <span class="hljs-literal">true</span>;
+
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;
+      <span class="hljs-comment">// 在节流时间后关闭节流阀</span>
+      isThrottle = <span class="hljs-literal">false</span>;
+      <span class="hljs-keyword">if</span> (savedArgs) &#123;
+        <span class="hljs-comment">// 调用 wrapper 自身，并传递保存的上下文</span>
+        wrapper.apply(savedCont, savedArgs);
+        savedArgs = savedCont = <span class="hljs-literal">null</span>;
+      &#125;
+    &#125;, ms);
+  &#125;
+  <span class="hljs-keyword">return</span> wrapper;
+&#125;
+
+<span class="hljs-keyword">let</span> f1000 = throttle(foo, <span class="hljs-number">1000</span>);
+
+f1000(<span class="hljs-number">1</span>);
+f1000(<span class="hljs-number">2</span>);
+f1000(<span class="hljs-number">3</span>);
+f1000(<span class="hljs-number">4</span>);
+f1000(<span class="hljs-number">5</span>);
+f1000(<span class="hljs-number">6</span>);
+<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;
+  f1000(<span class="hljs-number">7</span>);
+&#125;, <span class="hljs-number">500</span>);
+<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;
+  f1000(<span class="hljs-number">8</span>);
+&#125;, <span class="hljs-number">1000</span>);
+<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;
+  f1000(<span class="hljs-number">9</span>);
+&#125;, <span class="hljs-number">1520</span>);
+<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;
+  f1000(<span class="hljs-string">&#x27;a&#x27;</span>);
+&#125;, <span class="hljs-number">2000</span>);
+<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;
+  f1000(<span class="hljs-string">&#x27;b&#x27;</span>);
+&#125;, <span class="hljs-number">2500</span>);
+<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;
+  f1000(<span class="hljs-string">&#x27;c&#x27;</span>);
+&#125;, <span class="hljs-number">3000</span>);</code></pre><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a target="_blank" rel="noopener" href="https://zh.javascript.info/call-apply-decorators">装饰器模式和转发，call/apply</a></li><li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/toString">Object.prototype.toString()</a></li></ul></div><div class="prev-or-next"><div class="post-foot-next"><a href="/defect/win10-remote-desktop-password-incorrect.html" target="_self"><i class="iconfont icon-chevronleft"></i> <span>上一页</span></a></div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2021-03-09 20:36:26</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span></span></div><div class="post-foot-prev"><a href="/defect/javascript-lazy-loading-image.html" target="_self"><span>下一页</span><i class="iconfont icon-chevronright"></i></a></div></div></div><div id="btn-catalog" class="btn-catalog"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-catalog"></use></svg></div><div class="post-catalog hidden" id="catalog"><div class="title">目录</div><div class="catalog-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-text">装饰器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-text">缓存装饰器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E9%80%92-this"><span class="toc-text">传递 this</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-call"><span class="toc-text">使用 call</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E9%80%92%E5%A4%9A%E4%B8%AA%E5%8F%82%E6%95%B0"><span class="toc-text">传递多个参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-apply"><span class="toc-text">使用 apply</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E5%80%9F%E7%94%A8"><span class="toc-text">方法借用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%B1%9E%E6%80%A7"><span class="toc-text">函数属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-text">实例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%B4%E8%B0%8D%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-text">间谍装饰器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%B6%E6%97%B6%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-text">延时装饰器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B2%E6%8A%96%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-text">防抖装饰器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%82%E6%B5%81%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-text">节流装饰器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol></div></div><div class="comments-container"></div></article></main><footer class="footer"><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat/hexo-theme-oranges">Copyright © Oranges 2021</a></div><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat">Theme by Oranges | Powered by Hexo</a></div></footer><div class="back-to-top hidden"><button title="go-top" class="go-top"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-chevronup"></use></svg></button></div></body><script src="/js/iconfont.js"></script><script src="/js/main.js"></script></html>

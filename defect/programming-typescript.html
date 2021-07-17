@@ -1,0 +1,371 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="keywords" content=""><meta name="author" content="Defectink"><meta name="description" content=""><title>TypeScript编程 | 🍭Defectink</title><link rel="apple-touch-icon" href="/images/favicon.webp"><link rel="icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/base.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="🍭Defectink" type="application/atom+xml"><link rel="alternate" href="/rss.xml" title="🍭Defectink" type="application/rss+xml"></head><body><header class="header"><div class="avatar"><a title="home" href="/"><img src="/images/mona.webp" alt=""></a><div class="nickname"><a href="/">xfy</a></div></div><nav class="navbar"><ul><li class="nav-item" data-path="/"><a href="/">Home</a></li><li class="nav-item" data-path="/archives/"><a href="/archives/">Archives</a></li><li class="nav-item" data-path="/tags/"><a href="/tags/">Tags</a></li><li class="nav-item" data-path="/friends/"><a href="/friends/">Friends</a></li><li class="nav-item" data-path="/about/"><a href="/about/">About</a></li></ul></nav></header><main class="main-container"><link rel="stylesheet" href="/css/github-markdown.css"><article class="container post-details" id="post-details"><div class="post-content"><div class="post-title">TypeScript编程</div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2021-05-20 21:03:19</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/TypeScript/" title="TypeScript"><b>#</b> TypeScript</a></span></span></div><div class="markdown-body"><blockquote><p>《Programming TypeScript》笔记。</p></blockquote><h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="重载"><a href="#重载" class="headerlink" title="重载"></a>重载</h3><p>重载函数：有多个调用签名的函数。</p><p>在多数编程语言中，声明函数时一旦指定了特定的参数和返回类型，就只能使用相应的参数调用参数。但 JavaScript 是一门动态语言，势必需要以多种方式调用一个函数的方法。不仅如此，而且有时输出的类型取决于参数的类型。</p><p>TypeScript 也支持动态重载函数声明，而且函数的输出类型却决于输入类型。</p><p>一个普通的函数类型注解：</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> Reserve = &#123;
+  (<span class="hljs-keyword">from</span>: <span class="hljs-built_in">Date</span>, <span class="hljs-attr">to</span>: <span class="hljs-built_in">Date</span>, <span class="hljs-attr">destination</span>: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span>;
+&#125;;
+
+<span class="hljs-keyword">const</span> reserve: Reserve = <span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">from</span>,toOrDest, destination</span>) =&gt;</span> &#123;
+  <span class="hljs-keyword">const</span> cost = <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * (<span class="hljs-number">998</span> - <span class="hljs-number">199</span>) + <span class="hljs-number">198</span>);
+  <span class="hljs-keyword">return</span> <span class="hljs-string">`To <span class="hljs-subst">$&#123;destination&#125;</span> need <span class="hljs-subst">$&#123;cost&#125;</span> <span class="hljs-subst">$&#123;<span class="hljs-keyword">from</span>.toLocaleString()&#125;</span>`</span>
+&#125;;
+<span class="hljs-built_in">console</span>.log(reserve(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(), <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(), <span class="hljs-string">&#x27;bali&#x27;</span>));</code></pre><p>函数的重载需要在注解时定义多个类型，在函数声明时需要手动组合两个签名：</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> Reserve = &#123;
+  (<span class="hljs-keyword">from</span>: <span class="hljs-built_in">Date</span>, <span class="hljs-attr">to</span>: <span class="hljs-built_in">Date</span>, <span class="hljs-attr">destination</span>: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span>;
+  (<span class="hljs-keyword">from</span>: <span class="hljs-built_in">Date</span>, <span class="hljs-attr">destination</span>: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span>;
+&#125;;
+
+<span class="hljs-keyword">const</span> reserve: Reserve = <span class="hljs-function">(<span class="hljs-params"></span></span>
+<span class="hljs-params"><span class="hljs-function">  <span class="hljs-comment">// 参数需要手动在注解并组合两个签名</span></span></span>
+<span class="hljs-params"><span class="hljs-function">  <span class="hljs-keyword">from</span>: <span class="hljs-built_in">Date</span>,</span></span>
+<span class="hljs-params"><span class="hljs-function">  toOrDest: <span class="hljs-built_in">Date</span> | <span class="hljs-built_in">string</span>,</span></span>
+<span class="hljs-params"><span class="hljs-function">  destination?: <span class="hljs-built_in">string</span></span></span>
+<span class="hljs-params"><span class="hljs-function"></span>) =&gt;</span> &#123;
+  <span class="hljs-keyword">const</span> cost = <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * (<span class="hljs-number">998</span> - <span class="hljs-number">199</span>) + <span class="hljs-number">198</span>);
+  <span class="hljs-keyword">if</span> (toOrDest <span class="hljs-keyword">instanceof</span> <span class="hljs-built_in">Date</span> &amp;&amp; destination !== <span class="hljs-literal">undefined</span>) &#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`To <span class="hljs-subst">$&#123;destination&#125;</span> need <span class="hljs-subst">$&#123;cost&#125;</span> <span class="hljs-subst">$&#123;<span class="hljs-keyword">from</span>.toLocaleString()&#125;</span> <span class="hljs-subst">$&#123;toOrDest.toLocaleString()&#125;</span>`</span>;
+  &#125; <span class="hljs-keyword">else</span> &#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`To <span class="hljs-subst">$&#123;toOrDest&#125;</span> need <span class="hljs-subst">$&#123;cost&#125;</span> <span class="hljs-subst">$&#123;<span class="hljs-keyword">from</span>.toLocaleString()&#125;</span>`</span>;
+  &#125;
+&#125;;
+<span class="hljs-built_in">console</span>.log(reserve(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(), <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(), <span class="hljs-string">&#x27;bali&#x27;</span>));
+<span class="hljs-built_in">console</span>.log(reserve(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(), <span class="hljs-string">&#x27;bali&#x27;</span>));</code></pre><h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><p>使用具体类型的前提是明确知道需要什么类型，并且想确认传入的确实是那个类型。但是，有时事先并不知道需要什么类型，不想限制函数只能接受某个类型。</p><p>这种情况可以使用函数泛型（generic type）参数。</p><blockquote><p>在类型层面施加约束的占位类型，也称多态类型参数。</p></blockquote><p>例如我们重写一个简单的数组 filter 方法，在我们老朋友 JavaScript 中，这是一个很基本的函数。</p><pre><code class="hljs js"><span class="hljs-keyword">const</span> filter = <span class="hljs-function">(<span class="hljs-params">arr, fn</span>) =&gt;</span> &#123;
+  <span class="hljs-keyword">let</span> result = [];
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> i <span class="hljs-keyword">of</span> arr) &#123;
+    <span class="hljs-keyword">if</span> (fn(i)) &#123;
+      result.push(i);
+    &#125;
+  &#125;
+  <span class="hljs-keyword">return</span> result;
+&#125;;</code></pre><p>但在 TypeScript 中，为了类型保护我们就需要为其添加类型注解。而这个函数的特点就是他可以（需要）接受多种类型的参数，且函数的返回值也是跟着参数的类型变化的。</p><p>也许利用重载为其注解所有类型也是可以的：</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> Filter = &#123;
+  (arr: <span class="hljs-built_in">number</span>[], <span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">item: <span class="hljs-built_in">number</span></span>) =&gt;</span> <span class="hljs-built_in">boolean</span>): <span class="hljs-built_in">number</span>[];
+  (arr: <span class="hljs-built_in">string</span>[], <span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">item: <span class="hljs-built_in">string</span></span>) =&gt;</span> <span class="hljs-built_in">boolean</span>): <span class="hljs-built_in">string</span>[];
+&#125;;</code></pre><p>但是如果遇到了对象数组呢：</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> Filter = &#123;
+  (arr: <span class="hljs-built_in">number</span>[], <span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">item: <span class="hljs-built_in">number</span></span>) =&gt;</span> <span class="hljs-built_in">boolean</span>): <span class="hljs-built_in">number</span>[];
+  (arr: <span class="hljs-built_in">string</span>[], <span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">item: <span class="hljs-built_in">string</span></span>) =&gt;</span> <span class="hljs-built_in">boolean</span>): <span class="hljs-built_in">string</span>[];
+  (arr: <span class="hljs-built_in">Object</span>[], <span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">item: <span class="hljs-built_in">Object</span></span>) =&gt;</span> <span class="hljs-built_in">boolean</span>): <span class="hljs-built_in">Object</span>[];
+&#125;;</code></pre><p>Object 无法描述对象结构，它可以代表所有类似对象的结构。</p><p>这时候就需要使用泛型了：</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> Filter = &#123;
+  &lt;T&gt;(arr: T[], <span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">item: T</span>) =&gt;</span> <span class="hljs-built_in">boolean</span>): T[];
+&#125;;</code></pre><p>这里泛型的意思是：filter 函数使用一个泛型参数 T，在事先我们不知道其具体的类型。TypeScript 从传入的 arr 参数种推导出 T 的类型。调用 filter 时，T 的类型被推导出后，将把 T 出现的每一处替换为推导出的类型。T 就像是一个占位类型，类型检查器会根据上下文填充具体的类型。T 把 Filter 的类型参数化了，因此才称其为泛型参数。</p><h4 id="泛型作用域"><a href="#泛型作用域" class="headerlink" title="泛型作用域"></a>泛型作用域</h4><p>泛型声明的位置不仅限定了泛型的作用域，还决定了 TypeScript 什么时候为泛型绑定具体的类型。</p><p>例如之前 Filter 函数的类型：</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> Filter = &#123;
+  &lt;T&gt;(arr: T[], <span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">item: T</span>) =&gt;</span> <span class="hljs-built_in">boolean</span>): T[];
+&#125;;
+<span class="hljs-keyword">const</span> filter:Filter = (arr, fn) <span class="hljs-comment">// ...</span></code></pre><p><code>&lt;T&gt;</code>在调用签名中声明（位于签名开始的括号前），TypeScript 将在调用 Filter 类型的函数时为 T 绑定具体类型。</p><p>而如果把 T 写在类型别名上，TypeScript 则要求在使用 Filter 时显式绑定类型：</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> Filter&lt;T&gt; = &#123;
+  (arr: T[], <span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">item: T</span>) =&gt;</span> <span class="hljs-built_in">boolean</span>): T[];
+&#125;;
+<span class="hljs-keyword">const</span> filter:Filter&lt;<span class="hljs-built_in">number</span>&gt; = (arr, fn) <span class="hljs-comment">// ...</span></code></pre><p>一般来说，TypeScript 在使用泛型时为泛型绑定具体类：对函数来说，在调用函数时；对类来说，在实例化类时；对类型别名和接口来说，在使用别名和接口时。</p><h4 id="函数泛型的多种写法"><a href="#函数泛型的多种写法" class="headerlink" title="函数泛型的多种写法"></a>函数泛型的多种写法</h4><pre><code class="hljs ts"><span class="hljs-keyword">type</span> Filter = &#123;
+  &lt;T&gt;(arr: T[], <span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">item: T</span>) =&gt;</span> <span class="hljs-built_in">boolean</span>): T[];
+&#125;;
+<span class="hljs-keyword">const</span> filter: Filter = (arr, fn); <span class="hljs-comment">// ...</span>
+
+<span class="hljs-keyword">type</span> Filter&lt;T&gt; = &#123;
+  (arr: T[], <span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">item: T</span>) =&gt;</span> <span class="hljs-built_in">boolean</span>): T[];
+&#125;;
+<span class="hljs-keyword">const</span> filter:Filter&lt;<span class="hljs-built_in">number</span>&gt; = (arr, fn) <span class="hljs-comment">// ...</span>
+
+<span class="hljs-keyword">type</span> Filter = &lt;T&gt;<span class="hljs-function">(<span class="hljs-params">arr: T[], fn: (item: T) =&gt; <span class="hljs-built_in">boolean</span></span>) =&gt;</span> T[];
+<span class="hljs-keyword">const</span> filter: Filter = (arr, fn); <span class="hljs-comment">// ...</span>
+
+<span class="hljs-keyword">type</span> Filter&lt;T&gt; = <span class="hljs-function">(<span class="hljs-params">arr: T[], fn: (item: T) =&gt; <span class="hljs-built_in">boolean</span></span>) =&gt;</span> T[];
+<span class="hljs-keyword">const</span> filter:Filter&lt;<span class="hljs-built_in">number</span>&gt; = (arr, fn) <span class="hljs-comment">// ...</span></code></pre><h4 id="约束受限多态"><a href="#约束受限多态" class="headerlink" title="约束受限多态"></a>约束受限多态</h4><p>施加一个类型约束很简单，语法有点类似于子类继承：</p><pre><code class="hljs ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test</span>&lt;<span class="hljs-title">T</span> <span class="hljs-title">extends</span> <span class="hljs-title">Filter</span>&gt; </span>&#123; <span class="hljs-comment">//... &#125;</span></code></pre><p>当然，也可以有多个约束，这时候就要使用到交集了：</p><pre><code class="hljs ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test</span>&lt;<span class="hljs-title">T</span> <span class="hljs-title">extends</span> <span class="hljs-title">Filter</span> &amp; <span class="hljs-title">Map</span>&gt; </span>&#123; <span class="hljs-comment">//... &#125;</span></code></pre><p>除此之外还能借助受限的多态来模拟变长参数函数（可接受任意个参数的函数），例如之前一直困扰我的防抖函数：</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> Debounce = &#123;
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">T</span> <span class="hljs-attr">extends</span> <span class="hljs-attr">unknown</span>[]&gt;</span>(fn: (...arg: T) =&gt; void | unknown, ms: number): (</span>
+<span class="xml">    this: unknown,</span>
+<span class="xml">    ...arg: T</span>
+<span class="xml">  ) =&gt; void | unknown;</span>
+<span class="xml">&#125;;</span>
+<span class="xml"></span>
+<span class="xml">const debounce: Debounce = (fn, ms) =&gt; &#123;</span>
+<span class="xml">  let timer = 0;</span>
+<span class="xml">  return function (...arg) &#123;</span>
+<span class="xml">    if (timer) clearTimeout(timer);</span>
+<span class="xml">    timer = setTimeout(() =&gt; &#123;</span>
+<span class="xml">      fn.apply(this, arg);</span>
+<span class="xml">    &#125;, ms);</span>
+<span class="xml">  &#125;;</span>
+<span class="xml">&#125;;</span></code></pre><p><code>&lt;T extends unknown[]&gt;</code>表示 T 是<code>unknown[]</code>的子类型，即 T 是任意类型的数组或元组。</p><h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p>类是组织和规划代码的方式，是封装的基本单位。众所周知，JavaScript 的类是语法上的，在 ES6 时支持了 class 关键字。TypeScript 的类大量的借用了 C# 的理论，支持属性初始化语句、多态、装饰器和接口等。</p><h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><p>public 或 private 关键字在 constructor 中将为我们创建对应的属性：</p><pre><code class="hljs ts"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>&#123;
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">public</span> name: <span class="hljs-built_in">string</span>, <span class="hljs-keyword">public</span> age: <span class="hljs-built_in">number</span></span>)</span> &#123;&#125;
+&#125;
+
+<span class="hljs-keyword">const</span> xfy = <span class="hljs-keyword">new</span> Person(<span class="hljs-string">&#x27;xfy&#x27;</span>, <span class="hljs-number">18</span>);
+<span class="hljs-built_in">console</span>.log(xfy);
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">alotherPerson</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Person</span> </span>&#123;
+  <span class="hljs-keyword">protected</span> <span class="hljs-keyword">static</span> country: <span class="hljs-built_in">number</span>;
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span></span>
+<span class="hljs-params"><span class="hljs-function">    name: <span class="hljs-built_in">string</span>,</span></span>
+<span class="hljs-params"><span class="hljs-function">    age: <span class="hljs-built_in">number</span>,</span></span>
+<span class="hljs-params"><span class="hljs-function">    <span class="hljs-keyword">public</span> sex: <span class="hljs-built_in">string</span>,</span></span>
+<span class="hljs-params"><span class="hljs-function">    <span class="hljs-keyword">private</span> nickname: <span class="hljs-built_in">string</span></span></span>
+<span class="hljs-params"><span class="hljs-function">  </span>)</span> &#123;
+    <span class="hljs-built_in">super</span>(name, age);
+  &#125;
+&#125;
+<span class="hljs-keyword">const</span> dfy = <span class="hljs-keyword">new</span> alotherPerson(<span class="hljs-string">&#x27;dfy&#x27;</span>, <span class="hljs-number">18</span>, <span class="hljs-string">&#x27;female&#x27;</span>, <span class="hljs-string">&#x27;xfy&#x27;</span>);
+<span class="hljs-built_in">console</span>.log(dfy);</code></pre><h3 id="以-this-作为返回类型"><a href="#以-this-作为返回类型" class="headerlink" title="以 this 作为返回类型"></a>以 this 作为返回类型</h3><p>this 可以用作值，也可以用作类型。对类来说，this 类型还可以用于注解方法的返回类型。</p><p>例如我们需要实现一个简单的 Set 数据结构，他有一个 add 方法，每次返回的就是一个 Set 实例。我们可以直接注解为 Set 类。</p><pre><code class="hljs ts"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MySet</span> </span>&#123;
+  has(value: <span class="hljs-built_in">number</span>):<span class="hljs-built_in">boolean</span> &#123;&#125;
+  add(value: <span class="hljs-built_in">number</span>): MySet &#123;&#125;
+&#125;</code></pre><p>但这样的缺点就是，当子类需要继承自父类时，子类的同名方法需要重新注解为返回对应的子类：</p><pre><code class="hljs ts"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyOtherSet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">MySet</span> </span>&#123;
+  add(value: <span class="hljs-built_in">number</span>): MyOtherSet &#123;&#125;
+&#125;</code></pre><p>这样在拓展其他类时，要把返回的 this 的每个方法的签名覆盖掉，就显得十分麻烦。如果只是为了让类型检查器满意，这样做就失去了继承基类的意义。</p><p>正确的方法是将 this 作为注解的返回类型，把相关工作交给 TypeScript：</p><pre><code class="hljs ts"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MySet</span> </span>&#123;
+  has(value: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">boolean</span> &#123;&#125;
+  add(value: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">this</span> &#123;&#125;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyOtherSet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">MySet</span> </span>&#123;
+  add(value: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">this</span> &#123;&#125;
+&#125;</code></pre><h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><p>类经常被当作接口使用。</p><p>接口是一种命名类型的方式，它和类型别名类似，不过二者还有一些细微的差别：</p><p>第一，类型别名更为通用，右边可以是任何类型，包括类型表达式；而接口声明中，右边必须为结构。</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> A = <span class="hljs-built_in">number</span>;
+<span class="hljs-keyword">type</span> B = A | <span class="hljs-built_in">string</span>;</code></pre><p>第二个区别是，扩展接口时，TypeScript 将检查扩展的接口是否可赋值给被扩展的接口。</p><pre><code class="hljs ts"><span class="hljs-keyword">interface</span> Animal &#123;
+  good(x: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span>;
+&#125;
+<span class="hljs-keyword">interface</span> Dog <span class="hljs-keyword">extends</span> Animal &#123;
+  good(x: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">void</span>;
+&#125;</code></pre><p>而使用类型别名使用交集运算符<code>&amp;</code>来扩展时，TypeScript 将尽自己所能，把扩展和被扩展的类型组合在一起，最终是重载冲突的签名。</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> C = &#123;
+  (x: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span>;
+&#125;;
+<span class="hljs-keyword">type</span> D = C &amp; &#123;
+  (x: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">string</span>;
+&#125;;
+
+<span class="hljs-keyword">const</span> ef: D = <span class="hljs-function">(<span class="hljs-params">x</span>) =&gt;</span> &#123;
+  <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;xfy&#x27;</span>;
+&#125;;
+ef(<span class="hljs-string">&#x27;123&#x27;</span>);</code></pre><p>第三个区别是，同一作用域中多个同名接口将自动合并；而同一作用域中的多个类型别名将导致编译时错误。这个特性称之为声明合并。</p><h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>可以为类添加类型层面约束。</p><pre><code class="hljs ts"><span class="hljs-keyword">interface</span> Animal &#123;
+  eat(food: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">void</span>;
+  sleep(hours: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">void</span>;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cat</span> <span class="hljs-title">implements</span> <span class="hljs-title">Animal</span> </span>&#123;
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">public</span> name: <span class="hljs-built_in">string</span></span>)</span> &#123;&#125;
+  <span class="hljs-function"><span class="hljs-title">eat</span>(<span class="hljs-params">food: <span class="hljs-built_in">string</span></span>)</span> &#123;
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`eating <span class="hljs-subst">$&#123;food&#125;</span>`</span>);
+  &#125;
+  <span class="hljs-function"><span class="hljs-title">sleep</span>(<span class="hljs-params">hours: <span class="hljs-built_in">number</span></span>)</span> &#123;
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`slept for <span class="hljs-subst">$&#123;hours&#125;</span> hours`</span>);
+  &#125;
+&#125;
+<span class="hljs-keyword">const</span> myCat = <span class="hljs-keyword">new</span> Cat(<span class="hljs-string">&#x27;xfy&#x27;</span>);
+myCat.sleep(<span class="hljs-number">10</span>);</code></pre><h3 id="接口还是抽象类"><a href="#接口还是抽象类" class="headerlink" title="接口还是抽象类"></a>接口还是抽象类</h3><p>TypeScript 可以使用<code>abstract</code>关键字来实现抽象类，实现接口其实于抽象类差不多。区别是，接口更通用，更轻量，而抽象类的作用更具体，功能更丰富。</p><p>接口是对结构建模的方式。在值层面可表示对象、数组、函数、类或类的实例。接口不生成 JavaScript 代码，只存在于编译时。</p><p>抽象类只能对类建模，而且生成运行时代码，即 JavaScript 类。抽象类可以有构造方法，可以提供默认实现，还能为属性和方法设置访问修饰符。这些在接口都中做不到。</p><p>具体使用哪一个，取决于实际用途。如果多个类共用一个实现，使用抽象类。如果需要一种轻量的方式表示“这个类是 T 型”，使用接口。</p><h3 id="类是结构化类型"><a href="#类是结构化类型" class="headerlink" title="类是结构化类型"></a>类是结构化类型</h3><p>TypeScript 根据类的结构来比较类，与类的名称无关。类与其他类是否兼容，要看结构。</p><pre><code class="hljs ts"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cat</span> </span>&#123;
+  <span class="hljs-function"><span class="hljs-title">sleep</span>(<span class="hljs-params">hours: <span class="hljs-built_in">number</span></span>)</span> &#123;&#125;
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Dog</span> </span>&#123;
+  <span class="hljs-function"><span class="hljs-title">sleep</span>(<span class="hljs-params">hours: <span class="hljs-built_in">number</span></span>)</span> &#123;&#125;
+&#125;
+<span class="hljs-keyword">const</span> checkCat = <span class="hljs-function">(<span class="hljs-params">animal: Cat</span>) =&gt;</span> &#123;
+  animal.sleep(<span class="hljs-number">10</span>);
+&#125;;
+
+<span class="hljs-comment">/* 这里传入狗狗也是可以的 */</span>
+checkCat(<span class="hljs-keyword">new</span> Dog());</code></pre><h3 id="类既声明值也声明类型"><a href="#类既声明值也声明类型" class="headerlink" title="类既声明值也声明类型"></a>类既声明值也声明类型</h3><p>类和枚举比较特殊，它们即在类型命名中生成类型，也在值命名空间中生成值。</p><pre><code class="hljs ts"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">G</span> </span>&#123;&#125;
+<span class="hljs-comment">// 声明值的同时也声明了类型</span>
+<span class="hljs-keyword">let</span> g: G = <span class="hljs-keyword">new</span> G();
+
+<span class="hljs-built_in">enum</span> H &#123;
+  J,
+  K,
+&#125;
+<span class="hljs-keyword">let</span> h: H = H.J;</code></pre><h3 id="模拟-final-类"><a href="#模拟-final-类" class="headerlink" title="模拟 final 类"></a>模拟 final 类</h3><p>在某些面向对象的语言中，可以使用 final 关键字来吧类标记为不可拓展，或者把方法标记为不可覆盖。</p><p>在 TypeScript 中可以使用私有的 constructor 来轻松的模拟 final 类：</p><pre><code class="hljs ts"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Message</span> </span>&#123;
+  <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> msg: <span class="hljs-built_in">string</span></span>)</span> &#123;&#125;
+&#125;
+<span class="hljs-comment">// Cannot extend a class &#x27;Message&#x27;. Class constructor is marked as private.</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NewMessage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Message</span> </span>&#123;&#125;</code></pre><p>但将 constructor 标记为 private 后，同时也不能使用 new 来实例化类了。我们仅仅需要不能拓展即可，可以简单修改一下使其能够实例化：</p><pre><code class="hljs ts"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Message</span> </span>&#123;
+  <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> msg: <span class="hljs-built_in">string</span></span>)</span> &#123;&#125;
+  <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-title">create</span>(<span class="hljs-params">msg: <span class="hljs-built_in">string</span></span>)</span> &#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Message(msg);
+  &#125;
+&#125;
+
+<span class="hljs-comment">// Constructor of class &#x27;Message&#x27; is private and only accessible within the class declaration.</span>
+<span class="hljs-keyword">new</span> Message(<span class="hljs-string">&#x27;test&#x27;</span>);
+<span class="hljs-comment">// Ok</span>
+Message.create(<span class="hljs-string">&#x27;test&#x27;</span>);</code></pre><p>如果将 private 换成 protect 之后，就实现了完全相反的效果。由于 protect 可以被子类所使用，所有可以拓展。而外部无法使用，所以就无法实例化该类。</p><pre><code class="hljs ts"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Message</span> </span>&#123;
+  <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">protected</span> msg: <span class="hljs-built_in">string</span></span>)</span> &#123;&#125;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NewMessage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Message</span> </span>&#123;&#125;</code></pre><h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><p>工厂模式是创建某种类型的对象的一种方式，这种方式把创建哪种具体对象给创建该对象的工厂决定。</p><p>这里实现了一个创建 Shoe 的工厂，Shoe 对象有一个<code>crarete()</code>方法，它根据传入的值来决定创建哪个鞋子。同时参数 type 使用了并集而不是 string 来进一步保证类型的安全。</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> Shoe = &#123;
+  <span class="hljs-attr">purpose</span>: <span class="hljs-built_in">string</span>;
+&#125;;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Boot</span> <span class="hljs-title">implements</span> <span class="hljs-title">Shoe</span> </span>&#123;
+  purpose = <span class="hljs-string">&#x27;woodcutting&#x27;</span>;
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BalletFlat</span> <span class="hljs-title">implements</span> <span class="hljs-title">Shoe</span> </span>&#123;
+  purpose = <span class="hljs-string">&#x27;dancing&#x27;</span>;
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Sneaker</span> <span class="hljs-title">implements</span> <span class="hljs-title">Shoe</span> </span>&#123;
+  purpose = <span class="hljs-string">&#x27;walking&#x27;</span>;
+&#125;
+
+<span class="hljs-keyword">const</span> Shoe = &#123;
+  crarete(<span class="hljs-keyword">type</span>: <span class="hljs-string">&#x27;boot&#x27;</span> | <span class="hljs-string">&#x27;balletflat&#x27;</span> | <span class="hljs-string">&#x27;sneaker&#x27;</span>): Shoe &#123;
+    <span class="hljs-keyword">switch</span> (<span class="hljs-keyword">type</span>) &#123;
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;boot&#x27;</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Boot();
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;balletflat&#x27;</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> BalletFlat();
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;sneaker&#x27;</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Sneaker();
+    &#125;
+  &#125;,
+&#125;;
+
+<span class="hljs-keyword">const</span> myShoe = Shoe.crarete(<span class="hljs-string">&#x27;sneaker&#x27;</span>);
+<span class="hljs-built_in">console</span>.log(myShoe.purpose);</code></pre><p>当然也可以牺牲一点抽象性，使用函数重载来明确返回类型：</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> Shoe = &#123;
+  <span class="hljs-attr">purpose</span>: <span class="hljs-built_in">string</span>;
+&#125;;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Boot</span> <span class="hljs-title">implements</span> <span class="hljs-title">Shoe</span> </span>&#123;
+  purpose = <span class="hljs-string">&#x27;woodcutting&#x27;</span>;
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BalletFlat</span> <span class="hljs-title">implements</span> <span class="hljs-title">Shoe</span> </span>&#123;
+  purpose = <span class="hljs-string">&#x27;dancing&#x27;</span>;
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Sneaker</span> <span class="hljs-title">implements</span> <span class="hljs-title">Shoe</span> </span>&#123;
+  purpose = <span class="hljs-string">&#x27;walking&#x27;</span>;
+&#125;
+
+<span class="hljs-keyword">type</span> CreateShoe = &#123;
+  crarete(<span class="hljs-keyword">type</span>: <span class="hljs-string">&#x27;boot&#x27;</span>): Boot;
+  crarete(<span class="hljs-keyword">type</span>: <span class="hljs-string">&#x27;balletflat&#x27;</span>): BalletFlat;
+  crarete(<span class="hljs-keyword">type</span>: <span class="hljs-string">&#x27;sneaker&#x27;</span>): Sneaker;
+&#125;;
+
+<span class="hljs-keyword">const</span> Shoe: CreateShoe = &#123;
+  crarete(<span class="hljs-keyword">type</span>: <span class="hljs-string">&#x27;boot&#x27;</span> | <span class="hljs-string">&#x27;balletflat&#x27;</span> | <span class="hljs-string">&#x27;sneaker&#x27;</span>): Shoe &#123;
+    <span class="hljs-keyword">switch</span> (<span class="hljs-keyword">type</span>) &#123;
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;boot&#x27;</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Boot();
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;balletflat&#x27;</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> BalletFlat();
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;sneaker&#x27;</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Sneaker();
+    &#125;
+  &#125;,
+&#125;;
+
+<span class="hljs-keyword">const</span> myShoe = Shoe.crarete(<span class="hljs-string">&#x27;sneaker&#x27;</span>);
+<span class="hljs-built_in">console</span>.log(myShoe.purpose);</code></pre><h2 id="类型进阶"><a href="#类型进阶" class="headerlink" title="类型进阶"></a>类型进阶</h2><p>TypeScript 拥有一流的类型系统支持强大的类型层面编程特性。不仅具有极强的表现力，易于使用，而且可以通过简介明了的方式声明类型约束和关系，并且多数时候能为我们自动推导类型。</p><h3 id="超类型和子类型"><a href="#超类型和子类型" class="headerlink" title="超类型和子类型"></a>超类型和子类型</h3><p>如同类一样，类型也有超类型与其子类型。并且在需要超类型的地方都可以安全的使用其子类型。类型的关系很常见，例如：</p><ul><li>Cat 类拓展自 Animal 类，那么 Cat 是 Animal 的子类型；</li><li>Array 是 Object 的子类型；</li><li>Tuple 是 Array 的子类型；</li><li>所有类型都是 any 的子类型；</li><li>never 是所有类型的子类型；</li></ul><p>反过来也是同样的，Animal 就是 Cat 的超类型。</p><h3 id="函数型变"><a href="#函数型变" class="headerlink" title="函数型变"></a>函数型变</h3><p>如果 A 函数的参数数量小于或等于 B 函数的参数数量，且满足如下条件，那么函数 A 是函数 B 的子类型：</p><ol><li>函数 A 的 this 类型未指定，或者 this 是函数 B this 的<strong>超类型</strong>；</li><li>函数 A 的各个参数的类型为函数 B 相应参数的<strong>超类型</strong>；</li><li>函数 A 的返回类型为函数 B 返回类型的<strong>子类型</strong>；</li></ol><p>仔细研究就会发现，虽然函数 A 是函数 B 的子类型，但是它的 this 和参数缺都是函数 B 的超类型。</p><p>来看一个简单的示例，这里通过几个类之间的继承，很好的描述了函数之间的型变：</p><pre><code class="hljs ts"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span> </span>&#123;&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cat</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Animal</span> </span>&#123;
+  <span class="hljs-function"><span class="hljs-title">miao</span>(<span class="hljs-params"></span>)</span> &#123;&#125;
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Lion</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Cat</span> </span>&#123;
+  <span class="hljs-function"><span class="hljs-title">wawu</span>(<span class="hljs-params"></span>)</span> &#123;&#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">miaomiao</span>(<span class="hljs-params">cat: Cat</span>) </span>&#123;
+  cat.miao();
+  <span class="hljs-keyword">return</span> cat;
+&#125;
+
+<span class="hljs-comment">// 需要超类型的地方也可以使用子类型</span>
+miaomiao(<span class="hljs-keyword">new</span> Animal());
+miaomiao(<span class="hljs-keyword">new</span> Cat());
+miaomiao(<span class="hljs-keyword">new</span> Lion());
+
+<span class="hljs-comment">// 回调函数 fn 为超类型</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">clone</span>(<span class="hljs-params">fn: (cat: Cat) =&gt; Cat</span>): <span class="hljs-title">void</span> </span>&#123;
+  <span class="hljs-keyword">const</span> parent = <span class="hljs-keyword">new</span> Cat();
+  <span class="hljs-keyword">const</span> baby = fn(parent);
+  baby.miao();
+&#125;
+
+<span class="hljs-comment">// catToLion 即是回调函数 fn 的子类型</span>
+<span class="hljs-comment">// 满足返回值是其子类型</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">catToLion</span>(<span class="hljs-params">c: Cat</span>): <span class="hljs-title">Lion</span> </span>&#123;	
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Lion();
+&#125;
+clone(catToLion);
+
+<span class="hljs-comment">// catToAnimal 返回值是其超类型，所以无法调用</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">catToAnimal</span>(<span class="hljs-params">c: Cat</span>): <span class="hljs-title">Animal</span> </span>&#123;
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Animal();
+&#125;
+clone(catToAnimal);
+
+<span class="hljs-comment">// animalToCat 即是回调函数 fn 的子类型</span>
+<span class="hljs-comment">// 满足参数是其超类型</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">animalToCat</span>(<span class="hljs-params">a: Animal</span>): <span class="hljs-title">Cat</span> </span>&#123;
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Cat();
+&#125;
+clone(animalToCat);
+
+<span class="hljs-comment">// animalToLion 参数是其子类型，所以无法调用</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">animalToLion</span>(<span class="hljs-params">l: Lion</span>): <span class="hljs-title">Cat</span> </span>&#123;
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Cat();
+&#125;
+clone(animalToLion);</code></pre><p>值得高兴的是，我们并不需要记诵这套规则。只需要了解一下就好了，剩下的 TypeScript 都帮我们做了（我们的老朋友，红色波浪线会告诉我们传递是否正确的）。</p><h3 id="可赋值性"><a href="#可赋值性" class="headerlink" title="可赋值性"></a>可赋值性</h3><p>可赋值性之的就是判断需要 B 类型的地方是否可用 A 类型时 TypeScript 采用的规则。</p><p>在非枚举类型来说，A 类型是否可赋值给 B 类型有两个规则：</p><ol><li>A 是 B 的子类型；</li><li>A 是 any；</li></ol><p>也就是说能用到超类型的地方，都能可以用其子类型。</p><p>对于枚举类型来说，也是有两个规则：</p><ol><li>A 是枚举 B 的成员；</li><li>B 至少有一个成员是 number 类型，且 A 是数字；</li></ol><h3 id="类型拓宽"><a href="#类型拓宽" class="headerlink" title="类型拓宽"></a>类型拓宽</h3><p>TypeScript 在一般情况下推导类型时会放宽要求，故意推导出一个更宽泛的类型，而不是限定为一个具体的类型。不过在使用<code>const</code>关键字声明标识符的时候会严格限定类型。</p><pre><code class="hljs ts"><span class="hljs-comment">// a: string</span>
+<span class="hljs-keyword">let</span> a = <span class="hljs-string">&#x27;xfy&#x27;</span>;
+<span class="hljs-comment">// b: &#x27;xfy&#x27;</span>
+<span class="hljs-keyword">const</span> b = <span class="hljs-string">&#x27;xfy&#x27;</span>;</code></pre><p>可以显式注解，防止类型拓宽。</p><h4 id="const-类型"><a href="#const-类型" class="headerlink" title="const 类型"></a>const 类型</h4><p>TypeScript 中有一个特殊的类型<code>const</code>类型，可以禁止类型拓宽并且还递归的将成员设置为<code>readonly</code>，不管嵌套有多深。这个类型作用与类型断言。</p><pre><code class="hljs ts"><span class="hljs-keyword">let</span> c = &#123; <span class="hljs-attr">x</span>: <span class="hljs-number">123</span> &#125; <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
+<span class="hljs-comment">// d: &#123; readonly x: 1; readonly y: &#123; readonly z: 3; &#125;; &#125;</span>
+<span class="hljs-keyword">let</span> d = &#123; <span class="hljs-attr">x</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">y</span>: &#123; <span class="hljs-attr">z</span>: <span class="hljs-number">3</span> &#125; &#125; <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;</code></pre><h4 id="多余属性检查"><a href="#多余属性检查" class="headerlink" title="多余属性检查"></a>多余属性检查</h4><p>TypeScript 在检查一个对象是否可赋值给另一个对象时，也涉及到类型拓宽。</p><p>传递一个对象字面量时，TypeScript 会对所有属性进行检查，也就是多余属性检查。</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> Option = &#123;
+  <span class="hljs-attr">baseUrl</span>: <span class="hljs-built_in">string</span>;
+  cacheSize?: <span class="hljs-built_in">number</span>;
+&#125;;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">API</span> </span>&#123;
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">option: Option</span>)</span> &#123;&#125;
+&#125;
+
+<span class="hljs-keyword">new</span> API(&#123;
+  <span class="hljs-attr">baseUrl</span>: <span class="hljs-string">&#x27;https://xfy.plus&#x27;</span>,
+  <span class="hljs-attr">cacheSizee</span>: <span class="hljs-number">123</span>, <span class="hljs-comment">// 错误</span>
+&#125;);</code></pre><p>但多余属性检查在将对象赋值给一个变量时则不会详细检查：</p><pre><code class="hljs ts"><span class="hljs-keyword">let</span> option = &#123;
+  <span class="hljs-attr">baseUrl</span>: <span class="hljs-string">&#x27;https://xfy.plus&#x27;</span>,
+  <span class="hljs-attr">cacheSizee</span>: <span class="hljs-number">123</span>,
+&#125;;
+<span class="hljs-keyword">new</span> API(option);  <span class="hljs-comment">// 没有错误</span></code></pre><h3 id="对象类型进阶"><a href="#对象类型进阶" class="headerlink" title="对象类型进阶"></a>对象类型进阶</h3><p>对象是 JavaScript 语言的核心，为了以安全的方式描述和处理对象，TypeScript 提供了一系列方式。</p><h4 id="对象类型运算符"><a href="#对象类型运算符" class="headerlink" title="对象类型运算符"></a>对象类型运算符</h4><p><strong>键入运算符</strong></p><p>键入运算符提供了类似与对象字面量的方式来对类型的访问，在对顶层类型做访问时，能提供更简便的方法：</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> APIResponse = &#123;
+  <span class="hljs-attr">user</span>: &#123;
+    <span class="hljs-attr">userId</span>: <span class="hljs-built_in">number</span>;
+    frientList: &#123;
+      <span class="hljs-attr">count</span>: <span class="hljs-built_in">number</span>;
+      friends: &#123;
+        <span class="hljs-attr">firstName</span>: <span class="hljs-built_in">string</span>;
+        lastName: <span class="hljs-built_in">string</span>;
+      &#125;[];
+    &#125;;
+  &#125;;
+&#125;;
+<span class="hljs-keyword">type</span> FriendList = APIResponse[<span class="hljs-string">&#x27;user&#x27;</span>][<span class="hljs-string">&#x27;frientList&#x27;</span>];</code></pre><p><strong><code>keyof</code>运算符</strong></p><p>与<code>Object.keys</code>类似，不过<code>keyof</code>取的是作为类型的键。</p><pre><code class="hljs ts"><span class="hljs-keyword">const</span> Obj = &#123;
+  <span class="hljs-attr">a</span>: <span class="hljs-number">1</span>,
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;xfy&#x27;</span>,
+&#125;;
+
+<span class="hljs-keyword">type</span> PickOne = &#123;
+  <span class="hljs-comment">// T 是一个对象，K 是 T 中的一个键</span>
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">T</span> <span class="hljs-attr">extends</span> <span class="hljs-attr">object</span>, <span class="hljs-attr">K</span> <span class="hljs-attr">extends</span> <span class="hljs-attr">keyof</span> <span class="hljs-attr">T</span>&gt;</span>(obj: T, key: K): T[K];</span>
+<span class="xml">&#125;;</span>
+<span class="xml"></span>
+<span class="xml">const pickOne: PickOne = (obj, key) =&gt; &#123;</span>
+<span class="xml">  return obj[key];</span>
+<span class="xml">&#125;;</span>
+<span class="xml"></span>
+<span class="xml">const t1 = pickOne(Obj, &#x27;a&#x27;);</span></code></pre><h4 id="映射类型"><a href="#映射类型" class="headerlink" title="映射类型"></a>映射类型</h4><p>TypeScript 还提供了一种更强大的方式，即映射类型（mapped type）。一个对象最多有一个映射类型</p><pre><code class="hljs ts"><span class="hljs-keyword">const</span> nextDay: &#123; [key <span class="hljs-keyword">in</span> Day]: <span class="hljs-built_in">string</span> &#125; = &#123;
+  <span class="hljs-attr">Mon</span>: <span class="hljs-string">&#x27;Thu&#x27;</span>,
+&#125;;</code></pre><p>内置的映射类型</p><ul><li><code>Record&lt;Keys, Values&gt;</code>：键的的类型为 Keys、值的类型为 Values 的对象。</li><li><code>Partial&lt;Object&gt;</code>：把 Object 中的每个字段都标记为可选的。</li><li><code>Required&lt;Object&gt;</code>：把 Object 中的每个字段都标记为必须的。</li><li><code>Readonly&lt;Object&gt;</code>：把 Object 中的每个字段都标记为只读的。</li><li><code>Pick&lt;Object, Keys&gt;</code>：返回 Object 的子类型，只包含指定的 Keys。</li></ul><h3 id="函数类型进阶"><a href="#函数类型进阶" class="headerlink" title="函数类型进阶"></a>函数类型进阶</h3><p>函数类型常用的几种高级技术。</p><h4 id="改善数组的类型推导"><a href="#改善数组的类型推导" class="headerlink" title="改善数组的类型推导"></a>改善数组的类型推导</h4><p>TypeScript 在推导元组类型的时候会放宽要求，推导出的结果尽量宽泛，不在乎元组的长度和各位置的类型。</p><pre><code class="hljs ts"><span class="hljs-keyword">const</span> tuple1 = [<span class="hljs-number">1</span>, <span class="hljs-string">&#x27;xfy&#x27;</span>] <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
+<span class="hljs-comment">// tuple1: (string | number)[]</span></code></pre><p>有些时候我们可能希望更加严格一点，而不是当作数组来使用。当然可以使用类型断言来更加严格：</p><pre><code class="hljs ts"><span class="hljs-keyword">const</span> tuple2 = [<span class="hljs-number">1</span>, <span class="hljs-string">&#x27;xfy&#x27;</span>] <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
+<span class="hljs-comment">// tuple2: readonly [1, &quot;xfy&quot;]</span></code></pre><p>但有时候我们可能不想使用断言，或者不想标记为只读。这时候可以利用 TypeScript 推导剩余参数的类型的方式：</p><pre><code class="hljs ts"><span class="hljs-keyword">const</span> tuple = <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">T</span> <span class="hljs-attr">extends</span> <span class="hljs-attr">unknown</span>[]&gt;</span>(...ts: T): T =&gt; &#123;</span>
+<span class="xml">  return ts;</span>
+<span class="xml">&#125;;</span>
+<span class="xml">const myTuple = tuple(1, &#x27;xfy&#x27;);</span>
+<span class="xml">// myTuple: [number, string]</span></code></pre><p>这个函数返回传入的参数，神奇之处全在类型中。当代码中使用到了大量的元组时，而又不想全部断言时，可以尝试这种技术。</p><h4 id="用户定义的类型防护措施"><a href="#用户定义的类型防护措施" class="headerlink" title="用户定义的类型防护措施"></a>用户定义的类型防护措施</h4><p>TypeScript 支持类型的细化。但它不不是任何条件都有用的：</p><pre><code class="hljs ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isString</span>(<span class="hljs-params">str: unknown</span>): <span class="hljs-title">boolean</span> </span>&#123;
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">typeof</span> str === <span class="hljs-string">&#x27;string&#x27;</span>;
+&#125;
+<span class="hljs-built_in">console</span>.log(isString(<span class="hljs-string">&#x27;123&#x27;</span>)); <span class="hljs-comment">// true</span>
+<span class="hljs-built_in">console</span>.log(isString(<span class="hljs-number">123</span>)); <span class="hljs-comment">// false</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parseInput</span>(<span class="hljs-params">input: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">number</span></span>) </span>&#123;
+  <span class="hljs-keyword">if</span> (isString(input)) &#123;
+    input.toUpperCase(); <span class="hljs-comment">// Property &#x27;toUpperCase&#x27; does not exist on type &#x27;number&#x27;.</span>
+  &#125;
+&#125;</code></pre><p>在这种情况下，类型细化就不再为我们工作了。类型细化的能力有限，只能细化当前作用域中变量的类型，一旦离开作用域，类型细化能力不会随之转移到新作用域中。在新的函数内，TypeScript 只知道<code>isString</code>返回一个布尔值。</p><p><code>isString</code>返回的确实是一个布尔值，但我们要让类型检查器知道，当返回是真值时，表明其参数是一个字符串。为此，这里需要使用用户定义的类型防护措施：</p><pre><code class="hljs ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isString</span>(<span class="hljs-params">str: unknown</span>): <span class="hljs-title">str</span> <span class="hljs-title">is</span> <span class="hljs-title">string</span> </span>&#123;
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">typeof</span> str === <span class="hljs-string">&#x27;string&#x27;</span>;
+&#125;
+<span class="hljs-built_in">console</span>.log(isString(<span class="hljs-string">&#x27;123&#x27;</span>)); <span class="hljs-comment">// true</span>
+<span class="hljs-built_in">console</span>.log(isString(<span class="hljs-number">123</span>)); <span class="hljs-comment">// false</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parseInput</span>(<span class="hljs-params">input: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">number</span></span>) </span>&#123;
+  <span class="hljs-keyword">if</span> (isString(input)) &#123;
+    input.toUpperCase(); <span class="hljs-comment">// worked!</span>
+  &#125;
+&#125;</code></pre><p>类型防护措施是 TypeScript 内置的特性，is 运算符就起这个作用。如果函数细化了参数的类型，而且返回一个布尔值，我们可以使用用户定义的类型防护措施确保类型的细化能在作用域之间转移。用户定义的类型防护措施只限于一个参数，但是不限定于简单的类型。</p><h3 id="条件类型"><a href="#条件类型" class="headerlink" title="条件类型"></a>条件类型</h3><p>TypeScript 提供了和条件运算类似的方式来运算类型。</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> IsString&lt;T&gt; = T <span class="hljs-keyword">extends</span> <span class="hljs-built_in">string</span> ? <span class="hljs-literal">true</span> : <span class="hljs-literal">false</span>;
+
+<span class="hljs-keyword">type</span> A = IsString&lt;<span class="hljs-built_in">string</span>&gt;; <span class="hljs-comment">// true</span>
+<span class="hljs-keyword">type</span> B = IsString&lt;<span class="hljs-built_in">number</span>&gt;; <span class="hljs-comment">// false</span></code></pre><h4 id="infer-关键字"><a href="#infer-关键字" class="headerlink" title="infer 关键字"></a>infer 关键字</h4><p>条件类型的另一个更强大的特新故事可以在条件中声明泛型。这个声明方式不是使用尖括号<code>&lt;&gt;</code>，而是使用 infer 关键字。</p><p>这里的意思是：当泛型 T 继承自另一个泛型 U 组成的数组时，返回 U 类型。</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> SomeArr&lt;T&gt; = T <span class="hljs-keyword">extends</span> (infer U)[] ? U : T;
+<span class="hljs-keyword">type</span> C = SomeArr&lt;<span class="hljs-built_in">string</span>[]&gt;; <span class="hljs-comment">// string</span>
+<span class="hljs-keyword">type</span> D = SomeArr&lt;<span class="hljs-built_in">number</span>[]&gt;; <span class="hljs-comment">// number</span></code></pre><p>这还不是最强大的地方，对于数组来说我们可以使用键入运算符<code>[]</code>。更强大的地方在于它还可以获取到函数参数类型：</p><p>这里的意思是：当泛型 F 继承自一个接收两个参数的函数，并且两个参数中的第二个参数为泛型 U 类型时，返回对应的 U 类型。</p><pre><code class="hljs ts"><span class="hljs-keyword">type</span> SecondArg&lt;F&gt; = F <span class="hljs-keyword">extends</span> (argA: <span class="hljs-built_in">any</span>, <span class="hljs-attr">argB</span>: infer U) =&gt; <span class="hljs-built_in">any</span> ? U : <span class="hljs-built_in">never</span>;
+
+<span class="hljs-keyword">type</span> F = <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">Array</span>[<span class="hljs-string">&#x27;prototype&#x27;</span>][<span class="hljs-string">&#x27;slice&#x27;</span>]; <span class="hljs-comment">// F = (start?: number, end?: number) =&gt; any[]</span>
+<span class="hljs-keyword">type</span> Arg = SecondArg&lt;F&gt;; <span class="hljs-comment">// Arg = number</span></code></pre><p>可见<code>[].slice</code>的第二个参数是 number 类型，而且在编译时便可知晓这一点。Java 能做到吗？</p><blockquote><p>↑《Programming TypeScript》中文版 6.5.2 章原话。</p></blockquote><h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><h3 id="事件发射器"><a href="#事件发射器" class="headerlink" title="事件发射器"></a>事件发射器</h3></div><div class="prev-or-next"><div class="post-foot-next"><a href="/defect/first-one-SPA.html" target="_self"><i class="iconfont icon-chevronleft"></i> <span>上一页</span></a></div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2021-05-20 21:03:19</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/TypeScript/" title="TypeScript"><b>#</b> TypeScript</a></span></span></div><div class="post-foot-prev"><a href="/defect/webpack-web-develop.html" target="_self"><span>下一页</span><i class="iconfont icon-chevronright"></i></a></div></div></div><div id="btn-catalog" class="btn-catalog"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-catalog"></use></svg></div><div class="post-catalog hidden" id="catalog"><div class="title">目录</div><div class="catalog-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E8%BD%BD"><span class="toc-text">重载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%80%81"><span class="toc-text">多态</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%9B%E5%9E%8B%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">泛型作用域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%B3%9B%E5%9E%8B%E7%9A%84%E5%A4%9A%E7%A7%8D%E5%86%99%E6%B3%95"><span class="toc-text">函数泛型的多种写法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BA%A6%E6%9D%9F%E5%8F%97%E9%99%90%E5%A4%9A%E6%80%81"><span class="toc-text">约束受限多态</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB"><span class="toc-text">类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-text">基本语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A5-this-%E4%BD%9C%E4%B8%BA%E8%BF%94%E5%9B%9E%E7%B1%BB%E5%9E%8B"><span class="toc-text">以 this 作为返回类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3"><span class="toc-text">接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-text">实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E8%BF%98%E6%98%AF%E6%8A%BD%E8%B1%A1%E7%B1%BB"><span class="toc-text">接口还是抽象类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E6%98%AF%E7%BB%93%E6%9E%84%E5%8C%96%E7%B1%BB%E5%9E%8B"><span class="toc-text">类是结构化类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E6%97%A2%E5%A3%B0%E6%98%8E%E5%80%BC%E4%B9%9F%E5%A3%B0%E6%98%8E%E7%B1%BB%E5%9E%8B"><span class="toc-text">类既声明值也声明类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F-final-%E7%B1%BB"><span class="toc-text">模拟 final 类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">工厂模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BF%9B%E9%98%B6"><span class="toc-text">类型进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B6%85%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%AD%90%E7%B1%BB%E5%9E%8B"><span class="toc-text">超类型和子类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%9E%8B%E5%8F%98"><span class="toc-text">函数型变</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%B5%8B%E5%80%BC%E6%80%A7"><span class="toc-text">可赋值性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%8B%93%E5%AE%BD"><span class="toc-text">类型拓宽</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#const-%E7%B1%BB%E5%9E%8B"><span class="toc-text">const 类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E4%BD%99%E5%B1%9E%E6%80%A7%E6%A3%80%E6%9F%A5"><span class="toc-text">多余属性检查</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%B1%BB%E5%9E%8B%E8%BF%9B%E9%98%B6"><span class="toc-text">对象类型进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%B1%BB%E5%9E%8B%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">对象类型运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%98%A0%E5%B0%84%E7%B1%BB%E5%9E%8B"><span class="toc-text">映射类型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B%E8%BF%9B%E9%98%B6"><span class="toc-text">函数类型进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%B9%E5%96%84%E6%95%B0%E7%BB%84%E7%9A%84%E7%B1%BB%E5%9E%8B%E6%8E%A8%E5%AF%BC"><span class="toc-text">改善数组的类型推导</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E5%AE%9A%E4%B9%89%E7%9A%84%E7%B1%BB%E5%9E%8B%E9%98%B2%E6%8A%A4%E6%8E%AA%E6%96%BD"><span class="toc-text">用户定义的类型防护措施</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E7%B1%BB%E5%9E%8B"><span class="toc-text">条件类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#infer-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-text">infer 关键字</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5"><span class="toc-text">异步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%8F%91%E5%B0%84%E5%99%A8"><span class="toc-text">事件发射器</span></a></li></ol></li></ol></div></div><div class="comments-container"></div></article></main><footer class="footer"><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat/hexo-theme-oranges">Copyright © Oranges 2021</a></div><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat">Theme by Oranges | Powered by Hexo</a></div></footer><div class="back-to-top hidden"><button title="go-top" class="go-top"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-chevronup"></use></svg></button></div></body><script src="/js/iconfont.js"></script><script src="/js/main.js"></script></html>

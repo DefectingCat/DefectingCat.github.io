@@ -1,0 +1,265 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="keywords" content=""><meta name="author" content="Defectink"><meta name="description" content=""><title>经典轮播图的实现方案 | 🍭Defectink</title><link rel="apple-touch-icon" href="/images/favicon.webp"><link rel="icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/base.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="🍭Defectink" type="application/atom+xml"><link rel="alternate" href="/rss.xml" title="🍭Defectink" type="application/rss+xml"></head><body><header class="header"><div class="avatar"><a title="home" href="/"><img src="/images/mona.webp" alt=""></a><div class="nickname"><a href="/">xfy</a></div></div><nav class="navbar"><ul><li class="nav-item" data-path="/"><a href="/">Home</a></li><li class="nav-item" data-path="/archives/"><a href="/archives/">Archives</a></li><li class="nav-item" data-path="/tags/"><a href="/tags/">Tags</a></li><li class="nav-item" data-path="/friends/"><a href="/friends/">Friends</a></li><li class="nav-item" data-path="/about/"><a href="/about/">About</a></li></ul></nav></header><main class="main-container"><link rel="stylesheet" href="/css/github-markdown.css"><article class="container post-details" id="post-details"><div class="post-content"><div class="post-title">经典轮播图的实现方案</div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2021-02-09 13:37:00</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span> <span class="span--tag"><a href="/tags/Vue/" title="Vue"><b>#</b> Vue</a></span></span></div><div class="markdown-body"><h2 id="传统方式"><a href="#传统方式" class="headerlink" title="传统方式"></a>传统方式</h2><p><a target="_blank" rel="noopener" href="https://git.defectink.com/xfy/classic-slider">项目地址</a></p><p>传统方式实现轮播也算一个不小的工程量了，基本布局就是将所有的图片横向布局，并在首位分别克隆最后和第一张图片。当切换到克隆的图片时，并在动画播放快结束时，将这个图片队列复位。</p><p><img src="../images/%E7%BB%8F%E5%85%B8%E8%BD%AE%E6%92%AD%E5%9B%BE%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/2021-02-13-15-37-51.webp"></p><p>当整个队列切换完了之后，会切换到克隆的 #1 图片上，再动画完成之后，我们悄悄的将其切换为真正的第一张图片。</p><p><img src="../images/%E7%BB%8F%E5%85%B8%E8%BD%AE%E6%92%AD%E5%9B%BE%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/2021-02-13-15-39-13.webp"></p><h2 id="传统方式的实现"><a href="#传统方式的实现" class="headerlink" title="传统方式的实现"></a>传统方式的实现</h2><p>为了给各种数量的图片做适应，所以整个队列的宽度就不固定死了，而使用 JavaScript 动态生成，包括图片索引的小圆点。</p><h3 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h3><p>整个框架非常的简单，一个外层 div 中有三个主要的结构，分别是：用于存放图片的无序列表、左右按钮和小圆点索引。</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;wrapper&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;slider&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;slider&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;clear-fix&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./img/1.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;roll-img&quot;</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./img/2.png&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;roll-img&quot;</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./img/3.png&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;roll-img&quot;</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./img/4.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;roll-img&quot;</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./img/5.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;roll-img&quot;</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn btn-left&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>&lt;<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn btn-right&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>&gt;<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;index-box&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">ol</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">ol</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><h3 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h3><p>CSS 方面，主要值得注意的就是 ul 和 li，他们分别为绝对定位<code>position: absolute;</code>和左浮动<code>float: left;</code>。</p><p>对 ul 使用绝对定位就可以控制其<code>left</code>属性来实现左右移动的动画效果。而对 li 使用左浮动是为了将所有的图片都排列成一行。</p><pre><code class="hljs css"><span class="hljs-selector-class">.slider</span> &#123;
+  <span class="hljs-attribute">transition</span>: all <span class="hljs-number">300ms</span>;
+  <span class="hljs-attribute">position</span>: relative;
+  <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">14px</span>;
+  <span class="hljs-comment">/* overflow: hidden; */</span>
+&#125;
+<span class="hljs-selector-class">.slider</span> <span class="hljs-selector-tag">ul</span> &#123;
+  <span class="hljs-attribute">position</span>: absolute;
+  <span class="hljs-attribute">top</span>: <span class="hljs-number">0</span>;
+  <span class="hljs-attribute">left</span>: -<span class="hljs-number">400px</span>;
+  <span class="hljs-comment">/* width: 700%; */</span>
+  <span class="hljs-comment">/* height: 100%; */</span>
+  <span class="hljs-attribute">list-style</span>: none;
+&#125;
+<span class="hljs-selector-class">.slider</span> <span class="hljs-selector-tag">ul</span> <span class="hljs-selector-tag">li</span> &#123;
+  <span class="hljs-attribute">float</span>: left;
+&#125;
+
+<span class="hljs-selector-class">.roll-img</span> &#123;
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">400px</span>;
+&#125;
+
+<span class="hljs-selector-class">.clear-fix</span><span class="hljs-selector-pseudo">::after</span> &#123;
+  <span class="hljs-attribute">content</span>: <span class="hljs-string">&quot;&quot;</span>;
+  <span class="hljs-attribute">clear</span>: both;
+  <span class="hljs-attribute">display</span>: block;
+  <span class="hljs-attribute">height</span>: <span class="hljs-number">0</span>;
+&#125;</code></pre><h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h2><p>JavaScript 方面内容值得为它写成一个二级标题。它有多个部分组成，在 JavaScript 做的事情有：</p><ul><li>动态根据图片生成圆点；</li><li>克隆需要的图片节点；</li><li>动态添加小圆点样式；</li><li>左右翻页按钮的监听器；</li><li>移动方法；</li><li>重置整个图片队列；</li></ul><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>这次使用 ES6 的 class 来创建对象，并初始化整个轮播图。第一步要做的就是在<code>constructor()</code>中选中和定义需要的数据：</p><pre><code class="hljs js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Slider</span> </span>&#123;
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">id</span>)</span> &#123;
+    <span class="hljs-comment">// 外层div</span>
+    <span class="hljs-built_in">this</span>.wrapper = <span class="hljs-built_in">document</span>.querySelector(id);
+    <span class="hljs-built_in">this</span>.pics = <span class="hljs-built_in">this</span>.wrapper.querySelector(<span class="hljs-string">&#x27;ul&#x27;</span>);
+    <span class="hljs-comment">// 小圆点外层</span>
+    <span class="hljs-built_in">this</span>.index = <span class="hljs-built_in">this</span>.wrapper.querySelector(<span class="hljs-string">&#x27;.index-box&#x27;</span>);
+    <span class="hljs-comment">// 小圆点索引</span>
+    <span class="hljs-built_in">this</span>.indexPoint = <span class="hljs-number">1</span>;
+    <span class="hljs-comment">// 单个图片宽度</span>
+    <span class="hljs-built_in">this</span>.picWidth = <span class="hljs-built_in">this</span>.wrapper.clientWidth;
+    <span class="hljs-comment">// 总共图片个数</span>
+    <span class="hljs-built_in">this</span>.sliders = <span class="hljs-built_in">this</span>.pics.children.length;
+    <span class="hljs-comment">// 按钮点击间隔</span>
+    <span class="hljs-built_in">this</span>.startMs = <span class="hljs-built_in">Date</span>.now();
+    <span class="hljs-comment">// 点击小圆点的间隔</span>
+    <span class="hljs-built_in">this</span>.movePoint = <span class="hljs-number">0</span>;
+    <span class="hljs-comment">// 初始化方法</span>
+    <span class="hljs-built_in">this</span>.init();
+  &#125;
+&#125;</code></pre><p><code>init()</code>方法中主要就是其他一些方法的集中运行，他们分别是：初始化圆点、克隆图片和左右按钮：</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">init</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;init!&#x27;</span>);
+  <span class="hljs-built_in">this</span>.initPoint();
+  <span class="hljs-built_in">this</span>.clonePic();
+  <span class="hljs-built_in">this</span>.lR();
+&#125;</code></pre><h3 id="初始化圆点"><a href="#初始化圆点" class="headerlink" title="初始化圆点"></a>初始化圆点</h3><p>初始化圆点主要做的三件事：</p><ol><li>根据图片数量生成圆点个数；</li><li>为第一个圆点添加激活的样式；</li><li>监听点击事件；</li></ol><p>这里使用了 document fragment 来将所有生成的圆点一次性的插入到 DOM 里，从而减少操作 DOM 的频率。</p><p>其中比较复杂的部分在于监听点击事件，它不仅仅要为点击的圆点添加相应激活的样式，还要判断圆点的左右和距离来移动对应距离的图片。</p><p>在事件代理里，需要做一个小判断<code>if (e.target.nodeName.toString().toLowerCase() == &#39;li&#39;)</code>，不然点击到了父 div 元素会取不到对应的属性而报错。</p><p>这里判断点击圆点后的左右移动使用时，定义了两个变量，他们分别是：</p><pre><code class="hljs js"><span class="hljs-comment">// 小圆点索引</span>
+<span class="hljs-built_in">this</span>.indexPoint = <span class="hljs-number">1</span>;
+<span class="hljs-comment">// 点击小圆点的间隔</span>
+<span class="hljs-built_in">this</span>.movePoint = <span class="hljs-number">0</span>;</code></pre><p><code>this.indexPoint</code>就是自定义的 Attribute，通过判断<code>this.indexPoint</code>上一次和这一次点击的大小，就可以判断出点击的圆点是在左边还是在右边，从而向对应的方向移动图片。</p><p>而图片移动的距离使则就是<code>小圆点的间隔 * 单张图片的宽度</code>，这里调用的是自定义的<code>move()</code>方法，它接受的参数就是图片移动的距离<code>this.move(-this.picWidth * this.movePoint);</code>。</p><p><code>this.picWidth</code>是提前定义好的单张图片的宽度，通过<code>this.wrapper.clientWidth;</code>来获取</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">initPoint</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-comment">// 获取图片的总个数</span>
+  <span class="hljs-keyword">let</span> num = <span class="hljs-built_in">this</span>.pics.children.length;
+  <span class="hljs-comment">// 使用 fragment 片段来只操作一次 DOM 插入所有圆点</span>
+  <span class="hljs-keyword">let</span> frg = <span class="hljs-built_in">document</span>.createDocumentFragment();
+  <span class="hljs-comment">// 循环生成</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; num; i++) &#123;
+    <span class="hljs-keyword">let</span> li = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&#x27;li&#x27;</span>);
+    <span class="hljs-comment">// 设置自定义 Attribute，用来标识和应用样式；</span>
+    li.setAttribute(<span class="hljs-string">&#x27;data-index&#x27;</span>, i + <span class="hljs-number">1</span>);
+    <span class="hljs-comment">// 默认激活状态</span>
+    <span class="hljs-keyword">if</span> (i == <span class="hljs-number">0</span>) &#123;
+      li.className = <span class="hljs-string">&#x27;active&#x27;</span>;
+    &#125;
+    <span class="hljs-comment">// 插入到 fragment</span>
+    frg.append(li);
+  &#125;
+  <span class="hljs-comment">// 动态生成 ol 宽度</span>
+  <span class="hljs-built_in">this</span>.index.children[<span class="hljs-number">0</span>].style.width = num * <span class="hljs-number">10</span> * <span class="hljs-number">2</span> + <span class="hljs-string">&#x27;px&#x27;</span>;
+  <span class="hljs-built_in">this</span>.index.children[<span class="hljs-number">0</span>].append(frg);
+  <span class="hljs-comment">// 添加点击事件，获取index</span>
+  <span class="hljs-built_in">this</span>.index.children[<span class="hljs-number">0</span>].addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;
+    <span class="hljs-comment">// 利用事件冒泡做事件代理，只点击到 li 元素生效</span>
+    <span class="hljs-keyword">if</span> (e.target.nodeName.toString().toLowerCase() == <span class="hljs-string">&#x27;li&#x27;</span>) &#123;
+      <span class="hljs-keyword">let</span> ip = e.target.getAttribute(<span class="hljs-string">&#x27;data-index&#x27;</span>);
+      <span class="hljs-comment">// 判断点击的圆点间隔，从而决定移动多少图片</span>
+      <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.indexPoint &lt; ip) &#123;
+        <span class="hljs-built_in">this</span>.movePoint = ip - <span class="hljs-built_in">this</span>.indexPoint;
+        <span class="hljs-built_in">this</span>.indexPoint = <span class="hljs-built_in">Number</span>(ip);
+        <span class="hljs-comment">// 调用 move() 方法来移动图片，移动的距离为圆点的间隔 * 单张图片的宽度</span>
+        <span class="hljs-built_in">this</span>.move(-<span class="hljs-built_in">this</span>.picWidth * <span class="hljs-built_in">this</span>.movePoint);
+      &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-built_in">this</span>.movePoint = <span class="hljs-built_in">this</span>.indexPoint - ip;
+        <span class="hljs-built_in">this</span>.indexPoint = <span class="hljs-built_in">Number</span>(ip);
+        <span class="hljs-built_in">this</span>.move(<span class="hljs-built_in">this</span>.picWidth * <span class="hljs-built_in">this</span>.movePoint);
+      &#125;
+    &#125;
+  &#125;);
+&#125;</code></pre><h3 id="克隆节点"><a href="#克隆节点" class="headerlink" title="克隆节点"></a>克隆节点</h3><p>前面曾提到过，需要手动的克隆前后两张图片，并再将其放调换放在前后。由于在第一张图片的前面添加了一张克隆的最后一张图，所以需要将 ul 的左偏移提前设置为负的一张图片的宽度。</p><p>并且整个 ul 的宽度为所有图片加在一起的宽度。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">clonePic</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-comment">// 克隆第一个元素</span>
+  <span class="hljs-keyword">let</span> first = <span class="hljs-built_in">this</span>.pics.firstElementChild.cloneNode(<span class="hljs-literal">true</span>);
+  <span class="hljs-comment">// 克隆最后一个元素</span>
+  <span class="hljs-keyword">let</span> last = <span class="hljs-built_in">this</span>.pics.lastElementChild.cloneNode(<span class="hljs-literal">true</span>);
+  <span class="hljs-built_in">this</span>.pics.append(first);
+  <span class="hljs-built_in">this</span>.pics.insertBefore(last, <span class="hljs-built_in">this</span>.pics.firstElementChild);
+  <span class="hljs-comment">// 动态设定宽度</span>
+  <span class="hljs-built_in">this</span>.pics.style.width = <span class="hljs-built_in">this</span>.pics.children.length * <span class="hljs-number">100</span> + <span class="hljs-string">&#x27;%&#x27;</span>;
+  <span class="hljs-comment">// 动态设定漂移</span>
+  <span class="hljs-built_in">this</span>.pics.style.left = -<span class="hljs-number">1</span> * <span class="hljs-built_in">this</span>.picWidth + <span class="hljs-string">&#x27;px&#x27;</span>;
+&#125;</code></pre><h3 id="左右按钮"><a href="#左右按钮" class="headerlink" title="左右按钮"></a>左右按钮</h3><p>左右翻页按钮的基本框架在 HTML 中已经写好，接下来就是动态的监听事件了。</p><p>这两个按钮里主要就是监听点击的事件，主要的功能还是在移动方法<code>move()</code>里。</p><p>这里还在每次点击结束后记录了下当前的时间戳，当再次点击按钮时会比较当前点击的时间戳和记录的时间戳，如果小于 310ms 则什么也不做。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">lR</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-comment">// 选中左右按钮，并添加监听器</span>
+  <span class="hljs-built_in">this</span>.wrapper.querySelector(<span class="hljs-string">&#x27;.btn-left&#x27;</span>).addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> &#123;
+    <span class="hljs-comment">// 记录上一次点击的时间戳，310ms 内的连续点击将不生效</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Date</span>.now() - <span class="hljs-built_in">this</span>.startMs &gt; <span class="hljs-number">310</span>) &#123;
+      <span class="hljs-comment">// 圆点越界时重置其 index</span>
+      <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.indexPoint - <span class="hljs-number">1</span> &lt; <span class="hljs-number">1</span>) &#123;
+        <span class="hljs-built_in">this</span>.indexPoint = <span class="hljs-built_in">this</span>.sliders;
+      &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-built_in">this</span>.indexPoint--;
+      &#125;
+      <span class="hljs-built_in">this</span>.move(<span class="hljs-built_in">this</span>.picWidth);
+      <span class="hljs-built_in">this</span>.startMs = <span class="hljs-built_in">Date</span>.now();
+    &#125;
+  &#125;);
+  <span class="hljs-built_in">this</span>.wrapper.querySelector(<span class="hljs-string">&#x27;.btn-right&#x27;</span>).addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> &#123;
+    <span class="hljs-comment">// 记录上一次点击的时间戳，310ms 内的连续点击将不生效</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Date</span>.now() - <span class="hljs-built_in">this</span>.startMs &gt; <span class="hljs-number">310</span>) &#123;
+      <span class="hljs-comment">// 圆点越界时重置其 index</span>
+      <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.indexPoint + <span class="hljs-number">1</span> &gt; <span class="hljs-built_in">this</span>.sliders) &#123;
+        <span class="hljs-built_in">this</span>.indexPoint = <span class="hljs-number">1</span>;
+      &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-built_in">this</span>.indexPoint++;
+      &#125;
+      <span class="hljs-built_in">this</span>.move(-<span class="hljs-built_in">this</span>.picWidth);
+      <span class="hljs-built_in">this</span>.startMs = <span class="hljs-built_in">Date</span>.now();
+    &#125;
+  &#125;);
+&#125;</code></pre><h3 id="移动方法"><a href="#移动方法" class="headerlink" title="移动方法"></a>移动方法</h3><p>在前面的按钮里调用了移动方法<code>move()</code>，并传递了一个宽度作为参数。这个参数就用作于 css 的<code>left</code>值，当为负数时整个队列向左移动，反之，向右移动。</p><p>仔细一看也不是非常的复杂，基本的移动方法就是：获取当前的<code>left</code>值，然后加上传递进来的 width 参数，最后最为最新的<code>left</code>值赋值到 ul 上。</p><p>最重要的，也就是整个轮播图的核心部分就是重置队列那部分。当当前的<code>left</code>值等于负的第一张图片时，也就是队列滚动到了克隆的 #5 图片上了。图片切换动画的时间是 300ms，在第 295ms 时我们就需要悄悄的将 ul 的动画移除，并将整个队列移动到正真的第五张图片上。这样就可以实现无缝的轮播滚动了。反之亦然。</p><p><img src="../images/%E7%BB%8F%E5%85%B8%E8%BD%AE%E6%92%AD%E5%9B%BE%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/2021-02-13-15-37-51.webp"></p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">move</span>(<span class="hljs-params">width</span>)</span> &#123;
+  <span class="hljs-comment">// 获取当前的 left 值</span>
+  <span class="hljs-keyword">let</span> left = <span class="hljs-built_in">parseFloat</span>(<span class="hljs-built_in">this</span>.pics.style.left);
+  <span class="hljs-comment">// 添加 300ms 的动画</span>
+  <span class="hljs-built_in">this</span>.pics.style.transition = <span class="hljs-string">`all 300ms`</span>;
+  <span class="hljs-comment">// 通过移动正负值来确定左右</span>
+  <span class="hljs-built_in">this</span>.pics.style.left = left + width + <span class="hljs-string">&#x27;px&#x27;</span>;
+  <span class="hljs-comment">// 狸猫换太子</span>
+  <span class="hljs-keyword">if</span> (left == -<span class="hljs-built_in">this</span>.picWidth &amp;&amp; width &gt; <span class="hljs-number">0</span>) &#123;
+    <span class="hljs-comment">// 动画为300ms，当为最后一张图的时候，295ms后替换整个ul</span>
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;
+      <span class="hljs-built_in">this</span>.pics.style.transition = <span class="hljs-string">`none`</span>;
+      <span class="hljs-built_in">this</span>.pics.style.left = -<span class="hljs-built_in">this</span>.sliders * <span class="hljs-built_in">this</span>.picWidth + <span class="hljs-string">&#x27;px&#x27;</span>;
+    &#125;, <span class="hljs-number">295</span>);
+  &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (left == -<span class="hljs-built_in">this</span>.sliders * <span class="hljs-built_in">this</span>.picWidth &amp;&amp; width &lt; <span class="hljs-number">0</span>) &#123;
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;
+      <span class="hljs-built_in">this</span>.pics.style.transition = <span class="hljs-string">`none`</span>;
+      <span class="hljs-built_in">this</span>.pics.style.left = -<span class="hljs-built_in">this</span>.picWidth + <span class="hljs-string">&#x27;px&#x27;</span>;
+    &#125;, <span class="hljs-number">290</span>);
+  &#125;
+  <span class="hljs-comment">// 应用圆点样式</span>
+  <span class="hljs-built_in">this</span>.modIndexPoint();
+&#125;</code></pre><h3 id="动态添加圆点样式"><a href="#动态添加圆点样式" class="headerlink" title="动态添加圆点样式"></a>动态添加圆点样式</h3><p>最后一个小功能就是动态的添加圆点的激活样式，这个部分非常的简单，一些基本操作。</p><p>首先将所有的圆点的样式都移除，然后在索引的圆点上添加<code>active</code>的样式。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">modIndexPoint</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-keyword">let</span> points = <span class="hljs-built_in">Array</span>.from(<span class="hljs-built_in">this</span>.index.children[<span class="hljs-number">0</span>].children);
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i <span class="hljs-keyword">of</span> points) &#123;
+    i.className = <span class="hljs-string">&#x27;&#x27;</span>;
+  &#125;
+  points[<span class="hljs-built_in">this</span>.indexPoint - <span class="hljs-number">1</span>].className = <span class="hljs-string">&#x27;active&#x27;</span>;
+&#125;</code></pre><h2 id="Vue"><a href="#Vue" class="headerlink" title="Vue"></a>Vue</h2><p><a target="_blank" rel="noopener" href="https://git.defectink.com/xfy/vue-slider">项目地址</a></p><p>Vue 由数据驱动，配合上其过渡样式，可以轻松实现另一种无限轮播的方案。</p><h3 id="数据驱动"><a href="#数据驱动" class="headerlink" title="数据驱动"></a>数据驱动</h3><p>将所有的图片都使用<code>position: absolute</code>定位保持在同一个位置，然后配合<code>v-show</code>来显示图片。当图片能够成功显示时，配合 Vue 的过渡动画就能够实现无缝的切换了。</p><p>这里使用了<code>v-for</code>来动态的创建图片 DOM，外层由<code>transition-group</code>定义为 ul，而内部 li 则封装为一个组件：</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">transition-group</span> <span class="hljs-attr">:name</span>=<span class="hljs-string">&quot;dest&quot;</span> <span class="hljs-attr">tag</span>=<span class="hljs-string">&quot;ul&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;img&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">ImgItem</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;(item, i) in images&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id&quot;</span> <span class="hljs-attr">v-show</span>=<span class="hljs-string">&quot;show == i&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">&quot;item.src&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">ImgItem</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">transition-group</span>&gt;</span></code></pre><p>而<code>v-show</code>呢，则配合 images 列表的下标显示，当图片的下标与定义的变量 show 相同时<code>v-show=&quot;show == i&quot;</code>则显示这个图片。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">data</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-keyword">return</span> &#123;
+    <span class="hljs-attr">images</span>: [
+      &#123; <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">src</span>: <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;../../assets/img/1.webp&#x27;</span>) &#125;,
+      &#123; <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">src</span>: <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;../../assets/img/2.webp&#x27;</span>) &#125;,
+      &#123; <span class="hljs-attr">id</span>: <span class="hljs-number">3</span>, <span class="hljs-attr">src</span>: <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;../../assets/img/3.webp&#x27;</span>) &#125;,
+      &#123; <span class="hljs-attr">id</span>: <span class="hljs-number">4</span>, <span class="hljs-attr">src</span>: <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;../../assets/img/4.webp&#x27;</span>) &#125;,
+      &#123; <span class="hljs-attr">id</span>: <span class="hljs-number">5</span>, <span class="hljs-attr">src</span>: <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;../../assets/img/5.webp&#x27;</span>) &#125;
+    ],
+    <span class="hljs-attr">show</span>: <span class="hljs-number">0</span>,
+  &#125;</code></pre><h3 id="切换图片"><a href="#切换图片" class="headerlink" title="切换图片"></a>切换图片</h3><p>在考虑过渡动画之前，应该先把切换图片的功能做好。</p><p>切换功能非常的简单，刚刚定义的 show 变量便是驱动图片显示的数据。而切换图片只要增加和减少这个 show 变量即可，只需要注意防止其越界。</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn btn-left&quot;</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;previous&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">ImgBtn</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">i</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;iconfont icon-next&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">ImgBtn</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;btn btn-right&quot;</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;next&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">ImgBtn</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">i</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;iconfont icon-next&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">ImgBtn</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><p>这里的<code>this.dest</code>是稍后用作动画过渡而定义的方向。</p><pre><code class="hljs js">methods: &#123;
+  <span class="hljs-function"><span class="hljs-title">next</span>(<span class="hljs-params"></span>)</span> &#123;
+    <span class="hljs-built_in">this</span>.dest = <span class="hljs-string">&#x27;img-next&#x27;</span>;
+    <span class="hljs-built_in">this</span>.show == <span class="hljs-built_in">this</span>.images.length - <span class="hljs-number">1</span> ? (<span class="hljs-built_in">this</span>.show = <span class="hljs-number">0</span>) : <span class="hljs-built_in">this</span>.show++;
+  &#125;,
+  <span class="hljs-function"><span class="hljs-title">previous</span>(<span class="hljs-params"></span>)</span> &#123;
+    <span class="hljs-built_in">this</span>.dest = <span class="hljs-string">&#x27;img-previous&#x27;</span>;
+    <span class="hljs-built_in">this</span>.show == <span class="hljs-number">0</span> ? (<span class="hljs-built_in">this</span>.show = <span class="hljs-built_in">this</span>.images.length - <span class="hljs-number">1</span>) : <span class="hljs-built_in">this</span>.show--;
+  &#125;,
+&#125;</code></pre><h3 id="小圆点"><a href="#小圆点" class="headerlink" title="小圆点"></a>小圆点</h3><p>同样的小圆点也是封装为一个小组件，外部直接使用 ol 来嵌套。同样的，小圆点的数量由图片来决定，所以它也是遍历<code>v-for</code>images 数组。</p><p>而小圆点的激活样式同样的也是由变量 show 来进行驱动，当 show 等于当前下标时，则激活样式。小圆点和图片的激活都由同一个变量驱动，这样在修改这一个变量时，小圆点和图片都能正确切换到对应的序列。</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">ol</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;img-point&quot;</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;pointClick&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">ImgPoint</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;(item, i) in images&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;item.id + &#x27;point&#x27;&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">i</span> <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;&#123; active: show == i &#125;&quot;</span> <span class="hljs-attr">:id</span>=<span class="hljs-string">&quot;i&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">ImgPoint</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ol</span>&gt;</span></code></pre><p>小圆点这里绑定了一个 id 为数组下标，这样当点击到当前下标的圆点时，就能通过事件修改 show 的值了。这里事件同样使用事件代理。</p><p>这里的 if 判断是用来判断后续过渡动画的方向的。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">pointClick</span>(<span class="hljs-params">e</span>)</span> &#123;
+  <span class="hljs-built_in">console</span>.log(e.target.id);
+  <span class="hljs-keyword">if</span> (e.target.nodeName.toString().toLowerCase() == <span class="hljs-string">&#x27;i&#x27;</span>) &#123;
+    <span class="hljs-built_in">this</span>.show &gt; e.target.id
+      ? (<span class="hljs-built_in">this</span>.dest = <span class="hljs-string">&#x27;img-previous&#x27;</span>)
+      : (<span class="hljs-built_in">this</span>.dest = <span class="hljs-string">&#x27;img-next&#x27;</span>);
+    <span class="hljs-built_in">this</span>.show = e.target.id;
+  &#125;
+&#125;,</code></pre><h3 id="过渡动画"><a href="#过渡动画" class="headerlink" title="过渡动画"></a>过渡动画</h3><p>这里使用了 Vue 的过渡效果，正向移动时，将即将进入的图片向右偏移一个自身宽度，然后再慢慢的过渡进当前的区域，离开的图片也是同理，慢慢的过渡到向左偏移一个自身宽度。</p><p><img src="../images/%E7%BB%8F%E5%85%B8%E8%BD%AE%E6%92%AD%E5%9B%BE%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/2021-02-02-14-52-48.webp"></p><pre><code class="hljs css"><span class="hljs-selector-class">.img-next-enter-active</span>,
+<span class="hljs-selector-class">.img-next-leave-active</span>,
+<span class="hljs-selector-class">.img-previous-enter-active</span>,
+<span class="hljs-selector-class">.img-previous-leave-active</span> &#123;
+  <span class="hljs-attribute">transition</span>: all <span class="hljs-number">300ms</span>;
+&#125;
+<span class="hljs-selector-class">.img-next-enter</span>,
+<span class="hljs-selector-class">.img-previous-leave-to</span> &#123;
+  <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateX</span>(<span class="hljs-number">100%</span>);
+&#125;
+<span class="hljs-selector-class">.img-next-enter-to</span>,
+<span class="hljs-selector-class">.img-next-leave</span>,
+<span class="hljs-selector-class">.img-previous-enter-to</span>,
+<span class="hljs-selector-class">.img-previous-leave</span> &#123;
+  <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateX</span>(<span class="hljs-number">0</span>);
+&#125;
+<span class="hljs-selector-class">.img-next-leave-to</span>,
+<span class="hljs-selector-class">.img-previous-enter</span> &#123;
+  <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateX</span>(-<span class="hljs-number">100%</span>);
+&#125;</code></pre><p>稍微复杂一点的就是左右方向移动时，对应的动画顺序是不一样的。所以这里的<code>&lt;transition-group :name=&quot;dest&quot; tag=&quot;ul&quot; class=&quot;img&quot;&gt;</code>的 name 的值是动态绑定的。当向什么方向移动时，就应用什么方向的 css。</p><p>上述左右按钮的点击和小圆点的点击事件里均有修改对应方向的值。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">data</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-keyword">return</span> &#123;
+    <span class="hljs-attr">dest</span>: <span class="hljs-string">&#x27;img-next&#x27;</span>,
+  &#125;</code></pre><h3 id="自动播放"><a href="#自动播放" class="headerlink" title="自动播放"></a>自动播放</h3><p>图片自动滚动不是什么复杂的事情，设置一个定时器就能解决。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">autoPlay</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-built_in">this</span>.dest = <span class="hljs-string">&#x27;img-next&#x27;</span>;
+  <span class="hljs-built_in">this</span>.timer = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> &#123;
+    <span class="hljs-built_in">this</span>.show == <span class="hljs-number">4</span> ? (<span class="hljs-built_in">this</span>.show = <span class="hljs-number">0</span>) : <span class="hljs-built_in">this</span>.show++;
+  &#125;, <span class="hljs-number">3000</span>);
+&#125;,</code></pre><p>此外在绑定两个鼠标移入和移除的事件，用来设置暂停和继续播放。</p><pre><code class="hljs html">@mouseover=&quot;pausePlay&quot; @mouseout=&quot;continuePlay&quot;</code></pre><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-title">pausePlay</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-built_in">clearInterval</span>(<span class="hljs-built_in">this</span>.timer);
+&#125;,
+<span class="hljs-function"><span class="hljs-title">continuePlay</span>(<span class="hljs-params"></span>)</span> &#123;
+  <span class="hljs-built_in">this</span>.autoPlay();
+&#125;</code></pre><h2 id="🎉"><a href="#🎉" class="headerlink" title="🎉"></a>🎉</h2><p>这里的 Vue 实现方案主要是用于 PC 端的，它可以利用 Vue 的 <code>transition-group</code>来过渡切换的图片，轻松实现无限循环。</p><p>但这个方案的一个缺点就是对于触屏的移动端不是很友好，单靠<code>transition-group</code>来给滑动时显示图片会比较复杂。更佳的实现方案还是将上述传统的实现方式封装成一个组件，后续再考虑实现一下。</p></div><div class="prev-or-next"><div class="post-foot-next"><a href="/defect/router-with-keepalive.html" target="_self"><i class="iconfont icon-chevronleft"></i> <span>上一页</span></a></div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2021-02-09 13:37:00</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span> <span class="span--tag"><a href="/tags/Vue/" title="Vue"><b>#</b> Vue</a></span></span></div><div class="post-foot-prev"><a href="/defect/todolist-exercise.html" target="_self"><span>下一页</span><i class="iconfont icon-chevronright"></i></a></div></div></div><div id="btn-catalog" class="btn-catalog"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-catalog"></use></svg></div><div class="post-catalog hidden" id="catalog"><div class="title">目录</div><div class="catalog-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E6%96%B9%E5%BC%8F"><span class="toc-text">传统方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E6%96%B9%E5%BC%8F%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-text">传统方式的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML"><span class="toc-text">HTML</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS"><span class="toc-text">CSS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript"><span class="toc-text">JavaScript</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9C%86%E7%82%B9"><span class="toc-text">初始化圆点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%8B%E9%9A%86%E8%8A%82%E7%82%B9"><span class="toc-text">克隆节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A6%E5%8F%B3%E6%8C%89%E9%92%AE"><span class="toc-text">左右按钮</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%BB%E5%8A%A8%E6%96%B9%E6%B3%95"><span class="toc-text">移动方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E5%9C%86%E7%82%B9%E6%A0%B7%E5%BC%8F"><span class="toc-text">动态添加圆点样式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue"><span class="toc-text">Vue</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8"><span class="toc-text">数据驱动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%87%E6%8D%A2%E5%9B%BE%E7%89%87"><span class="toc-text">切换图片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E5%9C%86%E7%82%B9"><span class="toc-text">小圆点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BB"><span class="toc-text">过渡动画</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%92%AD%E6%94%BE"><span class="toc-text">自动播放</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%89"><span class="toc-text">🎉</span></a></li></ol></div></div><div class="comments-container"></div></article></main><footer class="footer"><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat/hexo-theme-oranges">Copyright © Oranges 2021</a></div><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat">Theme by Oranges | Powered by Hexo</a></div></footer><div class="back-to-top hidden"><button title="go-top" class="go-top"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-chevronup"></use></svg></button></div></body><script src="/js/iconfont.js"></script><script src="/js/main.js"></script></html>

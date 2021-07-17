@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="keywords" content=""><meta name="author" content="Defectink"><meta name="description" content=""><title>异步JavaScript-Promise信任问题 | 🍭Defectink</title><link rel="apple-touch-icon" href="/images/favicon.webp"><link rel="icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/base.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="🍭Defectink" type="application/atom+xml"><link rel="alternate" href="/rss.xml" title="🍭Defectink" type="application/rss+xml"></head><body><header class="header"><div class="avatar"><a title="home" href="/"><img src="/images/mona.webp" alt=""></a><div class="nickname"><a href="/">xfy</a></div></div><nav class="navbar"><ul><li class="nav-item" data-path="/"><a href="/">Home</a></li><li class="nav-item" data-path="/archives/"><a href="/archives/">Archives</a></li><li class="nav-item" data-path="/tags/"><a href="/tags/">Tags</a></li><li class="nav-item" data-path="/friends/"><a href="/friends/">Friends</a></li><li class="nav-item" data-path="/about/"><a href="/about/">About</a></li></ul></nav></header><main class="main-container"><link rel="stylesheet" href="/css/github-markdown.css"><article class="container post-details" id="post-details"><div class="post-content"><div class="post-title">异步JavaScript-Promise信任问题</div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2021-07-16 18:50:04</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span></span></div><div class="markdown-body"><p>继前篇 <a href="/defect/asynchronous-javascript-now-and-future.html">异步JavaScript-现在与将来 | 🍭Defectink</a> 对异步 JavaScript 有了个大概的了解之后，就要来真正的上手一下 Promise 了。但在了解 Promise 解决了哪些问题时，我们要先了解一下传统的回调会带来哪些问题。</p><h2 id="回调信任问题"><a href="#回调信任问题" class="headerlink" title="回调信任问题"></a>回调信任问题</h2><p>回调为什么会有信任问题？回调的本质就是等待将来执行完成的事件来执行我们所准备的函数。</p><pre><code class="hljs js"><span class="hljs-comment">// A</span>
+ajax(<span class="hljs-string">&#x27;url.1&#x27;</span>, <span class="hljs-function">() =&gt;</span> &#123;
+  <span class="hljs-comment">// B</span>
+&#125;);
+<span class="hljs-comment">// C</span></code></pre><p>A 与 B 部分的块是同步的，发生于现在，在 JavaScript 主程序的控制之下。但 C 程序块将延迟执行，并且由（虚构的）ajax 函数来调用。这就是一种控制转移，绝大部分情况下，这种控制转移通常不会给程序带来任何问题。</p><p>但实际上，回调带来的信任问题正是由这种控制反转（inversion of control）带来的。</p><h3 id="哪些问题"><a href="#哪些问题" class="headerlink" title="哪些问题"></a>哪些问题</h3><p>对于回调的信任问题，包括但不限于：</p><ul><li>调用回调过早；</li><li>调用回调过晚；</li><li>调用回调次数过少或或多；</li><li>参数/环境值未传递；</li><li>吞掉可能出现的错误或异常；</li></ul><p>等。</p><p>人们用虚构的恶魔 Zalgo 来描述这种同步/异步的噩梦，在 <a target="_blank" rel="noopener" href="https://oren.github.io/articles/zalgo/">Don’t release Zalgo!</a> 一文中，针对回调信任问题的描述为：</p><blockquote><p>When you write a function that accept a callback, make sure your function always sync or always async. don’t mix the two.</p></blockquote><p>当我们有一个接收回调的函数时，要确保该函数拥有以异步或同步的方式运行，二者不能混淆。如果该函数运行的方式无法确定，就会出现回调过早，过晚等情况。</p><p>这些情况会带来什么问题呢？这是一段伪代码：</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">result</span>(<span class="hljs-params">data</span>) </span>&#123;
+  <span class="hljs-built_in">console</span>.log(a);
+&#125;
+
+<span class="hljs-keyword">let</span> a = <span class="hljs-number">0</span>;
+
+ajax(<span class="hljs-string">&#x27;url.1&#x27;</span>, result);
+
+a++;</code></pre><p>假设虚构的 ajax 函数无法确定它时同步执行（从缓存读取）还是异步执行（发送一个新的请求），这就导致了 result 函数打印 a 的值变的不确定。如果是同步的，则 a = 0；反之，a = 1；</p><p>这还只是多个信任问题中的一个，在 JavaScript 高速发展的今天，对于异步来说，回调函数已经不够用了。我们需要一个更好的异步编程方式，一种更同步、更顺序、更阻塞的方式来表达异步，就像我们的大脑一样。</p><h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><p>ES6 为我们带来了新的异步概念，即任务队列（微任务）。Promise API 就是基于微任务之上的，它能够更好的处理回调所带来的信任问题。</p><blockquote><p>Promise 是一个很优秀的 API，到处都能看到它的详细介绍，这里便不再多费口舌。</p></blockquote><h3 id="调用过早"><a href="#调用过早" class="headerlink" title="调用过早"></a>调用过早</h3><p>根据上述的 Zalgo 所带来的问题，调用过早主要的根本原因就是我们无法确定回调函数是以同步的方式还是异步的方式执行的。而 Promise 本身就不必担心这个问题，根据任务队列的定义，即便是立即完成的 Promise <code>Promise.resolve(42)</code> 也无法被同步所察觉到。</p><p>也就是说，对一个 Promise 调用<code>then(...)</code>的时候，即使这个 Promise 已经 resolve，提供给<code>then(...)</code>的回调也总是会异步调用。因为这就是宏任务与微任务的运行方式： <a href="/defect/asynchronous-javascript-now-and-future.html#%E4%BB%BB%E5%8A%A1">任务 | 🍭Defectink</a></p><pre><code class="hljs js"><span class="hljs-built_in">console</span>.log(<span class="hljs-number">41</span>);
+
+<span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">42</span>).then(<span class="hljs-function">(<span class="hljs-params">val</span>) =&gt;</span> &#123;
+  <span class="hljs-built_in">console</span>.log(val);
+&#125;);
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-number">43</span>);
+<span class="hljs-comment">// 41 43 42</span></code></pre><h3 id="调用过晚"><a href="#调用过晚" class="headerlink" title="调用过晚"></a>调用过晚</h3><p>和调用过早类似，根据微任务的定义，一个 Promise 被 resolve 或者 reject 后，一定会在当前宏任务后添加到微任务队列。这就确保了注册在 Promise 上的回调在下个宏任务开始之前一定会被依次调用，并且他们中的任意一个都无法影响或延误对其他回调的调用。</p><pre><code class="hljs js">p.then(<span class="hljs-function">(<span class="hljs-params">val</span>) =&gt;</span> &#123;
+  p.then(<span class="hljs-function">(<span class="hljs-params">val</span>) =&gt;</span> &#123;
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;C&#x27;</span>);
+  &#125;);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;A&#x27;</span>);
+&#125;);
+p.then(<span class="hljs-function">(<span class="hljs-params">val</span>) =&gt;</span> &#123;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;B&#x27;</span>);
+&#125;);
+<span class="hljs-comment">// A B C</span></code></pre><p>这里的三个微任务，C 永远无法打断或抢占 B，这是因为 Promise 的运作方式。</p><h4 id="调度技巧"><a href="#调度技巧" class="headerlink" title="调度技巧"></a>调度技巧</h4><p>微任务虽然给我们带来了不少好处，但也有很多调度的细微差别。如果两个 Promise p1 和 p2 都已经 resolve，那么注册在 p1 上的<code>then(...)</code>回调通常应该先于 p2 所注册的回调执行。但某些细微的场景下可能不是如此：</p><pre><code class="hljs js"><span class="hljs-keyword">const</span> p3 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve</span>) =&gt;</span> &#123;
+  resolve(<span class="hljs-string">&#x27;B&#x27;</span>);
+&#125;);
+<span class="hljs-keyword">const</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve</span>) =&gt;</span> &#123;
+  resolve(p3);
+&#125;);
+<span class="hljs-keyword">const</span> p2 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve</span>) =&gt;</span> &#123;
+  resolve(<span class="hljs-string">&#x27;A&#x27;</span>);
+&#125;);
+
+p1.then(<span class="hljs-function">(<span class="hljs-params">val</span>) =&gt;</span> &#123;
+  <span class="hljs-built_in">console</span>.log(val);
+&#125;);
+p2.then(<span class="hljs-function">(<span class="hljs-params">val</span>) =&gt;</span> &#123;
+  <span class="hljs-built_in">console</span>.log(val);
+&#125;);
+<span class="hljs-comment">// A B</span></code></pre><p>由于 p1 不是立即值， 而是 resolve 另一个 Promise p3。规定的行为是把 p3 展开到 p1，但是是异步的展开，所以这里的 p2 的回调先执行。</p><blockquote><p>如果 p1 是<code>Promise.resolve()</code>，结果则不同，它会返回同一个 Promise。</p></blockquote><h3 id="回调未调用"><a href="#回调未调用" class="headerlink" title="回调未调用"></a>回调未调用</h3><p>目前没有任何办法能够阻止 Promise 向我们通知它的决议（resolve 或者 reject）。如果我们对 Promise 注册了回调的话，那么它在决议时，总是会调用回调函数（完成回调或拒绝回调中的一个）。</p><blockquote><p>决议一词参考自《你不知的 JavaScript 中卷》中文版，这也是本文对 Promise resolve 或 reject 的表达词。</p></blockquote><p>但如果回调永远不会被决议呢？Promise 为我们提供了一个竞态的高级抽象机制的 API：<code>Promise.race()</code>。</p><pre><code class="hljs js"><span class="hljs-keyword">const</span> timeoutPromise = <span class="hljs-function">(<span class="hljs-params">delay</span>) =&gt;</span> &#123;
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;
+      reject(<span class="hljs-string">&#x27;Timeout!&#x27;</span>);
+    &#125;, delay);
+  &#125;);
+&#125;;
+
+<span class="hljs-comment">// 假设 foo 不会被决议</span>
+<span class="hljs-comment">// 尝试给它 3000ms</span>
+<span class="hljs-built_in">Promise</span>.race([foo(), timeoutPromise(<span class="hljs-number">3000</span>)])
+  .then(<span class="hljs-function">(<span class="hljs-params">val</span>) =&gt;</span> &#123;
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;foo done&#x27;</span>);
+  &#125;)
+  .catch(<span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;
+    <span class="hljs-built_in">console</span>.log(e);
+  &#125;);</code></pre><p>利用该 API，即便目标 Promise 永远不会被决议，我们也能为其设置超时并防止它永久阻塞程序。</p><blockquote><p>这里如果 foo 是微任务死循环的话，race 也无能为力！</p></blockquote><h3 id="调用次数过少-过多"><a href="#调用次数过少-过多" class="headerlink" title="调用次数过少/过多"></a>调用次数过少/过多</h3><p>正常情况下的调用次数应该是 1 次，调用次数过少也就是 0 次，这与上述回调未调用是一个意思。剩下的就是调用次数过多了。</p><p>本质上，Promise 的定义方式使得它只能被决议一次。如果出现某种情况，我们的代码试图调用<code>resolve(...)</code>或<code>reject(...)</code>多次，或者试图二者都调用，那么这个 Promise 只会接收第一次决议，并默默的忽略后续的任何调用。</p><p>由于 Promise 只能被决议一次，任何通过<code>then(...)</code>注册的回调只会被调用一次。这是在链式调用的情况下，多次注册 then 回调（<code>p.then(); p.then()</code>）时，它的调用次数与注册次数相同。</p><h3 id="未能传递参数-环境值"><a href="#未能传递参数-环境值" class="headerlink" title="未能传递参数/环境值"></a>未能传递参数/环境值</h3><p>Promise 最多只能有一个决议值，完成或拒绝。</p><p>如果没有手动决议任何值，那么这个值就是 undefined。如果决议时传递了多个参数，剩余的参数都会被默默忽略。如果需要传递多个值，则需要封装为一个对象或数组。</p><p>对于环境值来说，我们提供的回调函数依然可以访问对应的作用域和闭包。</p><h3 id="吞掉错误或异常"><a href="#吞掉错误或异常" class="headerlink" title="吞掉错误或异常"></a>吞掉错误或异常</h3><p>如果拒绝一个 Promise 并给出一个理由，那么这个值就会传给拒绝回调。</p><p>如果 Promise 在创建或决议的过程中发生了错误，那这个错误就会被捕捉，并且使这个 Promise 被拒绝。</p><pre><code class="hljs js"><span class="hljs-keyword">const</span> p = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;
+  foo.bar(); <span class="hljs-comment">// 错误！foo 未定义</span>
+  resolve(<span class="hljs-number">42</span>);
+&#125;);
+
+p.then(
+  <span class="hljs-function">(<span class="hljs-params">val</span>) =&gt;</span> &#123;
+    <span class="hljs-built_in">console</span>.log(val);
+  &#125;,
+  <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> &#123;
+    <span class="hljs-built_in">console</span>.log(err); <span class="hljs-comment">// 在这里捕获错误</span>
+  &#125;
+);</code></pre><p>这是一个很好的防止 Zalgo 出现的机制。<code>then(...)</code>可以注册两个回调，一个成功时调用，一个出错时调用。这和以前回调函数的方式好似相同。但如果在回调期间出现的错误就无法被当前<code>then(...)</code>中的另一个失败回调所捕获，这看似防护就是错误被吞掉了。好在，现在的 Promise 还支持和<code>try...catch...</code>类似的方式防止吞掉错误。</p><pre><code class="hljs js"><span class="hljs-keyword">const</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve</span>) =&gt;</span> &#123;
+  resolve(<span class="hljs-number">42</span>);
+&#125;);
+
+p1.then(<span class="hljs-function">(<span class="hljs-params">val</span>) =&gt;</span> &#123;
+  foo.bar();
+  <span class="hljs-built_in">console</span>.log(val);
+&#125;)
+  .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> &#123;
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Catch in catch&#x27;</span>);
+    <span class="hljs-built_in">console</span>.log(err);
+  &#125;)
+  .finally(<span class="hljs-function">() =&gt;</span> &#123;
+    cleanFunc();
+  &#125;);</code></pre><h2 id="是可信任的Promise吗"><a href="#是可信任的Promise吗" class="headerlink" title="是可信任的Promise吗"></a>是可信任的Promise吗</h2><p>Promise 看上去解决了不少回调无法被信任的问题，那么 Promise 是完全可信的吗？在此之前，得先看另一个问题。</p><h3 id="thenable-的鸭子类型"><a href="#thenable-的鸭子类型" class="headerlink" title="thenable 的鸭子类型"></a>thenable 的鸭子类型</h3><blockquote><p>当看到一只鸟走起来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这只鸟就可以被称为鸭子。</p></blockquote><p>常见的 Promise 都是由其构造函数实例化而来，或许我们可以通过<code>p instanceof Promise</code>来检查某样东西是否是真正的 Promise。但这个方法并不完善，如果 Promise 来自其他窗口或某个自己实现 Promise 的库中，我们就无法判断其是否是真正可用的 Promise。</p><p>例如这样的 thenable 类型对象，它可能类似于 Promise 的方式工作完全就是侥幸。</p><pre><code class="hljs js"><span class="hljs-keyword">const</span> p = &#123;
+  <span class="hljs-function"><span class="hljs-title">then</span>(<span class="hljs-params">cb, ecb</span>)</span> &#123;
+    cb(<span class="hljs-number">42</span>);
+  &#125;,
+&#125;;
+
+p.then(<span class="hljs-function">(<span class="hljs-params">val</span>) =&gt;</span> &#123;
+  <span class="hljs-built_in">console</span>.log(val); <span class="hljs-comment">// 42</span>
+&#125;);</code></pre><p>如果情况是这样，那么在 thenable 的对象上注册的回调都会被执行，这样的行为和 Promise 完全不一致。</p><pre><code class="hljs js"><span class="hljs-keyword">const</span> p = &#123;
+  <span class="hljs-function"><span class="hljs-title">then</span>(<span class="hljs-params">cb, ecb</span>)</span> &#123;
+    cb(<span class="hljs-number">42</span>);
+    ecb(<span class="hljs-string">&#x27;evil laugh&#x27;</span>);
+  &#125;,
+&#125;;
+
+p.then(
+  <span class="hljs-function">(<span class="hljs-params">val</span>) =&gt;</span> &#123;
+    <span class="hljs-built_in">console</span>.log(val); <span class="hljs-comment">// 42</span>
+  &#125;,
+  <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> &#123;
+    <span class="hljs-built_in">console</span>.log(err); <span class="hljs-comment">// 同样也被执行了！</span>
+  &#125;
+);</code></pre><p>好在，Promise 给了我们解决办法：<code>Promise.resolve()</code>。<code>Promise.resolve()</code>可以接收任何 thenable 的值，将其解封为它的非 thenable 值。从<code>Promise.resolve()</code>得到的值将是一个真正的 Promise。</p><pre><code class="hljs js"><span class="hljs-built_in">Promise</span>.resolve(p).then(
+  <span class="hljs-function">(<span class="hljs-params">val</span>) =&gt;</span> &#123;
+    <span class="hljs-built_in">console</span>.log(val); <span class="hljs-comment">// 42</span>
+  &#125;,
+  <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> &#123;
+    <span class="hljs-built_in">console</span>.log(err); <span class="hljs-comment">// 没有被执行！</span>
+  &#125;
+);</code></pre><p>所以在面对无法信任的 Promise 时，可以使用<code>Promise.resolve()</code>对其进行封装，将其变成真正的 Promise。</p><h3 id="另外的调度技巧"><a href="#另外的调度技巧" class="headerlink" title="另外的调度技巧"></a>另外的调度技巧</h3><p>在上述调度技巧中，p1 如果 resolve p3，则需要在下一个异步中将其展开。</p><pre><code class="hljs js"><span class="hljs-keyword">const</span> p3 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve</span>) =&gt;</span> &#123;
+  resolve(<span class="hljs-string">&#x27;B&#x27;</span>);
+&#125;);
+<span class="hljs-keyword">const</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve</span>) =&gt;</span> &#123;
+  resolve(p3);
+&#125;);
+
+p1.then(<span class="hljs-function">(<span class="hljs-params">val</span>) =&gt;</span> &#123;
+  <span class="hljs-built_in">console</span>.log(val);
+&#125;);</code></pre><p>而使用<code>Promise.resolve()</code>则会立即返回一个相同的 Promise。</p><pre><code class="hljs js"><span class="hljs-keyword">const</span> p3 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve</span>) =&gt;</span> &#123;
+  resolve(<span class="hljs-number">42</span>);
+&#125;);
+
+<span class="hljs-keyword">const</span> p1 = <span class="hljs-built_in">Promise</span>.resolve(p3);
+
+<span class="hljs-built_in">console</span>.log(p1 === p3); <span class="hljs-comment">// true</span></code></pre></div><div class="prev-or-next"><div class="post-foot-next"><a href="/defect/asynchronous-javascript-now-and-future.html" target="_self"><i class="iconfont icon-chevronleft"></i> <span>上一页</span></a></div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2021-07-16 18:50:04</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span></span></div><div class="post-foot-prev"></div></div></div><div id="btn-catalog" class="btn-catalog"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-catalog"></use></svg></div><div class="post-catalog hidden" id="catalog"><div class="title">目录</div><div class="catalog-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83%E4%BF%A1%E4%BB%BB%E9%97%AE%E9%A2%98"><span class="toc-text">回调信任问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%AA%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="toc-text">哪些问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise"><span class="toc-text">Promise</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E8%BF%87%E6%97%A9"><span class="toc-text">调用过早</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E8%BF%87%E6%99%9A"><span class="toc-text">调用过晚</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B0%83%E5%BA%A6%E6%8A%80%E5%B7%A7"><span class="toc-text">调度技巧</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83%E6%9C%AA%E8%B0%83%E7%94%A8"><span class="toc-text">回调未调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E6%AC%A1%E6%95%B0%E8%BF%87%E5%B0%91-%E8%BF%87%E5%A4%9A"><span class="toc-text">调用次数过少&#x2F;过多</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AA%E8%83%BD%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0-%E7%8E%AF%E5%A2%83%E5%80%BC"><span class="toc-text">未能传递参数&#x2F;环境值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%9E%E6%8E%89%E9%94%99%E8%AF%AF%E6%88%96%E5%BC%82%E5%B8%B8"><span class="toc-text">吞掉错误或异常</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%AF%E5%8F%AF%E4%BF%A1%E4%BB%BB%E7%9A%84Promise%E5%90%97"><span class="toc-text">是可信任的Promise吗</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#thenable-%E7%9A%84%E9%B8%AD%E5%AD%90%E7%B1%BB%E5%9E%8B"><span class="toc-text">thenable 的鸭子类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%A6%E5%A4%96%E7%9A%84%E8%B0%83%E5%BA%A6%E6%8A%80%E5%B7%A7"><span class="toc-text">另外的调度技巧</span></a></li></ol></li></ol></div></div><div class="comments-container"></div></article></main><footer class="footer"><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat/hexo-theme-oranges">Copyright © Oranges 2021</a></div><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat">Theme by Oranges | Powered by Hexo</a></div></footer><div class="back-to-top hidden"><button title="go-top" class="go-top"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-chevronup"></use></svg></button></div></body><script src="/js/iconfont.js"></script><script src="/js/main.js"></script></html>

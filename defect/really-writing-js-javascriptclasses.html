@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="keywords" content=""><meta name="author" content="Defectink"><meta name="description" content=""><title>真的是在写 JS - JavaScript 的类 | 🍭Defectink</title><link rel="apple-touch-icon" href="/images/favicon.webp"><link rel="icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/base.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="🍭Defectink" type="application/atom+xml"><link rel="alternate" href="/rss.xml" title="🍭Defectink" type="application/rss+xml"></head><body><header class="header"><div class="avatar"><a title="home" href="/"><img src="/images/mona.webp" alt=""></a><div class="nickname"><a href="/">xfy</a></div></div><nav class="navbar"><ul><li class="nav-item" data-path="/"><a href="/">Home</a></li><li class="nav-item" data-path="/archives/"><a href="/archives/">Archives</a></li><li class="nav-item" data-path="/tags/"><a href="/tags/">Tags</a></li><li class="nav-item" data-path="/friends/"><a href="/friends/">Friends</a></li><li class="nav-item" data-path="/about/"><a href="/about/">About</a></li></ul></nav></header><main class="main-container"><link rel="stylesheet" href="/css/github-markdown.css"><article class="container post-details" id="post-details"><div class="post-content"><div class="post-title">真的是在写 JS - JavaScript 的类</div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2020-12-30 11:14:16</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span></span></div><div class="markdown-body"><p>在 JavaScript 中所谓的类不过是 ECMAScript 2015 为其引入的语法糖。这个糖它只有甜味，它是构造函数的另一种写法，类语法<strong>不会</strong>为 JavaScript 引入新的面向对象的继承模型。</p><p>在之前学习 <a href="https://www.defectink.com/defect/javascript-object-oriented-programming.html">JS面向对象</a> 的编程时，详细的研究过了关于 JavaScript 构造函数以及继承的问题。从工厂模式一直发展至今的寄生式继承，也解决了很多语言本有的问题。虽然类只是个语法糖，但是从很多地方来说它也解决了关于构造函数继承等的复杂写法。</p><h2 id="📍定义类"><a href="#📍定义类" class="headerlink" title="📍定义类"></a>📍定义类</h2><p>类实际上是一个特殊的函数，将像函数能够定义的函数表达式和函数声明一样，类语法有两个部分组成：类表达式和类声明。</p><h3 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h3><p>定义一个类的方法是使用一个类声明，要声明一个类，可以使用带有<code>class</code>关键字的类名。一个类看上去像这样：</p><pre><code class="hljs js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>&#123;
+    <span class="hljs-title">constructor</span> (<span class="hljs-params">name, age</span>) &#123;
+        <span class="hljs-built_in">this</span>.name = name;
+        <span class="hljs-built_in">this</span>.age = age;
+    &#125;
+    
+    <span class="hljs-function"><span class="hljs-title">otherFunc</span>(<span class="hljs-params"></span>)</span> &#123;
+        <span class="hljs-built_in">console</span>.log(name + age);
+    &#125;
+&#125;</code></pre><p>这和一些常见的语言，例如 C艹 和 Java 较为类似。相比较之下，传统的 JavaScript 构造函数对于其他的面向对象语言的程序员可能不太容易理解，来回顾下传统的构造函数。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Person</span>(<span class="hljs-params">name, age</span>) </span>&#123;
+    <span class="hljs-built_in">this</span>.name = name;
+    <span class="hljs-built_in">this</span>.age = age;
+&#125;
+
+Person.prototype.otherFunc() &#123;
+    <span class="hljs-built_in">console</span>.log(name + age);
+&#125;</code></pre><p>相较于最传统的构造函数来说，类的声明方式会更让人容易理解。虽然声明看上去只是换了种写法（确实就是换了种写法，包括继承），但是对于继承等操作来说，<code>class</code>类的方式省了不少事。</p><h3 id="提升"><a href="#提升" class="headerlink" title="提升"></a>提升</h3><p>函数声明和类声明之间的一个重要区别是函数声明会提升，而类声明不会。和新关键字<code>let</code>、<code>const</code>等一样，类需要先声明再使用。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> xfy = <span class="hljs-keyword">new</span> Person();     <span class="hljs-comment">// ReferenceError</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">name, age</span>)</span> &#123;
+        <span class="hljs-built_in">this</span>.name = name;
+        <span class="hljs-built_in">this</span>.age = age;
+    &#125;
+&#125;</code></pre><p>否则就会抛出一个 ReferenceError（引用错误）。</p><h3 id="类表达式"><a href="#类表达式" class="headerlink" title="类表达式"></a>类表达式</h3><p>和函数一样，一个类表达式是定义一个类的另一种方式。类表达式可以是具名的或匿名的。</p><pre><code class="hljs js"><span class="hljs-comment">// 匿名类</span>
+<span class="hljs-keyword">let</span> Person = <span class="hljs-class"><span class="hljs-keyword">class</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">name, age</span>)</span> &#123;
+        <span class="hljs-built_in">this</span>.name = name;
+        <span class="hljs-built_in">this</span>.age = age;
+    &#125;
+&#125;
+
+<span class="hljs-built_in">console</span>.log(Person.name);   <span class="hljs-comment">// Person</span>
+
+<span class="hljs-comment">// 具名类</span>
+<span class="hljs-keyword">let</span> Person = <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Persona</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">name, age</span>)</span> &#123;
+        <span class="hljs-built_in">this</span>.name = name;
+        <span class="hljs-built_in">this</span>.age = age;
+    &#125;
+&#125;
+
+<span class="hljs-built_in">console</span>.log(Person.name);   <span class="hljs-comment">// Persona</span></code></pre><p>一个具名类表达式的名称是类内的一个局部属性，它可以通过类本身（而不是类实例）的 name 属性来获取。</p><blockquote><p>类表达式也同样受到类声明中提到的类型提升的限制。</p></blockquote><h2 id="类体和方法定义"><a href="#类体和方法定义" class="headerlink" title="类体和方法定义"></a>类体和方法定义</h2><p>一个类的类体是一对花括号/大括号<code>&#123;&#125;</code>中的部分。这是定义类成员的位置，如方法或构造函数。</p><h3 id="严格模式"><a href="#严格模式" class="headerlink" title="严格模式"></a>严格模式</h3><p>类声明和类表达式的主体都在严格模式下执行。比如，构造函数，静态方法，原型方法，getter 和 setter 都在严格模式下执行。</p><h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><p><code>constructor</code>方法是一个特殊的方法，这个方法用于创建和初始化一个由<code>class</code>创建的对象实例。一个类只能拥有一个名为<code>constructor</code>的特殊方法。如果类包含多个<code>constructor</code>的方法，则将抛出一个<code>SyntaxError</code>。</p><p>一个构造函数可以使用<code>super</code>关键字来调用一个父类的构造函数。</p><h3 id="原型方法"><a href="#原型方法" class="headerlink" title="原型方法"></a>原型方法</h3><p>原型方法与使用传统的构造函数方法实现的效果一样。不过 class 使用的是方法定义：从 ECMAScript 2015 开始，在对象初始器中引入了一种更简短定义方法的语法，这是一种把方法名直接赋给函数的简写方式。</p><pre><code class="hljs js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Rectangle</span> </span>&#123;
+    <span class="hljs-comment">// 构造函数</span>
+    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">h, w</span>)</span> &#123;
+        <span class="hljs-built_in">this</span>.h = h;
+        <span class="hljs-built_in">this</span>.w = w;
+    &#125;
+    <span class="hljs-comment">// get</span>
+    <span class="hljs-keyword">get</span> <span class="hljs-title">area</span>() &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.calcArea();
+    &#125;
+    <span class="hljs-comment">// 自定义方法</span>
+    <span class="hljs-function"><span class="hljs-title">calcArea</span>(<span class="hljs-params"></span>)</span> &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.h * <span class="hljs-built_in">this</span>.w;
+    &#125;
+&#125;
+
+<span class="hljs-keyword">let</span> square = <span class="hljs-keyword">new</span> Rectangle(<span class="hljs-number">23</span>, <span class="hljs-number">32</span>);
+<span class="hljs-built_in">console</span>.log(square.area) <span class="hljs-comment">// 736</span></code></pre><p>使用类的方式来写这个原型方法使其看上去更加类似于一些常见的面向对象的语言。当然，类不会为 JavaScript 引入新的继承模型，所以上述由类写的原型方法也可以使用传统的构造函数来写。不过就是看上去和常见的面向对象的语言不太一样而已。</p><pre><code class="hljs js"><span class="hljs-comment">// 构造函数</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Rectangle</span>(<span class="hljs-params">h, w</span>) </span>&#123;
+    <span class="hljs-built_in">this</span>.h = h;
+    <span class="hljs-built_in">this</span>.w = w;
+&#125;
+
+<span class="hljs-comment">// 自定义方法</span>
+Rectangle.prototype.calcArea = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.h * <span class="hljs-built_in">this</span>.w;
+&#125;
+
+<span class="hljs-comment">// get</span>
+<span class="hljs-built_in">Object</span>.defineProperty(Rectangle.prototype, <span class="hljs-string">&#x27;area&#x27;</span>, &#123;
+    <span class="hljs-attr">get</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.calcArea();
+    &#125;
+&#125;)
+
+<span class="hljs-keyword">let</span> square = <span class="hljs-keyword">new</span> Rectangle(<span class="hljs-number">23</span>, <span class="hljs-number">32</span>);
+<span class="hljs-built_in">console</span>.log(square.area);   <span class="hljs-comment">// 736</span></code></pre><h3 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h3><p><code>static</code>关键字用于定义一个类的静态方法。调用静态方法不需要实例化该类，但不能通过一个类实例来调用静态方法。</p><p>通常，一个函数也是基于对象的，所以函数也有自己的属性，函数的<code>prototype</code>就是一个很好的例子。而一个类中的静态方法就相当于给这个构造函数定义了一个它自己的属性。不是在<code>prototype</code>上的属性是不会继承到实例上的。</p><pre><code class="hljs js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">xx, yy</span>)</span> &#123;
+        <span class="hljs-built_in">this</span>.x = xx;
+        <span class="hljs-built_in">this</span>.y = yy;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-title">add</span>(<span class="hljs-params"></span>)</span> &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.x + <span class="hljs-built_in">this</span>.y;
+    &#125;
+
+    <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-title">tt</span>(<span class="hljs-params"></span>)</span> &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;嘤嘤嘤&#x27;</span>;
+    &#125;
+&#125;</code></pre><pre><code class="hljs js">test.tt()
+<span class="hljs-string">&quot;嘤嘤嘤&quot;</span></code></pre><p>静态方法类似于将一个构造函数直接用作于一个工具函数。</p><h3 id="原型和静态方法包装"><a href="#原型和静态方法包装" class="headerlink" title="原型和静态方法包装"></a>原型和静态方法包装</h3><p>在<code>class</code>体内部执行的代码总是在严格模式下执行，即使没有设置<code>&#39;use strict&#39;</code>。所以当调用静态或原型方法时没有指定<code>this</code>的值，那么方法内的<code>this</code>值将被置为<code>undefined</code>。</p><pre><code class="hljs js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">x, y</span>)</span> &#123;
+        <span class="hljs-built_in">this</span>.x = x;
+        <span class="hljs-built_in">this</span>.y = y;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-title">show</span>(<span class="hljs-params"></span>)</span> &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>;
+    &#125;
+
+    <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-title">ss</span>(<span class="hljs-params"></span>)</span> &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>;
+    &#125;
+&#125;</code></pre><p>这是一个简单的返回<code>this</code>的函数，它有两个，分别是继承给实例的属性和静态方法。若<code>this</code>的传入值为<code>undefined</code>，则在严格模式下不会发生自动装箱，<code>this</code>的返回值是<code>undefined</code>。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> xfy = <span class="hljs-keyword">new</span> test();
+xfy.show();
+<span class="hljs-keyword">let</span> t = xfy.show;
+t(); <span class="hljs-comment">// undefined</span>
+
+test.ss()
+<span class="hljs-keyword">let</span> tt = test.ss;
+tt(); <span class="hljs-comment">// undefined</span></code></pre><p>而在传统的构造函数写法下，<code>this</code>的值会发生自动装箱，将指向全局对象</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Test</span>(<span class="hljs-params">x, y</span>) </span>&#123;
+    <span class="hljs-built_in">this</span>.x = x;
+    <span class="hljs-built_in">this</span>.y = y;
+&#125;
+
+Test.prototype.show = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>;
+&#125;
+
+Test.ss = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>;
+&#125;
+
+<span class="hljs-keyword">let</span> xfy = <span class="hljs-keyword">new</span> Test();
+xfy.show();
+<span class="hljs-keyword">let</span> t = xfy.show;
+t(); <span class="hljs-comment">// Global Object</span>
+
+Test.ss()
+<span class="hljs-keyword">let</span> tt = Test.ss;
+tt(); <span class="hljs-comment">// Global Object</span></code></pre><h3 id="实例属性"><a href="#实例属性" class="headerlink" title="实例属性"></a>实例属性</h3><p>实例的属性必须定义在类的<code>constructor</code>方法里</p><pre><code class="hljs js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test</span>() </span>&#123;
+    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">h, w</span>)</span> &#123;
+        <span class="hljs-built_in">this</span>.w = w;
+        <span class="hljs-built_in">this</span>.h = h;
+    &#125;
+&#125;</code></pre><h2 id="字段声明"><a href="#字段声明" class="headerlink" title="字段声明"></a>字段声明</h2><blockquote><p>公共和私有字段声明是JavaScript标准委员会 <a target="_blank" rel="noopener" href="https://tc39.es/">TC39</a> 提出的 <a target="_blank" rel="noopener" href="https://github.com/tc39/proposal-class-fields">实验性功能（第3阶段）</a> 。浏览器中的支持是有限的，但是可以通过 <a target="_blank" rel="noopener" href="https://babeljs.io/">Babel</a> 等系统构建后使用此功能。</p></blockquote><h3 id="公有字段声明"><a href="#公有字段声明" class="headerlink" title="公有字段声明"></a>公有字段声明</h3><p>class 提供了声明公有字段的方法，通过预先声明字段，类定义变得更加自我记录，并且字段始终存在。</p><pre><code class="hljs js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Rectangle</span> </span>&#123;
+    x;
+    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">height, width</span>)</span> &#123;
+        <span class="hljs-built_in">this</span>.height = height;
+        <span class="hljs-built_in">this</span>.width = width;
+    &#125;
+    <span class="hljs-keyword">static</span> y = <span class="hljs-number">1</span>;
+    <span class="hljs-function"><span class="hljs-title">clicked</span>(<span class="hljs-params"></span>)</span> &#123;
+        <span class="hljs-built_in">this</span>.x++;
+    &#125;
+&#125;
+
+<span class="hljs-keyword">let</span> square = <span class="hljs-keyword">new</span> Rectangle(<span class="hljs-number">123</span>, <span class="hljs-number">33</span>);</code></pre><p>正如上面看到的，这个字段可以用也可以不用默认值来声明。</p><p>共有字段重要的不同之处在于，它们会在每个独立对象中被设好，而不是设在<code>prototype</code>中。</p><pre><code class="hljs js">Rectangle.prototype.x   <span class="hljs-comment">// undefined</span></code></pre><h3 id="私有字段声明"><a href="#私有字段声明" class="headerlink" title="私有字段声明"></a>私有字段声明</h3><p>从类外部引用私有字段是错误的。它们只能在类里面中读取或写入。通过定义在类外部不可见的内容，可以确保类的用户不会依赖于内部，因为内部可能在不同版本之间发生变化。</p><p>私有字段从大佬们之间共有约定的下划线，现在已经换为草案中的<code>#</code>了。</p><pre><code class="hljs js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Rectangle</span> </span>&#123;
+    #x;
+    #width;
+    #height;
+    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">w, h</span>)</span> &#123;
+        <span class="hljs-built_in">this</span>.#width = w;
+        <span class="hljs-built_in">this</span>.#height = h;
+    &#125;
+    <span class="hljs-keyword">get</span> <span class="hljs-title">area</span>() &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.#width * <span class="hljs-built_in">this</span>.#height;
+    &#125;
+&#125;
+
+<span class="hljs-keyword">let</span> s = <span class="hljs-keyword">new</span> Rectangle(<span class="hljs-number">12</span>, <span class="hljs-number">33</span>);</code></pre><blockquote><p>私有字段必须先在类中声明。</p></blockquote><h2 id="使用extends扩展子类"><a href="#使用extends扩展子类" class="headerlink" title="使用extends扩展子类"></a>使用<code>extends</code>扩展子类</h2><p><code>extends</code>关键字在<em>类声明</em>或<em>类表达式</em>中用于创建一个类作为另一个类的一个子类。也就是说，继承。ECMAScript 2015 的继承终于变的更加直观了。</p><pre><code class="hljs js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">name, age</span>)</span> &#123;
+        <span class="hljs-built_in">this</span>.name = name;
+        <span class="hljs-built_in">this</span>.age = age;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-title">sayName</span>(<span class="hljs-params"></span>)</span> &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.name;
+    &#125;
+
+    <span class="hljs-keyword">get</span> <span class="hljs-title">newYear</span>() &#123;
+        <span class="hljs-keyword">return</span> ++<span class="hljs-built_in">this</span>.age;
+    &#125;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Person</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">name, age, classes</span>)</span> &#123;
+        <span class="hljs-built_in">super</span>(name, age);
+        <span class="hljs-built_in">this</span>.classes = classes;
+    &#125;
+&#125;</code></pre><p>不需要再手动写一个用于继承的函数了，也不需要再使用<code>call</code>了，在子类中可以直接使用<code>super()</code>方法来指向超类的<code>this</code>。</p><p>当然，因为是语法糖，所以<code>extends</code>也可以继承传统基于函数的“类”：</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Person</span>(<span class="hljs-params">name, age</span>) </span>&#123;
+    <span class="hljs-built_in">this</span>.name = name;
+    <span class="hljs-built_in">this</span>.age = age;
+&#125;
+
+Person.prototype.sayName = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.name;
+&#125;
+
+<span class="hljs-built_in">Object</span>.defineProperty(Person.prototype, <span class="hljs-string">&#x27;newYear&#x27;</span>, &#123;
+    <span class="hljs-attr">get</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+        <span class="hljs-keyword">return</span> ++<span class="hljs-built_in">this</span>.age;
+    &#125;
+&#125;)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Person</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">name, age, classess</span>)</span> &#123;
+        <span class="hljs-built_in">super</span>(name, age);
+        <span class="hljs-built_in">this</span>.classess = classess;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-title">sayAge</span>(<span class="hljs-params"></span>)</span> &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.age;
+    &#125;
+&#125;</code></pre><p>除了基于函数的“类”，其他用法还是一模一样。</p><p><strong>但是</strong>，类无法继承常规对象，也就是非构造函数的<code>prototype</code>，或者说不可构造的常规对象。如果需要继承，可以使用<code>Object.setPrototypeOf()</code>方法。</p><pre><code class="hljs js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">name, age</span>)</span> &#123;
+        <span class="hljs-built_in">this</span>.name = name;
+        <span class="hljs-built_in">this</span>.age = age;
+    &#125;
+&#125;
+
+<span class="hljs-keyword">let</span> someOne= &#123;
+    <span class="hljs-function"><span class="hljs-title">sayName</span>(<span class="hljs-params"></span>)</span> &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.name;
+    &#125;
+&#125;
+
+<span class="hljs-built_in">Object</span>.setPrototypeOf(Student.prototype, someOne);
+
+<span class="hljs-keyword">let</span> p = <span class="hljs-keyword">new</span> Student(<span class="hljs-string">&#x27;xfy&#x27;</span>, <span class="hljs-number">18</span>);</code></pre><p>又见到老朋友<code>prototype</code>了。</p><h3 id="Species"><a href="#Species" class="headerlink" title="Species"></a>Species</h3><p>如果我们想在一个派生出数组的构造函数中返回 Array 对象，那么 Species 允许我们覆盖默认的构造函数</p><pre><code class="hljs js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyArray</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Array</span> </span>&#123;
+    <span class="hljs-keyword">static</span> get [<span class="hljs-built_in">Symbol</span>.species]() &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">Array</span>;
+    &#125;
+&#125;
+
+<span class="hljs-keyword">let</span> a = <span class="hljs-keyword">new</span> MyArray(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>);</code></pre><h2 id="不仅仅是语法糖"><a href="#不仅仅是语法糖" class="headerlink" title="不仅仅是语法糖"></a>不仅仅是语法糖</h2><p>前面有提到过，class 不过是新的语法糖。所谓的语法糖，就是旨在不增加语法的情况下，使得代码内容更加容易阅读。根据前面的一些实例，可以发现 class 完全可以使用以前的纯函数来写出相同的内容。</p><p>不过他们也有一些重大差异：</p><ol><li><code>class</code> 创建的函数具有特殊的内部属性标记 <code>[[FunctionKind]]:&quot;classConstructor&quot;</code>。所以它与手动创建构造函数并不完全相同，并且 JavaScript 会在很多地方检查该属性。例如类无法当作普通函数来使用，必须配合<code>new</code>操作符来使用：</li></ol><pre><code class="hljs js"><span class="hljs-built_in">Error</span>: Class <span class="hljs-title">constructor</span> <span class="hljs-title">User</span> <span class="hljs-title">cannot</span> <span class="hljs-title">be</span> <span class="hljs-title">invoked</span> <span class="hljs-title">without</span> &#x27;<span class="hljs-title">new</span>&#x27;</code></pre><ol start="2"><li><p>类的方法不可枚举，类定义将 <code>&quot;prototype&quot;</code> 中的所有方法的 <code>enumerable</code> 标志设置为 <code>false</code>。所以当使用<code>for/in</code>方法时，类的方法是不会被枚举出来的。</p></li><li><p>类总是使用<code>use strict</code>，类中的所有代码都是严格模式。所以也不会导致 this 的自动装箱。</p></li><li><p>函数的声明会提升，类的声明不会。</p></li><li><p><code>class</code>内创建的方法既能继承作用域链，同时也是在 prototype 上，不会为每个实例创建同名不相同的方法。</p></li></ol><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Classes">https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Classes</a></li><li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Classes/Class_elements">https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Classes/Class_elements</a></li><li><a target="_blank" rel="noopener" href="https://zh.javascript.info/class">https://zh.javascript.info/class</a></li></ul><p>头图来自：<a target="_blank" rel="noopener" href="https://dev.to/samanthaming/classes-in-javascript-30n8">Classes in JavaScript</a></p></div><div class="prev-or-next"><div class="post-foot-next"><a href="/defect/ajax-getting-started.html" target="_self"><i class="iconfont icon-chevronleft"></i> <span>上一页</span></a></div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2020-12-30 11:14:16</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span></span></div><div class="post-foot-prev"><a href="/defect/constructor-and-bind-this.html" target="_self"><span>下一页</span><i class="iconfont icon-chevronright"></i></a></div></div></div><div id="btn-catalog" class="btn-catalog"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-catalog"></use></svg></div><div class="post-catalog hidden" id="catalog"><div class="title">目录</div><div class="catalog-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8D%E5%AE%9A%E4%B9%89%E7%B1%BB"><span class="toc-text">📍定义类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E"><span class="toc-text">声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E5%8D%87"><span class="toc-text">提升</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-text">类表达式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E4%BD%93%E5%92%8C%E6%96%B9%E6%B3%95%E5%AE%9A%E4%B9%89"><span class="toc-text">类体和方法定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F"><span class="toc-text">严格模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-text">构造函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E6%96%B9%E6%B3%95"><span class="toc-text">原型方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95"><span class="toc-text">静态方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E5%92%8C%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E5%8C%85%E8%A3%85"><span class="toc-text">原型和静态方法包装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7"><span class="toc-text">实例属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E6%AE%B5%E5%A3%B0%E6%98%8E"><span class="toc-text">字段声明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AC%E6%9C%89%E5%AD%97%E6%AE%B5%E5%A3%B0%E6%98%8E"><span class="toc-text">公有字段声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E5%AD%97%E6%AE%B5%E5%A3%B0%E6%98%8E"><span class="toc-text">私有字段声明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8extends%E6%89%A9%E5%B1%95%E5%AD%90%E7%B1%BB"><span class="toc-text">使用extends扩展子类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Species"><span class="toc-text">Species</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E4%BB%85%E4%BB%85%E6%98%AF%E8%AF%AD%E6%B3%95%E7%B3%96"><span class="toc-text">不仅仅是语法糖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol></div></div><div class="comments-container"></div></article></main><footer class="footer"><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat/hexo-theme-oranges">Copyright © Oranges 2021</a></div><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat">Theme by Oranges | Powered by Hexo</a></div></footer><div class="back-to-top hidden"><button title="go-top" class="go-top"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-chevronup"></use></svg></button></div></body><script src="/js/iconfont.js"></script><script src="/js/main.js"></script></html>

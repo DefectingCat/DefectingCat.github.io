@@ -1,0 +1,417 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="keywords" content=""><meta name="author" content="Defectink"><meta name="description" content=""><title>JavaScript 笔记-引用类型 | 🍭Defectink</title><link rel="apple-touch-icon" href="/images/favicon.webp"><link rel="icon" href="/images/favicon.webp"><link rel="stylesheet" href="/css/base.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="🍭Defectink" type="application/atom+xml"><link rel="alternate" href="/rss.xml" title="🍭Defectink" type="application/rss+xml"></head><body><header class="header"><div class="avatar"><a title="home" href="/"><img src="/images/mona.webp" alt=""></a><div class="nickname"><a href="/">xfy</a></div></div><nav class="navbar"><ul><li class="nav-item" data-path="/"><a href="/">Home</a></li><li class="nav-item" data-path="/archives/"><a href="/archives/">Archives</a></li><li class="nav-item" data-path="/tags/"><a href="/tags/">Tags</a></li><li class="nav-item" data-path="/friends/"><a href="/friends/">Friends</a></li><li class="nav-item" data-path="/about/"><a href="/about/">About</a></li></ul></nav></header><main class="main-container"><link rel="stylesheet" href="/css/github-markdown.css"><article class="container post-details" id="post-details"><div class="post-content"><div class="post-title">JavaScript 笔记-引用类型</div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2020-01-06 09:14:53</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span></span></div><div class="markdown-body"><blockquote><p>这是来自Professional JavaScript for Web Develops第五章的笔记。</p></blockquote><p><img src="../images/JavaScript%E7%AC%94%E8%AE%B0-%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/javascript.webp" alt="javascript"></p><h2 id="基本类型和引用类型"><a href="#基本类型和引用类型" class="headerlink" title="基本类型和引用类型"></a>基本类型和引用类型</h2><p>基本类型值指的是简单的数据段。</p><p>引用类型值指那些可能由多个值构成的对象。</p><p>JS的五种基本数据类型就是基本类型值。这五种基本数据类型是按值访问的，因为可以操作保存在变量中的实际的值。</p><p>引用类型的值是保存在内存中的对象。js不允许直接访问内存中的位置，也就是说不能直接操作对象的内存空间。在复制保存着对象的某个变量时，操作的是变量的引用。但为变量添加属性时，操作的是实际的对象。</p><p>传递参数只有按值传递，没有按引用传递：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> person = &#123;&#125;;
+<span class="hljs-literal">undefined</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setName</span>(<span class="hljs-params">ojb</span>) </span>&#123;
+ojb.name = <span class="hljs-string">&#x27;xfy&#x27;</span>;
+&#125;
+<span class="hljs-literal">undefined</span>
+setName(person);
+<span class="hljs-literal">undefined</span>
+person.name;
+<span class="hljs-string">&quot;xfy&quot;</span></code></pre><p>当在函数内，将ojb2重新声明为一个新的对象。如果参数是按引用传递的，person对象应该自动修改name属性值指向<code>&#39;notxfy&#39;</code>。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setName2</span>(<span class="hljs-params">ojb2</span>) </span>&#123;
+ojb2.name = <span class="hljs-string">&#x27;xfy2&#x27;</span>;
+ojb2 = &#123;&#125;;
+ojb2.name = <span class="hljs-string">&#x27;notxfy&#x27;</span>;
+&#125;
+<span class="hljs-literal">undefined</span>
+setName2(person);
+<span class="hljs-literal">undefined</span>
+person.name
+<span class="hljs-string">&quot;xfy2&quot;</span></code></pre><p>js引用类型的值（对象）是引用类型的一个实例。引用类型是一种数据结构，用于将数据和功能组织在一起。虽然引用类型和类看起来类似，但是它们不是相同的概念。</p><p>对象是某个特定引用类型的实例。</p><h2 id="Object类型"><a href="#Object类型" class="headerlink" title="Object类型"></a>Object类型</h2><p>Object是目前ECMAScript中使用最多的一个语言。虽然Object实例不具备多少功能，对对于在应用程序中存储和传输数据而言，它们确实是非常理想的选择。</p><h3 id="创建Object实例"><a href="#创建Object实例" class="headerlink" title="创建Object实例"></a>创建Object实例</h3><p>创建方式有两种。第一种是new操作符后接Object构造函数。构造函数本身就是一个函数，只不过它时出于创建新对象的目的而定义的。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> person = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Object</span>();
+person.name = <span class="hljs-string">&quot;Defectink&quot;</span>;
+person.age = <span class="hljs-number">8</span>;</code></pre><p>另外一种是使用对象字面量：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> person2 = &#123;
+    name = <span class="hljs-string">&quot;xfy&quot;</span>,
+    age = <span class="hljs-number">88</span>
+&#125;</code></pre><p>左边的花括号表示对象字面量的开始，因为它出现在表达式上下文（expression context）中。同样的花括号如果出现在一个语句上下文（statement context）中，则表示一个语句块的开始。例如if语句的花括号。</p><p>在对象字面量中使用逗号来分隔不同的属性。最后一个属性不添加逗号。</p><p>在使用对象字面量语法时，属性名也可以使用字符串。</p><p>对象字面量还有另外一种写法：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> person3 = &#123;&#125;;
+person3.name = <span class="hljs-string">&#x27;xxx&#x27;</span>;
+person3.age = <span class="hljs-number">3</span>;</code></pre><h4 id="传递大量参数"><a href="#传递大量参数" class="headerlink" title="传递大量参数"></a>传递大量参数</h4><p>对象字面量也是想函数传递大量可选参数的首选方式。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> output = <span class="hljs-string">&quot;&quot;</span>;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">showInfo</span>(<span class="hljs-params">args</span>)</span>&#123;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> args.name == <span class="hljs-string">&quot;string&quot;</span>)&#123;
+        output += <span class="hljs-string">&quot;the Name: &quot;</span> + args.name + <span class="hljs-string">&quot;\n&quot;</span>;
+    &#125;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> args.age == <span class="hljs-string">&quot;number&quot;</span>)&#123;
+        output += <span class="hljs-string">&quot;the Age: &quot;</span> + args.age + <span class="hljs-string">&quot;\n&quot;</span>;
+    &#125;
+    alert(output);
+&#125;
+showInfo(&#123;
+    <span class="hljs-attr">name</span>:<span class="hljs-string">&quot;test&quot;</span>,
+    <span class="hljs-attr">age</span>: <span class="hljs-number">128</span>
+&#125;)</code></pre><p>函数showInfo()接收一个名为args的参数。这个参数可能带有名为name或age的属性，又或者这两个属性都有或没有。每次都可以使用一个对象字面量来传递不同的可选数据。</p><p>通常访问对象属性都是用点表示法。在js中也可以使用方括号表示法来访问对象的属性。</p><pre><code class="hljs js"><span class="hljs-built_in">console</span>.log(personn.name);
+<span class="hljs-built_in">console</span>.log(person[<span class="hljs-string">&quot;name&quot;</span>]);</code></pre><p>这两种方法没有任何区别。但方括号的优点时可以通过变量来访问属性。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> personAnotherName = <span class="hljs-string">&#x27;test&#x27;</span>;
+<span class="hljs-built_in">console</span>.log(person[personAnotherName]);</code></pre><h2 id="Array类型"><a href="#Array类型" class="headerlink" title="Array类型"></a>Array类型</h2><p>js的数组是数据的有序列表。数组的每一项都都可以用来保存任何类型的数据。数组的大小也是可以动态调整的，即可以随着数据的添加自动增长以容纳新数据。</p><h3 id="创建数组"><a href="#创建数组" class="headerlink" title="创建数组"></a>创建数组</h3><p>使用Array构造函数：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>();</code></pre><p>Array构造函数可以传递数组的数量，创建十个数组：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>(<span class="hljs-number">10</span>);</code></pre><p>传递的参数还能用于创建数组的内容，但是不能创建纯数字的内容：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>(<span class="hljs-number">3</span>);      <span class="hljs-comment">//create an array with three items</span>
+<span class="hljs-keyword">let</span> names = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>(<span class="hljs-string">&quot;Greg&quot;</span>);  <span class="hljs-comment">//create an array with one item, the string &quot;Greg&quot;</span></code></pre><p>可以省略new操作符：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = <span class="hljs-built_in">Array</span>(<span class="hljs-number">3</span>);      
+<span class="hljs-keyword">let</span> names = <span class="hljs-built_in">Array</span>(<span class="hljs-string">&quot;Greg&quot;</span>);</code></pre><p>使用字面量表示法：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = [<span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>, <span class="hljs-string">&quot;green&quot;</span>]; <span class="hljs-comment">//creates an array with three strings</span>
+<span class="hljs-keyword">let</span> names = [];                        <span class="hljs-comment">//creates an empty array</span>
+<span class="hljs-keyword">let</span> values = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,];                   <span class="hljs-comment">//AVOID! Creates an array with 2 or 3 items</span>
+<span class="hljs-keyword">let</span> options = [,,,,,];                 <span class="hljs-comment">//AVOID! creates an array with 5 or 6 items</span></code></pre><h3 id="读取数组"><a href="#读取数组" class="headerlink" title="读取数组"></a>读取数组</h3><p>使用方括号并提供相应值的基于0的数字索引：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = [<span class="hljs-string">&#x27;red&#x27;</span>,<span class="hljs-string">&#x27;blue&#x27;</span>,<span class="hljs-string">&#x27;green&#x27;</span>];
+colors[<span class="hljs-number">0</span>];
+colors[<span class="hljs-number">2</span>] = <span class="hljs-string">&#x27;test&#x27;</span>;		<span class="hljs-comment">//修改</span>
+colors[<span class="hljs-number">3</span>] = <span class="hljs-string">&#x27;new one&#x27;</span>;		<span class="hljs-comment">//新增</span></code></pre><p>数组的项数保存在length属性中，这个属性始终都会返回0或更大的值。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = [<span class="hljs-string">&#x27;red&#x27;</span>,<span class="hljs-string">&#x27;blue&#x27;</span>,<span class="hljs-string">&#x27;green&#x27;</span>];
+colors.length;
+<span class="hljs-number">3</span></code></pre><p>length属性不是只读的，可以通过设置这个属性来向数组的末尾添加或移除内容。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = [<span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>, <span class="hljs-string">&quot;green&quot;</span>];    <span class="hljs-comment">//creates an array with three strings</span>
+colors.length = <span class="hljs-number">2</span>;
+alert(colors[<span class="hljs-number">2</span>]);        <span class="hljs-comment">//undefined</span>
+
+<span class="hljs-keyword">let</span> colors = [<span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>, <span class="hljs-string">&quot;green&quot;</span>];    <span class="hljs-comment">//creates an array with three strings</span>
+colors.length = <span class="hljs-number">4</span>;
+alert(colors[<span class="hljs-number">3</span>]);        <span class="hljs-comment">//undefined</span></code></pre><p>数组的最后一项索引始终都是length-1，所以可以使用length方便在末尾添加内容。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = [<span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>, <span class="hljs-string">&quot;green&quot;</span>];    <span class="hljs-comment">//creates an array with three strings</span>
+colors[colors.length] = <span class="hljs-string">&quot;black&quot;</span>;          <span class="hljs-comment">//add a color</span>
+colors[colors.length] = <span class="hljs-string">&quot;brown&quot;</span>;          <span class="hljs-comment">//add another color</span>
+
+alert(colors.length);    <span class="hljs-comment">//5</span>
+alert(colors[<span class="hljs-number">3</span>]);        <span class="hljs-comment">//black</span>
+alert(colors[<span class="hljs-number">4</span>]);        <span class="hljs-comment">//brown</span></code></pre><blockquote><p>数组最多可以包含4 294 967 295个项</p></blockquote><p>join()方法可以重现toString()的输出。定义数组分隔符。如果不给join()方法传入任何值，或者传入undefineed，则使用逗号。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = [<span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;green&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>];
+alert(colors.join(<span class="hljs-string">&quot;,&quot;</span>));      <span class="hljs-comment">//red,green,blue</span>
+alert(colors.join(<span class="hljs-string">&quot;||&quot;</span>));     <span class="hljs-comment">//red||green||blue</span></code></pre><h3 id="栈方法"><a href="#栈方法" class="headerlink" title="栈方法"></a>栈方法</h3><p>栈是一种可以限制插入和删除项的数据结构。栈是一种LIFO（Last-In-First-Out，后进先出）的数据结构。</p><p>栈项中的插入（推入）和移除（弹出）只发生在一个位置——栈的顶部。数组有push()和pop()方法实现了类似栈的行为。</p><p>push()将参数逐个添加到数组的末尾，并返回修改后数组的长度。</p><p>pop()将从数组末尾中移除一项，减少length的值，并返回移除的项。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>();                      <span class="hljs-comment">//create an array</span>
+<span class="hljs-keyword">let</span> count = colors.push(<span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;green&quot;</span>);       <span class="hljs-comment">//push two items</span>
+alert(count);  <span class="hljs-comment">//2</span>
+
+count = colors.push(<span class="hljs-string">&quot;black&quot;</span>);                  <span class="hljs-comment">//push another item on</span>
+alert(count);  <span class="hljs-comment">//3</span>
+
+<span class="hljs-keyword">let</span> item = colors.pop();                       <span class="hljs-comment">//get the last item</span>
+alert(item);   <span class="hljs-comment">//&quot;black&quot;</span>
+alert(colors.length);  <span class="hljs-comment">//2</span></code></pre><p>栈方法可以和其他数组方法连用。</p><pre><code class="hljs js">      <span class="hljs-keyword">let</span> colors = [<span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>];
+      colors.push(<span class="hljs-string">&quot;brown&quot;</span>);              <span class="hljs-comment">//add another item</span>
+      colors[<span class="hljs-number">3</span>] = <span class="hljs-string">&quot;black&quot;</span>;               <span class="hljs-comment">//add an item</span>
+      alert(colors.length);  <span class="hljs-comment">//4</span>
+
+<span class="hljs-keyword">let</span> item = colors.pop();
+item;		<span class="hljs-comment">//&quot;black&quot;</span>
+colors;		<span class="hljs-comment">// [&quot;red&quot;, &quot;blue&quot;, &quot;brown&quot;]</span></code></pre><h3 id="队列方法"><a href="#队列方法" class="headerlink" title="队列方法"></a>队列方法</h3><p>队列数据结构的访问顺序是FIFO（First-In-First-Out，先进先出）。数组有shift()方法，它能够移除数组的第一个项，减少length值，并返回该项。它就像和pop()方法相反的操作。</p><p>结合shift()和push()方法，可以像队列一样使用数组。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>();                      <span class="hljs-comment">//create an array</span>
+<span class="hljs-keyword">let</span> count = colors.push(<span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;green&quot;</span>);       <span class="hljs-comment">//push two items</span>
+alert(count);  <span class="hljs-comment">//2</span>
+
+count = colors.push(<span class="hljs-string">&quot;black&quot;</span>);                  <span class="hljs-comment">//push another item on</span>
+alert(count);  <span class="hljs-comment">//3</span>
+
+<span class="hljs-keyword">let</span> item = colors.shift();                     <span class="hljs-comment">//get the first item</span>
+alert(item);   <span class="hljs-comment">//&quot;red&quot;</span>
+alert(colors.length);  <span class="hljs-comment">//2</span></code></pre><p>数组还有个unshift()方法，它在数组前端添加添加任意个项，并返回修改后数组的长度。它就像和push()相反的操作。</p><p>结合unshift()和pop()方法可以反向模拟队列操作。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>();                      <span class="hljs-comment">//create an array</span>
+<span class="hljs-keyword">let</span> count = colors.unshift(<span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;green&quot;</span>);    <span class="hljs-comment">//push two items</span>
+alert(count);  <span class="hljs-comment">//2</span>
+
+count = colors.unshift(<span class="hljs-string">&quot;black&quot;</span>);               <span class="hljs-comment">//push another item on</span>
+alert(count);  <span class="hljs-comment">//3</span>
+
+<span class="hljs-keyword">let</span> item = colors.pop();                     <span class="hljs-comment">//get the first item</span>
+alert(item);   <span class="hljs-comment">//&quot;green&quot;</span>
+alert(colors.length);  <span class="hljs-comment">//2</span></code></pre><h3 id="重排序方法"><a href="#重排序方法" class="headerlink" title="重排序方法"></a>重排序方法</h3><p>数组中有两个可以重排序的方法：reverse()和sort()。</p><p>reverse()对数组反向排序：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> values = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];
+values.reverse();
+alert(values);       <span class="hljs-comment">//5,4,3,2,1</span></code></pre><p>sort()按升序排列数组——即最小的值位于最前面。sort()会调用每个数组项的toString()转型方法。然后比较得到的字符串。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> values = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">10</span>, <span class="hljs-number">15</span>];
+values.sort();
+alert(values);    <span class="hljs-comment">//0,1,10,15,5</span></code></pre><p>由于1&lt;5，所有10会被排在5前面。所以sort()可以接受一个比较函数来重新排序。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">compare</span>(<span class="hljs-params">v1,v2</span>)</span>&#123;
+    <span class="hljs-keyword">if</span> (v1 &lt; v2)&#123;
+        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+    &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(v1 &gt; v2)&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    &#125;<span class="hljs-keyword">else</span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    &#125;
+&#125;
+<span class="hljs-keyword">let</span> values = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">10</span>, <span class="hljs-number">15</span>];
+values.sort(compare);
+(<span class="hljs-number">5</span>) [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">10</span>, <span class="hljs-number">15</span>]</code></pre><blockquote><p>reverse()和sort()返回的是经过排序之后的数组。</p></blockquote><p>对于数值类型或者其valueOf()方法会返回数值类型的对象类型，可以使用一个更简单的比较函数。只要有第二个值减第一个值即可。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">compare2</span>(<span class="hljs-params">v1,v2</span>)</span>&#123;
+    v2 - v1;
+&#125;
+values.sort(compare2);
+(<span class="hljs-number">5</span>) [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">10</span>, <span class="hljs-number">15</span>]</code></pre><h3 id="操作方法"><a href="#操作方法" class="headerlink" title="操作方法"></a>操作方法</h3><p>concat()基于当前数组中所有项目创建一个新的数组。它会先创建一个数组副本，然后将参数添加到这个副本的末尾，返回新构建的数组。没有传递参数时，它只是返回副本。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = [<span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;green&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>];
+<span class="hljs-keyword">let</span> colors2 = colors.concat(<span class="hljs-string">&quot;yellow&quot;</span>, [<span class="hljs-string">&quot;black&quot;</span>, <span class="hljs-string">&quot;brown&quot;</span>]);
+
+alert(colors);     <span class="hljs-comment">//red,green,blue        </span>
+alert(colors2);    <span class="hljs-comment">//red,green,blue,yellow,black,brown</span></code></pre><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = [<span class="hljs-string">&#x27;red&#x27;</span>,<span class="hljs-string">&#x27;blue&#x27;</span>,<span class="hljs-string">&#x27;green&#x27;</span>];
+<span class="hljs-literal">undefined</span>
+<span class="hljs-keyword">let</span> color2 = [<span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;2&#x27;</span>,<span class="hljs-string">&#x27;3&#x27;</span>];
+<span class="hljs-literal">undefined</span>
+color2.concat(colors);
+(<span class="hljs-number">6</span>) [<span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;2&quot;</span>, <span class="hljs-string">&quot;3&quot;</span>, <span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>, <span class="hljs-string">&quot;green&quot;</span>]</code></pre><p>slice()基于当前数组中的指定位置创建一个新的数组。它接受两个参数，即起始位置和结束位置（不返回结束位置的项）。当只有 一个参数时，返回直到数组末尾的所有项。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = [<span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;green&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>, <span class="hljs-string">&quot;yellow&quot;</span>, <span class="hljs-string">&quot;purple&quot;</span>];
+<span class="hljs-keyword">let</span> colors2 = colors.slice(<span class="hljs-number">1</span>);
+<span class="hljs-keyword">let</span> colors3 = colors.slice(<span class="hljs-number">1</span>,<span class="hljs-number">4</span>);
+
+alert(colors2);   <span class="hljs-comment">//green,blue,yellow,purple</span>
+alert(colors3);   <span class="hljs-comment">//green,blue,yellow</span></code></pre><p>splice()是功能更全面的数组操作方法。</p><ul><li>删除：可以删除任意数量的项，指定两个参数：要删除的第一项位置和要删除的项数。<code>splice(0,2)</code></li><li>插入：可以向指定位置插入任意数量的项。指定三个参数：起始位置、0（要删除的项数）和需要插入的项。<code>splice(2,0,&#39;red&#39;,&#39;green&#39;)</code></li><li>替换：可以向指定位置插入任意数量的项，且同时删除任意数量的项。指定三个参数：起始位置、要删除的项数和要插入的项。<code>splice(2,1,&#39;red&#39;,&#39;blcak&#39;)</code></li></ul><p>插入和删除都在起始位开始。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> colors = [<span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;green&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>];
+<span class="hljs-keyword">let</span> removed = colors.splice(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>);              <span class="hljs-comment">//remove the first item</span>
+alert(colors);     <span class="hljs-comment">//green,blue</span>
+alert(removed);    <span class="hljs-comment">//red - one item array</span>
+
+removed = colors.splice(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-string">&quot;yellow&quot;</span>, <span class="hljs-string">&quot;orange&quot;</span>);  <span class="hljs-comment">//insert two items at position 1</span>
+alert(colors);     <span class="hljs-comment">//green,yellow,orange,blue</span>
+alert(removed);    <span class="hljs-comment">//empty array</span>
+
+removed = colors.splice(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;purple&quot;</span>);    <span class="hljs-comment">//insert two values, remove one</span>
+alert(colors);     <span class="hljs-comment">//green,red,purple,orange,blue</span>
+alert(removed);    <span class="hljs-comment">//yellow - one item array</span></code></pre><h3 id="位置方法"><a href="#位置方法" class="headerlink" title="位置方法"></a>位置方法</h3><p>ECMAScript5为数组添加了两个位置方法：indexOf()和lastIndexOf()。他们都接受两个参数：要查找的项和（可选）起始位置的索引。</p><p>indexOf()从数组开头索引，lastIndexOf()从数组末尾开始索引。</p><p>接受两个参数：要查找的项和（可选）表示查找位置地点的索引。返回查找到的位置索引，没找返回-1。比较查找项时会使用全等操作。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> arr = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">4</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>];
+<span class="hljs-built_in">console</span>.log(arr.indexOf(<span class="hljs-number">3</span>));
+<span class="hljs-built_in">console</span>.log(arr.lastIndexOf(<span class="hljs-number">3</span>));
+
+<span class="hljs-built_in">console</span>.log(arr.indexOf(<span class="hljs-number">3</span>,<span class="hljs-number">3</span>));
+<span class="hljs-built_in">console</span>.log(arr.lastIndexOf(<span class="hljs-number">3</span>,<span class="hljs-number">5</span>));
+
+<span class="hljs-keyword">let</span> person = &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Nicholas&quot;</span> &#125;;
+<span class="hljs-keyword">let</span> people = [&#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Nicholas&quot;</span> &#125;];
+<span class="hljs-keyword">let</span> morePeople = [person];
+alert(people.indexOf(person));     <span class="hljs-comment">//-1</span>
+alert(morePeople.indexOf(person)); <span class="hljs-comment">//0</span></code></pre><h3 id="迭代方法"><a href="#迭代方法" class="headerlink" title="迭代方法"></a>迭代方法</h3><ul><li>every()：对数组的每一项运行给定的函数，每一项都返回ture，则返回ture。</li><li>filter()：对数组的每一项运行给定的函数，返回函数会返回ture组成的数组。</li><li>forEach()：对数组的每一项运行给定的函数，没有返回值。</li><li>map()：对数组的每一项运行给定的函数，返回函数调用结果。</li><li>some()：对数组的每一项运行给定的函数，任意一项返回ture，返回ture。</li></ul><p>所有方法都不会修改数组中的包含的值。</p><p>every()</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> dd = <span class="hljs-function"><span class="hljs-params">input</span> =&gt;</span> input &lt; <span class="hljs-number">9</span>;
+<span class="hljs-comment">// let dd = function (input) &#123;</span>
+<span class="hljs-comment">//     return input &lt; 9;</span>
+<span class="hljs-comment">// &#125;</span>
+<span class="hljs-keyword">let</span> arr = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>];
+<span class="hljs-built_in">console</span>.log(arr.every(dd));		<span class="hljs-comment">//ture</span></code></pre><p>filter()</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> ff = <span class="hljs-function"><span class="hljs-params">word</span> =&gt;</span> word.length &gt; <span class="hljs-number">5</span>;
+<span class="hljs-keyword">let</span> arr2 = [<span class="hljs-string">&#x27;spray&#x27;</span>, <span class="hljs-string">&#x27;limit&#x27;</span>, <span class="hljs-string">&#x27;elite&#x27;</span>, <span class="hljs-string">&#x27;exuberant&#x27;</span>, <span class="hljs-string">&#x27;destruction&#x27;</span>, <span class="hljs-string">&#x27;present&#x27;</span>];
+<span class="hljs-built_in">console</span>.log(arr2.filter(ff));</code></pre><p>forEach()，可以用来遍历数组</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> arr3 = [<span class="hljs-string">&#x27;a&#x27;</span>,<span class="hljs-string">&#x27;b&#x27;</span>,<span class="hljs-string">&#x27;c&#x27;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>];
+arr3.forEach(<span class="hljs-function"><span class="hljs-params">ele</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(ele));</code></pre><p>map()</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> arr4 = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>];
+<span class="hljs-built_in">console</span>.log(arr4.map(<span class="hljs-function"><span class="hljs-params">sx</span> =&gt;</span> (sx + <span class="hljs-number">1</span>) * <span class="hljs-number">2</span> / <span class="hljs-number">3</span>));</code></pre><p>some()</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> arr5 = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>];
+<span class="hljs-built_in">console</span>.log(arr5.some(<span class="hljs-function"><span class="hljs-params">qy</span> =&gt;</span> qy % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>));</code></pre><h3 id="归并方法"><a href="#归并方法" class="headerlink" title="归并方法"></a>归并方法</h3><p>reduce()和reduceRight()。这两个方法都会迭代数组的所有项，然后构建一个最终返回值。reduceRgiht()从数组的最后一项开始遍历到开头。</p><p>他们都接受四个参数：</p><ol><li>Accumulator (acc) (累计器)</li><li>Current Value (cur) (当前值)</li><li>Current Index (idx) (当前索引)</li><li>Source Array (src) (源数组)</li></ol><pre><code class="hljs js"><span class="hljs-keyword">let</span> arr = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>];
+<span class="hljs-built_in">console</span>.log(arr.reduce(<span class="hljs-function">(<span class="hljs-params">a1,a2</span>) =&gt;</span> a1 + a2));
+
+<span class="hljs-built_in">console</span>.log(arr.reduceRight(<span class="hljs-function">(<span class="hljs-params">a1,a2</span>) =&gt;</span> a1 + a2));</code></pre><h2 id="Date类型"><a href="#Date类型" class="headerlink" title="Date类型"></a>Date类型</h2><p>Date类型使用自1970年1月1日开始以来的毫秒数来保存日期。</p><p>创建日期对象，使用new操作符和Date构造函数。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> dd = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
+<span class="hljs-keyword">let</span> d2 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-number">2017</span>, <span class="hljs-number">02</span>, <span class="hljs-number">01</span>);
+<span class="hljs-keyword">let</span> d3 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-built_in">Date</span>.UTC(<span class="hljs-number">2000</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">21</span>, <span class="hljs-number">23</span>, <span class="hljs-number">31</span>));</code></pre><p>Date()构造函数会假设第一个参数是年份，第二个参数是月份，以此类推。</p><p>Date.now()返回调用这个方法时日期和时间的毫秒数，可以用来做一个简单计时。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> start = <span class="hljs-built_in">Date</span>.now();
+<span class="hljs-built_in">console</span>.log(start);
+<span class="hljs-keyword">let</span> arr = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">666</span>,<span class="hljs-number">745</span>,<span class="hljs-number">23</span>,<span class="hljs-number">441</span>,<span class="hljs-number">323</span>,<span class="hljs-number">123123</span>,<span class="hljs-number">123</span>,<span class="hljs-number">123</span>,<span class="hljs-number">85858585</span>,,<span class="hljs-number">3</span>,<span class="hljs-number">23</span>,<span class="hljs-number">1</span>,<span class="hljs-number">23</span>,<span class="hljs-number">123123123123</span>];
+<span class="hljs-built_in">console</span>.log(arr.reduce(<span class="hljs-function">(<span class="hljs-params">a1, a2</span>) =&gt;</span> a1 + a2));
+<span class="hljs-keyword">let</span> stop = <span class="hljs-built_in">Date</span>.now();
+<span class="hljs-built_in">console</span>.log(stop);
+<span class="hljs-keyword">let</span> result = stop - start;
+<span class="hljs-built_in">console</span>.log(result);</code></pre><p>使用+操作符获取Date对象的时间戳也可以达到同样的目的。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> test = +<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();</code></pre><h3 id="继承的方法"><a href="#继承的方法" class="headerlink" title="继承的方法"></a>继承的方法</h3><p>与其他的引用类型一样，Date也重写了toLocalString()、toString()和valueOf()方法。</p><p><code>toLocaleString()</code> 方法返回该日期对象的字符串，该字符串格式因不同语言而不同。</p><p><code>toString()</code> 方法返回一个字符串，表示该Date对象。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> d4 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
+<span class="hljs-built_in">console</span>.log(d4.toLocaleString());
+<span class="hljs-built_in">console</span>.log(d4.toString())
+<span class="hljs-comment">// 3/5/2020, 10:00:01 PM</span>
+<span class="hljs-comment">// Thu Mar 05 2020 22:00:01 GMT+0800 (China Standard Time)</span></code></pre><p><code>valueOf()</code> 方法返回一个 Date 对象的原始值。即返回毫秒数。</p><h2 id="RegExp类型"><a href="#RegExp类型" class="headerlink" title="RegExp类型"></a>RegExp类型</h2><p>js通过RegExp类型来支持正则表达式。</p><p>创建使用字面量, 构造函数和工厂符号都是可以的：</p><pre><code class="hljs js">/pattern/flags
+<span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(pattern [, flags])
+<span class="hljs-built_in">RegExp</span>(pattern [, flags])</code></pre><p>Flags：</p><ul><li>g：全局匹配;找到所有匹配，而不是在第一个匹配后停止</li><li>i：忽略大小写</li><li>m：多行; 将开始和结束字符（^和$）视为在多行上工作（也就是，分别匹配每一行的开始和结束（由 \n 或 \r 分割），而不只是只匹配整个输入字符串的最开始和最末尾处。</li></ul><p>使用构造函数创建时，参数需要使用字符串：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> pattern2 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">&quot;[bc]at&quot;</span>,<span class="hljs-string">&quot;g&quot;</span>);</code></pre><p>所以在构造函数的情况下可能需要双重转义</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> pattern3 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">&quot;\\[bc\\]at&quot;</span>,<span class="hljs-string">&quot;g&quot;</span>);</code></pre><p>由于实例属性不会重置，所以在循环中再次调用test()方法会失败。第一次找到了cat，第二次会从上一次匹配的末尾开始寻找。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> re = <span class="hljs-literal">null</span>,
+    i;
+
+<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;
+    re = <span class="hljs-regexp">/cat/g</span>;
+    re.test(<span class="hljs-string">&#x27;catastrophe&#x27;</span>);
+&#125;
+
+<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;
+    re = <span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">&quot;cat&quot;</span>,<span class="hljs-string">&quot;g&quot;</span>);
+    re.test(<span class="hljs-string">&#x27;catastrophe&#x27;</span>)
+&#125;</code></pre><h3 id="实例属性"><a href="#实例属性" class="headerlink" title="实例属性"></a>实例属性</h3><p><code>RegExp.prototype.constructor</code></p><p>创建该正则对象的构造函数。</p><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp/global"><code>RegExp.prototype.global</code></a></p><p>是否开启全局匹配，也就是匹配目标字符串中所有可能的匹配项，而不是只进行第一次匹配。</p><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp/ignoreCase"><code>RegExp.prototype.ignoreCase</code></a></p><p>在匹配字符串时是否要忽略字符的大小写。</p><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp/lastIndex"><code>RegExp.prototype.lastIndex</code></a></p><p>下次匹配开始的字符串索引位置。</p><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp/multiline"><code>RegExp.prototype.multiline</code></a></p><p>是否开启多行模式匹配（影响 ^ 和 $ 的行为）。</p><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp/source"><code>RegExp.prototype.source</code></a></p><p>正则对象的源模式文本。</p><pre><code class="hljs js"><span class="hljs-built_in">console</span>.log(pattern.global);
+<span class="hljs-built_in">console</span>.log(pattern.ignoreCase);
+<span class="hljs-built_in">console</span>.log(pattern.multiline);
+<span class="hljs-built_in">console</span>.log(pattern.lastIndex);
+<span class="hljs-built_in">console</span>.log(pattern.source);</code></pre><h3 id="实例方法"><a href="#实例方法" class="headerlink" title="实例方法"></a>实例方法</h3><p>exec()和test()。</p><p>exec()设置了全局模式也只会返回一个匹配项，多次调用一次返回向后匹配到的值。而不设置全局模式则只返回第一次匹配到的匹配项。</p><pre><code class="hljs js"><span class="hljs-keyword">var</span> text = <span class="hljs-string">&quot;cat, bat, sat, fat&quot;</span>;        
+<span class="hljs-keyword">var</span> pattern1 = <span class="hljs-regexp">/.at/</span>;
+
+<span class="hljs-keyword">var</span> matches = pattern1.exec(text);        
+alert(matches.index);    <span class="hljs-comment">//0</span>
+alert(matches[<span class="hljs-number">0</span>]);       <span class="hljs-comment">//&quot;cat&quot;</span>
+alert(pattern1.lastIndex);<span class="hljs-comment">//0</span>
+
+matches = pattern1.exec(text);        
+alert(matches.index);    <span class="hljs-comment">//0</span>
+alert(matches[<span class="hljs-number">0</span>]);       <span class="hljs-comment">//&quot;cat&quot;</span>
+alert(pattern1.lastIndex);<span class="hljs-comment">//0</span>
+
+<span class="hljs-keyword">var</span> pattern2 = <span class="hljs-regexp">/.at/g</span>;
+
+<span class="hljs-keyword">var</span> matches = pattern2.exec(text);        
+alert(matches.index);    <span class="hljs-comment">//0</span>
+alert(matches[<span class="hljs-number">0</span>]);       <span class="hljs-comment">//&quot;cat&quot;</span>
+alert(pattern2.lastIndex);<span class="hljs-comment">//0</span>
+
+matches = pattern2.exec(text);        
+alert(matches.index);    <span class="hljs-comment">//5</span>
+alert(matches[<span class="hljs-number">0</span>]);       <span class="hljs-comment">//&quot;bat&quot;</span>
+alert(pattern2.lastIndex);<span class="hljs-comment">//0</span></code></pre><p>test()接受一个字符串参数，在模式与该参数匹配的情况下返回ture。通常与if语句一起使用。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> text = <span class="hljs-string">&#x27;123-00-12345&#x27;</span>;
+<span class="hljs-keyword">let</span> pattern4 = <span class="hljs-regexp">/\d&#123;3&#125;-\d&#123;2&#125;-\d&#123;4&#125;/</span>;
+<span class="hljs-keyword">if</span> (pattern4.test(text)) &#123;
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;all matched&#x27;</span>);
+&#125;</code></pre><h2 id="Function类型"><a href="#Function类型" class="headerlink" title="Function类型"></a>Function类型</h2><p>函数实际上是对象，函数名是指针。所以函数名与包装对象指针的其他变量没有什么不同。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sum</span> (<span class="hljs-params">a,b</span>) </span>&#123;
+    <span class="hljs-keyword">return</span> a + b;
+&#125;
+<span class="hljs-keyword">let</span> anotherSum = sum;
+<span class="hljs-built_in">console</span>.log(anotherSum(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>));
+
+sum = <span class="hljs-literal">null</span>;
+<span class="hljs-built_in">console</span>.log(anotherSum(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>));</code></pre><p>构造函数用来创建对象。</p><h3 id="函数声明提升"><a href="#函数声明提升" class="headerlink" title="函数声明提升"></a>函数声明提升</h3><p>解析器会率先读取函数声明，并使其在执行任何代码之前可以访问。至于函数表达式，则必须等到解析器执行到它所在的代码行，才会被真正的解析执行。</p><p>就像var的提升一样！</p><pre><code class="hljs js"><span class="hljs-built_in">console</span>.log(sum2(<span class="hljs-number">10</span>,<span class="hljs-number">20</span>));
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sum2</span>(<span class="hljs-params">a,b</span>) </span>&#123;
+    <span class="hljs-keyword">return</span> a * b;
+&#125;</code></pre><p>但使用函数表达式就不存在这种情况了。</p><pre><code class="hljs js"><span class="hljs-built_in">console</span>.log(sum3(<span class="hljs-number">10</span>,<span class="hljs-number">20</span>));
+<span class="hljs-keyword">let</span> sum3 = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">a,b</span>) </span>&#123;
+    <span class="hljs-keyword">return</span> a * b;
+&#125;</code></pre><p>由于函数在一个初始化语句中，（就算使用var，也只有var的声明会提升，语句并没有初始化）而不是函数声明。</p><h3 id="作为参数传递"><a href="#作为参数传递" class="headerlink" title="作为参数传递"></a>作为参数传递</h3><p>因为函数名本身就是变量，所以函数也可以作为值来使用。(回调)</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params">num</span>) </span>&#123;
+    <span class="hljs-keyword">return</span> num + <span class="hljs-number">10</span>;
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addd</span>(<span class="hljs-params">ff,num</span>) </span>&#123;
+    <span class="hljs-keyword">return</span> ff(num);
+&#125;
+<span class="hljs-built_in">console</span>.log(addd(add,<span class="hljs-number">1</span>));</code></pre><p>另一种就是从一个函数中返回另一个函数，实际上就是一个函数嵌套了另一个函数。（闭包）</p><p>例如对对象数组进行按照对象属性排序：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> data = [
+    &#123;
+        <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;xfy&#x27;</span>,
+        <span class="hljs-attr">age</span>: <span class="hljs-number">18</span>
+    &#125;,
+    &#123;
+        <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;dfy&#x27;</span>,
+        <span class="hljs-attr">age</span>: <span class="hljs-number">81</span>
+    &#125;
+]
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">com</span>(<span class="hljs-params">propertyName</span>) </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">object1,object2</span>) </span>&#123;
+        <span class="hljs-keyword">let</span> value1 = object1[propertyName];
+        <span class="hljs-keyword">let</span> value2 = object2[propertyName];
+        <span class="hljs-keyword">if</span> (value1 &lt; value2) &#123;
+            <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (value1 &gt; value2) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        &#125;
+    &#125;
+&#125;
+<span class="hljs-built_in">console</span>.log(data.sort(com(<span class="hljs-string">&#x27;name&#x27;</span>)));</code></pre><h3 id="函数内部属性"><a href="#函数内部属性" class="headerlink" title="函数内部属性"></a>函数内部属性</h3><p>在函数内部，有两个特殊的对象：arguments和this。arguments的主要作用是保存函数参数，但它还有一个callee的属性。该属性是一个指针，指针指向拥有这个arguments对象的函数。</p><p>一个经典的递归函数：</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test</span>(<span class="hljs-params">num</span>) </span>&#123;
+    <span class="hljs-keyword">if</span> (num &lt;= <span class="hljs-number">1</span>) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    &#125;
+    <span class="hljs-keyword">return</span> num + test(num - <span class="hljs-number">1</span>);
+&#125;
+<span class="hljs-built_in">console</span>.log(test(<span class="hljs-number">100</span>));</code></pre><p>当遇到使用函数表达式重新指向函数时</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test</span>(<span class="hljs-params">num</span>) </span>&#123;
+    <span class="hljs-keyword">if</span> (num &lt;= <span class="hljs-number">1</span>) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    &#125;
+    <span class="hljs-keyword">return</span> num + test(num - <span class="hljs-number">1</span>);
+&#125;
+<span class="hljs-built_in">console</span>.log(test(<span class="hljs-number">100</span>));
+
+<span class="hljs-keyword">let</span> test2 = test;
+test = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+&#125;
+<span class="hljs-built_in">console</span>.log(test2(<span class="hljs-number">100</span>));    <span class="hljs-comment">// 101 test2不能完成回调，因为函数中还是test(num -1)</span>
+<span class="hljs-built_in">console</span>.log(test(<span class="hljs-number">100</span>));</code></pre><p>使用callee就能解决这个问题，类似于对象的this。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cb</span>(<span class="hljs-params">num</span>) </span>&#123;
+    <span class="hljs-keyword">if</span> (num &lt;= <span class="hljs-number">1</span>) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    &#125;
+    <span class="hljs-keyword">return</span> num + <span class="hljs-built_in">arguments</span>.callee(num - <span class="hljs-number">1</span>);
+&#125;
+<span class="hljs-built_in">console</span>.log(cb(<span class="hljs-number">100</span>));
+<span class="hljs-keyword">let</span> cb2 = cb;       <span class="hljs-comment">// 指针交换</span>
+cb = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+<span class="hljs-built_in">console</span>.log(cb2(<span class="hljs-number">100</span>));
+<span class="hljs-built_in">console</span>.log(cb(<span class="hljs-number">100</span>));</code></pre><blockquote><p>函数的名字仅仅只是一个包含指针的变量而已。</p></blockquote><p>ECMAScript5还定义了一个函数对象的属性：caller。它保存着调用当前函数的函数的引用。如果是在全局作用域中调用当前函数，它的值为null。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">outer</span>(<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">return</span> inner();
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">inner</span>(<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">return</span> inner.caller;
+&#125;
+<span class="hljs-built_in">console</span>.log(outer());</code></pre><p>甚至还能更进一步解耦合：</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">outer</span>(<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">return</span> inner();
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">inner</span>(<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">arguments</span>.callee.caller;
+&#125;</code></pre><p>在严格模式下，访问<code>arguments.callee</code>和<code>arguments.caller</code>都会导致访问错误。且不能为函数的caller属性赋值，否则会导致错误。</p><h3 id="函数属性与方法"><a href="#函数属性与方法" class="headerlink" title="函数属性与方法"></a>函数属性与方法</h3><p>js中的函数也是对象，所以函数也有属性和方法。每个函数都包含两个属性：length和prototype。</p><p>length属性表示函数希望接受的命名参数的个数。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test</span>(<span class="hljs-params">arg1,arg2</span>) </span>&#123;
+    <span class="hljs-keyword">return</span> arg1 + arg2;
+&#125;
+<span class="hljs-built_in">console</span>.log(test.length);</code></pre><p>对于引用类型而言，prototype是保存它们所有实例方法的真正所在。prototype属性是不可枚举的，所以用for-in是无法发现的。</p><p>每个函数都包含两个非继承而来的方法：apply()和call()。它们常用来动态改变this的值。call()与apply()相同，它们区别仅在接受参数的方式不同。第一个参数是this值，第二个参数分别是逐个传参和数组传参。</p><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fruits</span>(<span class="hljs-params"></span>) </span>&#123;&#125;;
+
+fruits.prototype = &#123;
+    <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span>,
+    <span class="hljs-attr">say</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;the color is : &#x27;</span> + <span class="hljs-built_in">this</span>.color);
+    &#125;
+&#125;
+<span class="hljs-keyword">let</span> apple = <span class="hljs-keyword">new</span> fruits();
+<span class="hljs-built_in">console</span>.log(apple);
+<span class="hljs-built_in">console</span>.log(apple.say());
+
+<span class="hljs-keyword">let</span> banana = &#123;
+    <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;yellow&#x27;</span>
+&#125;
+<span class="hljs-built_in">console</span>.log(apple.say.apply(banana));</code></pre><p>除了在对象中的应用，call和apply真正的用武之地是扩充函数的作用于。</p><pre><code class="hljs js"><span class="hljs-built_in">window</span>.color = <span class="hljs-string">&#x27;red&#x27;</span>;
+<span class="hljs-keyword">let</span> o = &#123;
+    <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;blue&#x27;</span>
+&#125;;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sayColor</span>(<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.color;
+&#125;
+sayColor()
+<span class="hljs-string">&quot;red&quot;</span>
+sayColor.call(o)
+<span class="hljs-string">&quot;blue&quot;</span>
+sayColor.call(<span class="hljs-built_in">window</span>)
+<span class="hljs-string">&quot;red&quot;</span></code></pre><p>除此之外还有一个方法：bind()。这个方法会创建一个函数的实例，其this值会被绑定到传给bind()函数的值。</p><pre><code class="hljs js"><span class="hljs-built_in">window</span>.color = <span class="hljs-string">&#x27;red&#x27;</span>;
+<span class="hljs-keyword">let</span> o = &#123;
+    <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;blue&#x27;</span>
+&#125;;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sayColor</span>(<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.color;
+&#125;
+
+<span class="hljs-keyword">let</span> sayAnotherColor = sayColor.bind(o);
+sayAnotherColor();
+<span class="hljs-string">&quot;blue&quot;</span></code></pre><h3 id="基本包装类型"><a href="#基本包装类型" class="headerlink" title="基本包装类型"></a>基本包装类型</h3><p>三个特殊的引用类型：Boolean、Number和String。</p><p>包装对象都会经过三个步骤：</p><ol><li>创建String或其他类型的一个实例；</li><li>在实例上调用指定的方法；</li><li>销毁这个实例；</li></ol><p>也就是类似于这样的操作：</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> s1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">String</span>(<span class="hljs-string">&#x27;some string&#x27;</span>);
+<span class="hljs-keyword">let</span> s2 = s1.length;
+s1 = <span class="hljs-literal">null</span>;</code></pre><p>引用类型与基本包装类型的主要区别就是对象的生存期。使用new操作符创建的引用类型的实例，在执行流离开当前作用域之前一直都保存在内存中。而包装对象，则只存在执行代码的一瞬间，然后立即被销毁。所以不能在运行时为基本类型添加属性和方法。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> s1 = <span class="hljs-string">&#x27;xfy&#x27;</span>;
+s1.color = <span class="hljs-string">&#x27;pink&#x27;</span>;
+<span class="hljs-built_in">console</span>.log(s1.color);	<span class="hljs-comment">// undefined</span></code></pre><p>在第二行创建的String对象在执行第三行代码时就已经被销毁了，第三行代码则又创建自己String对象，而没有第二行创建color属性。</p><p>Object构造函数也会像工厂方法一样，根据传入值的类型来返回相应基本包装类型的实例。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> test = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Object</span>(<span class="hljs-string">&#x27;xfy&#x27;</span>);
+<span class="hljs-keyword">typeof</span> test
+<span class="hljs-string">&quot;object&quot;</span>
+test <span class="hljs-keyword">instanceof</span> <span class="hljs-built_in">String</span>
+<span class="hljs-literal">true</span>
+test <span class="hljs-keyword">instanceof</span> <span class="hljs-built_in">Number</span>
+<span class="hljs-literal">false</span>
+test <span class="hljs-keyword">instanceof</span> <span class="hljs-built_in">Object</span>
+<span class="hljs-literal">true</span></code></pre><p>使用new调用资本包装类型的构造函数，与直接调用同名的转型函数是不一样的。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> value = <span class="hljs-string">&#x27;25&#x27;</span>;
+<span class="hljs-keyword">let</span> test = <span class="hljs-built_in">Number</span>(value);
+<span class="hljs-keyword">typeof</span> test
+<span class="hljs-string">&quot;number&quot;</span>
+
+<span class="hljs-keyword">let</span> test2 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Number</span>(<span class="hljs-number">25</span>);
+<span class="hljs-keyword">typeof</span> test2;
+<span class="hljs-string">&quot;object&quot;</span></code></pre><blockquote><p>不建显式的创建基本包装类型的对象。</p></blockquote><h2 id="Boolean类型"><a href="#Boolean类型" class="headerlink" title="Boolean类型"></a>Boolean类型</h2><p>Boolean有基本类型与引用类型。使用Boolean对象构造的值为引用类型。Boolean类型的实例重写了valueOf()与toString()。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> b = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Boolean</span>(<span class="hljs-literal">false</span>);     <span class="hljs-comment">// falseObject</span>
+<span class="hljs-keyword">let</span> bb = <span class="hljs-literal">true</span>;
+<span class="hljs-keyword">let</span> b2 = <span class="hljs-literal">false</span>;     <span class="hljs-comment">// falseValue</span>
+<span class="hljs-built_in">console</span>.log(b &amp;&amp; bb);   <span class="hljs-comment">//true</span>
+<span class="hljs-built_in">console</span>.log(b2 &amp;&amp; bb);  <span class="hljs-comment">//false</span></code></pre><p>布尔表达式中所有对象都会被转为true，因此引用类型的Boolean都会被转为true。</p><p>基本类型与引用类型的Boolean还有两个区别：</p><ul><li>typeof对基本类型返回”Boolean“。对引用类型返回”Object“；</li><li>Boolean对象是Boolean类型的实例，所以instanceof会返回true。而基本类型则返回false；</li></ul><blockquote><p>建议不要使用Boolean对象。</p></blockquote><h2 id="Number类型"><a href="#Number类型" class="headerlink" title="Number类型"></a>Number类型</h2><p>Number类型也重写了valueOf()、toLocaleString()和toString()。</p><p>toString()可以传递一个表示基数的参数，将返回进制化数值的字符串形式。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> num = <span class="hljs-number">123</span>;
+<span class="hljs-built_in">console</span>.log(num.toString(<span class="hljs-number">2</span>));
+<span class="hljs-built_in">console</span>.log(num.toString(<span class="hljs-number">8</span>));
+<span class="hljs-built_in">console</span>.log(num.toString(<span class="hljs-number">16</span>));</code></pre><p>除了继承的方法之外，Number类型还提供了一些用于将数值格式化为字符串的方法。toFixed()方法返回指定位数的小数。</p><p>当小数比指定位数还多一位的情况下，就会舍入。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> num = <span class="hljs-number">123</span>;
+<span class="hljs-built_in">console</span>.log(num.toFixed(<span class="hljs-number">2</span>));
+<span class="hljs-built_in">console</span>.log(num.toFixed(<span class="hljs-number">20</span>));
+num = <span class="hljs-number">12.005</span>;
+<span class="hljs-built_in">console</span>.log(num.toFixed(<span class="hljs-number">2</span>));</code></pre><blockquote><p>通常情况下toFixed()可以表示0-20位小数，但这只是标准实现的范围。有些运行环境可以支持更多。</p></blockquote><p>也有用于格式化为指数表示法的方法，toExponential()（e表示法）。toExponential()接受一个参数，指定输出结果的小数的位数。返回也是字符串形式。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> num = <span class="hljs-number">123</span>;
+<span class="hljs-keyword">let</span> num2 = num.toExponential(<span class="hljs-number">10</span>);
+<span class="hljs-built_in">console</span>.log(num2);  <span class="hljs-comment">// 1.2300000000e+2</span></code></pre><p>还有toPrecision()会根据情况来使用toFixed()或者是toExponential()。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> num = <span class="hljs-number">123</span>;
+
+<span class="hljs-built_in">console</span>.log(num.toPrecision(<span class="hljs-number">1</span>));
+<span class="hljs-built_in">console</span>.log(num.toPrecision(<span class="hljs-number">2</span>));
+<span class="hljs-built_in">console</span>.log(num.toPrecision(<span class="hljs-number">3</span>));
+<span class="hljs-built_in">console</span>.log(num.toPrecision(<span class="hljs-number">4</span>));
+<span class="hljs-built_in">console</span>.log(num.toPrecision(<span class="hljs-number">5</span>));
+<span class="hljs-built_in">console</span>.log(num.toPrecision(<span class="hljs-number">6</span>));
+
+<span class="hljs-number">1e+2</span>
+<span class="hljs-number">1.2e+2</span>
+<span class="hljs-number">123</span>
+<span class="hljs-number">123.0</span>
+<span class="hljs-number">123.00</span>
+<span class="hljs-number">123.000</span></code></pre><p>Number与Boolean一样，实例化Number类型在使用typeof和instanceof时，会有完全不同的结果。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> num = <span class="hljs-number">123</span>;
+<span class="hljs-keyword">let</span> num2 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Number</span>(<span class="hljs-number">123</span>);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">typeof</span> num);		<span class="hljs-comment">// &quot;Number&quot;</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">typeof</span> num2);		<span class="hljs-comment">// &quot;Object&quot;</span>
+<span class="hljs-built_in">console</span>.log(num <span class="hljs-keyword">instanceof</span> <span class="hljs-built_in">Number</span>);		<span class="hljs-comment">// false</span>
+<span class="hljs-built_in">console</span>.log(num2 <span class="hljs-keyword">instanceof</span> <span class="hljs-built_in">Number</span>);	<span class="hljs-comment">// true</span></code></pre><h2 id="String类型"><a href="#String类型" class="headerlink" title="String类型"></a>String类型</h2><p>String类型是字符串的对象包装类型。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> str = <span class="hljs-keyword">new</span> <span class="hljs-built_in">String</span>(<span class="hljs-string">&#x27;xfy&#x27;</span>);</code></pre><p>访问特定字符方法：charAt()和charCodeAt()，接受一个参数，从0开始的字符位置。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> str = <span class="hljs-string">&#x27;xfy&#x27;</span>;
+<span class="hljs-built_in">console</span>.log(str.charAt(<span class="hljs-number">1</span>));
+<span class="hljs-built_in">console</span>.log(str.charCodeAt(<span class="hljs-number">1</span>));</code></pre><p>还有另一个访问个别字符的方法，类似于访问数组</p><pre><code class="hljs js"><span class="hljs-built_in">console</span>.log(str[<span class="hljs-number">1</span>]);</code></pre><p>操作方法</p><p>除了<code>+</code>拼接字符串，还有类似于数组的concat()方法。用于将一个或多个字符串拼接起来，返回新的字符串。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> str2 = <span class="hljs-string">&#x27;yyy&#x27;</span>;
+<span class="hljs-built_in">console</span>.log(str.concat(<span class="hljs-string">&#x27;abc&#x27;</span>,str2));</code></pre><p>还有三个基于字符串创建新字符串的方法，基于字符串修改或裁减。返回新的字符串。slice()、substr()和substring()。它们都接受两个参数，第一个参数指定字符串开始的位置，第二个参数（可选）表示字符串到哪里结束。</p><pre><code class="hljs js"><span class="hljs-keyword">let</span> str = <span class="hljs-string">&#x27;xiaofeiyang&#x27;</span>;
+<span class="hljs-built_in">console</span>.log(str.slice(<span class="hljs-number">4</span>));
+<span class="hljs-built_in">console</span>.log(str.substr(<span class="hljs-number">4</span>));
+<span class="hljs-built_in">console</span>.log(str.substring(<span class="hljs-number">4</span>));
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;---&#x27;</span>);
+<span class="hljs-built_in">console</span>.log(str.slice(<span class="hljs-number">4</span>,<span class="hljs-number">7</span>));
+<span class="hljs-built_in">console</span>.log(str.substr(<span class="hljs-number">4</span>,<span class="hljs-number">7</span>));
+<span class="hljs-built_in">console</span>.log(str.substring(<span class="hljs-number">4</span>,<span class="hljs-number">7</span>));
+
+feiyang
+feiyang
+feiyang
+---
+fei
+feiyang
+fei</code></pre></div><div class="prev-or-next"><div class="post-foot-next"><a href="/defect/docker-container-all.html" target="_self"><i class="iconfont icon-chevronleft"></i> <span>上一页</span></a></div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime" title="更新时间"></i> 2020-01-06 09:14:53</span><span class="post-tags"><i class="iconfont icon-tags" title="标签"></i> <span class="span--tag"><a href="/tags/JavaScript/" title="JavaScript"><b>#</b> JavaScript</a></span></span></div><div class="post-foot-prev"><a href="/defect/write-and-cooperation.html" target="_self"><span>下一页</span><i class="iconfont icon-chevronright"></i></a></div></div></div><div id="btn-catalog" class="btn-catalog"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-catalog"></use></svg></div><div class="post-catalog hidden" id="catalog"><div class="title">目录</div><div class="catalog-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B"><span class="toc-text">基本类型和引用类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Object%E7%B1%BB%E5%9E%8B"><span class="toc-text">Object类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAObject%E5%AE%9E%E4%BE%8B"><span class="toc-text">创建Object实例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E9%80%92%E5%A4%A7%E9%87%8F%E5%8F%82%E6%95%B0"><span class="toc-text">传递大量参数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Array%E7%B1%BB%E5%9E%8B"><span class="toc-text">Array类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E7%BB%84"><span class="toc-text">创建数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96%E6%95%B0%E7%BB%84"><span class="toc-text">读取数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88%E6%96%B9%E6%B3%95"><span class="toc-text">栈方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%9F%E5%88%97%E6%96%B9%E6%B3%95"><span class="toc-text">队列方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95"><span class="toc-text">重排序方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95"><span class="toc-text">操作方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%8D%E7%BD%AE%E6%96%B9%E6%B3%95"><span class="toc-text">位置方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E6%96%B9%E6%B3%95"><span class="toc-text">迭代方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%92%E5%B9%B6%E6%96%B9%E6%B3%95"><span class="toc-text">归并方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Date%E7%B1%BB%E5%9E%8B"><span class="toc-text">Date类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">继承的方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RegExp%E7%B1%BB%E5%9E%8B"><span class="toc-text">RegExp类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7"><span class="toc-text">实例属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E6%96%B9%E6%B3%95"><span class="toc-text">实例方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Function%E7%B1%BB%E5%9E%8B"><span class="toc-text">Function类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A3%B0%E6%98%8E%E6%8F%90%E5%8D%87"><span class="toc-text">函数声明提升</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92"><span class="toc-text">作为参数传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%86%85%E9%83%A8%E5%B1%9E%E6%80%A7"><span class="toc-text">函数内部属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%B1%9E%E6%80%A7%E4%B8%8E%E6%96%B9%E6%B3%95"><span class="toc-text">函数属性与方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%8C%85%E8%A3%85%E7%B1%BB%E5%9E%8B"><span class="toc-text">基本包装类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Boolean%E7%B1%BB%E5%9E%8B"><span class="toc-text">Boolean类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Number%E7%B1%BB%E5%9E%8B"><span class="toc-text">Number类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#String%E7%B1%BB%E5%9E%8B"><span class="toc-text">String类型</span></a></li></ol></div></div><div class="comments-container"></div></article></main><footer class="footer"><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat/hexo-theme-oranges">Copyright © Oranges 2021</a></div><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/DefectingCat">Theme by Oranges | Powered by Hexo</a></div></footer><div class="back-to-top hidden"><button title="go-top" class="go-top"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-chevronup"></use></svg></button></div></body><script src="/js/iconfont.js"></script><script src="/js/main.js"></script></html>

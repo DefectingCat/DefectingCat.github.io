@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>🍭Defectink</title>
+  <icon>https://www.defectink.com/icon.png</icon>
+  <subtitle>只要心还在跳</subtitle>
+  <link href="https://www.defectink.com/atom.xml" rel="self"/>
+  
+  <link href="https://www.defectink.com/"/>
+  <updated>2021-07-16T18:50:04.000Z</updated>
+  <id>https://www.defectink.com/</id>
+  
+  <author>
+    <name>Defectink</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>异步JavaScript-Promise信任问题</title>
+    <link href="https://www.defectink.com/defect/asynchronous-javascript-trust-promise.html"/>
+    <id>https://www.defectink.com/defect/asynchronous-javascript-trust-promise.html</id>
+    <published>2021-07-16T18:50:04.000Z</published>
+    <updated>2021-07-16T18:50:04.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;继前篇 &lt;a href=&quot;/defect/asynchronous-javascript-now-and-future.html&quot;&gt;异步JavaScript-现在与将来 | 🍭Defectink&lt;/a&gt; 对异步 JavaScript</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>异步JavaScript-现在与将来</title>
+    <link href="https://www.defectink.com/defect/asynchronous-javascript-now-and-future.html"/>
+    <id>https://www.defectink.com/defect/asynchronous-javascript-now-and-future.html</id>
+    <published>2021-07-12T15:21:03.000Z</published>
+    <updated>2021-07-12T15:21:03.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;所有重要的程序都需要通过这样或那样的方法来管理持续一段时间的程序行为。这可能是用户输入、从数据库或文件系统中请求数据、通过网络发送数据并等待响应等。在诸如此类的场景中，程序都需要管理这段时间间隔执行重复任务。&lt;/p&gt;
+&lt;p&gt;事实上，程序中现在运行的部分和将来运行的部分之间的</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript-语法</title>
+    <link href="https://www.defectink.com/defect/javascript-syntax.html"/>
+    <id>https://www.defectink.com/defect/javascript-syntax.html</id>
+    <published>2021-07-12T15:20:03.000Z</published>
+    <updated>2021-07-12T15:20:03.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在 JavaScript 中，有很多常见的语法仍然有很多地方容易产生困惑、造成误解。&lt;/p&gt;
+&lt;h2 id=&quot;语句与表达式&quot;&gt;&lt;a href=&quot;#语句与表达式&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript-类</title>
+    <link href="https://www.defectink.com/defect/javascript-class.html"/>
+    <id>https://www.defectink.com/defect/javascript-class.html</id>
+    <published>2021-07-12T15:19:24.000Z</published>
+    <updated>2021-07-12T15:19:24.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;对象&quot;&gt;&lt;a href=&quot;#对象&quot; class=&quot;headerlink&quot; title=&quot;对象&quot;&gt;&lt;/a&gt;对象&lt;/h2&gt;&lt;h3 id=&quot;将数组当作对象&quot;&gt;&lt;a href=&quot;#将数组当作对象&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript-代理与反射</title>
+    <link href="https://www.defectink.com/defect/javascript-proxy-and-reflect.html"/>
+    <id>https://www.defectink.com/defect/javascript-proxy-and-reflect.html</id>
+    <published>2021-07-12T11:42:03.000Z</published>
+    <updated>2021-07-12T11:42:03.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;ECMAScript 6 新增的代理和反射为开发者提供了拦截并向基本操作嵌入额外行为的能力。&lt;/p&gt;
+&lt;h2 id=&quot;反射-API&quot;&gt;&lt;a href=&quot;#反射-API&quot; class=&quot;headerlink&quot; title=&quot;反射 API&quot;&gt;&lt;/a&gt;反射</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript-值与类型</title>
+    <link href="https://www.defectink.com/defect/javascript-value-and-type.html"/>
+    <id>https://www.defectink.com/defect/javascript-value-and-type.html</id>
+    <published>2021-07-12T11:41:03.000Z</published>
+    <updated>2021-07-12T11:41:03.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;值与引用&quot;&gt;&lt;a href=&quot;#值与引用&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript-事件</title>
+    <link href="https://www.defectink.com/defect/javascript-event.html"/>
+    <id>https://www.defectink.com/defect/javascript-event.html</id>
+    <published>2021-07-12T11:40:03.000Z</published>
+    <updated>2021-07-12T11:40:03.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;JavaScript 和 HTML 直接的交互是通过事件实现的。当文档或者浏览器发生交互时，使用侦听器（处理程序）来预定事件，以便事件发生时执行相应的代码。在传统软件工程中被称之为观察员模式。&lt;/p&gt;
+&lt;p&gt;事件最早是在 IE3 和 Netscape Navigator</summary>
+        
+      
+    
+    
+    
+    <category term="实践" scheme="https://www.defectink.com/categories/%E5%AE%9E%E8%B7%B5/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript-this全面解析</title>
+    <link href="https://www.defectink.com/defect/javascript-fxxk-this.html"/>
+    <id>https://www.defectink.com/defect/javascript-fxxk-this.html</id>
+    <published>2021-07-12T11:38:03.000Z</published>
+    <updated>2021-07-12T11:38:03.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;this-全面解析&quot;&gt;&lt;a href=&quot;#this-全面解析&quot; class=&quot;headerlink&quot; title=&quot;this 全面解析&quot;&gt;&lt;/a&gt;this 全面解析&lt;/h2&gt;&lt;p&gt;this 和动态作用域有些许类似，他们都是在执行时决定的。this</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript-编译与闭包</title>
+    <link href="https://www.defectink.com/defect/javascript-compile-and-closure.html"/>
+    <id>https://www.defectink.com/defect/javascript-compile-and-closure.html</id>
+    <published>2021-07-12T11:36:03.000Z</published>
+    <updated>2021-07-12T11:36:03.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;编译原理&quot;&gt;&lt;a href=&quot;#编译原理&quot; class=&quot;headerlink&quot; title=&quot;编译原理&quot;&gt;&lt;/a&gt;编译原理&lt;/h2&gt;&lt;p&gt;尽管 JavaScript 经常被归类为“动态”或“解释执行”的语言，但实际上它是一门编译语言。JavaScript</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>自建简易 FaaS 平台</title>
+    <link href="https://www.defectink.com/defect/built-simply-faas.html"/>
+    <id>https://www.defectink.com/defect/built-simply-faas.html</id>
+    <published>2021-07-11T12:02:45.000Z</published>
+    <updated>2021-07-11T12:02:45.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;近些年来，传统的 IaaS、PaaS 已经无法满足人们对资源调度的需求了。各大云厂商相继开始推出自家的 Serverless 服务。Serverless</summary>
+        
+      
+    
+    
+    
+    <category term="实践" scheme="https://www.defectink.com/categories/%E5%AE%9E%E8%B7%B5/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+    <category term="TypeScript" scheme="https://www.defectink.com/tags/TypeScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>体验至上的暗色模式</title>
+    <link href="https://www.defectink.com/defect/dark-mode-for-user-experience.html"/>
+    <id>https://www.defectink.com/defect/dark-mode-for-user-experience.html</id>
+    <published>2021-07-07T18:08:31.000Z</published>
+    <updated>2021-07-07T18:08:31.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;暗色模式（Dark Mode）是近些年来掀起的风潮，通常暗黑模式是一种文字为浅色、背景为深色的应用程序模式。这和近些年来手机等移动设备上更多的 OLED 屏幕也有一定关系，因为 OLED</summary>
+        
+      
+    
+    
+    
+    <category term="实践" scheme="https://www.defectink.com/categories/%E5%AE%9E%E8%B7%B5/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MongoDB零碎笔记</title>
+    <link href="https://www.defectink.com/defect/mongodb-notes.html"/>
+    <id>https://www.defectink.com/defect/mongodb-notes.html</id>
+    <published>2021-06-07T18:08:31.000Z</published>
+    <updated>2021-06-07T18:08:31.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;数据结构&quot;&gt;&lt;a href=&quot;#数据结构&quot; class=&quot;headerlink&quot; title=&quot;数据结构&quot;&gt;&lt;/a&gt;数据结构&lt;/h2&gt;&lt;p&gt;数据库&lt;/p&gt;
+&lt;p&gt;集合&lt;/p&gt;
+&lt;p&gt;文档&lt;/p&gt;
+&lt;h2 id=&quot;插入数据&quot;&gt;&lt;a href=&quot;#插入数据&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>TypeScript临碎笔记</title>
+    <link href="https://www.defectink.com/defect/typescript-pieces.html"/>
+    <id>https://www.defectink.com/defect/typescript-pieces.html</id>
+    <published>2021-06-02T12:13:06.000Z</published>
+    <updated>2021-06-02T12:13:06.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;类型&quot;&gt;&lt;a href=&quot;#类型&quot; class=&quot;headerlink&quot; title=&quot;类型&quot;&gt;&lt;/a&gt;类型&lt;/h2&gt;&lt;pre&gt;&lt;code class=&quot;hljs ts&quot;&gt;&lt;span class=&quot;hljs-comment&quot;&gt;// 基础类型 null,</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="TypeScript" scheme="https://www.defectink.com/tags/TypeScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Nodejs多进程</title>
+    <link href="https://www.defectink.com/defect/nodejs-multi-process.html"/>
+    <id>https://www.defectink.com/defect/nodejs-multi-process.html</id>
+    <published>2021-06-01T13:32:29.000Z</published>
+    <updated>2021-06-01T13:32:29.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;众所周知，JavaScript 是一门单线程的语言。但它的实现环境可以帮助我们创建多进程甚至是多线程，这样在遇到高压力的性能计算时，可以更好的利用多核 CPU 资源。&lt;/p&gt;
+&lt;h2 id=&quot;基本概念&quot;&gt;&lt;a href=&quot;#基本概念&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="实践" scheme="https://www.defectink.com/categories/%E5%AE%9E%E8%B7%B5/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+    <category term="Nodejs" scheme="https://www.defectink.com/tags/Nodejs/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>webpack静态网站开发</title>
+    <link href="https://www.defectink.com/defect/webpack-web-develop.html"/>
+    <id>https://www.defectink.com/defect/webpack-web-develop.html</id>
+    <published>2021-05-29T21:03:20.000Z</published>
+    <updated>2021-05-29T21:03:20.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;webpack&quot;&gt;&lt;a href=&quot;#webpack&quot; class=&quot;headerlink&quot; title=&quot;webpack&quot;&gt;&lt;/a&gt;webpack&lt;/h2&gt;&lt;p&gt;模块 loader 可以链式调用。链中的每个 loader</summary>
+        
+      
+    
+    
+    
+    <category term="实践" scheme="https://www.defectink.com/categories/%E5%AE%9E%E8%B7%B5/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+    <category term="Webpack" scheme="https://www.defectink.com/tags/Webpack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>TypeScript编程</title>
+    <link href="https://www.defectink.com/defect/programming-typescript.html"/>
+    <id>https://www.defectink.com/defect/programming-typescript.html</id>
+    <published>2021-05-20T21:03:19.000Z</published>
+    <updated>2021-05-20T21:03:19.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;《Programming TypeScript》笔记。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;函数&quot;&gt;&lt;a href=&quot;#函数&quot; class=&quot;headerlink&quot; title=&quot;函数&quot;&gt;&lt;/a&gt;函数&lt;/h2&gt;&lt;h3</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="TypeScript" scheme="https://www.defectink.com/tags/TypeScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>第一个SPA的踩坑总结</title>
+    <link href="https://www.defectink.com/defect/first-one-SPA.html"/>
+    <id>https://www.defectink.com/defect/first-one-SPA.html</id>
+    <published>2021-05-13T14:18:24.000Z</published>
+    <updated>2021-05-13T14:18:24.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;重制版&quot;&gt;&lt;a href=&quot;#重制版&quot; class=&quot;headerlink&quot; title=&quot;重制版&quot;&gt;&lt;/a&gt;重制版&lt;/h2&gt;&lt;p&gt;在没有写完的情况下弃坑了，后来在写另一个 Vue3 的练手项目时想起来这个曾经入手 Vue2</summary>
+        
+      
+    
+    
+    
+    <category term="踩坑" scheme="https://www.defectink.com/categories/%E8%B8%A9%E5%9D%91/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+    <category term="Vue" scheme="https://www.defectink.com/tags/Vue/"/>
+    
+    <category term="TypeScript" scheme="https://www.defectink.com/tags/TypeScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vue3!</title>
+    <link href="https://www.defectink.com/defect/vue3-notes.html"/>
+    <id>https://www.defectink.com/defect/vue3-notes.html</id>
+    <published>2021-05-05T18:08:31.000Z</published>
+    <updated>2021-05-05T18:08:31.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;早期学习 Vue3 API 的笔记。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;setup&quot;&gt;&lt;a href=&quot;#setup&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="实践" scheme="https://www.defectink.com/categories/%E5%AE%9E%E8%B7%B5/"/>
+    
+    
+    <category term="Vue" scheme="https://www.defectink.com/tags/Vue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>原生图片懒加载</title>
+    <link href="https://www.defectink.com/defect/javascript-lazy-loading-image.html"/>
+    <id>https://www.defectink.com/defect/javascript-lazy-loading-image.html</id>
+    <published>2021-03-12T21:00:00.000Z</published>
+    <updated>2021-03-12T21:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;图片懒加载是一个常见的应用，它旨在不影响用户体验的情况下提示首屏的加载速度。原理很简单，在当前可视视口（Viewport）外的图片等到进入了视口内再进行加载（按需加载）。&lt;/p&gt;
+&lt;h2 id=&quot;资源处理请求&quot;&gt;&lt;a href=&quot;#资源处理请求&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="实践" scheme="https://www.defectink.com/categories/%E5%AE%9E%E8%B7%B5/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript 装饰器模式🎊</title>
+    <link href="https://www.defectink.com/defect/javascript-decorator.html"/>
+    <id>https://www.defectink.com/defect/javascript-decorator.html</id>
+    <published>2021-03-09T20:36:26.000Z</published>
+    <updated>2021-03-09T20:36:26.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;JavaScript 的函数非常灵活，它们可以被传递，用作对象。除了 this 难以捉摸以外。&lt;/p&gt;
+&lt;h2 id=&quot;装饰器&quot;&gt;&lt;a href=&quot;#装饰器&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="https://www.defectink.com/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="JavaScript" scheme="https://www.defectink.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+</feed>
