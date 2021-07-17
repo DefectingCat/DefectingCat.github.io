@@ -6,15 +6,14 @@
     <!-- header -->
     <%- partial('_partial/navigation') %>
 
-      <main class="main-container">
-        <%- body %>
-      </main>
+    <main class="main-container">
+      <%- body %>
+    </main>
 
-      <!-- footer -->
-      <%- partial('_partial/footer') %>
-        <%- partial('_partial/backtotop') %>
+    <!-- footer -->
+    <%- partial('_partial/footer') %>
+    <%- partial('_partial/backtotop') %>
   </body>
 
-  <%- js(['/js/iconfont.js']) %>
-
+  <%- js(['/js/iconfont.js','/js/main.js']) %>
 </html>

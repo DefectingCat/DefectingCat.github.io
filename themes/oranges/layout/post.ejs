@@ -57,7 +57,7 @@
 </div>
 <% } %> <% if (!page.type) { %>
 <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
-<div class="container post-details" id="post-details">
+<article class="container post-details" id="post-details">
   <div class="post-content">
     <div class="post-title"><%- page.title %></div>
     <div class="post-attach">
@@ -150,5 +150,5 @@
   <%- partial("_partial/catalog") %> <% if(theme.comments.enable) { %>
   <div class="comments-container"><%- partial("_partial/comments") %></div>
   <% } %>
-</div>
+</article>
 <% } %>

@@ -1,6 +1,8 @@
 <% if (theme.catalog.enable && toc(page.content)) { %>
   <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
+    <svg class="icon" aria-hidden="true">
+      <use xlink:href="#icon-catalog"></use>
+    </svg>
   </div>
   <div class="post-catalog hidden" id="catalog">
     <div class="title"><%= __('catalog') %></div>
@@ -8,7 +10,4 @@
       <%- toc(page.content, { "list_number": false }) %>
     </div>
   </div>
-
-  <%- js(['/js/catalog.js']) %>
-
 <% } %>
