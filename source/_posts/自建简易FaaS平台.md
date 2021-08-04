@@ -555,4 +555,4 @@ export default app.listen(OPTION.port);
 
 ## 把玩
 
-[FaaS]([gugu-mall (defectink.com)](https://demo.defectink.com/faas/#/))
+[FaaS](https://demo.defectink.com/faas/#/)
