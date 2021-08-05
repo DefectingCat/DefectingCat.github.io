@@ -38,6 +38,7 @@
     "hexo-renderer-marked": "^4.0.0",
     "hexo-renderer-stylus": "^2.0.1",
     "hexo-theme-fluid": "^1.8.11",
+    "hexo-theme-volantis": "^4.3.1",
     "nunjucks": "^3.2.3"
   },
   "devDependencies": {

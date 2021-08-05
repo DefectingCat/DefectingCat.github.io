@@ -2,6 +2,14 @@
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
 
+import:
+  meta:
+  link:
+    - <link rel="icon" type="image/png" sizes="32x32" href="/images/img/favicon.webp">
+    - <link rel="stylesheet" href="/css/xfy.css">
+  script:
+    - <script></script>
+
 # Site
 title: 🍭Defectink
 subtitle: '只要心还在跳'
@@ -45,7 +53,7 @@ post_asset_folder: false
 relative_link: false
 future: true
 highlight:
-  enable: true
+  enable: false
   line_number: false
   auto_detect: false
   tab_replace: ''
@@ -100,7 +108,7 @@ ignore:
 
 # Extensions
 ## Themes: https://hexo.io/themes/
-theme: oranges
+theme: volantis
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -111,22 +119,22 @@ deploy:
     message: ❤
 
 # feed
-feed:
-  type:
-    - atom
-    - rss2
-  path:
-    - /atom.xml
-    - /rss.xml
-  limit: 20
-  hub:
-  content:
-  content_limit: 140
-  content_limit_delim: ' '
-  order_by: -date
-  icon: icon.png
-  autodiscovery: true
-  template:
+# feed:
+#   type:
+#     - atom
+#     - rss2
+#   path:
+#     - /atom.xml
+#     - /rss.xml
+#   limit: 20
+#   hub:
+#   content:
+#   content_limit: 140
+#   content_limit_delim: ' '
+#   order_by: -date
+#   icon: icon.png
+#   autodiscovery: true
+#   template:
 
 # sitemap
 sitemap:
