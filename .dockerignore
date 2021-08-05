@@ -1,0 +1,6 @@
+git
+dist
+build
+db.json
+public
+node_modules

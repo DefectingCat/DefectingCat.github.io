@@ -374,3 +374,69 @@ export default {
 甚至在自动生成的文档中还能引入第三方包所创建的说明：
 
 ![image-20210721230252762](../images/%E5%85%A8%E6%A0%88%E4%B9%8B%E8%B7%AF-%E9%A6%96%E4%B8%AAGraphQL%20API/image-20210721230252762.png)
+
+### 嵌套查询
+
+GraphQL 还有个引人注目的功能便是嵌套查询了，直接看 schema：
+
+```gql
+  type Query {
+    notes: [Note!]!
+    note(id: ID!): Note!
+  }
+```
+
+这段查询中，两个`note`都会返回对应的 Note 类型。在 Note 类型中，还会返回 User 类型。Note 类型本身代表一次数据库的查询，而对应的`author`字段并不在数据库模型中，反而是在对应的 User 库中。所以这里就需要再根据对应的索引来查询一次 User 库。
+
+```gql
+  type Note {
+    id: ID!
+    content: String!
+    author: User
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    favoriteCount: Int!
+    favoritedBy: [User!]
+    commentNum: String
+  }
+```
+
+在 Query 中，对应的 Note 类型只需要定义一个查询 Note 库的方法即可：
+
+```ts
+// resolves/query.ts  
+notes: async (): Promise<void> => await models.Note.find(),
+note: async (parent: unknown, args: { id: string }): Promise<void> =>
+  await models.Note.findById(args.id),
+```
+
+对应的嵌套查询 User 库，则需要单独定义一个解析器，并且要将解析器注册于查询同名。
+
+```js
+// resolves/note.ts
+  /**
+   * 嵌套查询笔记作者信息
+   * @param note
+   * @returns
+   */
+  author: async (note: { author: string }): Promise<unknown> => {
+    return await models.User.findById(note.author);
+  },
+```
+
+在注册所有的解析中，嵌套查询的解析器也需要于其父查询的名称相同：
+
+```ts
+// resolves/index.ts
+export default {
+  Query,
+  Mutation,
+  Note,
+  User,
+  Comment,
+  Reply,
+  DateTime: GraphQLDateTime,
+};
+```
+
+我们只需要定义好对应查询数据库的方法与返回的数据格式，剩下的嵌套关系 GraphQL 便会帮我们处理好。

@@ -218,7 +218,7 @@ article:
 comments:
   title: <i class='fas fa-comments'></i> 评论
   subtitle:
-  service: vssue # valine, twikoo, waline, minivaline, disqus, disqusjs, gitalk, vssue, livere, isso, hashover
+  service: gitalk #vssue # valine, twikoo, waline, minivaline, disqus, disqusjs, gitalk, vssue, livere, isso, hashover
   # Valine
   # https://valine.js.org/
   valine:
@@ -269,19 +269,19 @@ comments:
   # https://gitalk.github.io/
   gitalk:
     # 配置项按照yml格式继续填写即可 除了 [id distractionFreeMode] 选项
-    clientID:
-    clientSecret:
-    repo:
-    owner:
-    admin: # []
+    clientID: 3d2dbbd47aefe936f859
+    clientSecret: 1b33ce8e8b599a8317c89e3cfa83a5d8cc5656ac
+    repo: DefectingCat.github.io
+    owner: DefectingCat
+    admin: [DefectingCat]
     path: # 全局评论地址
   # Vssue 暂不支持Pjax
   # https://vssue.js.org/zh/
   vssue:
     owner: DefectingCat
     repo: DefectingCat.github.io
-    clientId: be4e464bbae064f0dd77
-    clientSecret: 0e73cf4283a2fea6cb405dcd509c62b136a27009
+    clientId:
+    clientSecret:
   # LiveRe 暂不支持Pjax
   # https://www.livere.com
   livere:
