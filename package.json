@@ -37,14 +37,13 @@
     "hexo-renderer-ejs": "^1.0.0",
     "hexo-renderer-marked": "^4.0.0",
     "hexo-renderer-stylus": "^2.0.1",
-    "hexo-theme-fluid": "^1.8.11",
     "hexo-theme-volantis": "^4.3.1",
     "nunjucks": "^3.2.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.6",
-    "@babel/preset-env": "^7.14.7",
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
     "hexo-server": "^2.0.0",
-    "npm-check-updates": "^11.8.2"
+    "npm-check-updates": "^11.8.3"
   }
 }
