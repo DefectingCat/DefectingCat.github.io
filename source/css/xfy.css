@@ -6,7 +6,22 @@
 }
 
 @media screen and (max-width: 500px) {
-  .l_header .container {
-    margin-top: 8px;
+  .l_header .container,
+  .l_header #wrapper .nav-main {
+    height: 100%;
   }
+}
+
+/* 代码块适配暗色模式 */
+:root {
+  --code-color: #fafafa;
+}
+
+.hljs {
+  background: var(--code-color) !important;
+  transition: all 0.5s ease !important;
+}
+
+[data-user-color-scheme='dark'] {
+  --code-color: #c7c7c7;
 }
