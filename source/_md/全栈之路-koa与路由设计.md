@@ -1,11 +1,5 @@
 最近想使用 koa 与 mongodb 做一个简单的后端。
 
-## 监听文件更改
-
-* [How to watch and reload ts-node when TypeScript files change](https://stackoverflow.com/questions/37979489/how-to-watch-and-reload-ts-node-when-typescript-files-change)
-
-
-
 
 ## 参数
 
