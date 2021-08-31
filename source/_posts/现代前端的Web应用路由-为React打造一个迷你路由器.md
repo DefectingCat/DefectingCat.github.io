@@ -207,6 +207,106 @@ HTML 自定义事件也很简单，我们在对应的 DOM 上 `dispatchEvent` �
 
 这样一个最简单的 React 路由就做好了。
 
+## Vue 的路由
+
+与 React 同理，二者的路由切换都差不多，其主要思路还是使用自定义事件来订阅路由切换的请求。但 Vue 的具体实现与 React 还是有点不同的。
+
+### 配置文件
+
+路由的配置文件还是同理，不同的是，Vue 的异步组件需要在引入时同时引入一个 Loading 组件来实现 Loading 的效果：
+
+```ts
+import { defineAsyncComponent } from 'vue';
+import Loading from '../components/common/Loading.vue';
+
+export default [
+  {
+    path: '/',
+    name: 'Home',
+    component: defineAsyncComponent({
+      loader: () => import('../views/Home.vue'),
+      loadingComponent: Loading,
+    }),
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: defineAsyncComponent({
+      loader: () => import('../views/About.vue'),
+      loadingComponent: Loading,
+    }),
+  },
+];
+```
+
+### 展示路由
+
+同理，Vue 也是利用根据条件来渲染对应路由的组件。不同的是，我们可以使用模板语法来实现，也可以利用 `render()` 方法来直接渲染组件。
+
+首先来看看和 React 类似的 `render()` 方法。在 Vue3 中，使用 `setup()` 方法后，可以直接返回一个 `createVNode()` 的函数，这就是 `render()` 方法。所以可以直接写 TypeScript 文件。
+
+与 React 不同的地方在于，React 每次调用 `setPath(e.detail)` 存储状态时都会重新渲染组件，从而重新执行组件的函数，获取到对应的路由组件。
+
+但 Vue 不同，如果我们仅仅将路由名称 `e.detail` 保存到状态，但没有实际在 VNode 中使用的话，更新状态时不会重新渲染组件的，也就是说，不会获取到对应的路由组件。所以最佳的办法就是将整个路由组件保存到状态，可保存整个组件无疑太过庞大。好在 Vue3 给了我们另一种解决方法：`shallowRef()`。它会创建一个跟踪自身 `.value` 变化的 ref，但不会使其值也变成响应式的。
+
+```ts
+import { createVNode, defineComponent, shallowRef } from 'vue';
+import routes from './routes';
+
+export default defineComponent({
+  name: 'RouterView',
+  setup() {
+    let currentPath = window.location.pathname;
+    const component = shallowRef(
+      routes.find((item) => item.path === currentPath)?.component ??
+        'Note found'
+    );
+
+    const handleEvent = (e: CustomEvent<string>) => {
+      console.log(e.detail);
+      currentPath = e.detail;
+      component.value =
+        routes.find((item) => item.path === currentPath)?.component ??
+        'Note found';
+    };
+
+    document.addEventListener('route', handleEvent as EventListener);
+
+    return () => createVNode(component.value);
+  },
+});
+```
+
+而使用模板语法主要是利用到了全局的 `component` 组件，其他部分与 `render()` 方法相同：
+
+```vue
+<template>
+  <component :is="component"></component>
+</template>
+
+<script lang="ts" setup>
+import { onUpdated, shallowRef } from 'vue';
+import routes from './routes';
+
+let currentPath = window.location.pathname;
+const component = shallowRef(
+  routes.find((item) => item.path === currentPath)?.component
+);
+
+const handleEvent = (e: CustomEvent<string>) => {
+  console.log(e.detail);
+  currentPath = e.detail;
+  component.value = routes.find((item) => item.path === currentPath)?.component;
+};
+
+document.addEventListener('route', handleEvent as EventListener);
+
+onUpdated(() => {
+  console.log(component);
+});
+</script>
+```
+
 ## 总结
 
 如今的 JavaScript 做能做到的比以前更加强大，配合多种 HTML API，可以将曾经不可能实现的事变为现实。这个简单的迷你路由，主要的思路就是利用 HTML API 来通知 Router 组件该渲染哪个组件了。配合上 `lazy()` 方法，甚至还能实现代码分割。
