@@ -1,0 +1,6 @@
+{
+  "extends": ["next", "prettier"],
+  "rules": {
+    "react-hooks/rules-of-hooks": "off"
+  }
+}
