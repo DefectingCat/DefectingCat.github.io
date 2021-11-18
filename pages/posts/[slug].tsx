@@ -111,8 +111,8 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
                 size="xs"
                 colorScheme="teal"
                 position="absolute"
-                top="0.5rem"
-                right="0.5rem"
+                top="5px"
+                right="5px"
                 onClick={copyCode}
               >
                 {hasCopied ? 'COPYIED' : 'COPY'}
