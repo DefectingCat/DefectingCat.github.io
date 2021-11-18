@@ -19,6 +19,10 @@ export interface AllPostsData extends MyMatters {
   desc: string;
 }
 
+/**
+ * Get all sorted posts
+ * @returns
+ */
 export function getSortedPostsData() {
   // Get file names under /posts
   const fileNames = fs.readdirSync(postsDirectory);
@@ -66,7 +70,10 @@ export function getSortedPostsData() {
   // });
 }
 
-// Paging, get all posts length
+/**
+ * Paging, get all posts length
+ * @returns
+ */
 export function getAllPostNum() {
   // Get file names under /posts
   const fileNames = fs.readdirSync(postsDirectory);
@@ -174,3 +181,29 @@ export async function getPostData(slug: string) {
     } as MyMatters),
   };
 }
+
+/**
+ * Get archive data with date.
+ * Data like: {
+ *   2021: [ post ]
+ * }
+ * @param allPostsData
+ */
+export const getArchiveData = (allPostsData: AllPostsData[]) => {
+  const archiveData: {
+    [key: string]: AllPostsData[];
+  } = {};
+
+  allPostsData.map((post) => {
+    const fullYear = new Date(post.date).getFullYear();
+
+    archiveData?.[fullYear]
+      ? archiveData[fullYear].push(post)
+      : (archiveData[fullYear] = [post]);
+  });
+
+  return {
+    archiveData,
+    archiveKeys: Object.keys(archiveData).reverse(),
+  };
+};

@@ -9,7 +9,13 @@ import remarkRehype from 'remark-rehype';
 import remarkParse from 'remark-parse';
 import rehypeHighlight from 'rehype-highlight';
 import { unified } from 'unified';
-import { createElement, Fragment, MouseEventHandler, useState } from 'react';
+import {
+  createElement,
+  Fragment,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from 'react';
 import {
   Box,
   Image,
@@ -19,6 +25,7 @@ import {
   Link,
   Button,
   useClipboard,
+  Tag,
 } from '@chakra-ui/react';
 import 'highlight.js/styles/github.css';
 import xml from 'highlight.js/lib/languages/xml';
@@ -29,6 +36,7 @@ import 'react-medium-image-zoom/dist/styles.css';
 import { FiCalendar } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 import Footer from '../../components/Footer';
+import { Giscus } from '@giscus/react';
 
 export async function getStaticPaths() {
   const paths = getAllPostSlugs();
@@ -58,8 +66,11 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
     // Button is sibling with Code tag
     const codeToCopy = target.nextElementSibling?.textContent;
     codeToCopy && setCodeContent(codeToCopy);
-    onCopy();
   };
+  useEffect(() => {
+    codeContent && onCopy();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [codeContent]);
 
   const processedContent = unified()
     .use(remarkParse)
@@ -153,7 +164,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
         </Button>
 
         <Flex
-          w={['full', 'full', '55rem']}
+          maxW={['full', 'full', '55rem', '68rem']}
           flexFlow="column"
           px={['unset', 'unset', '1.5rem']}
         >
@@ -164,7 +175,6 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
             bg="white"
             overflow="hidden"
             flex="1"
-            maxW="55rem"
           >
             {postData.index_img && (
               <Image
@@ -181,6 +191,21 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
                   {postData.title}
                 </Heading>
 
+                <Box mb="1rem">
+                  {Array.isArray(postData.tags) ? (
+                    // Mutil tags
+                    (postData.tags as string[]).map((item) => (
+                      <Tag key={item} mr="0.5rem">
+                        {item}
+                      </Tag>
+                    ))
+                  ) : (
+                    // Signal tags
+                    <Tag>{postData.tags}</Tag>
+                  )}
+                </Box>
+
+                {/* Date */}
                 <Flex alignItems="center" color="gray.600">
                   <Icon as={FiCalendar} mr="0.5rem" />
                   <Date dateString={postData.date} />
@@ -191,6 +216,19 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
                 {postContent}
               </Box>
             </Box>
+          </Box>
+
+          <Box mt="2rem">
+            <Giscus
+              repo="DefectingCat/DefectingCat.github.io"
+              repoId="MDEwOlJlcG9zaXRvcnkyMzk5MTUyNzk="
+              category="Announcements"
+              categoryId="DIC_kwDODkzRD84B_43T"
+              mapping="title"
+              reactionsEnabled="1"
+              emitMetadata="0"
+              theme="preferred_color_scheme"
+            />
           </Box>
 
           <Footer />

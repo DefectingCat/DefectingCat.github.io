@@ -4,7 +4,7 @@ date: 2019-05-29 8:05:00
 tags: Player
 categories: Player
 url: teamspeak-server
-index_img: /images/Teamspeak-Server/logo.jpg
+index_img: /images/Teamspeak-Server/logo.webp
 ---
 
 >  与小伙伴的开黑之路🤞

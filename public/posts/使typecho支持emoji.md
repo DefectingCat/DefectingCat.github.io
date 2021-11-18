@@ -4,7 +4,7 @@ date: 2019-05-12 13:41:57
 tags: typecho
 categories: 实践
 url: make-typecho-support-the-emoji
-index_img: /images/使typecho支持emoji/1118031526.jpg
+index_img: /images/使typecho支持emoji/1118031526.webp
 ---
 
 ## Emoji？

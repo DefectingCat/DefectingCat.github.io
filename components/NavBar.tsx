@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import UseAnimations from 'react-useanimations';
 import menu2 from 'react-useanimations/lib/menu2';
-import { FiHome, FiArchive, FiTag, FiUser } from 'react-icons/fi';
+import { FiHome, FiArchive, FiUser } from 'react-icons/fi';
 import Link from 'next/link';
 
 const menu = [
@@ -25,14 +25,8 @@ const menu = [
   {
     id: 1,
     name: '归档',
-    path: '/archive',
+    path: '/page/archive',
     icon: FiArchive,
-  },
-  {
-    id: 2,
-    name: '标签',
-    path: '/tags',
-    icon: FiTag,
   },
   {
     id: 3,
