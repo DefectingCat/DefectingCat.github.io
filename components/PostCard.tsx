@@ -73,10 +73,12 @@ const PostCard: FC<Props> = ({ post }) => {
                 </Flex>
               ) : (
                 // Signal tags
-                <Flex alignItems="center" mr="1rem">
-                  <Icon as={FiTag} mr="0.5rem" />
-                  <Text>{post.tags}</Text>
-                </Flex>
+                post.tags && (
+                  <Flex alignItems="center" mr="1rem">
+                    <Icon as={FiTag} mr="0.5rem" />
+                    <Text>{post.tags}</Text>
+                  </Flex>
+                )
               )}
             </Flex>
           </Flex>

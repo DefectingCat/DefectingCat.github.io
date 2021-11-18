@@ -164,7 +164,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
         </Button>
 
         <Flex
-          maxW={['full', 'full', '55rem', '68rem']}
+          w={['full', 'full', '55rem', '68rem']}
           flexFlow="column"
           px={['unset', 'unset', '1.5rem']}
         >
@@ -192,17 +192,15 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
                 </Heading>
 
                 <Box mb="1rem">
-                  {Array.isArray(postData.tags) ? (
-                    // Mutil tags
-                    (postData.tags as string[]).map((item) => (
-                      <Tag key={item} mr="0.5rem">
-                        {item}
-                      </Tag>
-                    ))
-                  ) : (
-                    // Signal tags
-                    <Tag>{postData.tags}</Tag>
-                  )}
+                  {Array.isArray(postData.tags)
+                    ? // Mutil tags
+                      (postData.tags as string[]).map((item) => (
+                        <Tag key={item} mr="0.5rem">
+                          {item}
+                        </Tag>
+                      ))
+                    : // Signal tags
+                      postData.tags && <Tag>{postData.tags}</Tag>}
                 </Box>
 
                 {/* Date */}
