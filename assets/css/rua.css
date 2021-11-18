@@ -523,6 +523,7 @@ div.cm-s-inner span.CodeMirror-matchingbracket {
 }
 
 #write pre {
+  position: relative;
   margin: 10px 0;
 }
 

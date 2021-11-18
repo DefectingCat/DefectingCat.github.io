@@ -816,6 +816,13 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@giscus/react@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/@giscus/react/download/@giscus/react-1.0.1.tgz#3fae2b5e00912a76cb136679f6229d3d6ea28898"
+  integrity sha512-vViRGjfmDy9xvRIx+6+hocL3iAipbKx4gxtSpQBzOksDwnZS0QbB+r19bYQ08vw8CfHRwE6ws8AOO9yEUrzUyQ==
+  dependencies:
+    iframe-resizer-react "^1.1.0"
+
 "@hapi/accept@5.0.2":
   version "5.0.2"
   resolved "https://registry.npm.taobao.org/@hapi/accept/download/@hapi/accept-5.0.2.tgz#ab7043b037e68b722f93f376afb05e85c0699523"
@@ -2934,6 +2941,19 @@ ieee754@^1.1.4:
   version "1.2.1"
   resolved "https://registry.nlark.com/ieee754/download/ieee754-1.2.1.tgz#8eb7a10a63fff25d15a57b001586d177d1b0d352"
   integrity sha1-jrehCmP/8l0VpXsAFYbRd9Gw01I=
+
+iframe-resizer-react@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.nlark.com/iframe-resizer-react/download/iframe-resizer-react-1.1.0.tgz#5009e019b7a5c7f1c009bff5bcdf0dbf33557465"
+  integrity sha1-UAngGbelx/HACb/1vN8NvzNVdGU=
+  dependencies:
+    iframe-resizer "^4.3.0"
+    warning "^4.0.3"
+
+iframe-resizer@^4.3.0:
+  version "4.3.2"
+  resolved "https://registry.nlark.com/iframe-resizer/download/iframe-resizer-4.3.2.tgz#42dd88345d18b9e377b6044dddb98c664ab0ce6b"
+  integrity sha1-Qt2INF0YueN3tgRN3bmMZkqwzms=
 
 ignore@^4.0.6:
   version "4.0.6"

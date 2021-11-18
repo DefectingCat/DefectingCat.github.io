@@ -9,7 +9,7 @@ import remarkRehype from 'remark-rehype';
 import remarkParse from 'remark-parse';
 import rehypeHighlight from 'rehype-highlight';
 import { unified } from 'unified';
-import { createElement, Fragment } from 'react';
+import { createElement, Fragment, MouseEventHandler, useState } from 'react';
 import {
   Box,
   Image,
@@ -18,6 +18,7 @@ import {
   Icon,
   Link,
   Button,
+  useClipboard,
 } from '@chakra-ui/react';
 import 'highlight.js/styles/github.css';
 import xml from 'highlight.js/lib/languages/xml';
@@ -27,6 +28,7 @@ import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import { FiCalendar } from 'react-icons/fi';
 import { useRouter } from 'next/router';
+import Footer from '../../components/Footer';
 
 export async function getStaticPaths() {
   const paths = getAllPostSlugs();
@@ -47,6 +49,17 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
+
+  // Copy code
+  const [codeContent, setCodeContent] = useState('');
+  const { hasCopied, onCopy } = useClipboard(codeContent);
+  const copyCode: MouseEventHandler<HTMLButtonElement> = (e) => {
+    const target = e.target as HTMLButtonElement;
+    // Button is sibling with Code tag
+    const codeToCopy = target.nextElementSibling?.textContent;
+    codeToCopy && setCodeContent(codeToCopy);
+    onCopy();
+  };
 
   const processedContent = unified()
     .use(remarkParse)
@@ -78,6 +91,23 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
                 {props.children}
               </Link>
             </Box>
+          );
+        },
+        pre: (props: any) => {
+          return (
+            <pre {...props}>
+              <Button
+                size="xs"
+                colorScheme="teal"
+                position="absolute"
+                top="0.5rem"
+                right="0.5rem"
+                onClick={copyCode}
+              >
+                {hasCopied ? 'COPYIED' : 'COPY'}
+              </Button>
+              {props.children}
+            </pre>
           );
         },
       },
@@ -122,43 +152,49 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
           BACK
         </Button>
 
-        <Box
+        <Flex
           w={['full', 'full', '55rem']}
-          borderRadius="10px"
-          mt={['1rem', '1rem', '3rem']}
-          shadow="lg"
-          bg="white"
-          mx={['unset', 'unset', '1.5rem']}
-          overflow="hidden"
-          flex="1"
-          maxW="55rem"
+          flexFlow="column"
+          px={['unset', 'unset', '1.5rem']}
         >
-          {postData.index_img && (
-            <Image
-              src={postData.index_img}
-              w="100%"
-              fallback={<></>}
-              fit="cover"
-              alt="Head image"
-            />
-          )}
-          <Box as="article" p={['1rem', '1rem', '2rem']}>
-            <Box as="header">
-              <Heading as="h1" mb="1rem">
-                {postData.title}
-              </Heading>
+          <Box
+            borderRadius="10px"
+            mt={['1rem', '1rem', '3rem']}
+            shadow="lg"
+            bg="white"
+            overflow="hidden"
+            flex="1"
+            maxW="55rem"
+          >
+            {postData.index_img && (
+              <Image
+                src={postData.index_img}
+                w="100%"
+                fallback={<></>}
+                fit="cover"
+                alt="Head image"
+              />
+            )}
+            <Box as="article" p={['1rem', '1rem', '2rem']}>
+              <Box as="header">
+                <Heading as="h1" mb="1rem">
+                  {postData.title}
+                </Heading>
 
-              <Flex alignItems="center" color="gray.600">
-                <Icon as={FiCalendar} mr="0.5rem" />
-                <Date dateString={postData.date} />
-              </Flex>
-            </Box>
+                <Flex alignItems="center" color="gray.600">
+                  <Icon as={FiCalendar} mr="0.5rem" />
+                  <Date dateString={postData.date} />
+                </Flex>
+              </Box>
 
-            <Box as="section" id="write" mt="2rem">
-              {postContent}
+              <Box as="section" id="write" mt="2rem">
+                {postContent}
+              </Box>
             </Box>
           </Box>
-        </Box>
+
+          <Footer />
+        </Flex>
 
         {toc && (
           <Box
