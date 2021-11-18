@@ -64,11 +64,11 @@ const NavBar: FC = () => {
           {/* avatar */}
           <Image
             borderRadius="full"
-            src="/images/img/avatar.webp"
+            src="/images/img/avatar.svg"
             boxSize="120px"
             boxShadow={'card'}
             objectFit={'cover'}
-            alt="Segun Adebayo"
+            alt="Avatar"
             fallbackSrc="https://via.placeholder.com/150"
           />
           {/* emoji on avatar */}
