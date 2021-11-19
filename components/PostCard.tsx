@@ -1,16 +1,27 @@
-import { FC } from 'react';
-import Link from 'next/link';
+import { FC, MouseEventHandler } from 'react';
 import Date from './DateFormater';
-import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text, Link } from '@chakra-ui/react';
 import { AllPostsData } from '../lib/posts';
 import { Icon, Image } from '@chakra-ui/react';
 import { FiCalendar, FiTag } from 'react-icons/fi';
+import { useDispatch } from 'react-redux';
+import { setFromPath } from '../features/router/routerSlice';
+import { useRouter } from 'next/router';
 
 interface Props {
   post: AllPostsData;
 }
 
 const PostCard: FC<Props> = ({ post }) => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const goToPost: MouseEventHandler<HTMLAnchorElement> = (e) => {
+    e.preventDefault();
+    dispatch(setFromPath(location.pathname));
+    router.push(`/posts/${post.url}`);
+  };
+
   return (
     <>
       <Box
@@ -22,27 +33,23 @@ const PostCard: FC<Props> = ({ post }) => {
         boxShadow="card"
         mb="2.5rem"
       >
-        <Link href={`/posts/${post.url}`}>
-          <a>
-            <Image
-              src={post.index_img}
-              maxH="18rem"
-              w="100%"
-              fallback={<></>}
-              fit="cover"
-              alt="Post image"
-            />
-          </a>
+        <Link href={`/posts/${post.url}`} onClick={goToPost}>
+          <Image
+            src={post.index_img}
+            maxH="18rem"
+            w="100%"
+            fallback={<></>}
+            fit="cover"
+            alt="Post image"
+          />
         </Link>
 
         <Box p="1.75rem" key={post.url}>
           {/* Title */}
-          <Link href={`/posts/${post.url}`}>
-            <a>
-              <Heading mb="0.6rem" fontSize="22">
-                {post.title}
-              </Heading>
-            </a>
+          <Link href={`/posts/${post.url}`} onClick={goToPost}>
+            <Heading mb="0.6rem" fontSize="22">
+              {post.title}
+            </Heading>
           </Link>
 
           {/* Description */}

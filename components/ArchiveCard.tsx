@@ -1,18 +1,29 @@
-import { Box, Flex, Heading, Image } from '@chakra-ui/react';
-import Link from 'next/link';
-import { FC } from 'react';
+import { Box, Flex, Heading, Image, Link } from '@chakra-ui/react';
+import { FC, MouseEventHandler } from 'react';
 import { AllPostsData } from '../lib/posts';
 import Date from './DateFormater';
+import { useDispatch } from 'react-redux';
+import { setFromPath } from '../features/router/routerSlice';
+import { useRouter } from 'next/router';
 
 interface Props {
   post: AllPostsData;
 }
 
 const ArchiveCard: FC<Props> = ({ post }) => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const goToPost: MouseEventHandler<HTMLAnchorElement> = (e) => {
+    e.preventDefault();
+    dispatch(setFromPath(location.pathname));
+    router.push(`/posts/${post.url}`);
+  };
+
   return (
     <>
       <Box as="article" w={['full', 'full', '55rem']}>
-        <Link href={`/posts/${post.url}`} passHref>
+        <Link href={`/posts/${post.url}`} onClick={goToPost}>
           <Flex
             p="1.25rem"
             key={post.url}

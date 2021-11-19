@@ -29,7 +29,7 @@ const archive = ({
       <Box maxW="55rem">
         {archiveKeys.map((year) => (
           <Box mb="2rem" key={year}>
-            <Text fontSize="lg" color="gray.400" fontWeight="bold">
+            <Text fontSize="2xl" color="gray.400" fontWeight="bold">
               {year}
             </Text>
             <Box

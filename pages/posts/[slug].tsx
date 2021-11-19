@@ -7,6 +7,7 @@ import rehypeSlug from 'rehype-slug';
 import rehypeReact from 'rehype-react';
 import remarkRehype from 'remark-rehype';
 import remarkParse from 'remark-parse';
+import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import { unified } from 'unified';
 import {
@@ -37,6 +38,9 @@ import { FiCalendar } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 import Footer from '../../components/Footer';
 import { Giscus } from '@giscus/react';
+import { RootState } from '../../app/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { cleanFromPath } from '../../features/router/routerSlice';
 
 export async function getStaticPaths() {
   const paths = getAllPostSlugs();
@@ -56,7 +60,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const fromPath = useSelector((state: RootState) => state.router.fromPath);
+  const dispatch = useDispatch();
   const router = useRouter();
+
+  const goBack = () => {
+    dispatch(cleanFromPath());
+    router.push(fromPath);
+  };
 
   // Copy code
   const [codeContent, setCodeContent] = useState('');
@@ -85,6 +96,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
       ignoreMissing: true,
     })
     .use(rehypeSlug)
+    .use(remarkGfm, { tableCellPadding: true })
     .use(rehypeReact, {
       createElement,
       components: {
@@ -158,7 +170,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
           mt={['1rem', '1rem', '3rem']}
           position={['unset', 'unset', 'sticky']}
           top="3rem"
-          onClick={() => router.back()}
+          onClick={goBack}
         >
           BACK
         </Button>
