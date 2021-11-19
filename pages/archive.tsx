@@ -2,9 +2,9 @@ import { Box, Text } from '@chakra-ui/react';
 import { InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 import { ReactElement } from 'react';
-import HomeLayout from '../../layouts/HomeLayout';
-import { getArchiveData, getSortedPostsData } from '../../lib/posts';
-import ArchiveCard from '../../components/ArchiveCard';
+import HomeLayout from '../layouts/HomeLayout';
+import { getArchiveData, getSortedPostsData } from '../lib/posts';
+import ArchiveCard from '../components/ArchiveCard';
 
 export const getStaticProps = async () => {
   const allPostsData = getSortedPostsData();

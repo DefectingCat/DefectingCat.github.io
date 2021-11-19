@@ -25,7 +25,7 @@ const menu = [
   {
     id: 1,
     name: '归档',
-    path: '/page/archive',
+    path: '/archive',
     icon: FiArchive,
   },
   {
