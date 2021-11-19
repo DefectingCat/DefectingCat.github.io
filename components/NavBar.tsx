@@ -103,6 +103,7 @@ const NavBar: FC = () => {
                 return (
                   <Link passHref href={item.path} key={item.id}>
                     <Flex
+                      as="a"
                       alignItems="center"
                       justifyContent={['unset', null, 'space-between']}
                       fontSize={['18', null, '22']}
