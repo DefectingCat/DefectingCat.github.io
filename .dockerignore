@@ -1,6 +1,2 @@
-git
-dist
-build
-db.json
-public
+.next
 node_modules
