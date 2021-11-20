@@ -20,7 +20,7 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const allPostsData = getSortedPostsData();
+  const allPostsData = await getSortedPostsData();
 
   return {
     props: {
