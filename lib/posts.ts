@@ -90,15 +90,18 @@ export function getAllPostNum() {
   //     }
   //   }
   // ]
-  let i = 1;
-  return fileNames.map(() => {
-    i++;
-    return {
+  const pagingSize = 10;
+  const allPages = Math.ceil(fileNames.length / pagingSize);
+
+  const numPages = [];
+  for (let i = 2; i <= allPages; i++) {
+    numPages.push({
       params: {
         num: i.toString(),
       },
-    };
-  });
+    });
+  }
+  return numPages;
 }
 
 export function getPagingData(allPostsData: AllPostsData[], start?: string) {
