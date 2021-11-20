@@ -25,7 +25,6 @@
     "framer-motion": "^5.0.2",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.3.1",
-    "markdown-to-txt": "^1.0.1",
     "next": "11.1.2",
     "postcss": "^8.3.11",
     "react": "17.0.2",
@@ -44,6 +43,7 @@
     "remark-parse": "^10.0.0",
     "remark-rehype": "^10.0.1",
     "remark-toc": "^8.0.1",
+    "strip-markdown": "^5.0.0",
     "unified": "^10.1.0"
   },
   "devDependencies": {

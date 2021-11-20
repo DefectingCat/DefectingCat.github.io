@@ -6,23 +6,6 @@ categories: 踩坑
 url: markdown-test
 ---
 
-## Hello world
-
-This is a test.
-
----
-__Advertisement :)__
-
-- __[pica](https://nodeca.github.io/pica/demo/)__ - high quality and fast image
-  resize in browser.
-- __[babelfish](https://github.com/nodeca/babelfish/)__ - developer friendly
-  i18n with plurals support and easy syntax.
-
-You will like those projects!
-
----
-
-# h1 Heading
 ## h2 Heading
 ### h3 Heading
 #### h4 Heading
@@ -37,6 +20,38 @@ ___
 ---
 
 ***
+
+## Lists
+
+### Solar System Exploration, 1950s – 1960s
+
+- [ ] Mercury
+- [x] Venus
+- [x] Earth (Orbit/Moon)
+- [x] Mars
+- [ ] Jupiter
+- [ ] Saturn
+- [ ] Uranus
+- [ ] Neptune
+- [ ] Comet Haley
+
+### Numbers
+
+1. One
+2. Two
+3. Three
+
+### Solar System Exploration, 1950s – 1960s
+
+- Mercury
+- Venus
+- Earth (Orbit/Moon)
+- Mars
+- Jupiter
+- Saturn
+- Uranus
+- Neptune
+- Comet Haley
 
 
 ## Typographic replacements

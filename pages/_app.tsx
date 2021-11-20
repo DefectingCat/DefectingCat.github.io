@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { store } from '../app/store';
 import 'antd/dist/antd.css';
 import '../assets/css/rua.css';
+import Head from 'next/head';
 
 const theme = extendTheme({
   colors: {
@@ -35,11 +36,17 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <Provider store={store}>
-      <ChakraProvider theme={theme}>
-        {getLayout(<Component {...pageProps} />)}
-      </ChakraProvider>
-    </Provider>
+    <>
+      <Head>
+        <link rel="shortcut icon" href="/images/img/favicon.webp"></link>
+      </Head>
+
+      <Provider store={store}>
+        <ChakraProvider theme={theme}>
+          {getLayout(<Component {...pageProps} />)}
+        </ChakraProvider>
+      </Provider>
+    </>
   );
 }
 export default MyApp;

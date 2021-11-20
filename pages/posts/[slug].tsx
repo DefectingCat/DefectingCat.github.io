@@ -10,13 +10,7 @@ import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import { unified } from 'unified';
-import {
-  createElement,
-  Fragment,
-  MouseEventHandler,
-  useEffect,
-  useState,
-} from 'react';
+import { createElement, Fragment } from 'react';
 import {
   Box,
   Image,
@@ -25,7 +19,6 @@ import {
   Icon,
   Link,
   Button,
-  useClipboard,
   Tag,
 } from '@chakra-ui/react';
 import 'highlight.js/styles/github.css';
@@ -41,9 +34,10 @@ import { Giscus } from '@giscus/react';
 import { RootState } from '../../app/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { cleanFromPath } from '../../features/router/routerSlice';
+import CopyButton from '../../components/post/CopyButton';
 
 export async function getStaticPaths() {
-  const paths = getAllPostSlugs();
+  const paths = await getAllPostSlugs();
   return {
     paths,
     fallback: false,
@@ -66,22 +60,8 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   const goBack = () => {
     dispatch(cleanFromPath());
-    router.push(fromPath);
+    router.push(fromPath || '/');
   };
-
-  // Copy code
-  const [codeContent, setCodeContent] = useState('');
-  const { hasCopied, onCopy } = useClipboard(codeContent);
-  const copyCode: MouseEventHandler<HTMLButtonElement> = (e) => {
-    const target = e.target as HTMLButtonElement;
-    // Button is sibling with Code tag
-    const codeToCopy = target.nextElementSibling?.textContent;
-    codeToCopy && setCodeContent(codeToCopy);
-  };
-  useEffect(() => {
-    codeContent && onCopy();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [codeContent]);
 
   const processedContent = unified()
     .use(remarkParse)
@@ -116,23 +96,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
             </Box>
           );
         },
-        pre: (props: any) => {
-          return (
-            <pre {...props}>
-              <Button
-                size="xs"
-                colorScheme="teal"
-                position="absolute"
-                top="5px"
-                right="5px"
-                onClick={copyCode}
-              >
-                {hasCopied ? 'COPYIED' : 'COPY'}
-              </Button>
-              {props.children}
-            </pre>
-          );
-        },
+        pre: CopyButton,
       },
       Fragment,
     });
@@ -165,6 +129,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
         flexFlow={['column', 'column', 'row']}
         px="0.5rem"
       >
+        {/* Back button */}
         <Button
           size="lg"
           mt={['1rem', '1rem', '3rem']}
@@ -175,6 +140,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
           BACK
         </Button>
 
+        {/* Main article area */}
         <Flex
           w={['full', 'full', '55rem', '68rem']}
           flexFlow="column"
@@ -188,6 +154,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
             overflow="hidden"
             flex="1"
           >
+            {/* Post image */}
             {postData.index_img && (
               <Image
                 src={postData.index_img}
@@ -197,12 +164,15 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
                 alt="Head image"
               />
             )}
+
+            {/* Post heading */}
             <Box as="article" p={['1rem', '1rem', '2rem']}>
               <Box as="header">
                 <Heading as="h1" mb="1rem">
                   {postData.title}
                 </Heading>
 
+                {/* Post tags */}
                 <Box mb="1rem">
                   {Array.isArray(postData.tags)
                     ? // Mutil tags
@@ -222,12 +192,14 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
                 </Flex>
               </Box>
 
+              {/* Post content */}
               <Box as="section" id="write" mt="2rem">
                 {postContent}
               </Box>
             </Box>
           </Box>
 
+          {/* Comment */}
           <Box mt="2rem">
             <Giscus
               repo="DefectingCat/DefectingCat.github.io"
@@ -244,6 +216,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
           <Footer />
         </Flex>
 
+        {/* Table of content */}
         {toc && (
           <Box
             display={['none', 'none', 'none', 'block']}

@@ -7,7 +7,7 @@ import { getArchiveData, getSortedPostsData } from '../lib/posts';
 import ArchiveCard from '../components/ArchiveCard';
 
 export const getStaticProps = async () => {
-  const allPostsData = getSortedPostsData();
+  const allPostsData = await getSortedPostsData();
 
   return {
     props: {

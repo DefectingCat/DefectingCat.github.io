@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import markdownToTxt from 'markdown-to-txt';
+import { remark } from 'remark';
+import strip from 'strip-markdown';
 
 const postsDirectory = path.join(process.cwd(), 'public/posts');
 
@@ -23,34 +24,38 @@ export interface AllPostsData extends MyMatters {
  * Get all sorted posts
  * @returns
  */
-export function getSortedPostsData() {
+export async function getSortedPostsData() {
   // Get file names under /posts
   const fileNames = fs.readdirSync(postsDirectory);
-  const allPostsData = fileNames.map((fileName) => {
-    // Remove ".md" from file name to get id
-    const id = fileName.replace(/\.md$/, '');
+  const allPostsData = await Promise.all(
+    fileNames.map(async (fileName) => {
+      // Remove ".md" from file name to get id
+      const id = fileName.replace(/\.md$/, '');
 
-    // Read markdown file as string
-    const fullPath = path.join(postsDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
+      // Read markdown file as string
+      const fullPath = path.join(postsDirectory, fileName);
+      const fileContents = fs.readFileSync(fullPath, 'utf8');
 
-    // Use gray-matter to parse the post metadata section
-    const matterResult = matter(fileContents);
+      // Use gray-matter to parse the post metadata section
+      const matterResult = matter(fileContents);
 
-    // Process markdown to plain text
-    const contentText = markdownToTxt(matterResult.content);
+      // Process markdown to plain text
+      const contentText = await remark()
+        .use(strip)
+        .process(matterResult.content);
 
-    // Combine the data with the id
-    return {
-      id,
-      // Add post description
-      desc: `${contentText.slice(0, 100)}...`,
-      ...({
-        ...matterResult.data,
-        date: matterResult.data.date.toISOString(),
-      } as MyMatters),
-    };
-  });
+      // Combine the data with the id
+      return {
+        id,
+        // Add post description
+        desc: `${contentText.toString().slice(0, 100)}...`,
+        ...({
+          ...matterResult.data,
+          date: matterResult.data.date.toISOString(),
+        } as MyMatters),
+      };
+    })
+  );
 
   // Sort posts by date
   return allPostsData.sort(({ date: a }, { date: b }) => {
@@ -62,12 +67,6 @@ export function getSortedPostsData() {
       return 0;
     }
   });
-
-  // Convert Date to locale string.
-  // return allPostsData.map((post) => {
-  //   if (typeof post.date == 'object') post.date = post.date.toISOString();
-  //   return post;
-  // });
 }
 
 /**
@@ -119,7 +118,7 @@ export function getPagingData(allPostsData: AllPostsData[], start?: string) {
   };
 }
 
-export function getAllPostSlugs() {
+export async function getAllPostSlugs() {
   const fileNames = fs.readdirSync(postsDirectory);
 
   // Returns an array that looks like this:
@@ -135,18 +134,20 @@ export function getAllPostSlugs() {
   //     }
   //   }
   // ]
-  return fileNames.map((fileName) => {
-    const allPostsData = getSortedPostsData();
-    const slug = allPostsData.find(
-      (item) => item.id === fileName.replace(/\.md$/, '')
-    );
+  return await Promise.all(
+    fileNames.map(async (fileName) => {
+      const allPostsData = await getSortedPostsData();
+      const slug = allPostsData.find(
+        (item) => item.id === fileName.replace(/\.md$/, '')
+      );
 
-    return {
-      params: {
-        slug: slug?.url,
-      },
-    };
-  });
+      return {
+        params: {
+          slug: slug?.url,
+        },
+      };
+    })
+  );
 }
 
 export interface MyPost extends AllPostsData {
@@ -154,7 +155,7 @@ export interface MyPost extends AllPostsData {
 }
 
 export async function getPostData(slug: string) {
-  const allPostsData = getSortedPostsData();
+  const allPostsData = await getSortedPostsData();
   const post = allPostsData.find((item) => item.url === slug);
 
   const fullPath = path.join(postsDirectory, `${post?.id}.md`);

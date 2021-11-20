@@ -7,7 +7,7 @@ import HomeLayout from '../layouts/HomeLayout';
 import PostCard from '../components/PostCard';
 
 export const getStaticProps = async () => {
-  const allPostsData = getSortedPostsData();
+  const allPostsData = await getSortedPostsData();
 
   return {
     props: {
