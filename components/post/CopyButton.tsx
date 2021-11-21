@@ -1,7 +1,9 @@
-import { Button, useClipboard } from '@chakra-ui/react';
+import { Button, useClipboard, useColorModeValue } from '@chakra-ui/react';
 import { FC, MouseEventHandler, useEffect, useState } from 'react';
 
 const CopyButton: FC = ({ children }) => {
+  const copyButtonTheme = useColorModeValue('teal', 'pink');
+
   // Copy code
   const [codeContent, setCodeContent] = useState('');
   const { hasCopied, onCopy } = useClipboard(codeContent);
@@ -22,7 +24,7 @@ const CopyButton: FC = ({ children }) => {
       <pre>
         <Button
           size="xs"
-          colorScheme="teal"
+          colorScheme={copyButtonTheme}
           position="absolute"
           top="5px"
           right="5px"

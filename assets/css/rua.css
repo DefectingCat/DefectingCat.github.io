@@ -1,23 +1,24 @@
 :root {
-  --blcqd-bg-color: #f8f8f8;
+  --text-color: var(--chakra-colors-gray-600);
+  --heading-color: #464b1f;
+  --block-bg: linear-gradient(#fbebef, #dff0f5);
+  --block-bg-color: #f8f8f8;
+  --code-bg: var(--chakra-colors-gray-100);
+  --code-border-color: #e7eaed;
+
   --shadow-color: #c3c5c7;
   --checkbox-color: #f8a9b5;
   --checked-font-color: #eee;
   --bg-color: #ffffff; /*改变背景色*/
-  --text-color: #333333; /*改变文字颜色*/
   --md-char-color: #c7c5c5; /*改变元字符的颜色，例如 markdown 中的“*”*/
   --meta-content-color: #c7c5c5; /*改变元内容的颜色，例如 markdown 中的图像文本和链接地址*/
-
   --primary-color: #428bca; /*主按钮的颜色*/
   --primary-btn-border-color: #285e8e;
   --primary-btn-text-color: #fff;
-
   --window-border: 1px solid #eee; /*边栏等的边框*/
-
   --active-file-bg-color: #eee; /*文件树或文件列表中当前项的背景色*/
   --active-file-text-color: inherit;
   --active-file-border-color: #777;
-
   --side-bar-bg-color: var(--bg-color); /*改变边栏颜色*/
   --item-hover-bg-color: rgba(
     229,
@@ -27,6 +28,16 @@
   ); /*鼠标悬停时控件项的背景，如侧边栏中的菜单*/
   --item-hover-text-color: inherit;
   --monospace: monospace; /*代码的等宽字体*/
+}
+
+/* With Chakra dark mode */
+body.chakra-ui-dark {
+  --text-color: var(--chakra-colors-whiteAlpha-800);
+  --heading-color: var(--chakra-colors-whiteAlpha-800);
+  --block-bg: linear-gradient(#c395a1, #8e9fa3);
+  --block-bg-color: #888888;
+  --code-bg: var(--chakra-colors-gray-500);
+  --code-border-color: #919191;
 }
 
 ::selection {
@@ -46,7 +57,6 @@
   src: url('ava-diana/Quicksand/Quicksand-Bold.ttf');
 } */
 
-html， body,
 #write {
   /* font-family: "Quicksand",'Arial Hebrew Scholar'; */
   font-size: 16px;
@@ -68,7 +78,7 @@ html， body,
   margin: 16px;
   max-height: 40rem;
   overflow: auto;
-  scrollbar-width: 0;
+  scrollbar-width: none;
 }
 #table-of-contents + ul li {
   list-style-type: none;
@@ -137,7 +147,7 @@ html， body,
   text-transform: uppercase;
   margin-top: 4rem;
   margin-bottom: 4rem;
-  color: #464b1f;
+  color: var(--heading-color);
 }
 
 #write h2 {
@@ -147,7 +157,7 @@ html， body,
   line-height: 2rem;
   margin: 1.5rem 0;
   /*text-transform: uppercase;*/
-  color: #464b1f;
+  color: var(--heading-color);
 }
 
 #write h3 {
@@ -157,7 +167,7 @@ html， body,
   line-height: 3rem;
   /*text-transform: uppercase;*/
   /* margin-left: 1rem; */
-  color: #464b1f;
+  color: var(--heading-color);
 }
 
 #write h4 {
@@ -168,13 +178,13 @@ html， body,
   /*text-transform: uppercase;*/
   margin-top: 1rem;
   /* margin-left: 3rem; */
-  color: #464b1f;
+  color: var(--heading-color);
 }
 
 #write h5 {
   font-size: 1.15rem;
   /*text-transform: uppercase;*/
-  color: #464b1f;
+  color: var(--heading-color);
   /* margin-left: 3.5rem; */
 }
 
@@ -182,7 +192,7 @@ html， body,
   font-size: 1rem;
   /*text-transform: uppercase;*/
   /* margin-left: 4rem; */
-  color: #464b1f;
+  color: var(--heading-color);
 }
 
 #write p {
@@ -199,7 +209,7 @@ html， body,
   width: calc(0.1rem + 2.43px);
   height: 100%;
   transform: translateX(calc(-0.05rem - 1.215px));
-  background-image: linear-gradient(#fbebef, #dff0f5);
+  background-image: var(--block-bg);
   border-radius: calc(0.5rem + 0.25%) 0 0 calc(0.5rem + 0.25%);
   z-index: 1;
 }
@@ -217,7 +227,7 @@ html， body,
   padding: 1rem calc(0.5rem + 5.13px);
   /*border-left: solid .5rem var(--select-text-bg-color);*/
   /*border-radius: .5rem 1rem 1rem .5rem;*/
-  background-color: var(--blcqd-bg-color);
+  background-color: var(--block-bg-color);
   line-height: 1.6;
   /*box-shadow: 3px 3px 3px 1px var(--shadow-color);*/
   border-radius: 0 calc(0.5rem + 0.25%) calc(0.5rem + 0.25%) 0;
@@ -529,24 +539,17 @@ div.cm-s-inner span.CodeMirror-matchingbracket {
 
 #write pre code {
   padding: 6px 10px;
-  background-color: var(--chakra-colors-gray-100);
+  background-color: var(--code-bg);
 }
 
 .md-fences,
 #write code,
 #write tt {
-  border: 1px solid #e7eaed;
+  border: 1px solid var(--code-border-color);
   border-radius: 6px;
   padding: 0 4px;
   font-size: 0.9em;
-  background-color: var(--chakra-colors-gray-200);
-}
-
-.md-fences {
-  margin-bottom: 15px;
-  margin-top: 15px;
-  padding-top: 8px;
-  padding-bottom: 6px;
+  background-color: var(--code-bg);
 }
 
 /*mathjax-block*/

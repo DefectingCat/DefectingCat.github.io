@@ -7,6 +7,7 @@ import { FiCalendar, FiTag } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 import { setFromPath } from '../features/router/routerSlice';
 import { useRouter } from 'next/router';
+import useGetColors from '../lib/hooks/useGetColors';
 
 interface Props {
   post: AllPostsData;
@@ -22,18 +23,24 @@ const PostCard: FC<Props> = ({ post }) => {
     router.push(`/posts/${post.url}`);
   };
 
+  const { boxBg, textColor, headingColor } = useGetColors();
+
   return (
     <>
       <Box
         as="article"
         maxW={['full', 'full', '55rem']}
         borderRadius="10px"
-        bg="white"
+        bg={boxBg}
         overflow="hidden"
         boxShadow="card"
         mb="2.5rem"
       >
-        <Link href={`/posts/${post.url}`} onClick={goToPost}>
+        <Link
+          href={`/posts/${post.url}`}
+          onClick={goToPost}
+          _focus={{ boxShadow: 'unset' }}
+        >
           <Image
             src={post.index_img}
             maxH="18rem"
@@ -46,14 +53,18 @@ const PostCard: FC<Props> = ({ post }) => {
 
         <Box p="1.75rem" key={post.url}>
           {/* Title */}
-          <Link href={`/posts/${post.url}`} onClick={goToPost}>
-            <Heading mb="0.6rem" fontSize="22">
+          <Link
+            href={`/posts/${post.url}`}
+            onClick={goToPost}
+            _focus={{ boxShadow: 'unset' }}
+          >
+            <Heading color={headingColor} mb="0.6rem" fontSize="22">
               {post.title}
             </Heading>
           </Link>
 
           {/* Description */}
-          <Text mb="0.6rem" color="gray.600">
+          <Text mb="0.6rem" color={textColor}>
             {post.desc}
           </Text>
 

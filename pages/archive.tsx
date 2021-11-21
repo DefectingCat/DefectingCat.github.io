@@ -5,6 +5,8 @@ import { ReactElement } from 'react';
 import HomeLayout from '../layouts/HomeLayout';
 import { getArchiveData, getSortedPostsData } from '../lib/posts';
 import ArchiveCard from '../components/ArchiveCard';
+import useGetColors from '../lib/hooks/useGetColors';
+import style from './archive.module.css';
 
 export const getStaticProps = async () => {
   const allPostsData = await getSortedPostsData();
@@ -20,6 +22,8 @@ const archive = ({
   archiveData,
   archiveKeys,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { boxBg } = useGetColors();
+
   return (
     <>
       <Head>
@@ -34,10 +38,11 @@ const archive = ({
             </Text>
             <Box
               borderRadius="10px"
-              bg="white"
+              bg={boxBg}
               overflow="hidden"
               boxShadow="card"
               mt="0.5rem"
+              className={style['archive-wrapper']}
             >
               {archiveData[year].map((post) => (
                 <ArchiveCard post={post} key={post.id} />

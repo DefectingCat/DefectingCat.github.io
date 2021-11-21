@@ -5,6 +5,7 @@ import Date from './DateFormater';
 import { useDispatch } from 'react-redux';
 import { setFromPath } from '../features/router/routerSlice';
 import { useRouter } from 'next/router';
+import useGetColors from '../lib/hooks/useGetColors';
 
 interface Props {
   post: AllPostsData;
@@ -14,6 +15,8 @@ const ArchiveCard: FC<Props> = ({ post }) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const { borderColor, headingColor } = useGetColors();
+
   const goToPost: MouseEventHandler<HTMLAnchorElement> = (e) => {
     e.preventDefault();
     dispatch(setFromPath(location.pathname));
@@ -22,18 +25,25 @@ const ArchiveCard: FC<Props> = ({ post }) => {
 
   return (
     <>
-      <Box as="article" w={['full', 'full', '55rem']}>
-        <Link href={`/posts/${post.url}`} onClick={goToPost}>
+      <Box
+        as="article"
+        w={['full', 'full', '55rem']}
+        borderBottom="1px"
+        borderColor={borderColor}
+      >
+        <Link
+          href={`/posts/${post.url}`}
+          onClick={goToPost}
+          _focus={{ boxShadow: 'unset' }}
+        >
           <Flex
             p="1.25rem"
             key={post.url}
             cursor="pointer"
-            borderBottom="1px"
-            borderColor="gray.300"
             justifyContent="space-between"
           >
             <Box>
-              <Heading mb="0.6rem" fontSize="lg">
+              <Heading mb="0.6rem" fontSize="lg" color={headingColor}>
                 {post.title}
               </Heading>
               <Date dateString={post.date} />

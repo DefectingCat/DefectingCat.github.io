@@ -4,6 +4,7 @@ date: 2021-08-23 17:28:49
 tags: [JavaScript, React]
 categories: 实践
 url: create-tiny-router-for-react
+index_img: /images/为React造一个迷你路由器/react-router.svg
 ---
 
 路由不仅仅只是网络的代名词，它更像是一种表达路径的概念。与网络中的路由相似，前端中的页面路由也是带领我们前往指定的地方。

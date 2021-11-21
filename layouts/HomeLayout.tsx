@@ -5,9 +5,12 @@ import Footer from '../components/Footer';
 import { BackTop } from 'antd';
 import UseAnimations from 'react-useanimations';
 import arrowUp from 'react-useanimations/lib/arrowUp';
+import useGetColors from '../lib/hooks/useGetColors';
 
 const HomeLayout: FC = ({ children }) => {
   const wrapperRef = useRef(null);
+
+  const { boxBg } = useGetColors();
 
   return (
     <>
@@ -42,7 +45,7 @@ const HomeLayout: FC = ({ children }) => {
         target={() => (wrapperRef.current ? wrapperRef.current : document.body)}
       >
         <Flex
-          bg="white"
+          bg={boxBg}
           w="40px"
           h="40px"
           justify="center"

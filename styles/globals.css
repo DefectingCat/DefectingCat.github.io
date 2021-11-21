@@ -2,10 +2,6 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Microsoft Yahei',
-    'Helvetica Neue', Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', miui,
-    'Hiragino Sans GB', sans-serif;
-  background-color: var(--chakra-colors-home-bg) !important;
 }
 
 a {

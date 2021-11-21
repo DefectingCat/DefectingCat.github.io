@@ -2,8 +2,11 @@ import { Box } from '@chakra-ui/react';
 import Head from 'next/head';
 import { ReactElement } from 'react';
 import HomeLayout from '../layouts/HomeLayout';
+import useGetColors from '../lib/hooks/useGetColors';
 
 const about = () => {
+  const { boxBg } = useGetColors();
+
   return (
     <>
       <Head>
@@ -14,8 +17,8 @@ const about = () => {
         w={['full', 'full', '55rem']}
         borderRadius="10px"
         shadow="lg"
-        bg="white"
         overflow="hidden"
+        bg={boxBg}
         p={['1rem', '1rem', '1.5rem']}
       >
         施工中...

@@ -10,7 +10,7 @@ const Footer: FC = () => {
           &copy;{new Date().getFullYear()} 小肥羊
         </Text>
         <Text color={'gray.400'} fontSize="small">
-          Powered by Next.js ❤️
+          Powered by Next.js ❤️ Chakra UI
         </Text>
       </Flex>
     </>

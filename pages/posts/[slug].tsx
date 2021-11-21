@@ -20,8 +20,10 @@ import {
   Link,
   Button,
   Tag,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import 'highlight.js/styles/github.css';
+// import 'highlight.js/styles/github-dark.css';
 import xml from 'highlight.js/lib/languages/xml';
 import bash from 'highlight.js/lib/languages/bash';
 import rehypeRaw from 'rehype-raw';
@@ -35,6 +37,7 @@ import { RootState } from '../../app/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { cleanFromPath } from '../../features/router/routerSlice';
 import CopyButton from '../../components/post/CopyButton';
+import useGetColors from '../../lib/hooks/useGetColors';
 
 export async function getStaticPaths() {
   const paths = await getAllPostSlugs();
@@ -63,6 +66,10 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
     router.push(fromPath || '/');
   };
 
+  const { boxBg, headingColor, giscusColor } = useGetColors();
+
+  const [isLargerThan768] = useMediaQuery('(min-width: 768px)');
+
   const processedContent = unified()
     .use(remarkParse)
     .use(remarkToc, {
@@ -82,7 +89,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
       components: {
         img: (props: any) => {
           return (
-            <Zoom wrapElement="a">
+            <Zoom wrapElement="a" zoomMargin={isLargerThan768 ? 300 : 0}>
               <Image borderRadius="10px" src={props.src} alt="" />
             </Zoom>
           );
@@ -150,7 +157,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
             borderRadius="10px"
             mt={['1rem', '1rem', '3rem']}
             shadow="lg"
-            bg="white"
+            bg={boxBg}
             overflow="hidden"
             flex="1"
           >
@@ -168,7 +175,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
             {/* Post heading */}
             <Box as="article" p={['1rem', '1rem', '2rem']}>
               <Box as="header">
-                <Heading as="h1" mb="1rem">
+                <Heading as="h1" mb="1rem" color={headingColor}>
                   {postData.title}
                 </Heading>
 
@@ -209,7 +216,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
               mapping="title"
               reactionsEnabled="1"
               emitMetadata="0"
-              theme="preferred_color_scheme"
+              theme={giscusColor}
             />
           </Box>
 

@@ -1,0 +1,3 @@
+.archive-wrapper article:last-child {
+  border: unset;
+}
