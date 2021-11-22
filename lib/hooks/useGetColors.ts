@@ -17,7 +17,7 @@ const useGetColors = (): UseGetColors => {
     'rgba(0, 0, 0, 0.85)',
     'whiteAlpha.800'
   );
-  const borderColor = useColorModeValue('gray.500', 'whiteAlpha.300');
+  const borderColor = useColorModeValue('gray.300', 'whiteAlpha.300');
 
   // comment
   const giscusColor = useColorModeValue('light', 'dark');

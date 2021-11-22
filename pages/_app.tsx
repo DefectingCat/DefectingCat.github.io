@@ -4,7 +4,6 @@ import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import { store } from '../app/store';
-import 'antd/dist/antd.css';
 import '../assets/css/rua.css';
 import Head from 'next/head';
 

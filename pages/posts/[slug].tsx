@@ -96,11 +96,9 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
         },
         a: (props: any) => {
           return (
-            <Box>
-              <Link display="inline-flex" alignItems="center" href={props.href}>
-                {props.children}
-              </Link>
-            </Box>
+            <Link display="inline-flex" alignItems="center" href={props.href}>
+              {props.children}
+            </Link>
           );
         },
         pre: CopyButton,
