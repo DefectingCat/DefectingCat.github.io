@@ -105,6 +105,10 @@ body.chakra-ui-dark {
     color: hsla(81, 40%, 75%, 1);
 }*/
 
+#write a {
+  color: var(--chakra-colors-teal-500);
+}
+
 /*headings*/
 #write h1 {
   font-size: 3.25rem;
@@ -382,10 +386,10 @@ body.chakra-ui-dark {
 }
 
 /*horizon rules*/
-#write hr {
+/* #write hr {
   border-top: solid 1px #eee;
   border-bottom: solid 1px #eee;
-}
+} */
 
 #write mark {
   color: #fff;
