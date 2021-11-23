@@ -27,7 +27,6 @@ import 'highlight.js/styles/github.css';
 import xml from 'highlight.js/lib/languages/xml';
 import bash from 'highlight.js/lib/languages/bash';
 import rehypeRaw from 'rehype-raw';
-import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import { FiCalendar } from 'react-icons/fi';
 import { useRouter } from 'next/router';
@@ -38,6 +37,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { cleanFromPath } from '../../features/router/routerSlice';
 import CopyButton from '../../components/post/CopyButton';
 import useGetColors from '../../lib/hooks/useGetColors';
+import PostImage from '../../components/post/PostImage';
 
 export async function getStaticPaths() {
   const paths = await getAllPostSlugs();
@@ -89,9 +89,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
       components: {
         img: (props: any) => {
           return (
-            <Zoom wrapElement="a" zoomMargin={isLargerThan768 ? 300 : 0}>
-              <Image borderRadius="10px" src={props.src} alt="" />
-            </Zoom>
+            <PostImage isLargerThan768={isLargerThan768} src={props.src} />
           );
         },
         a: (props: any) => {
