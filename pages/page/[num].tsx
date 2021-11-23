@@ -12,7 +12,7 @@ import HomeLayout from '../../layouts/HomeLayout';
 import { ReactElement } from 'react';
 
 export async function getStaticPaths() {
-  const paths = getAllPostNum();
+  const paths = await getAllPostNum();
   return {
     paths,
     fallback: false,
