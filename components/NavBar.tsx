@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, MouseEvent, useEffect } from 'react';
 import {
   Box,
   Image,
@@ -17,6 +17,7 @@ import menu2 from 'react-useanimations/lib/menu2';
 import { FiHome, FiArchive, FiUser, FiSun, FiMoon } from 'react-icons/fi';
 import Link from 'next/link';
 import useGetColors from '../lib/hooks/useGetColors';
+import { useRouter } from 'next/router';
 
 const menu = [
   {
@@ -40,17 +41,29 @@ const menu = [
 ];
 
 const NavBar: FC = () => {
+  const router = useRouter();
+
   const [isLargerThan768] = useMediaQuery('(min-width: 768px)');
-  const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: false });
+  const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: true });
 
   const { colorMode, toggleColorMode } = useColorMode();
 
   const { boxBg, bioColor, textColor, headingColor } = useGetColors();
 
   useEffect(() => {
-    if (!isOpen && isLargerThan768) onToggle();
+    if ((isOpen && !isLargerThan768) || (!isOpen && isLargerThan768))
+      onToggle();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLargerThan768]);
+
+  const handleMenuClick = (
+    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>,
+    path: string
+  ) => {
+    e.preventDefault();
+    !isLargerThan768 && onToggle();
+    router.push(path);
+  };
 
   return (
     <>
@@ -123,19 +136,20 @@ const NavBar: FC = () => {
             >
               {menu.map((item) => {
                 return (
-                  <Link passHref href={item.path} key={item.id}>
-                    <Flex
-                      as="a"
-                      alignItems="center"
-                      justifyContent={['unset', null, 'space-between']}
-                      fontSize={['18', null, '22']}
-                      my={['0.5rem', null, '0.5rem']}
-                      cursor="pointer"
-                    >
-                      <Icon as={item.icon} mr={['2.5rem', null, 'unset']} />
-                      <Text>{item.name}</Text>
-                    </Flex>
-                  </Link>
+                  <Flex
+                    onClick={(e) => handleMenuClick(e, item.path)}
+                    href={item.path}
+                    key={item.id}
+                    as="a"
+                    alignItems="center"
+                    justifyContent={['unset', null, 'space-between']}
+                    fontSize={['18', null, '22']}
+                    my={['0.5rem', null, '0.5rem']}
+                    cursor="pointer"
+                  >
+                    <Icon as={item.icon} mr={['2.5rem', null, 'unset']} />
+                    <Text>{item.name}</Text>
+                  </Flex>
                 );
               })}
             </Flex>
