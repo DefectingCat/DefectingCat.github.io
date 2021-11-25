@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { setFromPath } from '../features/router/routerSlice';
 import { useRouter } from 'next/router';
 import useGetColors from '../lib/hooks/useGetColors';
+import useLazyLoad from '../lib/hooks/useLazyload';
 
 interface Props {
   post: AllPostsData;
@@ -14,6 +15,8 @@ interface Props {
 const ArchiveCard: FC<Props> = ({ post }) => {
   const dispatch = useDispatch();
   const router = useRouter();
+
+  const { initSrc, blur, targetRef } = useLazyLoad(post.index_img);
 
   const { borderColor, headingColor } = useGetColors();
 
@@ -50,7 +53,10 @@ const ArchiveCard: FC<Props> = ({ post }) => {
             </Box>
             {post.index_img ? (
               <Image
-                src={post.index_img}
+                ref={targetRef}
+                transitionDuration="slower"
+                filter={blur}
+                src={initSrc}
                 alt="Post image"
                 w="50px"
                 h="50px"

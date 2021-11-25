@@ -122,7 +122,6 @@ const NavBar: FC = () => {
             boxShadow={'card'}
             objectFit={'cover'}
             alt="Avatar"
-            fallbackSrc="https://via.placeholder.com/150"
           />
           {/* emoji on avatar */}
           <Flex

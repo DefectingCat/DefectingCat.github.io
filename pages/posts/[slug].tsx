@@ -1,3 +1,15 @@
+import {
+  Box,
+  Image,
+  Heading,
+  Flex,
+  Icon,
+  Link,
+  Button,
+  Tag,
+  useMediaQuery,
+  AspectRatio,
+} from '@chakra-ui/react';
 import { getAllPostSlugs, getPostData } from '../../lib/posts';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
@@ -11,17 +23,6 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import { unified } from 'unified';
 import { createElement, Fragment } from 'react';
-import {
-  Box,
-  Image,
-  Heading,
-  Flex,
-  Icon,
-  Link,
-  Button,
-  Tag,
-  useMediaQuery,
-} from '@chakra-ui/react';
 import 'highlight.js/styles/github.css';
 // import 'highlight.js/styles/github-dark.css';
 import xml from 'highlight.js/lib/languages/xml';
@@ -36,7 +37,8 @@ import { RootState } from '../../app/store';
 import { cleanFromPath } from '../../features/router/routerSlice';
 import CopyButton from '../../components/post/CopyButton';
 import useGetColors from '../../lib/hooks/useGetColors';
-import PostImage from '../../components/post/PostImage';
+import Zoom from 'react-medium-image-zoom';
+import useLazyLoad from '../../lib/hooks/useLazyload';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 
 export async function getStaticPaths() {
@@ -88,8 +90,23 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
       createElement,
       components: {
         img: (props: any) => {
+          const { initSrc, blur, targetRef } = useLazyLoad(props.src);
           return (
-            <PostImage isLargerThan768={isLargerThan768} src={props.src} />
+            <Zoom
+              wrapElement="a"
+              wrapStyle={{ width: '100%' }}
+              zoomMargin={isLargerThan768 ? 300 : 0}
+            >
+              <Image
+                ref={targetRef}
+                borderRadius="10px"
+                src={initSrc}
+                w="100%"
+                filter={blur}
+                transitionDuration="slower"
+                alt="Post image"
+              />
+            </Zoom>
           );
         },
         a: (props: any) => {
@@ -100,6 +117,21 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
           );
         },
         pre: CopyButton,
+        iframe: (props: any) => {
+          const { initSrc, blur, targetRef } = useLazyLoad(props.src);
+          return (
+            <AspectRatio
+              filter={blur}
+              w="100%"
+              transitionDuration="slower"
+              ratio={16 / 9}
+            >
+              <Box as="iframe" src={initSrc} ref={targetRef}>
+                {props.child}
+              </Box>
+            </AspectRatio>
+          );
+        },
       },
       Fragment,
     });
