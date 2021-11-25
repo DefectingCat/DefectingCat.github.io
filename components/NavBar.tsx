@@ -1,4 +1,4 @@
-import { FC, MouseEvent, useEffect } from 'react';
+import { FC, MouseEvent, useRef } from 'react';
 import {
   Box,
   Image,
@@ -13,9 +13,8 @@ import {
   Button,
 } from '@chakra-ui/react';
 import UseAnimations from 'react-useanimations';
-import menu2 from 'react-useanimations/lib/menu2';
+import menu3 from 'react-useanimations/lib/menu3';
 import { FiHome, FiArchive, FiUser, FiSun, FiMoon } from 'react-icons/fi';
-import Link from 'next/link';
 import useGetColors from '../lib/hooks/useGetColors';
 import { useRouter } from 'next/router';
 
@@ -40,28 +39,68 @@ const menu = [
   },
 ];
 
+interface MenuListProps {
+  boxBg: string;
+  handleMenuClick: (
+    // eslint-disable-next-line no-unused-vars
+    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>,
+    // eslint-disable-next-line no-unused-vars
+    path: string
+  ) => void;
+}
+const MenuList: FC<MenuListProps> = ({ boxBg, handleMenuClick }) => {
+  return (
+    <Flex
+      as="nav"
+      mt={['1.5rem', null]}
+      flexFlow={['column']}
+      py={['1rem', null, 'unset']}
+      px={['2rem', '4rem', 'unset']}
+      bg={[boxBg, null, 'unset']}
+      shadow={['card', null, 'unset']}
+    >
+      {menu.map((item) => {
+        return (
+          <Flex
+            onClick={(e) => handleMenuClick(e, item.path)}
+            href={item.path}
+            key={item.id}
+            as="a"
+            alignItems="center"
+            justifyContent={['unset', null, 'space-between']}
+            fontSize={['18', null, '22']}
+            my={['0.5rem', null, '0.5rem']}
+            cursor="pointer"
+          >
+            <Icon as={item.icon} mr={['2.5rem', null, 'unset']} />
+            <Text>{item.name}</Text>
+          </Flex>
+        );
+      })}
+    </Flex>
+  );
+};
+
 const NavBar: FC = () => {
   const router = useRouter();
 
   const [isLargerThan768] = useMediaQuery('(min-width: 768px)');
-  const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: true });
+  const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: false });
 
   const { colorMode, toggleColorMode } = useColorMode();
 
   const { boxBg, bioColor, textColor, headingColor } = useGetColors();
 
-  useEffect(() => {
-    if ((isOpen && !isLargerThan768) || (!isOpen && isLargerThan768))
-      onToggle();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLargerThan768]);
-
+  const iconRef = useRef<HTMLDivElement>(null);
+  // Switch pages
   const handleMenuClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>,
     path: string
   ) => {
     e.preventDefault();
-    !isLargerThan768 && onToggle();
+    !isLargerThan768 &&
+      // Click the animate icon.
+      (iconRef.current?.children[0] as HTMLDivElement).click();
     router.push(path);
   };
 
@@ -124,36 +163,19 @@ const NavBar: FC = () => {
 
         {/* Menu */}
         <Box mx={['-2rem', '-4rem', 'unset']}>
-          <Collapse in={isOpen} animateOpacity>
-            <Flex
-              as="nav"
-              mt={['1.5rem', null]}
-              flexFlow={['column']}
-              py={['1rem', null, 'unset']}
-              px={['2rem', '4rem', 'unset']}
-              bg={[boxBg, null, 'unset']}
-              shadow={['card', null, 'unset']}
-            >
-              {menu.map((item) => {
-                return (
-                  <Flex
-                    onClick={(e) => handleMenuClick(e, item.path)}
-                    href={item.path}
-                    key={item.id}
-                    as="a"
-                    alignItems="center"
-                    justifyContent={['unset', null, 'space-between']}
-                    fontSize={['18', null, '22']}
-                    my={['0.5rem', null, '0.5rem']}
-                    cursor="pointer"
-                  >
-                    <Icon as={item.icon} mr={['2.5rem', null, 'unset']} />
-                    <Text>{item.name}</Text>
-                  </Flex>
-                );
-              })}
-            </Flex>
-          </Collapse>
+          {/* Mobile menu */}
+          <Box
+            as={Collapse}
+            in={isOpen}
+            animateOpacity
+            display={[null, null, 'none']}
+          >
+            <MenuList boxBg={boxBg} handleMenuClick={handleMenuClick} />
+          </Box>
+          {/* Desktop menu */}
+          <Box display={['none', 'none', 'block']}>
+            <MenuList boxBg={boxBg} handleMenuClick={handleMenuClick} />
+          </Box>
         </Box>
 
         <Box
@@ -161,13 +183,14 @@ const NavBar: FC = () => {
           position={'absolute'}
           top={'1.5rem'}
           right={'1rem'}
-          onClick={onToggle}
+          ref={iconRef}
         >
           <UseAnimations
             reverse={isOpen}
             size={40}
-            animation={menu2}
-            speed={1.5}
+            animation={menu3}
+            speed={2}
+            onClick={onToggle}
           />
         </Box>
       </Box>

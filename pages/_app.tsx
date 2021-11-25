@@ -26,24 +26,23 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   const router = useRouter();
 
+  const handleRouteChange = (
+    url: string,
+    { shallow }: { shallow: 'with' | 'without' }
+  ) => {
+    console.log(
+      `App is changing to ${url} ${
+        shallow ? 'with' : 'without'
+      } shallow routing`
+    );
+  };
+  const handleStart = () => {
+    NProgress.start();
+  };
+  const handleStop = () => {
+    NProgress.done();
+  };
   useEffect(() => {
-    const handleRouteChange = (
-      url: string,
-      { shallow }: { shallow: 'with' | 'without' }
-    ) => {
-      console.log(
-        `App is changing to ${url} ${
-          shallow ? 'with' : 'without'
-        } shallow routing`
-      );
-    };
-    const handleStart = () => {
-      NProgress.start();
-    };
-    const handleStop = () => {
-      NProgress.done();
-    };
-
     router.events.on('routeChangeStart', handleRouteChange);
     router.events.on('routeChangeStart', handleStart);
     router.events.on('routeChangeStart', handleStop);
@@ -52,8 +51,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     // from the event with the `off` method:
     return () => {
       router.events.off('routeChangeStart', handleRouteChange);
-      router.events.on('routeChangeStart', handleStart);
-      router.events.on('routeChangeStart', handleStop);
+      router.events.off('routeChangeStart', handleStart);
+      router.events.off('routeChangeStart', handleStop);
     };
   }, [router.events]);
 

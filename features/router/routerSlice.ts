@@ -5,6 +5,7 @@ export interface RouterState {
 }
 
 const initialState: RouterState = {
+  // Record the from path when into the post page.
   fromPath: '',
 };
 

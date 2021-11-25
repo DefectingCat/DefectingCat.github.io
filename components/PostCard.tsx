@@ -4,7 +4,7 @@ import { Box, Flex, Heading, Text, Link } from '@chakra-ui/react';
 import { AllPostsData } from '../lib/posts';
 import { Icon, Image } from '@chakra-ui/react';
 import { FiCalendar, FiTag } from 'react-icons/fi';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../app/hooks';
 import { setFromPath } from '../features/router/routerSlice';
 import { useRouter } from 'next/router';
 import useGetColors from '../lib/hooks/useGetColors';
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const PostCard: FC<Props> = ({ post }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const goToPost: MouseEventHandler<HTMLAnchorElement> = (e) => {

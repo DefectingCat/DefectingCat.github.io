@@ -33,11 +33,11 @@ import { useRouter } from 'next/router';
 import Footer from '../../components/Footer';
 import { Giscus } from '@giscus/react';
 import { RootState } from '../../app/store';
-import { useSelector, useDispatch } from 'react-redux';
 import { cleanFromPath } from '../../features/router/routerSlice';
 import CopyButton from '../../components/post/CopyButton';
 import useGetColors from '../../lib/hooks/useGetColors';
 import PostImage from '../../components/post/PostImage';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
 
 export async function getStaticPaths() {
   const paths = await getAllPostSlugs();
@@ -57,8 +57,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const fromPath = useSelector((state: RootState) => state.router.fromPath);
-  const dispatch = useDispatch();
+  const fromPath = useAppSelector((state: RootState) => state.router.fromPath);
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const goBack = () => {

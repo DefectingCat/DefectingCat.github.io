@@ -20,6 +20,7 @@
     "@emotion/styled": "^11",
     "@giscus/react": "^1.0.1",
     "@reduxjs/toolkit": "^1.6.2",
+    "ahooks": "^2.10.12",
     "autoprefixer": "^10.3.7",
     "date-fns": "^2.25.0",
     "framer-motion": "^5.0.2",
