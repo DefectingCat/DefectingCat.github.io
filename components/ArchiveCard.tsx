@@ -51,7 +51,7 @@ const ArchiveCard: FC<Props> = ({ post }) => {
               </Heading>
               <Date dateString={post.date} />
             </Box>
-            {post.index_img ? (
+            {post.index_img && (
               <Image
                 ref={targetRef}
                 transitionDuration="slower"
@@ -63,8 +63,6 @@ const ArchiveCard: FC<Props> = ({ post }) => {
                 objectFit="cover"
                 rounded="lg"
               />
-            ) : (
-              void 0
             )}
           </Flex>
         </Link>

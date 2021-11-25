@@ -153,6 +153,7 @@ const NavBar: FC = () => {
             background="transparent"
             fontSize={['18', null, '22']}
             onClick={toggleColorMode}
+            aria-label="Switch color mode"
           >
             {colorMode === 'light' ? <Icon as={FiSun} /> : <Icon as={FiMoon} />}
           </Button>

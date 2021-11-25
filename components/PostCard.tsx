@@ -8,6 +8,7 @@ import { useAppDispatch } from '../app/hooks';
 import { setFromPath } from '../features/router/routerSlice';
 import { useRouter } from 'next/router';
 import useGetColors from '../lib/hooks/useGetColors';
+import useLazyLoad from '../lib/hooks/useLazyload';
 
 interface Props {
   post: AllPostsData;
@@ -17,13 +18,15 @@ const PostCard: FC<Props> = ({ post }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
+  const { initSrc, targetRef } = useLazyLoad(post.index_img);
+
+  const { boxBg, textColor, headingColor } = useGetColors();
+
   const goToPost: MouseEventHandler<HTMLAnchorElement> = (e) => {
     e.preventDefault();
     dispatch(setFromPath(location.pathname));
     router.push(`/posts/${post.url}`);
   };
-
-  const { boxBg, textColor, headingColor } = useGetColors();
 
   return (
     <>
@@ -36,20 +39,22 @@ const PostCard: FC<Props> = ({ post }) => {
         boxShadow="card"
         mb="2.5rem"
       >
-        <Link
-          href={`/posts/${post.url}`}
-          onClick={goToPost}
-          _focus={{ boxShadow: 'unset' }}
-        >
-          <Image
-            src={post.index_img}
-            maxH="18rem"
-            w="100%"
-            fallback={<></>}
-            fit="cover"
-            alt="Post image"
-          />
-        </Link>
+        {post.index_img && (
+          <Link
+            href={`/posts/${post.url}`}
+            onClick={goToPost}
+            _focus={{ boxShadow: 'unset' }}
+          >
+            <Image
+              ref={targetRef}
+              src={initSrc}
+              maxH="18rem"
+              w="100%"
+              fit="cover"
+              alt="Post image"
+            />
+          </Link>
+        )}
 
         <Box p="1.75rem" key={post.url}>
           {/* Title */}
