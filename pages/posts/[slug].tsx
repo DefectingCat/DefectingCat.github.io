@@ -13,7 +13,6 @@ import {
 import { getAllPostSlugs, getPostData } from '../../lib/posts';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
-import Date from '../../components/DateFormater';
 import remarkToc from 'remark-toc';
 import rehypeSlug from 'rehype-slug';
 import rehypeReact from 'rehype-react';
@@ -31,15 +30,18 @@ import rehypeRaw from 'rehype-raw';
 import 'react-medium-image-zoom/dist/styles.css';
 import { FiCalendar } from 'react-icons/fi';
 import { useRouter } from 'next/router';
-import Footer from '../../components/Footer';
 import { Giscus } from '@giscus/react';
 import { RootState } from '../../app/store';
 import { cleanFromPath } from '../../features/router/routerSlice';
-import CopyButton from '../../components/post/CopyButton';
 import useGetColors from '../../lib/hooks/useGetColors';
 import Zoom from 'react-medium-image-zoom';
 import useLazyLoad from '../../lib/hooks/useLazyload';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import dynamic from 'next/dynamic';
+
+const CopyButton = dynamic(() => import('../../components/post/CopyButton'));
+const Footer = dynamic(() => import('../../components/Footer'));
+const Date = dynamic(() => import('../../components/DateFormater'));
 
 export async function getStaticPaths() {
   const paths = await getAllPostSlugs();
@@ -90,18 +92,13 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
       createElement,
       components: {
         img: (props: any) => {
-          const { initSrc, blur, targetRef } = useLazyLoad(props.src);
+          const { initSrc, blur, targetRef } = useLazyLoad(props.src, '20px');
           return (
-            <Zoom
-              wrapElement="a"
-              wrapStyle={{ width: '100%' }}
-              zoomMargin={isLargerThan768 ? 300 : 0}
-            >
+            <Zoom wrapElement="a" zoomMargin={isLargerThan768 ? 300 : 0}>
               <Image
                 ref={targetRef}
                 borderRadius="10px"
                 src={initSrc}
-                w="100%"
                 filter={blur}
                 transitionDuration="slower"
                 alt="Post image"
@@ -124,7 +121,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
               filter={blur}
               w="100%"
               transitionDuration="slower"
-              ratio={16 / 9}
+              ratio={isLargerThan768 ? 16 / 9 : 1}
             >
               <Box as="iframe" src={initSrc} ref={targetRef}>
                 {props.child}

@@ -1,8 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
-const useLazyLoad = (src: string) => {
+/**
+ * Use IntersectionObserver API to lazy load taget DOM.
+ * @param src src path
+ * @param blurPx blur px
+ * @returns
+ */
+const useLazyLoad = (src: string, blurPx = '10px') => {
   const targetRef = useRef(null);
-  const [blur, setBlur] = useState('blur(20px)');
+  const [blur, setBlur] = useState(`blur(${blurPx})`);
 
   const [initSrc, setInitSrc] = useState(
     'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='

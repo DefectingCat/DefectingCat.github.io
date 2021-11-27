@@ -14,9 +14,17 @@ import {
 } from '@chakra-ui/react';
 import UseAnimations from 'react-useanimations';
 import menu3 from 'react-useanimations/lib/menu3';
-import { FiHome, FiArchive, FiUser, FiSun, FiMoon } from 'react-icons/fi';
+import {
+  FiHome,
+  FiArchive,
+  FiUser,
+  FiSun,
+  FiMoon,
+  FiSearch,
+} from 'react-icons/fi';
 import useGetColors from '../lib/hooks/useGetColors';
 import { useRouter } from 'next/router';
+import Search from './search';
 
 const menu = [
   {
@@ -31,11 +39,28 @@ const menu = [
     path: '/archive',
     icon: FiArchive,
   },
+  // {
+  //   id: 2,
+  //   name: '闲言',
+  //   path: '/message',
+  //   icon: FiMessageSquare,
+  // },
+  // {
+  //   id: 3,
+  //   name: '密语',
+  //   path: '/pgp',
+  //   icon: FiLock,
+  // },
   {
-    id: 3,
+    id: 4,
     name: '关于',
     path: '/about',
     icon: FiUser,
+  },
+  {
+    id: 5,
+    name: '搜索',
+    icon: FiSearch,
   },
 ];
 
@@ -45,7 +70,7 @@ interface MenuListProps {
     // eslint-disable-next-line no-unused-vars
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>,
     // eslint-disable-next-line no-unused-vars
-    path: string
+    path?: string
   ) => void;
 }
 const MenuList: FC<MenuListProps> = ({ boxBg, handleMenuClick }) => {
@@ -62,7 +87,7 @@ const MenuList: FC<MenuListProps> = ({ boxBg, handleMenuClick }) => {
       {menu.map((item) => {
         return (
           <Flex
-            onClick={(e) => handleMenuClick(e, item.path)}
+            onClick={(e) => handleMenuClick(e, item?.path)}
             href={item.path}
             key={item.id}
             as="a"
@@ -85,7 +110,14 @@ const NavBar: FC = () => {
   const router = useRouter();
 
   const [isLargerThan768] = useMediaQuery('(min-width: 768px)');
+  // Menu toggle
   const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: false });
+  // Modal toggle
+  const {
+    isOpen: isModalOpen,
+    onOpen: onModalOpen,
+    onClose: onModalClose,
+  } = useDisclosure();
 
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -95,30 +127,35 @@ const NavBar: FC = () => {
   // Switch pages
   const handleMenuClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>,
-    path: string
+    path?: string
   ) => {
     e.preventDefault();
-    !isLargerThan768 &&
-      // Click the animate icon.
-      (iconRef.current?.children[0] as HTMLDivElement).click();
-    router.push(path);
+
+    if (path) {
+      !isLargerThan768 &&
+        // Click the animate icon.
+        (iconRef.current?.children[0] as HTMLDivElement).click();
+      router.push(path);
+    } else {
+      onModalOpen();
+    }
   };
 
   return (
     <>
       <Box
         color={textColor}
-        w={[null, null, '120px']}
+        w={[null, null, '8rem']}
         p={['3rem 1rem 1rem 1rem', null, 'unset']}
         position={'relative'}
         flex={[1, 1, 'unset']}
       >
-        <Box position={'relative'} boxSize="120px">
+        <Box position={'relative'} boxSize="8rem">
           {/* avatar */}
           <Image
             borderRadius="full"
             src="/images/img/avatar.svg"
-            boxSize="120px"
+            boxSize="8rem"
             boxShadow={'card'}
             objectFit={'cover'}
             alt="Avatar"
@@ -178,6 +215,7 @@ const NavBar: FC = () => {
           </Box>
         </Box>
 
+        {/* Mobile menu icon */}
         <Box
           display={[null, null, 'none']}
           position={'absolute'}
@@ -194,6 +232,8 @@ const NavBar: FC = () => {
           />
         </Box>
       </Box>
+
+      <Search isModalOpen={isModalOpen} onModalClose={onModalClose} />
     </>
   );
 };
