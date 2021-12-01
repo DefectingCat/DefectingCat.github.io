@@ -1,5 +1,4 @@
 import { FC, MouseEventHandler } from 'react';
-import Date from './DateFormater';
 import { Box, Flex, Heading, Text, Link } from '@chakra-ui/react';
 import { AllPostsData } from '../lib/posts';
 import { Icon, Image } from '@chakra-ui/react';
@@ -9,6 +8,9 @@ import { setFromPath } from '../features/router/routerSlice';
 import { useRouter } from 'next/router';
 import useGetColors from '../lib/hooks/useGetColors';
 import useLazyLoad from '../lib/hooks/useLazyload';
+import dynamic from 'next/dynamic';
+
+const Date = dynamic(() => import('./DateFormater'));
 
 interface Props {
   post: AllPostsData;
@@ -32,7 +34,6 @@ const PostCard: FC<Props> = ({ post }) => {
     <>
       <Box
         as="article"
-        maxW={['full', 'full', '55rem']}
         borderRadius="10px"
         bg={boxBg}
         overflow="hidden"

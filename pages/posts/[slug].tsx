@@ -1,15 +1,4 @@
-import {
-  Box,
-  Image,
-  Heading,
-  Flex,
-  Icon,
-  Link,
-  Button,
-  Tag,
-  useMediaQuery,
-  AspectRatio,
-} from '@chakra-ui/react';
+import { Box, Image, Heading, Flex, Icon, Button, Tag } from '@chakra-ui/react';
 import { getAllPostSlugs, getPostData } from '../../lib/posts';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
@@ -27,21 +16,21 @@ import 'highlight.js/styles/github.css';
 import xml from 'highlight.js/lib/languages/xml';
 import bash from 'highlight.js/lib/languages/bash';
 import rehypeRaw from 'rehype-raw';
-import 'react-medium-image-zoom/dist/styles.css';
 import { FiCalendar } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 import { Giscus } from '@giscus/react';
 import { RootState } from '../../app/store';
 import { cleanFromPath } from '../../features/router/routerSlice';
 import useGetColors from '../../lib/hooks/useGetColors';
-import Zoom from 'react-medium-image-zoom';
-import useLazyLoad from '../../lib/hooks/useLazyload';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import dynamic from 'next/dynamic';
 
 const CopyButton = dynamic(() => import('../../components/post/CopyButton'));
 const Footer = dynamic(() => import('../../components/Footer'));
 const Date = dynamic(() => import('../../components/DateFormater'));
+const PostIframe = dynamic(() => import('../../components/post/PostIframe'));
+const PostAnchor = dynamic(() => import('../../components/post/PostAnchor'));
+const PostImage = dynamic(() => import('../../components/post/PostImage'));
 
 export async function getStaticPaths() {
   const paths = await getAllPostSlugs();
@@ -60,6 +49,37 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   };
 };
 
+const processedContent = unified()
+  .use(remarkParse)
+  .use(remarkToc, {
+    maxDepth: 3,
+  })
+  .use(remarkRehype, { allowDangerousHtml: true })
+  .use(rehypeRaw)
+  .use(rehypeHighlight, {
+    languages: { vue: xml, bash },
+    aliases: { bash: ['npm'] },
+    ignoreMissing: true,
+  })
+  .use(rehypeSlug)
+  .use(remarkGfm, { tableCellPadding: true })
+  .use(rehypeReact, {
+    createElement,
+    components: {
+      img: (props: any) => (
+        <PostImage src={props.src}>{props.children}</PostImage>
+      ),
+      a: (props: any) => (
+        <PostAnchor href={props.href}>{props.children}</PostAnchor>
+      ),
+      pre: CopyButton,
+      iframe: (props: any) => (
+        <PostIframe src={props.src}>{props.children}</PostIframe>
+      ),
+    },
+    Fragment,
+  });
+
 const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const fromPath = useAppSelector((state: RootState) => state.router.fromPath);
   const dispatch = useAppDispatch();
@@ -72,69 +92,9 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   const { boxBg, headingColor, giscusColor } = useGetColors();
 
-  const [isLargerThan768] = useMediaQuery('(min-width: 768px)');
-
-  const processedContent = unified()
-    .use(remarkParse)
-    .use(remarkToc, {
-      maxDepth: 3,
-    })
-    .use(remarkRehype, { allowDangerousHtml: true })
-    .use(rehypeRaw)
-    .use(rehypeHighlight, {
-      languages: { vue: xml, bash },
-      aliases: { bash: ['npm'] },
-      ignoreMissing: true,
-    })
-    .use(rehypeSlug)
-    .use(remarkGfm, { tableCellPadding: true })
-    .use(rehypeReact, {
-      createElement,
-      components: {
-        img: (props: any) => {
-          const { initSrc, blur, targetRef } = useLazyLoad(props.src, '20px');
-          return (
-            <Zoom wrapElement="a" zoomMargin={isLargerThan768 ? 300 : 0}>
-              <Image
-                ref={targetRef}
-                borderRadius="10px"
-                src={initSrc}
-                filter={blur}
-                transitionDuration="slower"
-                alt="Post image"
-              />
-            </Zoom>
-          );
-        },
-        a: (props: any) => {
-          return (
-            <Link display="inline-flex" alignItems="center" href={props.href}>
-              {props.children}
-            </Link>
-          );
-        },
-        pre: CopyButton,
-        iframe: (props: any) => {
-          const { initSrc, blur, targetRef } = useLazyLoad(props.src);
-          return (
-            <AspectRatio
-              filter={blur}
-              w="100%"
-              transitionDuration="slower"
-              ratio={isLargerThan768 ? 16 / 9 : 1}
-            >
-              <Box as="iframe" src={initSrc} ref={targetRef}>
-                {props.child}
-              </Box>
-            </AspectRatio>
-          );
-        },
-      },
-      Fragment,
-    });
-
+  // Content cloud be undefined.
   const postContent = processedContent.processSync(
-    `\n## Table of contents\n${postData.content}`
+    `\n## Table of contents\n${postData?.content}`
   ).result;
 
   // Process the table of content

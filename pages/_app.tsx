@@ -60,6 +60,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     <>
       <Head>
         <link rel="shortcut icon" href="/images/img/favicon.webp"></link>
+        <meta name="keywords" content="Blog RUA" />
+        <meta name="description" content="Personal blog." />
+        <meta name="author" content="Arthur,i@rua.plus" />
       </Head>
 
       <Provider store={store}>

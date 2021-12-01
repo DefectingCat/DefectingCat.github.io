@@ -1,10 +1,12 @@
 import { FC, UIEventHandler, useRef, useState } from 'react';
-import NavBar from '../components/NavBar';
 import { Box, Flex, Fade } from '@chakra-ui/react';
-import Footer from '../components/Footer';
 import UseAnimations from 'react-useanimations';
 import arrowUp from 'react-useanimations/lib/arrowUp';
 import useGetColors from '../lib/hooks/useGetColors';
+import dynamic from 'next/dynamic';
+
+const Footer = dynamic(() => import('../components/Footer'));
+const NavBar = dynamic(() => import('../components/NavBar'));
 
 const HomeLayout: FC = ({ children }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -43,8 +45,8 @@ const HomeLayout: FC = ({ children }) => {
           <NavBar />
         </Flex>
 
-        {/* Content */}
-        <Box mt={['1rem', null, '3rem']} as="main">
+        {/* Content on the right */}
+        <Box mt={['1rem', null, '3rem']} flex="1" maxW="55rem" as="main">
           {children}
           <Footer />
         </Box>

@@ -1,12 +1,14 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Text, Flex } from '@chakra-ui/react';
 import { InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 import { ReactElement } from 'react';
-import HomeLayout from '../layouts/HomeLayout';
 import { getArchiveData, getSortedPostsData } from '../lib/posts';
-import ArchiveCard from '../components/ArchiveCard';
 import useGetColors from '../lib/hooks/useGetColors';
 import style from './archive.module.css';
+import dynamic from 'next/dynamic';
+
+const ArchiveCard = dynamic(() => import('../components/ArchiveCard'));
+const HomeLayout = dynamic(() => import('../layouts/HomeLayout'));
 
 export const getStaticProps = async () => {
   const allPostsData = await getSortedPostsData();
@@ -30,7 +32,7 @@ const archive = ({
         <title>RUA - Archive</title>
       </Head>
 
-      <Box maxW="55rem">
+      <Flex flexFlow="column">
         {archiveKeys.map((year) => (
           <Box mb="2rem" key={year}>
             <Text fontSize="2xl" color="gray.400" fontWeight="bold">
@@ -50,7 +52,7 @@ const archive = ({
             </Box>
           </Box>
         ))}
-      </Box>
+      </Flex>
     </>
   );
 };

@@ -1,12 +1,14 @@
 import { Box, Flex, Heading, Image, Link } from '@chakra-ui/react';
 import { FC, MouseEventHandler } from 'react';
 import { AllPostsData } from '../lib/posts';
-import Date from './DateFormater';
 import { useDispatch } from 'react-redux';
 import { setFromPath } from '../features/router/routerSlice';
 import { useRouter } from 'next/router';
 import useGetColors from '../lib/hooks/useGetColors';
 import useLazyLoad from '../lib/hooks/useLazyload';
+import dynamic from 'next/dynamic';
+
+const Date = dynamic(() => import('./DateFormater'));
 
 interface Props {
   post: AllPostsData;
@@ -28,12 +30,7 @@ const ArchiveCard: FC<Props> = ({ post }) => {
 
   return (
     <>
-      <Box
-        as="article"
-        w={['full', 'full', '55rem']}
-        borderBottom="1px"
-        borderColor={borderColor}
-      >
+      <Box as="article" borderBottom="1px" borderColor={borderColor}>
         <Link
           href={`/posts/${post.url}`}
           onClick={goToPost}
