@@ -62,6 +62,13 @@ async function getSortedPostsData() {
   // initialize environment variables
   config();
 
+  if (
+    !process.env.NEXT_PUBLIC_ALGOLIA_APP_ID &&
+    !process.env.ALGOLIA_SEARCH_ADMIN_KEY
+  ) {
+    return console.log('API key not found!');
+  }
+
   try {
     const posts = await getSortedPostsData();
 
