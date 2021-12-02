@@ -1,15 +1,17 @@
+import { ReactElement } from 'react';
 import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
+import dynamic from 'next/dynamic';
 import {
   AllPostsData,
   getAllPostNum,
   getPagingData,
   getSortedPostsData,
-} from '../../lib/posts';
-import Paging from '../../components/Paging';
-import PostCard from '../../components/PostCard';
-import HomeLayout from '../../layouts/HomeLayout';
-import { ReactElement } from 'react';
+} from 'lib/posts';
+import HomeLayout from 'layouts/HomeLayout';
+
+const Paging = dynamic(() => import('components/Paging'));
+const PostCard = dynamic(() => import('components/PostCard'));
 
 export async function getStaticPaths() {
   const paths = await getAllPostNum();

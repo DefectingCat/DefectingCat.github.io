@@ -1,14 +1,14 @@
-import { Box, Text, Flex } from '@chakra-ui/react';
+import { ReactElement } from 'react';
 import { InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
-import { ReactElement } from 'react';
-import { getArchiveData, getSortedPostsData } from '../lib/posts';
-import useGetColors from '../lib/hooks/useGetColors';
-import style from './archive.module.css';
 import dynamic from 'next/dynamic';
+import { Box, Text, Flex } from '@chakra-ui/react';
+import { getArchiveData, getSortedPostsData } from 'lib/posts';
+import useGetColors from 'lib/hooks/useGetColors';
+import style from './archive.module.css';
+import HomeLayout from 'layouts/HomeLayout';
 
-const ArchiveCard = dynamic(() => import('../components/ArchiveCard'));
-const HomeLayout = dynamic(() => import('../layouts/HomeLayout'));
+const ArchiveCard = dynamic(() => import('components/ArchiveCard'));
 
 export const getStaticProps = async () => {
   const allPostsData = await getSortedPostsData();

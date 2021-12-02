@@ -1,13 +1,13 @@
-import { FC, MouseEventHandler } from 'react';
+import { FC, MouseEventHandler, useEffect } from 'react';
 import { Box, Flex, Heading, Text, Link } from '@chakra-ui/react';
-import { AllPostsData } from '../lib/posts';
+import { AllPostsData } from 'lib/posts';
 import { Icon, Image } from '@chakra-ui/react';
 import { FiCalendar, FiTag } from 'react-icons/fi';
-import { useAppDispatch } from '../app/hooks';
-import { setFromPath } from '../features/router/routerSlice';
+import { useAppDispatch } from 'app/hooks';
+import { setFromPath } from 'features/router/routerSlice';
 import { useRouter } from 'next/router';
-import useGetColors from '../lib/hooks/useGetColors';
-import useLazyLoad from '../lib/hooks/useLazyload';
+import useGetColors from 'lib/hooks/useGetColors';
+import useLazyLoad from 'lib/hooks/useLazyload';
 import dynamic from 'next/dynamic';
 
 const Date = dynamic(() => import('./DateFormater'));
@@ -27,8 +27,13 @@ const PostCard: FC<Props> = ({ post }) => {
   const goToPost: MouseEventHandler<HTMLAnchorElement> = (e) => {
     e.preventDefault();
     dispatch(setFromPath(location.pathname));
-    router.push(`/posts/${post.url}`);
+    router.push(`/p/${post.url}`);
   };
+
+  useEffect(() => {
+    router.prefetch(`/p/${post.url}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [post.url]);
 
   return (
     <>
@@ -42,7 +47,7 @@ const PostCard: FC<Props> = ({ post }) => {
       >
         {post.index_img && (
           <Link
-            href={`/posts/${post.url}`}
+            href={`/p/${post.url}`}
             onClick={goToPost}
             _focus={{ boxShadow: 'unset' }}
           >
@@ -60,7 +65,7 @@ const PostCard: FC<Props> = ({ post }) => {
         <Box p="1.75rem" key={post.url}>
           {/* Title */}
           <Link
-            href={`/posts/${post.url}`}
+            href={`/p/${post.url}`}
             onClick={goToPost}
             _focus={{ boxShadow: 'unset' }}
           >

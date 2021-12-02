@@ -1,9 +1,9 @@
 import { ReactElement } from 'react';
-import useGetColors from '../lib/hooks/useGetColors';
 import Head from 'next/head';
 import { Box, Heading } from '@chakra-ui/react';
+import useGetColors from 'lib/hooks/useGetColors';
+import HomeLayout from 'layouts/HomeLayout';
 import style from './message.module.css';
-import HomeLayout from '../layouts/HomeLayout';
 
 const message = () => {
   const { boxBg } = useGetColors();

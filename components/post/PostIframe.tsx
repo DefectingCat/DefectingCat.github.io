@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Box, useMediaQuery, AspectRatio } from '@chakra-ui/react';
-import useLazyLoad from '../../lib/hooks/useLazyload';
+import useLazyLoad from 'lib/hooks/useLazyload';
 
 interface Props {
   src: string;

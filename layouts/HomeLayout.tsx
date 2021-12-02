@@ -1,17 +1,13 @@
 import { FC, UIEventHandler, useRef, useState } from 'react';
-import { Box, Flex, Fade } from '@chakra-ui/react';
-import UseAnimations from 'react-useanimations';
-import arrowUp from 'react-useanimations/lib/arrowUp';
-import useGetColors from '../lib/hooks/useGetColors';
+import { Box, Flex } from '@chakra-ui/react';
 import dynamic from 'next/dynamic';
 
-const Footer = dynamic(() => import('../components/Footer'));
-const NavBar = dynamic(() => import('../components/NavBar'));
+const Footer = dynamic(() => import('components/Footer'));
+const NavBar = dynamic(() => import('components/NavBar'));
+const BackToTop = dynamic(() => import('components/BackToTop'));
 
 const HomeLayout: FC = ({ children }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
-
-  const { boxBg } = useGetColors();
 
   const [showBacktop, setShowBacktop] = useState(false);
   const scrollListener: UIEventHandler<HTMLDivElement> = (e) => {
@@ -52,24 +48,7 @@ const HomeLayout: FC = ({ children }) => {
         </Box>
       </Flex>
 
-      <Fade in={showBacktop}>
-        <Flex
-          bg={boxBg}
-          w="40px"
-          h="40px"
-          justify="center"
-          alignItems="center"
-          rounded="full"
-          shadow="card"
-          position="fixed"
-          bottom="50px"
-          right="100px"
-          onClick={backToTop}
-          cursor="pointer"
-        >
-          <UseAnimations size={32} animation={arrowUp} />
-        </Flex>
-      </Fade>
+      <BackToTop showBacktop={showBacktop} backToTop={backToTop} />
     </>
   );
 };

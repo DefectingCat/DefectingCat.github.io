@@ -1,36 +1,36 @@
+import { createElement, Fragment } from 'react';
 import { Box, Image, Heading, Flex, Icon, Button, Tag } from '@chakra-ui/react';
-import { getAllPostSlugs, getPostData } from '../../lib/posts';
+import { getAllPostSlugs, getPostData } from 'lib/posts';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import { unified } from 'unified';
 import remarkToc from 'remark-toc';
 import rehypeSlug from 'rehype-slug';
 import rehypeReact from 'rehype-react';
 import remarkRehype from 'remark-rehype';
 import remarkParse from 'remark-parse';
+import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
-import { unified } from 'unified';
-import { createElement, Fragment } from 'react';
 import 'highlight.js/styles/github.css';
 // import 'highlight.js/styles/github-dark.css';
 import xml from 'highlight.js/lib/languages/xml';
 import bash from 'highlight.js/lib/languages/bash';
-import rehypeRaw from 'rehype-raw';
 import { FiCalendar } from 'react-icons/fi';
-import { useRouter } from 'next/router';
-import { Giscus } from '@giscus/react';
-import { RootState } from '../../app/store';
-import { cleanFromPath } from '../../features/router/routerSlice';
-import useGetColors from '../../lib/hooks/useGetColors';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import dynamic from 'next/dynamic';
+import { RootState } from 'app/store';
+import { cleanFromPath } from 'features/router/routerSlice';
+import useGetColors from 'lib/hooks/useGetColors';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
 
-const CopyButton = dynamic(() => import('../../components/post/CopyButton'));
-const Footer = dynamic(() => import('../../components/Footer'));
-const Date = dynamic(() => import('../../components/DateFormater'));
-const PostIframe = dynamic(() => import('../../components/post/PostIframe'));
-const PostAnchor = dynamic(() => import('../../components/post/PostAnchor'));
-const PostImage = dynamic(() => import('../../components/post/PostImage'));
+const CopyButton = dynamic(() => import('components/post/CopyButton'));
+const Footer = dynamic(() => import('components/Footer'));
+const Date = dynamic(() => import('components/DateFormater'));
+const PostIframe = dynamic(() => import('components/post/PostIframe'));
+const PostAnchor = dynamic(() => import('components/post/PostAnchor'));
+const PostImage = dynamic(() => import('components/post/PostImage'));
+const PostComment = dynamic(() => import('components/post/PostComment'));
 
 export async function getStaticPaths() {
   const paths = await getAllPostSlugs();
@@ -90,7 +90,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
     router.push(fromPath || '/');
   };
 
-  const { boxBg, headingColor, giscusColor } = useGetColors();
+  const { boxBg, headingColor } = useGetColors();
 
   // Content cloud be undefined.
   const postContent = processedContent.processSync(
@@ -192,18 +192,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
           </Box>
 
           {/* Comment */}
-          <Box mt="2rem">
-            <Giscus
-              repo="DefectingCat/DefectingCat.github.io"
-              repoId="MDEwOlJlcG9zaXRvcnkyMzk5MTUyNzk="
-              category="Announcements"
-              categoryId="DIC_kwDODkzRD84B_43T"
-              mapping="title"
-              reactionsEnabled="1"
-              emitMetadata="0"
-              theme={giscusColor}
-            />
-          </Box>
+          <PostComment />
 
           <Footer />
         </Flex>

@@ -1,9 +1,9 @@
 import { ReactElement } from 'react';
-import useGetColors from '../lib/hooks/useGetColors';
+import useGetColors from 'lib/hooks/useGetColors';
 import Head from 'next/head';
 import { Box, Heading } from '@chakra-ui/react';
 import style from './pgp.module.css';
-import HomeLayout from '../layouts/HomeLayout';
+import HomeLayout from 'layouts/HomeLayout';
 
 const pgp = () => {
   const { boxBg } = useGetColors();

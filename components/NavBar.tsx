@@ -22,9 +22,12 @@ import {
   FiMoon,
   FiSearch,
 } from 'react-icons/fi';
-import useGetColors from '../lib/hooks/useGetColors';
+import useGetColors from 'lib/hooks/useGetColors';
 import { useRouter } from 'next/router';
-import Search from './search';
+import dynamic from 'next/dynamic';
+
+const Search = dynamic(() => import('./search'));
+const ImageSpinner = dynamic(() => import('components/ImageSpinner'));
 
 const menu = [
   {
@@ -150,15 +153,19 @@ const NavBar: FC = () => {
         position={'relative'}
         flex={[1, 1, 'unset']}
       >
-        <Box position={'relative'} boxSize="8rem">
+        <Box
+          position={'relative'}
+          boxSize="8rem"
+          borderRadius="full"
+          boxShadow={'card'}
+        >
           {/* avatar */}
           <Image
             borderRadius="full"
             src="/images/img/avatar.svg"
-            boxSize="8rem"
-            boxShadow={'card'}
             objectFit={'cover'}
             alt="Avatar"
+            fallback={<ImageSpinner />}
           />
           {/* emoji on avatar */}
           <Flex

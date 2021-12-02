@@ -1,10 +1,12 @@
-import type { InferGetStaticPropsType } from 'next';
-import Head from 'next/head';
-import Paging from '../components/Paging';
 import type { ReactElement } from 'react';
-import { getPagingData, getSortedPostsData } from '../lib/posts';
-import HomeLayout from '../layouts/HomeLayout';
-import PostCard from '../components/PostCard';
+import type { InferGetStaticPropsType } from 'next';
+import dynamic from 'next/dynamic';
+import Head from 'next/head';
+import { getPagingData, getSortedPostsData } from 'lib/posts';
+import HomeLayout from 'layouts/HomeLayout';
+
+const Paging = dynamic(() => import('components/Paging'));
+const PostCard = dynamic(() => import('components/PostCard'));
 
 export const getStaticProps = async () => {
   const allPostsData = await getSortedPostsData();

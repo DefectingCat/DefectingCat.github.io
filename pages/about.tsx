@@ -2,8 +2,8 @@ import { Box, Heading, Text, Link } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import Head from 'next/head';
 import { ReactElement } from 'react';
-import HomeLayout from '../layouts/HomeLayout';
-import useGetColors from '../lib/hooks/useGetColors';
+import HomeLayout from 'layouts/HomeLayout';
+import useGetColors from 'lib/hooks/useGetColors';
 import style from './about.module.css';
 
 const about = () => {

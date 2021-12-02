@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Button, Flex, Text } from '@chakra-ui/react';
-import useGetColors from '../lib/hooks/useGetColors';
+import useGetColors from 'lib/hooks/useGetColors';
 
 interface Props {
   allPages: number;
@@ -20,6 +20,14 @@ const paging: FC<Props> = ({ allPages, num }) => {
   const goNext = () => {
     router.push(`/page/${startIndex + 1}`);
   };
+
+  useEffect(() => {
+    startIndex == 2
+      ? router.prefetch('/')
+      : router.prefetch(`/page/${startIndex - 1}`);
+    router.prefetch(`/page/${startIndex + 1}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startIndex]);
 
   return (
     <>

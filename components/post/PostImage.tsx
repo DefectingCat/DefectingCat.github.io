@@ -1,6 +1,6 @@
 import { useMediaQuery, Image } from '@chakra-ui/react';
 import { FC } from 'react';
-import useLazyLoad from '../../lib/hooks/useLazyload';
+import useLazyLoad from 'lib/hooks/useLazyload';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 
@@ -14,7 +14,7 @@ const PostImage: FC<Props> = ({ src }) => {
 
   return (
     <>
-      <Zoom wrapElement="a" zoomMargin={isLargerThan768 ? 300 : 0}>
+      <Zoom wrapElement="button" zoomMargin={isLargerThan768 ? 300 : 0}>
         <Image
           ref={targetRef}
           borderRadius="10px"
