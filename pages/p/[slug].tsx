@@ -134,7 +134,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
         {/* Main article area */}
         <Flex
-          w={['full', 'full', '55rem', '68rem']}
+          w={['full', 'full', '55rem', '55rem', '55rem', '68rem']}
           flexFlow="column"
           px={['unset', 'unset', '1.5rem']}
         >

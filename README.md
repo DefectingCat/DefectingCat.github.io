@@ -9,7 +9,7 @@
 - [x] 归档页面
 - [x] 关于页面
 - [x] PGP页面
-- [ ] 其他
+- [x] 其他
 
 ### 其他功能
 
@@ -17,13 +17,13 @@
 - [x] 暗色模式
 - [x] 复制代码块内容
 - [x] NProgress
-- [ ] 暗色模式代码高亮
 
 ## Todo
 
-- [ ] 提高文章页面加载速度
+- [x] 提高文章页面加载速度
 - [ ] 图片懒加载占位问题
 - [ ] algolia 搜索样式
+- [ ] Use [sharp](https://github.com//lovell/sharp) process images.
 
 ## ❤️
 

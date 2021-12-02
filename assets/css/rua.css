@@ -107,6 +107,7 @@ body.chakra-ui-dark {
 
 #write a {
   color: var(--chakra-colors-teal-500);
+  margin: 0 2px;
 }
 
 /*headings*/

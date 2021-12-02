@@ -22,34 +22,32 @@ const paging: FC<Props> = ({ allPages, num }) => {
   };
 
   useEffect(() => {
-    startIndex == 2
-      ? router.prefetch('/')
-      : router.prefetch(`/page/${startIndex - 1}`);
-    router.prefetch(`/page/${startIndex + 1}`);
+    startIndex > 2
+      ? router.prefetch(`/page/${startIndex - 1}`)
+      : router.prefetch('/');
+    startIndex != allPages
+      ? router.prefetch(`/page/${startIndex + 1}`)
+      : router.prefetch('/');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startIndex]);
 
   return (
     <>
       <Flex alignItems="center">
-        {startIndex > 1 ? (
+        {startIndex > 1 && (
           <Button onClick={goPrev} mr={'auto'} size="lg">
             上一页
           </Button>
-        ) : (
-          void 0
         )}
 
         <Text fontSize="xl" fontWeight="bold" color={textColor}>
           {num} / {allPages}
         </Text>
 
-        {startIndex != allPages ? (
+        {startIndex != allPages && (
           <Button onClick={goNext} ml={'auto'} size="lg">
             下一页
           </Button>
-        ) : (
-          void 0
         )}
       </Flex>
     </>

@@ -169,16 +169,17 @@ const NavBar: FC = () => {
           />
           {/* emoji on avatar */}
           <Flex
-            boxShadow={'card'}
-            position={'absolute'}
+            boxShadow="card"
+            position="absolute"
             bottom={0}
             right={0}
-            rounded={'full'}
+            rounded="full"
             bg={boxBg}
             h="40px"
             w="40px"
             justify="center"
-            alignItems={'center'}
+            alignItems="center"
+            userSelect="none"
           >
             ❤️
           </Flex>
@@ -203,7 +204,8 @@ const NavBar: FC = () => {
           </Button>
         </Flex>
 
-        <Text color={bioColor}>一条咸鱼.</Text>
+        {/* Bio or something */}
+        <Text color={bioColor}>恐惧是思维杀手...</Text>
 
         {/* Menu */}
         <Box mx={['-2rem', '-4rem', 'unset']}>
