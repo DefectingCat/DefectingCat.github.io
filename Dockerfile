@@ -23,15 +23,15 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
   && yarn build && yarn install --production --ignore-scripts --prefer-offline
 
 # e2e test
-FROM cypress/base AS tester
-WORKDIR /app
-COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
+# FROM cypress/base AS tester
+# WORKDIR /app
+# COPY --from=builder /app/next.config.js ./
+# COPY --from=builder /app/public ./public
+# COPY --from=builder /app/.next ./.next
+# COPY --from=builder /app/node_modules ./node_modules
+# COPY --from=builder /app/package.json ./package.json
 
-RUN yarn e2e:headless
+# RUN yarn e2e:headless
 
 # Production image, copy all the files and run next
 FROM node:lts-alpine AS runner
