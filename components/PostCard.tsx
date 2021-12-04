@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import useGetColors from 'lib/hooks/useGetColors';
 import useLazyLoad from 'lib/hooks/useLazyload';
 import dynamic from 'next/dynamic';
+import useIntersection from 'lib/hooks/useIntersection';
 
 const Date = dynamic(() => import('./DateFormater'));
 
@@ -21,6 +22,7 @@ const PostCard: FC<Props> = ({ post }) => {
   const router = useRouter();
 
   const { initSrc, targetRef } = useLazyLoad(post.index_img);
+  const { targetRef: cardRef, intersect } = useIntersection();
 
   const { boxBg, textColor, headingColor } = useGetColors();
 
@@ -31,9 +33,9 @@ const PostCard: FC<Props> = ({ post }) => {
   };
 
   useEffect(() => {
-    router.prefetch(`/p/${post.url}`);
+    intersect && router.prefetch(`/p/${post.url}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [post.url]);
+  }, [post.url, intersect]);
 
   return (
     <>
@@ -44,6 +46,7 @@ const PostCard: FC<Props> = ({ post }) => {
         overflow="hidden"
         boxShadow="card"
         mb="2.5rem"
+        ref={cardRef}
       >
         {post.index_img && (
           <Link
