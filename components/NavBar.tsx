@@ -1,4 +1,4 @@
-import { FC, MouseEvent, useRef } from 'react';
+import { FC, MouseEvent, useCallback, useRef } from 'react';
 import {
   Box,
   Image,
@@ -25,11 +25,21 @@ import {
 import useGetColors from 'lib/hooks/useGetColors';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
+import { IconType } from 'react-icons';
+import React from 'react';
 
 const Search = dynamic(() => import('./search'));
 const ImageSpinner = dynamic(() => import('components/ImageSpinner'));
+const NavItem = dynamic(() => import('components/nav/NavItem'));
 
-const menu = [
+export type MenuItem = {
+  id: number;
+  name: string;
+  path?: string;
+  icon: IconType;
+};
+
+const menu: MenuItem[] = [
   {
     id: 0,
     name: '首页',
@@ -76,7 +86,10 @@ interface MenuListProps {
     path?: string
   ) => void;
 }
-const MenuList: FC<MenuListProps> = ({ boxBg, handleMenuClick }) => {
+const MenuList: FC<MenuListProps> = React.memo(function MenuList({
+  boxBg,
+  handleMenuClick,
+}) {
   return (
     <Flex
       as="nav"
@@ -87,27 +100,16 @@ const MenuList: FC<MenuListProps> = ({ boxBg, handleMenuClick }) => {
       bg={[boxBg, null, 'unset']}
       shadow={['card', null, 'unset']}
     >
-      {menu.map((item) => {
-        return (
-          <Flex
-            onClick={(e) => handleMenuClick(e, item?.path)}
-            href={item.path}
-            key={item.id}
-            as="a"
-            alignItems="center"
-            justifyContent={['unset', null, 'space-between']}
-            fontSize={['18', null, '22']}
-            my={['0.5rem', null, '0.5rem']}
-            cursor="pointer"
-          >
-            <Icon as={item.icon} mr={['2.5rem', null, 'unset']} />
-            <Text>{item.name}</Text>
-          </Flex>
-        );
-      })}
+      {menu.map((menuItem) => (
+        <NavItem
+          key={menuItem.id}
+          handleMenuClick={handleMenuClick}
+          menuItem={menuItem}
+        />
+      ))}
     </Flex>
   );
-};
+});
 
 const NavBar: FC = () => {
   const router = useRouter();
@@ -128,21 +130,22 @@ const NavBar: FC = () => {
 
   const iconRef = useRef<HTMLDivElement>(null);
   // Switch pages
-  const handleMenuClick = (
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>,
-    path?: string
-  ) => {
-    e.preventDefault();
+  const handleMenuClick = useCallback(
+    (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>, path?: string) => {
+      e.preventDefault();
 
-    if (path) {
-      !isLargerThan768 &&
-        // Click the animate icon.
-        (iconRef.current?.children[0] as HTMLDivElement).click();
-      router.push(path);
-    } else {
-      onModalOpen();
-    }
-  };
+      if (path) {
+        !isLargerThan768 &&
+          // Click the animate icon.
+          (iconRef.current?.children[0] as HTMLDivElement).click();
+        router.push(path);
+      } else {
+        onModalOpen();
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <>

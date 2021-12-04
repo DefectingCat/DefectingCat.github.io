@@ -1,5 +1,5 @@
 import { createElement, Fragment } from 'react';
-import { Box, Image, Heading, Flex, Icon, Button, Tag } from '@chakra-ui/react';
+import { Box, Image, Flex, Button } from '@chakra-ui/react';
 import { getAllPostSlugs, getPostData } from 'lib/posts';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
@@ -18,7 +18,6 @@ import 'highlight.js/styles/github.css';
 // import 'highlight.js/styles/github-dark.css';
 import xml from 'highlight.js/lib/languages/xml';
 import bash from 'highlight.js/lib/languages/bash';
-import { FiCalendar } from 'react-icons/fi';
 import { RootState } from 'app/store';
 import { cleanFromPath } from 'features/router/routerSlice';
 import useGetColors from 'lib/hooks/useGetColors';
@@ -26,11 +25,14 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 
 const CopyButton = dynamic(() => import('components/post/CopyButton'));
 const Footer = dynamic(() => import('components/Footer'));
-const Date = dynamic(() => import('components/DateFormater'));
 const PostIframe = dynamic(() => import('components/post/PostIframe'));
 const PostAnchor = dynamic(() => import('components/post/PostAnchor'));
 const PostImage = dynamic(() => import('components/post/PostImage'));
 const PostComment = dynamic(() => import('components/post/PostComment'));
+const PostHead = dynamic(() => import('components/post/PostHead'));
+const PostTOC = dynamic(() => import('components/post/PostTOC'), {
+  loading: () => <p>...</p>,
+});
 
 export async function getStaticPaths() {
   const paths = await getAllPostSlugs();
@@ -90,7 +92,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
     router.push(fromPath || '/');
   };
 
-  const { boxBg, headingColor } = useGetColors();
+  const { boxBg } = useGetColors();
 
   // Content cloud be undefined.
   const postContent = processedContent.processSync(
@@ -157,32 +159,13 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
               />
             )}
 
-            {/* Post heading */}
             <Box as="article" p={['1rem', '1rem', '2rem']}>
-              <Box as="header">
-                <Heading as="h1" mb="1rem" color={headingColor}>
-                  {postData.title}
-                </Heading>
-
-                {/* Post tags */}
-                <Box mb="1rem">
-                  {Array.isArray(postData.tags)
-                    ? // Mutil tags
-                      (postData.tags as string[]).map((item) => (
-                        <Tag key={item} mr="0.5rem">
-                          {item}
-                        </Tag>
-                      ))
-                    : // Signal tags
-                      postData.tags && <Tag>{postData.tags}</Tag>}
-                </Box>
-
-                {/* Date */}
-                <Flex alignItems="center" color="gray.600">
-                  <Icon as={FiCalendar} mr="0.5rem" />
-                  <Date dateString={postData.date} />
-                </Flex>
-              </Box>
+              {/* Post heading */}
+              <PostHead
+                title={postData.title}
+                tags={postData.tags}
+                date={postData.date}
+              />
 
               {/* Post content */}
               <Box as="section" id="write" mt="2rem">
@@ -199,15 +182,10 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
         {/* Table of content */}
         {toc && (
-          <Box
-            display={['none', 'none', 'none', 'block']}
-            position="sticky"
-            top="3rem"
-            mt="3rem"
-          >
+          <PostTOC>
             {tocHead}
             {toc}
-          </Box>
+          </PostTOC>
         )}
       </Flex>
     </>

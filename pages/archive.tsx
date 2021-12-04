@@ -7,8 +7,11 @@ import { getArchiveData, getSortedPostsData } from 'lib/posts';
 import useGetColors from 'lib/hooks/useGetColors';
 import style from './archive.module.css';
 import HomeLayout from 'layouts/HomeLayout';
+import ArchiveLoadingCard from 'components/loading/ArchiveLoadingCard';
 
-const ArchiveCard = dynamic(() => import('components/ArchiveCard'));
+const ArchiveCard = dynamic(() => import('components/ArchiveCard'), {
+  loading: () => <ArchiveLoadingCard />,
+});
 
 export const getStaticProps = async () => {
   const allPostsData = await getSortedPostsData();
