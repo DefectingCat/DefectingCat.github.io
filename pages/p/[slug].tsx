@@ -22,6 +22,7 @@ import { RootState } from 'app/store';
 import { cleanFromPath } from 'features/router/routerSlice';
 import useGetColors from 'lib/hooks/useGetColors';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
+import PostLoadingTOC from 'components/loading/PostLoadingTOC';
 
 const CopyButton = dynamic(() => import('components/post/CopyButton'));
 const Footer = dynamic(() => import('components/Footer'));
@@ -31,7 +32,7 @@ const PostImage = dynamic(() => import('components/post/PostImage'));
 const PostComment = dynamic(() => import('components/post/PostComment'));
 const PostHead = dynamic(() => import('components/post/PostHead'));
 const PostTOC = dynamic(() => import('components/post/PostTOC'), {
-  loading: () => <p>...</p>,
+  loading: () => <PostLoadingTOC />,
 });
 
 export async function getStaticPaths() {

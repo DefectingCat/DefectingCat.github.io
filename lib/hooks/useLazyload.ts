@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 /**
  * Use IntersectionObserver API to lazy load taget DOM.
@@ -18,10 +18,10 @@ const useLazyLoad = (src: string, blurPx = '10px') => {
     setBlur('unset');
   };
 
-  useEffect(() => {
-    // Lazy load images when they entry the view port.
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
+  const load = useCallback(
+    (entries, observer) => {
+      // Lazy load images when they entry the view port.
+      entries.forEach((entry: IntersectionObserverEntry) => {
         if (entry.isIntersecting) {
           if (targetRef.current) {
             setInitSrc(src);
@@ -33,7 +33,12 @@ const useLazyLoad = (src: string, blurPx = '10px') => {
           }
         }
       });
-    });
+    },
+    [src]
+  );
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(load);
 
     targetRef.current && observer.observe(targetRef.current);
 
@@ -43,7 +48,7 @@ const useLazyLoad = (src: string, blurPx = '10px') => {
       cleanRef &&
         (cleanRef as HTMLElement).removeEventListener('load', cleanBlur);
     };
-  }, [src]);
+  }, [load, src]);
 
   return {
     initSrc,

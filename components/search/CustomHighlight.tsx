@@ -21,15 +21,13 @@ const Highlight: FC<HighlightProvided & Props> = ({
 
   return (
     <>
-      <span>
-        {parsedHit.map((part, index) =>
-          part.isHighlighted ? (
-            <mark key={index}>{part.value}</mark>
-          ) : (
-            <span key={index}>{part.value}</span>
-          )
-        )}
-      </span>
+      {parsedHit.map((part, index) =>
+        part.isHighlighted ? (
+          <mark key={index}>{part.value}</mark>
+        ) : (
+          <span key={index}>{part.value}</span>
+        )
+      )}
     </>
   );
 };

@@ -9,12 +9,16 @@ import {
   ModalContent,
   ModalOverlay,
 } from '@chakra-ui/react';
-import CustomSearchBox from './CustomSearchBox';
-import CustomHits from './CustomHits';
+import useGetColors from 'lib/hooks/useGetColors';
+import dynamic from 'next/dynamic';
+
+const CustomSearchBox = dynamic(() => import('./CustomSearchBox'));
+const CustomHits = dynamic(() => import('./CustomHits'));
 
 const searchClient = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_APP_ID ?? '',
-  process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY ?? ''
+  process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY ?? '',
+  {}
 );
 
 interface Props {
@@ -23,15 +27,31 @@ interface Props {
 }
 
 const Search: FC<Props> = ({ isModalOpen, onModalClose }) => {
+  const { bgColor } = useGetColors();
+
   return (
     <>
-      <Modal size="xl" isOpen={isModalOpen} onClose={onModalClose}>
+      <Modal
+        size="3xl"
+        isOpen={isModalOpen}
+        onClose={onModalClose}
+        scrollBehavior="inside"
+      >
         <ModalOverlay />
-        <ModalContent>
-          <ModalBody p="0.5rem">
+
+        <ModalContent
+          my={['unset', '3.75rem']}
+          maxH={['100vh', 'calc(100% - 7.5rem)']}
+        >
+          <ModalBody p="1rem" bg={bgColor} rounded="lg">
             <InstantSearch searchClient={searchClient} indexName="rua">
-              <Flex justifyContent="space-between" alignItems="center">
+              <Flex
+                justifyContent="space-between"
+                alignItems="center"
+                mb="1rem"
+              >
                 <CustomSearchBox />
+
                 <ModalCloseButton
                   position="unset"
                   display={[null, null, 'none']}

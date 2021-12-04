@@ -82,7 +82,7 @@ async function getSortedPostsData() {
     const index = client.initIndex('rua');
 
     // save the objects!
-    const algoliaResponse = await index.saveObjects(posts);
+    const algoliaResponse = await index.replaceAllObjects(posts);
 
     // check the output of the response in the console
     console.log(

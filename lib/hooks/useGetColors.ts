@@ -5,6 +5,7 @@ interface UseGetColors {
   textColor: string;
   bioColor: string;
   headingColor: string;
+  bgColor: string;
   giscusColor: 'light' | 'dark';
   borderColor: string;
 }
@@ -18,6 +19,8 @@ const useGetColors = (): UseGetColors => {
     'whiteAlpha.800'
   );
   const borderColor = useColorModeValue('gray.300', 'whiteAlpha.300');
+  // Body and search background color
+  const bgColor = useColorModeValue('home.bg', 'gray.800');
 
   // comment
   const giscusColor = useColorModeValue('light', 'dark');
@@ -28,6 +31,7 @@ const useGetColors = (): UseGetColors => {
     bioColor,
     headingColor,
     giscusColor,
+    bgColor,
     borderColor,
   };
 };

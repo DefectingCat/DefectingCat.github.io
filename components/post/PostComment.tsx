@@ -11,9 +11,9 @@ const PostComment: FC = () => {
       <Box mt="2rem">
         <Giscus
           repo="DefectingCat/DefectingCat.github.io"
-          repoId="MDEwOlJlcG9zaXRvcnkyMzk5MTUyNzk="
+          repoId={process.env.REPO_ID ?? ''}
+          categoryId={process.env.CATEGORY_ID ?? ''}
           category="Announcements"
-          categoryId="DIC_kwDODkzRD84B_43T"
           mapping="title"
           reactionsEnabled="1"
           emitMetadata="0"

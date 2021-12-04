@@ -80,6 +80,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
               right="0"
               size="xs"
               isIndeterminate
+              zIndex="1984"
             />
           )}
           {getLayout(<Component {...pageProps} />)}

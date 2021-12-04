@@ -1,7 +1,9 @@
 import { FC } from 'react';
 import { HitsProvided } from 'react-instantsearch-core';
 import { connectHits } from 'react-instantsearch-dom';
-import CustomHighlight from './CustomHighlight';
+import dynamic from 'next/dynamic';
+
+const HitCard = dynamic(() => import('./HitCard'));
 
 export interface PostHits {
   objectID: string;
@@ -18,16 +20,9 @@ export interface PostHits {
 const Hits: FC<HitsProvided<PostHits>> = ({ hits }) => {
   return (
     <>
-      <ol>
-        {hits.map((item) => {
-          return (
-            <li key={item.objectID}>
-              <CustomHighlight attribute="title" hit={item} />
-              <CustomHighlight attribute="desc" hit={item} />
-            </li>
-          );
-        })}
-      </ol>
+      {hits.map((item) => {
+        return <HitCard key={item.objectID} hit={item} />;
+      })}
     </>
   );
 };

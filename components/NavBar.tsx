@@ -212,13 +212,8 @@ const NavBar: FC = () => {
 
         {/* Menu */}
         <Box mx={['-2rem', '-4rem', 'unset']}>
-          {/* Mobile menu */}
-          <Box
-            as={Collapse}
-            in={isOpen}
-            animateOpacity
-            display={[null, null, 'none']}
-          >
+          {/* Mobile menu (controled by collapse) */}
+          <Box as={Collapse} in={isOpen} animateOpacity display="none">
             <MenuList boxBg={boxBg} handleMenuClick={handleMenuClick} />
           </Box>
           {/* Desktop menu */}

@@ -13,10 +13,9 @@
 - [x] 复制代码块内容
 - [x] Progress bar
 - [x] 提高文章页面加载速度
-- [ ] 图片懒加载占位问题
-- [ ] algolia 搜索样式
+- [x] ~~组件懒加载（首页，归档页，文章页）~~（Suspense）
+- [x] algolia 搜索样式
 - [ ] Use [sharp](https://github.com//lovell/sharp) process images.
-- [ ] 组件懒加载（首页，归档页，文章页）
 
 ## ❤️
 
