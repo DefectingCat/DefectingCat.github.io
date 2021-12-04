@@ -6,7 +6,7 @@ import {
   LinkOverlay,
   LinkBox,
 } from '@chakra-ui/react';
-import { FC, MouseEventHandler, useEffect } from 'react';
+import { FC, MouseEventHandler } from 'react';
 import { AllPostsData } from 'lib/posts';
 import { useDispatch } from 'react-redux';
 import { setFromPath } from 'features/router/routerSlice';
@@ -14,7 +14,7 @@ import { useRouter } from 'next/router';
 import useGetColors from 'lib/hooks/useGetColors';
 import useLazyLoad from 'lib/hooks/useLazyload';
 import dynamic from 'next/dynamic';
-import useIntersection from 'lib/hooks/useIntersection';
+// import useIntersection from 'lib/hooks/useIntersection';
 
 const Date = dynamic(() => import('./DateFormater'));
 
@@ -27,7 +27,7 @@ const ArchiveCard: FC<Props> = ({ post }) => {
   const router = useRouter();
 
   const { initSrc, blur, targetRef } = useLazyLoad(post.index_img);
-  const { targetRef: cardRef, intersect } = useIntersection();
+  // const { targetRef: cardRef, intersect } = useIntersection();
 
   const { borderColor, headingColor } = useGetColors();
 
@@ -37,10 +37,10 @@ const ArchiveCard: FC<Props> = ({ post }) => {
     router.push(`/p/${post.url}`);
   };
 
-  useEffect(() => {
-    intersect && router.prefetch(`/p/${post.url}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [post.url, intersect]);
+  // useEffect(() => {
+  //   intersect && router.prefetch(`/p/${post.url}`);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [post.url, intersect]);
 
   return (
     <>
@@ -50,7 +50,7 @@ const ArchiveCard: FC<Props> = ({ post }) => {
           key={post.url}
           cursor="pointer"
           justifyContent="space-between"
-          ref={cardRef}
+          // ref={cardRef}
         >
           <Box>
             <LinkOverlay

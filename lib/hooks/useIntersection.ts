@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
+/**
+ * Check target DOM whether in the viewport.
+ * @returns
+ */
 const useIntersection = () => {
   const targetRef = useRef(null);
 

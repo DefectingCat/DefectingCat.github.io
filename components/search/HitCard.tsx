@@ -6,6 +6,7 @@ import { useAppDispatch } from 'app/hooks';
 import { Box, Heading, Link } from '@chakra-ui/react';
 import type { PostHits } from 'components/search/CustomHits';
 import dynamic from 'next/dynamic';
+import useIntersection from 'lib/hooks/useIntersection';
 
 const CustomHighlight = dynamic(() => import('./CustomHighlight'));
 
@@ -19,6 +20,8 @@ const HitCard: FC<Props> = ({ hit }) => {
   const router = useRouter();
   const { boxBg, headingColor } = useGetColors();
 
+  const { targetRef, intersect } = useIntersection();
+
   const goToPost = (
     e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>,
     url: string
@@ -29,9 +32,9 @@ const HitCard: FC<Props> = ({ hit }) => {
   };
 
   useEffect(() => {
-    router.prefetch(`/p/${url}`);
+    intersect && router.prefetch(`/p/${url}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [url]);
+  }, [url, intersect]);
 
   return (
     <>
@@ -43,6 +46,7 @@ const HitCard: FC<Props> = ({ hit }) => {
         boxShadow="card"
         mb="1rem"
         p="1rem"
+        ref={targetRef}
       >
         <Link
           href={`/p/${url}`}
