@@ -107,7 +107,7 @@ body.chakra-ui-dark {
 
 #write a {
   color: var(--chakra-colors-teal-500);
-  margin: 0 2px;
+  /* margin: 0 2px; */
 }
 
 /*headings*/
@@ -130,7 +130,7 @@ body.chakra-ui-dark {
   font-weight: normal;
   letter-spacing: 0.02em;
   line-height: 2rem;
-  margin: 1.5rem 0;
+  padding: 1rem 0;
   /*text-transform: uppercase;*/
   color: var(--heading-color);
 }

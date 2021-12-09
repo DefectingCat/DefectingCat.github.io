@@ -44,7 +44,7 @@ const HitCard: FC<Props> = ({ hit }) => {
         bg={boxBg}
         overflow="hidden"
         boxShadow="card"
-        mb="1rem"
+        mt="1rem"
         p="1rem"
         ref={targetRef}
       >

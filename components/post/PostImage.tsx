@@ -14,7 +14,7 @@ const PostImage: FC<Props> = ({ src }) => {
 
   return (
     <>
-      <Zoom wrapElement="button" zoomMargin={isLargerThan768 ? 300 : 0}>
+      <Zoom wrapElement="picture" zoomMargin={isLargerThan768 ? 300 : 0}>
         <Image
           ref={targetRef}
           borderRadius="10px"
