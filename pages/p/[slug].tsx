@@ -23,14 +23,21 @@ import { cleanFromPath } from 'features/router/routerSlice';
 import useGetColors from 'lib/hooks/useGetColors';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import PostLoadingTOC from 'components/loading/PostLoadingTOC';
+import PostHeadLoading from 'components/loading/PostHeadLoading';
+import PostCommentLoading from 'components/loading/PostCommentLoading';
+import useIntersection from 'lib/hooks/useIntersection';
 
 const CopyButton = dynamic(() => import('components/post/CopyButton'));
 const Footer = dynamic(() => import('components/Footer'));
 const PostIframe = dynamic(() => import('components/post/PostIframe'));
 const PostAnchor = dynamic(() => import('components/post/PostAnchor'));
 const PostImage = dynamic(() => import('components/post/PostImage'));
-const PostComment = dynamic(() => import('components/post/PostComment'));
-const PostHead = dynamic(() => import('components/post/PostHead'));
+const PostComment = dynamic(() => import('components/post/PostComment'), {
+  loading: () => <PostCommentLoading />,
+});
+const PostHead = dynamic(() => import('components/post/PostHead'), {
+  loading: () => <PostHeadLoading />,
+});
 const PostTOC = dynamic(() => import('components/post/PostTOC'), {
   loading: () => <PostLoadingTOC />,
 });
@@ -87,6 +94,10 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const fromPath = useAppSelector((state: RootState) => state.router.fromPath);
   const dispatch = useAppDispatch();
   const router = useRouter();
+
+  // Lazy loading comment
+  const { targetRef: commentRef, intersect: commentInterSect } =
+    useIntersection();
 
   const goBack = () => {
     dispatch(cleanFromPath());
@@ -176,7 +187,9 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
           </Box>
 
           {/* Comment */}
-          <PostComment />
+          <Box ref={commentRef} h="382px">
+            {commentInterSect && <PostComment />}
+          </Box>
 
           <Footer />
         </Flex>
