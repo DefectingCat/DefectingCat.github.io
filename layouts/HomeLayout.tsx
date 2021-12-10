@@ -48,7 +48,9 @@ const HomeLayout: FC = ({ children }) => {
         </Box>
       </Flex>
 
-      <BackToTop showBacktop={showBacktop} backToTop={backToTop} />
+      {showBacktop && (
+        <BackToTop showBacktop={showBacktop} backToTop={backToTop} />
+      )}
     </>
   );
 };

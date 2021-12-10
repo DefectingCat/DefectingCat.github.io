@@ -240,7 +240,9 @@ const NavBar: FC = () => {
         </Box>
       </Box>
 
-      <Search isModalOpen={isModalOpen} onModalClose={onModalClose} />
+      {isModalOpen && (
+        <Search isModalOpen={isModalOpen} onModalClose={onModalClose} />
+      )}
     </>
   );
 };

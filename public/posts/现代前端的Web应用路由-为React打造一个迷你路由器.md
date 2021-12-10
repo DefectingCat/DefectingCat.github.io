@@ -1,5 +1,5 @@
 ---
-title: 现代前端的Web应用路由-为React打造一个迷你路由器
+title: 现代前端的 Web 应用路由-为 React 打造一个迷你路由器
 date: 2021-08-23 17:28:49
 tags: [JavaScript, React]
 categories: 实践

@@ -1,5 +1,5 @@
 ---
-title: 在Linode上安装FreeBSD
+title: 在 Linode 上安装 FreeBSD
 date: 2021-12-05 20:04:52
 tags: [FreeBSD, Linode]
 categories: 实践
@@ -25,8 +25,8 @@ FreeBSD 是一款基于 [Berkeley Software Distribution](https://en.wikipedia.or
 
 将所有现有的磁盘都删除之后，我们需要创建两个新的磁盘，分别是用于安装与启动的磁盘：
 
-* 第一块是 Label 为 *Installer* 的 1024MB 磁盘。
-* 第二块用来安装 FreeBSD，所以利用剩下所有空间。
+- 第一块是 Label 为 _Installer_ 的 1024MB 磁盘。
+- 第二块用来安装 FreeBSD，所以利用剩下所有空间。
 
 ### 启动配置文件
 
@@ -34,18 +34,18 @@ FreeBSD 是一款基于 [Berkeley Software Distribution](https://en.wikipedia.or
 
 **Installer profile**
 
-* Label: Installer
-* Kernel: Direct Disk
-* `/dev/sda`: FreeBSD disk image.
-* `/dev/sdb`: Installer disk image.
-* root `/` boot device: Standard `/dev/sdb`
+- Label: Installer
+- Kernel: Direct Disk
+- `/dev/sda`: FreeBSD disk image.
+- `/dev/sdb`: Installer disk image.
+- root `/` boot device: Standard `/dev/sdb`
 
 **Boot profile**
 
-* Label: FreeBSD
-* Kernel: Direct Disk
-* `/dev/sda`: FreeBSD disk image.
-* root `/` boot device: Standard `/dev/sda`
+- Label: FreeBSD
+- Kernel: Direct Disk
+- `/dev/sda`: FreeBSD disk image.
+- root `/` boot device: Standard `/dev/sda`
 
 它们分别用于制作安装镜像和启动系统的配置。
 
@@ -111,7 +111,6 @@ freebsd-update install
 ```
 
 之后可以顺便把 pkg 以及 ports 更新一下：
-
 
 ```
 pkg-static install -f pkg
