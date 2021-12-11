@@ -6,7 +6,7 @@ interface UseGetColors {
   bioColor: string;
   headingColor: string;
   bgColor: string;
-  giscusColor: 'light' | 'dark';
+  giscusColor: 'light' | 'dark_dimmed';
   borderColor: string;
 }
 
@@ -23,7 +23,7 @@ const useGetColors = (): UseGetColors => {
   const bgColor = useColorModeValue('home.bg', 'gray.800');
 
   // comment
-  const giscusColor = useColorModeValue('light', 'dark');
+  const giscusColor = useColorModeValue('light', 'dark_dimmed');
 
   return {
     boxBg,
