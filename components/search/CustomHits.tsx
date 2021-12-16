@@ -1,9 +1,13 @@
 import { FC } from 'react';
-import { HitsProvided } from 'react-instantsearch-core';
-import { connectHits } from 'react-instantsearch-dom';
+import { StateResultsProvided } from 'react-instantsearch-core';
+import { connectStateResults } from 'react-instantsearch-dom';
 import dynamic from 'next/dynamic';
+import SearchHitCardLoading from 'components/loading/SearchHitCardLoading';
 
-const HitCard = dynamic(() => import('./HitCard'));
+const HitCard = dynamic(() => import('./HitCard'), {
+  loading: () => <SearchHitCardLoading />,
+});
+const CustomNotFound = dynamic(() => import('./CustomNotFound'));
 
 export interface PostHits {
   objectID: string;
@@ -17,16 +21,24 @@ export interface PostHits {
   index_img: string;
 }
 
-const Hits: FC<HitsProvided<PostHits>> = ({ hits }) => {
+const Hits: FC<StateResultsProvided<PostHits>> = ({
+  searchState,
+  searchResults,
+}) => {
+  const validQuery = searchState.query && searchState.query?.length >= 3;
+
   return (
     <>
-      {hits.map((item) => {
-        return <HitCard key={item.objectID} hit={item} />;
-      })}
+      {searchResults?.hits.length === 0 && validQuery && <CustomNotFound />}
+      {searchResults?.hits.length > 0 &&
+        validQuery &&
+        searchResults.hits.map((hit) => (
+          <HitCard key={hit.objectID} hit={hit} />
+        ))}
     </>
   );
 };
 
-const CustomHits = connectHits(Hits);
+const CustomHits = connectStateResults(Hits);
 
 export default CustomHits;

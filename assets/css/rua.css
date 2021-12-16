@@ -16,7 +16,6 @@
   --primary-btn-border-color: #285e8e;
   --primary-btn-text-color: #fff;
   --window-border: 1px solid #eee; /*边栏等的边框*/
-  --active-file-bg-color: #eee; /*文件树或文件列表中当前项的背景色*/
   --active-file-text-color: inherit;
   --active-file-border-color: #777;
   --side-bar-bg-color: var(--bg-color); /*改变边栏颜色*/

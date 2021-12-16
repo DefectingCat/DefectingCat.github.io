@@ -33,8 +33,7 @@ const HitCard: FC<Props> = ({ hit }) => {
 
   useEffect(() => {
     intersect && router.prefetch(`/p/${url}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [url, intersect]);
+  }, [url, intersect, router]);
 
   return (
     <>

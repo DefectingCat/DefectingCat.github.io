@@ -45,10 +45,11 @@ const Search: FC<Props> = ({ isModalOpen, onModalClose }) => {
         >
           <ModalBody p="1rem" bg={bgColor} rounded="lg">
             <InstantSearch searchClient={searchClient} indexName="rua">
-              <Flex justifyContent="space-between" alignItems="center">
+              <Flex justifyContent="space-between" alignItems="center" h="40px">
                 <CustomSearchBox />
 
                 <ModalCloseButton
+                  ml="0.5rem"
                   position="unset"
                   display={[null, null, 'none']}
                 />

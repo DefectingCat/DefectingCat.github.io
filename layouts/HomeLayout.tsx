@@ -2,9 +2,9 @@ import { FC, UIEventHandler, useRef, useState } from 'react';
 import { Box, Flex } from '@chakra-ui/react';
 import dynamic from 'next/dynamic';
 
-const Footer = dynamic(() => import('components/Footer'));
 const NavBar = dynamic(() => import('components/NavBar'));
 const BackToTop = dynamic(() => import('components/BackToTop'));
+const Footer = dynamic(() => import('components/Footer'));
 
 const HomeLayout: FC = ({ children }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
