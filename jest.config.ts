@@ -1,4 +1,6 @@
-const config = {
+import type { Config } from '@jest/types';
+
+const config: Config.InitialOptions = {
   collectCoverageFrom: [
     '**/*.{js,jsx,ts,tsx}',
     '!**/*.d.ts',
