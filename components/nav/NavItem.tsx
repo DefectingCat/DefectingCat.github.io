@@ -19,8 +19,7 @@ const NavItem: FC<Props> = ({ handleMenuClick, menuItem }) => {
 
   useEffect(() => {
     path && router.prefetch(path);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [path]);
+  }, [path, router]);
 
   return (
     <>

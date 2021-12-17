@@ -32,7 +32,7 @@ const Home = ({
         <PostCard key={post.id} post={post} />
       ))}
 
-      <Paging allPages={allPages} num={'1'} />
+      <Paging allPages={allPages} num="1" />
     </>
   );
 };
