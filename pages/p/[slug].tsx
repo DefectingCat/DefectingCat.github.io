@@ -24,6 +24,7 @@ import useGetColors from 'lib/hooks/useGetColors';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import PostLoadingTOC from 'components/loading/PostLoadingTOC';
 import PostHeadLoading from 'components/loading/PostHeadLoading';
+import PostCommentLoading from 'components/loading/PostCommentLoading';
 import useIntersection from 'lib/hooks/useIntersection';
 
 const CopyButton = dynamic(() => import('components/post/CopyButton'));
@@ -31,7 +32,9 @@ const Footer = dynamic(() => import('components/Footer'));
 const PostIframe = dynamic(() => import('components/post/PostIframe'));
 const PostAnchor = dynamic(() => import('components/post/PostAnchor'));
 const PostImage = dynamic(() => import('components/post/PostImage'));
-const PostComment = dynamic(() => import('components/post/PostComment'));
+const PostComment = dynamic(() => import('components/post/PostComment'), {
+  loading: () => <PostCommentLoading />,
+});
 const PostHead = dynamic(() => import('components/post/PostHead'), {
   loading: () => <PostHeadLoading />,
 });
