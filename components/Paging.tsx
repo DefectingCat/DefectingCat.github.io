@@ -5,7 +5,7 @@ import useGetColors from 'lib/hooks/useGetColors';
 
 interface Props {
   allPages: number;
-  num: string;
+  num?: string;
 }
 
 const paging: FC<Props> = ({ allPages, num }) => {

@@ -20,7 +20,7 @@ const HitCard: FC<Props> = ({ hit }) => {
   const router = useRouter();
   const { boxBg, headingColor } = useGetColors();
 
-  const { targetRef, intersect } = useIntersection();
+  const { targetRef, inView } = useIntersection();
 
   const goToPost = (
     e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>,
@@ -32,8 +32,8 @@ const HitCard: FC<Props> = ({ hit }) => {
   };
 
   useEffect(() => {
-    intersect && router.prefetch(`/p/${url}`);
-  }, [url, intersect, router]);
+    inView && router.prefetch(`/p/${url}`);
+  }, [url, inView, router]);
 
   return (
     <>

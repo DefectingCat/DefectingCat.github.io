@@ -7,14 +7,14 @@ import { useEffect, useRef, useState } from 'react';
 const useIntersection = () => {
   const targetRef = useRef(null);
 
-  const [intersect, setIntersect] = useState(false);
+  const [inView, setInView] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           if (targetRef.current) {
-            setIntersect(true);
+            setInView(true);
             observer.unobserve(targetRef.current);
           }
         }
@@ -26,7 +26,7 @@ const useIntersection = () => {
 
   return {
     targetRef,
-    intersect,
+    inView,
   };
 };
 

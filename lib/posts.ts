@@ -104,6 +104,13 @@ export async function getAllPostNum() {
   return numPages;
 }
 
+export interface PagingData {
+  totalNum: number;
+  pagingSize: number;
+  allPages: number;
+  postDatas: AllPostsData[];
+}
+
 export function getPagingData(allPostsData: AllPostsData[], start?: string) {
   const totalNum = allPostsData.length;
   const pagingSize = 10;
@@ -153,8 +160,9 @@ export async function getAllPostSlugs() {
   );
 }
 
-export interface MyPost extends AllPostsData {
-  contentHtml: string;
+export interface MyPost extends MyMatters {
+  id: string;
+  content: string;
 }
 
 export async function getPostData(slug: string) {

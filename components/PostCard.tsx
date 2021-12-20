@@ -22,7 +22,7 @@ const PostCard: FC<Props> = ({ post }) => {
   const router = useRouter();
 
   const { initSrc, targetRef } = useLazyLoad(post.index_img);
-  const { targetRef: cardRef, intersect } = useIntersection();
+  const { targetRef: cardRef, inView } = useIntersection();
 
   const { boxBg, textColor, headingColor } = useGetColors();
 
@@ -33,9 +33,8 @@ const PostCard: FC<Props> = ({ post }) => {
   };
 
   useEffect(() => {
-    intersect && router.prefetch(`/p/${post.url}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [post.url, intersect]);
+    inView && router.prefetch(`/p/${post.url}`);
+  }, [post.url, inView, router]);
 
   return (
     <>

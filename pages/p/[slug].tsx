@@ -1,6 +1,6 @@
 import { createElement, Fragment } from 'react';
 import { Box, Image, Flex, Button } from '@chakra-ui/react';
-import { getAllPostSlugs, getPostData } from 'lib/posts';
+import { MyPost, getAllPostSlugs, getPostData } from 'lib/posts';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
@@ -50,7 +50,9 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps<{ postData: MyPost }> = async ({
+  params,
+}) => {
   const postData = await getPostData(params?.slug?.toString() ?? '');
   return {
     props: {
@@ -96,8 +98,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
 
   // Lazy loading comment
-  const { targetRef: commentRef, intersect: commentInterSect } =
-    useIntersection();
+  const { targetRef: commentRef, inView: commentInView } = useIntersection();
 
   const goBack = () => {
     dispatch(cleanFromPath());
@@ -188,7 +189,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
           {/* Comment */}
           <Box ref={commentRef} h="382px">
-            {commentInterSect && <PostComment />}
+            {commentInView && <PostComment />}
           </Box>
 
           <Footer />

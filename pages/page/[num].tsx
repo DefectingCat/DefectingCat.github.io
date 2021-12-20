@@ -9,6 +9,7 @@ import {
   getSortedPostsData,
 } from 'lib/posts';
 import HomeLayout from 'layouts/HomeLayout';
+import type { PagingData } from 'lib/posts';
 
 const Paging = dynamic(() => import('components/Paging'));
 const PostCard = dynamic(() => import('components/PostCard'));
@@ -21,7 +22,9 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps<
+  { num: string | undefined } & PagingData
+> = async ({ params }) => {
   const allPostsData = await getSortedPostsData();
 
   return {
