@@ -7,11 +7,11 @@ import { useAppDispatch } from 'app/hooks';
 import { setFromPath } from 'features/router/routerSlice';
 import { useRouter } from 'next/router';
 import useGetColors from 'lib/hooks/useGetColors';
-import useLazyLoad from 'lib/hooks/useLazyload';
 import dynamic from 'next/dynamic';
 import useIntersection from 'lib/hooks/useIntersection';
 
 const Date = dynamic(() => import('./DateFormater'));
+const ImageSpinner = dynamic(() => import('components/ImageSpinner'));
 
 interface Props {
   post: AllPostsData;
@@ -21,7 +21,6 @@ const PostCard: FC<Props> = ({ post }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const { initSrc, targetRef } = useLazyLoad(post.index_img);
   const { targetRef: cardRef, inView } = useIntersection();
 
   const { boxBg, textColor, headingColor } = useGetColors();
@@ -54,12 +53,14 @@ const PostCard: FC<Props> = ({ post }) => {
             _focus={{ boxShadow: 'unset' }}
           >
             <Image
-              ref={targetRef}
-              src={initSrc}
               maxH="18rem"
+              h={['unset', 'unset', '18rem']}
+              src={post.index_img}
               w="100%"
               fit="cover"
               alt="Post image"
+              loading="lazy"
+              fallback={<ImageSpinner />}
             />
           </Link>
         )}

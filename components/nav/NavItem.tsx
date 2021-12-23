@@ -1,15 +1,11 @@
 import { Flex, Icon, Text } from '@chakra-ui/react';
-import { FC, MouseEvent, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { MenuItem } from 'components/NavBar';
 import { useRouter } from 'next/router';
+import type { HandleMenuClick } from 'components/NavBar';
 
 interface Props {
-  handleMenuClick: (
-    // eslint-disable-next-line no-unused-vars
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>,
-    // eslint-disable-next-line no-unused-vars
-    path?: string
-  ) => void;
+  handleMenuClick: HandleMenuClick;
   menuItem: MenuItem;
 }
 

@@ -77,14 +77,16 @@ const menu: MenuItem[] = [
   },
 ];
 
+export type HandleMenuClick = (
+  // eslint-disable-next-line no-unused-vars
+  e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>,
+  // eslint-disable-next-line no-unused-vars
+  path?: string
+) => void;
+
 interface MenuListProps {
   boxBg: string;
-  handleMenuClick: (
-    // eslint-disable-next-line no-unused-vars
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>,
-    // eslint-disable-next-line no-unused-vars
-    path?: string
-  ) => void;
+  handleMenuClick: HandleMenuClick;
 }
 const MenuList: FC<MenuListProps> = React.memo(function MenuList({
   boxBg,
