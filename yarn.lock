@@ -1895,6 +1895,13 @@
   resolved "https://registry.nlark.com/@types/mdurl/download/@types/mdurl-1.0.2.tgz?cache=0&sync_timestamp=1629708392076&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fmdurl%2Fdownload%2F%40types%2Fmdurl-1.0.2.tgz#e2ce9d83a613bacf284c7be7d491945e39e1f8e9"
   integrity sha1-4s6dg6YTus8oTHvn1JGUXjnh+Ok=
 
+"@types/mdx-js__react@^1.5.5":
+  version "1.5.5"
+  resolved "https://registry.npmmirror.com/@types/mdx-js__react/download/@types/mdx-js__react-1.5.5.tgz#fa6daa1a28336d77b6cf071aacc7e497600de9ee"
+  integrity sha1-+m2qGigzbXe2zwcarMfkl2AN6e4=
+  dependencies:
+    "@types/react" "*"
+
 "@types/ms@*":
   version "0.7.31"
   resolved "https://registry.nlark.com/@types/ms/download/@types/ms-0.7.31.tgz?cache=0&sync_timestamp=1629708397505&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fms%2Fdownload%2F%40types%2Fms-0.7.31.tgz#31b7ca6407128a3d2bbc27fe2d21b345397f6197"

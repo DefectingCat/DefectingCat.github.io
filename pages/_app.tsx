@@ -13,8 +13,11 @@ import { Chakra } from 'Chakra';
 import { Progress } from '@chakra-ui/react';
 import { Provider } from 'react-redux';
 import { store } from 'app/store';
-import 'assets/css/rua.css';
 import 'styles/globals.css';
+import 'styles/rua.css';
+import { Text } from '@chakra-ui/react';
+import { MDXProvider } from '@mdx-js/react';
+import RuaH2 from 'components/mdx/RuaH2';
 
 type NextPageWithLayout = NextPage & {
   // eslint-disable-next-line no-unused-vars
@@ -23,6 +26,12 @@ type NextPageWithLayout = NextPage & {
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
+};
+
+// MDX components
+const mdxCompoents = {
+  h2: RuaH2,
+  p: Text,
 };
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
@@ -83,7 +92,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
               zIndex="1984"
             />
           )}
-          {getLayout(<Component {...pageProps} />)}
+          <MDXProvider components={mdxCompoents}>
+            {getLayout(<Component {...pageProps} />)}
+          </MDXProvider>
         </Chakra>
       </Provider>
     </>

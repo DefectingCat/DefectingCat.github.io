@@ -52,18 +52,6 @@ const menu: MenuItem[] = [
     path: '/archive',
     icon: FiArchive,
   },
-  // {
-  //   id: 2,
-  //   name: '闲言',
-  //   path: '/message',
-  //   icon: FiMessageSquare,
-  // },
-  // {
-  //   id: 3,
-  //   name: '密语',
-  //   path: '/pgp',
-  //   icon: FiLock,
-  // },
   {
     id: 4,
     name: '关于',

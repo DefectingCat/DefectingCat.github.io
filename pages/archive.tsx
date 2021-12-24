@@ -5,12 +5,11 @@ import dynamic from 'next/dynamic';
 import { Box, Text, Flex } from '@chakra-ui/react';
 import { getArchiveData, getSortedPostsData } from 'lib/posts';
 import useGetColors from 'lib/hooks/useGetColors';
-import style from './archive.module.css';
 import HomeLayout from 'layouts/HomeLayout';
-import ArchiveLoadingCard from 'components/loading/ArchiveLoadingCard';
+import ArchiveCardLoading from 'components/loading/ArchiveCardLoading';
 
 const ArchiveCard = dynamic(() => import('components/ArchiveCard'), {
-  loading: () => <ArchiveLoadingCard />,
+  loading: () => <ArchiveCardLoading />,
 });
 
 export const getStaticProps = async () => {
@@ -47,7 +46,6 @@ const archive = ({
               overflow="hidden"
               boxShadow="card"
               mt="0.5rem"
-              className={style['archive-wrapper']}
             >
               {archiveData[year].map((post) => (
                 <ArchiveCard post={post} key={post.id} />

@@ -1,0 +1,32 @@
+import { Link, Icon } from '@chakra-ui/react';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
+import AboutMDXLayout from 'layouts/MDXLayout';
+import { FiGithub } from 'react-icons/fi';
+
+<AboutMDXLayout title="RUA - About">
+
+## Hi, there 👋
+
+这里是某条咸鱼利用业余时间构建的 Blog。🐟 它称不上完美，但也还算凑合，起码能显示文字。
+
+## 关于我
+
+无死角的咸鱼，爱玩游戏。
+
+目前从事前端，站在巨人的肩膀上为自己获取微薄的收入。
+
+## 找到我
+
+<Link
+  href="https://github.com/DefectingCat"
+  isExternal
+  _focus={{ boxShadow: 'unset' }}
+>
+  <Icon as={FiGithub} w="2rem" h="2rem" />
+</Link>
+
+## 还有什么吗？
+
+对了，它是使用我最爱的 React Framework：<Link href="https://nextjs.org/" color="teal.500" isExternal>Next.js<ExternalLinkIcon mx="2px" /></Link>构建的。未来，这里会添加更多内容的。
+
+</AboutMDXLayout>

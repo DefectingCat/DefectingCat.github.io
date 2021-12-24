@@ -22,7 +22,7 @@ import { RootState } from 'app/store';
 import { cleanFromPath } from 'features/router/routerSlice';
 import useGetColors from 'lib/hooks/useGetColors';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import PostLoadingTOC from 'components/loading/PostLoadingTOC';
+import PostTOCLoading from 'components/loading/PostTOCLoading';
 import PostHeadLoading from 'components/loading/PostHeadLoading';
 import PostCommentLoading from 'components/loading/PostCommentLoading';
 import useIntersection from 'lib/hooks/useIntersection';
@@ -39,7 +39,7 @@ const PostHead = dynamic(() => import('components/post/PostHead'), {
   loading: () => <PostHeadLoading />,
 });
 const PostTOC = dynamic(() => import('components/post/PostTOC'), {
-  loading: () => <PostLoadingTOC />,
+  loading: () => <PostTOCLoading />,
 });
 
 export async function getStaticPaths() {

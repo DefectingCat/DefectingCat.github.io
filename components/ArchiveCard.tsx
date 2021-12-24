@@ -37,7 +37,12 @@ const ArchiveCard: FC<Props> = ({ post }) => {
 
   return (
     <>
-      <LinkBox as="article" borderBottom="1px" borderColor={borderColor}>
+      <LinkBox
+        as="article"
+        borderBottom="1px"
+        borderColor={borderColor}
+        _last={{ border: 'unset' }}
+      >
         <Flex
           p="1.25rem"
           key={post.url}
