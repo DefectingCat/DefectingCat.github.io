@@ -1,3 +1,12 @@
+---
+title: 我的开发环境-create-react-app
+date: 2021-12-30 03:12:29
+tags: React
+categories: 笔记
+url: my-development-environment-create-react-app
+index_img: /images/我的开发环境-create-react-app/logo.svg
+---
+
 ## 创建项目
 
 Create React App 自带 TypeScript 的 template，所以直接创建即可。
@@ -77,7 +86,7 @@ import transfromUserData from 'helpers/transform-user-data';
 
 ## ESLint + Prettier
 
-create-react-app 其实是为我们安装过了 ESLint，所以我们不需要在手动的安装了。
+create-react-app 其实是为我们安装过了 ESLint，所以我们不需要再手动的安装了。
 
 ```bash
 yarn add -D @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-airbnb-typescript eslint-plugin-jest
