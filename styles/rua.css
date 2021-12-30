@@ -7,26 +7,6 @@
   --code-border-color: #e7eaed;
 
   --shadow-color: #c3c5c7;
-  --checkbox-color: #f8a9b5;
-  --checked-font-color: #eee;
-  --bg-color: #ffffff; /*改变背景色*/
-  --md-char-color: #c7c5c5; /*改变元字符的颜色，例如 markdown 中的“*”*/
-  --meta-content-color: #c7c5c5; /*改变元内容的颜色，例如 markdown 中的图像文本和链接地址*/
-  --primary-color: #428bca; /*主按钮的颜色*/
-  --primary-btn-border-color: #285e8e;
-  --primary-btn-text-color: #fff;
-  --window-border: 1px solid #eee; /*边栏等的边框*/
-  --active-file-text-color: inherit;
-  --active-file-border-color: #777;
-  --side-bar-bg-color: var(--bg-color); /*改变边栏颜色*/
-  --item-hover-bg-color: rgba(
-    229,
-    229,
-    229,
-    0.59
-  ); /*鼠标悬停时控件项的背景，如侧边栏中的菜单*/
-  --item-hover-text-color: inherit;
-  --monospace: monospace; /*代码的等宽字体*/
 }
 
 /* With Chakra dark mode */
