@@ -42,20 +42,16 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const [loading, setLoading] = useState(false);
 
   const handleStart = useCallback(
-    (url: string, { shallow }: { shallow: 'with' | 'without' }) => {
-      console.log(
-        `App is changing to ${url} ${
-          shallow ? 'with' : 'without'
-        } shallow routing`
-      );
-
-      setLoading(true);
+    (url: string) => {
+      url !== router.pathname ? setLoading(true) : setLoading(false);
     },
-    []
+    [router.pathname]
   );
+
   const handleComplete = useCallback(() => {
     setLoading(false);
   }, []);
+
   useEffect(() => {
     router.events.on('routeChangeStart', handleStart);
     router.events.on('routeChangeComplete', handleComplete);
