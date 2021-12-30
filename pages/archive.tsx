@@ -12,10 +12,10 @@ const ArchiveCard = dynamic(() => import('components/ArchiveCard'), {
   loading: () => <ArchiveCardLoading />,
 });
 
-export const getStaticProps = async () => {
+export const getStaticProps = () => {
   return {
     props: {
-      ...(await getArchiveData()),
+      ...getArchiveData(),
     },
   };
 };

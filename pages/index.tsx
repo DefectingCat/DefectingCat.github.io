@@ -8,10 +8,10 @@ import HomeLayout from 'layouts/HomeLayout';
 const Paging = dynamic(() => import('components/Paging'));
 const PostCard = dynamic(() => import('components/PostCard'));
 
-export const getStaticProps = async () => {
+export const getStaticProps = () => {
   return {
     props: {
-      ...(await getPagingData()),
+      ...getPagingData(),
     },
   };
 };

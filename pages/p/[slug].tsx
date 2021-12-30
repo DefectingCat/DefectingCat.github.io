@@ -42,20 +42,19 @@ const PostTOC = dynamic(() => import('components/post/PostTOC'), {
   loading: () => <PostTOCLoading />,
 });
 
-export async function getStaticPaths() {
+export function getStaticPaths() {
   return {
-    paths: await getAllPostSlugs(),
+    paths: getAllPostSlugs(),
     fallback: false,
   };
 }
 
-export const getStaticProps: GetStaticProps<{ postData: MyPost }> = async ({
+export const getStaticProps: GetStaticProps<{ postData: MyPost }> = ({
   params,
 }) => {
-  const postData = await getPostData(params?.slug?.toString() ?? '');
   return {
     props: {
-      postData,
+      postData: getPostData(params?.slug?.toString() ?? ''),
     },
   };
 };

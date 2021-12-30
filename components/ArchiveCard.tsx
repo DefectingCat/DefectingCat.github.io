@@ -7,7 +7,7 @@ import {
   LinkBox,
 } from '@chakra-ui/react';
 import { FC, MouseEventHandler } from 'react';
-import { MyPost } from 'lib/posts';
+import { AllPostsData } from 'lib/allPosts';
 import { useDispatch } from 'react-redux';
 import { setFromPath } from 'features/router/routerSlice';
 import { useRouter } from 'next/router';
@@ -18,7 +18,7 @@ import dynamic from 'next/dynamic';
 const Date = dynamic(() => import('./DateFormater'));
 
 interface Props {
-  post: MyPost;
+  post: AllPostsData;
 }
 
 const ArchiveCard: FC<Props> = ({ post }) => {

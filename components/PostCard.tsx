@@ -1,6 +1,6 @@
 import { FC, MouseEventHandler, useEffect } from 'react';
 import { Box, Flex, Heading, Text, Link } from '@chakra-ui/react';
-import { AllPostsData } from 'lib/posts';
+import { AllPostsData } from 'lib/allPosts';
 import { Icon, Image } from '@chakra-ui/react';
 import { FiCalendar, FiTag } from 'react-icons/fi';
 import { useAppDispatch } from 'app/hooks';
