@@ -25,7 +25,7 @@ const Hits: FC<StateResultsProvided<PostHits>> = ({
   searchState,
   searchResults,
 }) => {
-  const validQuery = searchState.query && searchState.query?.length >= 3;
+  const validQuery = searchState.query && searchState.query?.length >= 1;
 
   return (
     <>

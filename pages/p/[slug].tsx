@@ -43,9 +43,8 @@ const PostTOC = dynamic(() => import('components/post/PostTOC'), {
 });
 
 export async function getStaticPaths() {
-  const paths = await getAllPostSlugs();
   return {
-    paths,
+    paths: await getAllPostSlugs(),
     fallback: false,
   };
 }

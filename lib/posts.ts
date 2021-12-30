@@ -70,6 +70,50 @@ export async function getSortedPostsData() {
 }
 
 /**
+ * Get all posts without description and sorted.
+ * @returns
+ */
+export async function getAllPosts() {
+  // Get file names under /posts
+  const fileNames = await fs.readdir(postsDirectory);
+
+  const allPosts = await Promise.all(
+    fileNames.map(async (file) => {
+      // Remove ".md" from file name to get id
+      const id = file.replace(/\.md$/, '');
+
+      // Read markdown file as string
+      const fullPath = path.join(postsDirectory, file);
+      const fileContents = await fs.readFile(fullPath, 'utf8');
+
+      // Use gray-matter to parse the post metadata section
+      const matterResult = matter(fileContents);
+
+      return {
+        id,
+        // Post content,
+        content: matterResult.content,
+        ...({
+          ...matterResult.data,
+          date: matterResult.data.date.toISOString(),
+        } as MyMatters),
+      };
+    })
+  );
+
+  // Sort posts by date
+  return allPosts.sort(({ date: a }, { date: b }) => {
+    if (a < b) {
+      return 1;
+    } else if (a > b) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
+}
+
+/**
  * Paging, get all posts length
  * @returns
  */
@@ -111,7 +155,9 @@ export interface PagingData {
   postDatas: AllPostsData[];
 }
 
-export function getPagingData(allPostsData: AllPostsData[], start?: string) {
+export async function getPagingData(start?: string) {
+  const allPostsData = await getSortedPostsData();
+
   const totalNum = allPostsData.length;
   const pagingSize = 10;
   const allPages = Math.ceil(totalNum / pagingSize);
@@ -129,8 +175,7 @@ export function getPagingData(allPostsData: AllPostsData[], start?: string) {
 }
 
 export async function getAllPostSlugs() {
-  const fileNames = await fs.readdir(postsDirectory);
-  const allPostsData = await getSortedPostsData();
+  const allPosts = await getAllPosts();
 
   // Returns an array that looks like this:
   // [
@@ -145,19 +190,13 @@ export async function getAllPostSlugs() {
   //     }
   //   }
   // ]
-  return await Promise.all(
-    fileNames.map(async (fileName) => {
-      const slug = allPostsData.find(
-        (item) => item.id === fileName.replace(/\.md$/, '')
-      );
-
-      return {
-        params: {
-          slug: slug?.url,
-        },
-      };
-    })
-  );
+  return allPosts.map((post) => {
+    return {
+      params: {
+        slug: post.url,
+      },
+    };
+  });
 }
 
 export interface MyPost extends MyMatters {
@@ -166,31 +205,13 @@ export interface MyPost extends MyMatters {
 }
 
 export async function getPostData(slug: string) {
-  const allPostsData = await getSortedPostsData();
-  const post = allPostsData.find((item) => item.url === slug);
-
-  const fullPath = path.join(postsDirectory, `${post?.id}.md`);
-  const fileContents = await fs.readFile(fullPath, 'utf8');
-
-  // Use gray-matter to parse the post metadata section
-  const matterResult = matter(fileContents);
-
-  // Process markdown to html
-  // const processedContent = await remark()
-  //   .use(html({ sanitize: false }))
-  //   .process(matterResult.content);
-  // const contentHtml = processedContent.toString();
+  const allPosts = await getAllPosts();
+  const post = allPosts.find((post) => post.url === slug)!;
 
   // Combine the data with the id
   return {
+    ...post,
     id: slug,
-    // contentHtml,
-    content: matterResult.content,
-    // Convert Date to locale string.
-    ...({
-      ...matterResult.data,
-      date: matterResult.data.date.toISOString(),
-    } as MyMatters),
   };
 }
 
@@ -201,12 +222,13 @@ export async function getPostData(slug: string) {
  * }
  * @param allPostsData
  */
-export const getArchiveData = (allPostsData: AllPostsData[]) => {
+export const getArchiveData = async () => {
   const archiveData: {
-    [key: string]: AllPostsData[];
+    [key: string]: MyPost[];
   } = {};
+  const allPosts = await getAllPosts();
 
-  allPostsData.map((post) => {
+  allPosts.map((post) => {
     const fullYear = new Date(post.date).getFullYear();
 
     archiveData?.[fullYear]

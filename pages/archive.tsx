@@ -3,7 +3,7 @@ import { InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { Box, Text, Flex } from '@chakra-ui/react';
-import { getArchiveData, getSortedPostsData } from 'lib/posts';
+import { getArchiveData } from 'lib/posts';
 import useGetColors from 'lib/hooks/useGetColors';
 import HomeLayout from 'layouts/HomeLayout';
 import ArchiveCardLoading from 'components/loading/ArchiveCardLoading';
@@ -13,11 +13,9 @@ const ArchiveCard = dynamic(() => import('components/ArchiveCard'), {
 });
 
 export const getStaticProps = async () => {
-  const allPostsData = await getSortedPostsData();
-
   return {
     props: {
-      ...getArchiveData(allPostsData),
+      ...(await getArchiveData()),
     },
   };
 };

@@ -2,12 +2,7 @@ import { ReactElement } from 'react';
 import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import {
-  AllPostsData,
-  getAllPostNum,
-  getPagingData,
-  getSortedPostsData,
-} from 'lib/posts';
+import { AllPostsData, getAllPostNum, getPagingData } from 'lib/posts';
 import HomeLayout from 'layouts/HomeLayout';
 import type { PagingData } from 'lib/posts';
 
@@ -15,9 +10,8 @@ const Paging = dynamic(() => import('components/Paging'));
 const PostCard = dynamic(() => import('components/PostCard'));
 
 export async function getStaticPaths() {
-  const paths = await getAllPostNum();
   return {
-    paths,
+    paths: await getAllPostNum(),
     fallback: false,
   };
 }
@@ -25,12 +19,12 @@ export async function getStaticPaths() {
 export const getStaticProps: GetStaticProps<
   { num: string | undefined } & PagingData
 > = async ({ params }) => {
-  const allPostsData = await getSortedPostsData();
+  const num = params?.num?.toString();
 
   return {
     props: {
-      num: params?.num?.toString(),
-      ...getPagingData(allPostsData, params?.num?.toString()),
+      num,
+      ...(await getPagingData(num)),
     },
   };
 };
