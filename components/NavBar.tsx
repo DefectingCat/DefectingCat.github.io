@@ -154,6 +154,7 @@ const NavBar: FC = () => {
         >
           {/* avatar */}
           <Image
+            boxSize="8rem"
             borderRadius="full"
             src="/images/img/avatar.svg"
             objectFit={'cover'}

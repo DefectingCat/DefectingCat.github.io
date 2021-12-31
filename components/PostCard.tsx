@@ -53,8 +53,8 @@ const PostCard: FC<Props> = ({ post }) => {
             _focus={{ boxShadow: 'unset' }}
           >
             <Image
-              maxH="18rem"
-              h={['unset', 'unset', '18rem']}
+              maxH="25rem"
+              h={['unset', 'unset', '25rem']}
               src={post.index_img}
               w="100%"
               fit="cover"
@@ -95,13 +95,11 @@ const PostCard: FC<Props> = ({ post }) => {
                 // Mutil tags
                 <Flex alignItems="center" mr="1rem">
                   <Icon as={FiTag} mr="0.5rem" />
-                  {post.tags.map((item) => {
-                    return (
-                      <Text key={item} mr="0.5rem">
-                        {item}
-                      </Text>
-                    );
-                  })}
+                  {post.tags.map((item) => (
+                    <Text key={item} mr="0.5rem">
+                      {item}
+                    </Text>
+                  ))}
                 </Flex>
               ) : (
                 // Signal tags
