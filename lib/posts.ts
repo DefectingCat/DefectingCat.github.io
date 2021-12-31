@@ -1,4 +1,16 @@
-import allPostsData, { AllPostsData, MyMatters } from './allPosts';
+import type { AllPostsWithMatter, AllPostsWithDescription } from './readPosts';
+import {
+  fileNames,
+  allPostsWithMatter,
+  allPostsWithDescription,
+  allPostsWithContent,
+} from './readPosts';
+
+export type {
+  AllPostsWithMatter,
+  AllPostsWithDescription,
+  AllPostsWithContent,
+} from './readPosts';
 
 /**
  * Paging, get all posts length
@@ -19,7 +31,7 @@ export function getAllPostNum() {
   //   }
   // ]
   const pagingSize = 10;
-  const allPages = Math.ceil(allPostsData.length / pagingSize);
+  const allPages = Math.ceil(fileNames.length / pagingSize);
 
   const numPages = [];
   for (let i = 2; i <= allPages; i++) {
@@ -36,17 +48,17 @@ export interface PagingData {
   totalNum: number;
   pagingSize: number;
   allPages: number;
-  postDatas: AllPostsData[];
+  postDatas: AllPostsWithDescription[];
 }
 
 export function getPagingData(start?: string) {
-  const totalNum = allPostsData.length;
+  const totalNum = allPostsWithDescription.length;
   const pagingSize = 10;
   const allPages = Math.ceil(totalNum / pagingSize);
 
   const startIndex = start ? (Number(start) - 1) * pagingSize : 0;
 
-  const postDatas = allPostsData.slice(startIndex, startIndex + 10);
+  const postDatas = allPostsWithDescription.slice(startIndex, startIndex + 10);
 
   return {
     totalNum,
@@ -70,7 +82,7 @@ export function getAllPostSlugs() {
   //     }
   //   }
   // ]
-  return allPostsData.map((post) => {
+  return allPostsWithMatter.map((post) => {
     return {
       params: {
         slug: post.url,
@@ -79,13 +91,8 @@ export function getAllPostSlugs() {
   });
 }
 
-export interface MyPost extends MyMatters {
-  id: string;
-  content: string;
-}
-
 export function getPostData(slug: string) {
-  const post = allPostsData.find((post) => post.url === slug)!;
+  const post = allPostsWithContent.find((post) => post.url === slug)!;
 
   // Combine the data with the id
   return {
@@ -103,10 +110,10 @@ export function getPostData(slug: string) {
  */
 export const getArchiveData = () => {
   const archiveData: {
-    [key: string]: AllPostsData[];
+    [key: string]: AllPostsWithMatter[];
   } = {};
 
-  allPostsData.map((post) => {
+  allPostsWithMatter.map((post) => {
     const fullYear = new Date(post.date).getFullYear();
 
     archiveData?.[fullYear]

@@ -1,6 +1,6 @@
 import { createElement, Fragment } from 'react';
 import { Box, Image, Flex, Button } from '@chakra-ui/react';
-import { MyPost, getAllPostSlugs, getPostData } from 'lib/posts';
+import { AllPostsWithContent, getAllPostSlugs, getPostData } from 'lib/posts';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
@@ -49,15 +49,14 @@ export function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps<{ postData: MyPost }> = ({
-  params,
-}) => {
-  return {
-    props: {
-      postData: getPostData(params?.slug?.toString() ?? ''),
-    },
+export const getStaticProps: GetStaticProps<{ postData: AllPostsWithContent }> =
+  ({ params }) => {
+    return {
+      props: {
+        postData: getPostData(params?.slug?.toString() ?? ''),
+      },
+    };
   };
-};
 
 const processedContent = unified()
   .use(remarkParse)

@@ -3,7 +3,6 @@ import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { getAllPostNum, getPagingData } from 'lib/posts';
-import { AllPostsData } from 'lib/allPosts';
 import HomeLayout from 'layouts/HomeLayout';
 import type { PagingData } from 'lib/posts';
 
@@ -41,7 +40,7 @@ const Page = ({
         <title>RUA - Home</title>
       </Head>
 
-      {postDatas.map((post: AllPostsData) => (
+      {postDatas.map((post) => (
         <PostCard key={post.id} post={post} />
       ))}
 
