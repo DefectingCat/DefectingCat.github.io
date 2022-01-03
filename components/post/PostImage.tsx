@@ -22,6 +22,7 @@ const PostImage: FC<Props> = ({ src }) => {
           filter={blur}
           transitionDuration="slower"
           alt="Post image"
+          w="100%"
         />
       </Zoom>
     </>

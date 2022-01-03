@@ -1,0 +1,29 @@
+<svg viewBox="0 0 1000 700" width="250pt" xmlns="http://www.w3.org/2000/svg">
+  <g class="prefix__graph" transform="translate(16.667 650.005) scale(4.1667)">
+    <path fill="#fff" stroke="transparent" d="M-4 4v-160h178V4H-4z" />
+    <g class="prefix__node">
+      <path fill="none" stroke="#000" d="M8-128h154" /><text x="70.607" y="-133.8" font-family="Times,serif"
+        font-size="14">Cons</text>
+      <path fill="none" stroke="#000" d="M8-4v-124h23V-4H8z" /><text x="10.555" y="-61.8" font-family="Times,serif"
+        font-size="14">i32</text>
+      <path fill="none" stroke="#000" d="M31-4v-124h131V-4H31zM34-105h125" /><text x="82.107" y="-110.8"
+        font-family="Times,serif" font-size="14">Cons</text>
+      <path fill="none" stroke="#000" d="M34-7v-98h23v98H34z" /><text x="36.555" y="-51.8" font-family="Times,serif"
+        font-size="14">i32</text>
+      <path fill="none" stroke="#000" d="M57-7v-98h102v98H57zM60-82h96" /><text x="93.607" y="-87.8"
+        font-family="Times,serif" font-size="14">Cons</text>
+      <path fill="none" stroke="#000" d="M60-10v-72h23v72H60z" /><text x="62.555" y="-41.8" font-family="Times,serif"
+        font-size="14">i32</text>
+      <path fill="none" stroke="#000" d="M83-10v-72h73v72H83zM86-59h67" /><text x="105.107" y="-64.8"
+        font-family="Times,serif" font-size="14">Cons</text>
+      <path fill="none" stroke="#000" d="M86-13v-46h23v46H86z" /><text x="88.555" y="-31.8" font-family="Times,serif"
+        font-size="14">i32</text>
+      <path fill="none" stroke="#000" d="M109-13v-46h44v46h-44zM112-36h38" /><text x="116.607" y="-41.8"
+        font-family="Times,serif" font-size="14">Cons</text>
+      <path fill="none" stroke="#000" d="M112-16v-20h23v20h-23z" /><text x="114.555" y="-21.8" font-family="Times,serif"
+        font-size="14">i32</text>
+      <path fill="none" stroke="#000" d="M135-16v-20h15v20h-15z" /><text x="137.51" y="-21.8" font-family="Times,serif"
+        font-size="14">∞</text>
+    </g>
+  </g>
+</svg>
