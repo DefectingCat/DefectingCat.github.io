@@ -18,11 +18,14 @@ const PostComment: FC = () => {
    * When get the message, its mean Giscus component loading completed.
    */
   const handleMessage = useCallback((event: MessageEvent) => {
-    // if (event.origin !== 'https://giscus.app') return;
-    if (!(typeof event.data === 'object' && event.data.giscus)) return;
-
+    if (
+      event.origin === 'https://giscus.app' &&
+      event.data === '[iFrameResizerChild]Ready'
+    ) {
+      setCommentLoaded(true);
+    }
+    // if (!(typeof event.data === 'object' && event.data.giscus)) return;
     // const giscusData = event.data.giscus;
-    setCommentLoaded(true);
   }, []);
 
   useEffect(() => {
