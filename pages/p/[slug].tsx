@@ -185,9 +185,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
           </Box>
 
           {/* Comment */}
-          <Box ref={commentRef} h="382px">
-            {commentInView && <PostComment />}
-          </Box>
+          <Box ref={commentRef}>{commentInView && <PostComment />}</Box>
 
           <Footer />
         </Flex>
