@@ -8,6 +8,8 @@ const PostCommentLoading = dynamic(
   () => import('components/loading/PostCommentLoading')
 );
 
+const ready = /\[iFrameSizer\]\iFrameResizer.*?\:init/;
+
 const PostComment: FC = () => {
   const { giscusColor } = useGetColors();
 
@@ -18,10 +20,7 @@ const PostComment: FC = () => {
    * When get the message, its mean Giscus component loading completed.
    */
   const handleMessage = useCallback((event: MessageEvent) => {
-    if (
-      event.origin === 'https://giscus.app' &&
-      event.data === '[iFrameResizerChild]Ready'
-    ) {
+    if (event.origin === 'https://giscus.app' && ready.test(event.data)) {
       setCommentLoaded(true);
     }
     // if (!(typeof event.data === 'object' && event.data.giscus)) return;
