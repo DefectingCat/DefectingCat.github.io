@@ -49,14 +49,15 @@ export function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps<{ postData: AllPostsWithContent }> =
-  ({ params }) => {
-    return {
-      props: {
-        postData: getPostData(params?.slug?.toString() ?? ''),
-      },
-    };
+export const getStaticProps: GetStaticProps<{
+  postData: AllPostsWithContent;
+}> = ({ params }) => {
+  return {
+    props: {
+      postData: getPostData(params?.slug?.toString() ?? ''),
+    },
   };
+};
 
 const processedContent = unified()
   .use(remarkParse)
@@ -185,7 +186,9 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
           </Box>
 
           {/* Comment */}
-          <Box ref={commentRef}>{commentInView && <PostComment />}</Box>
+          <Box ref={commentRef} minH={['346px', '350px']}>
+            {commentInView && <PostComment />}
+          </Box>
 
           <Footer />
         </Flex>
