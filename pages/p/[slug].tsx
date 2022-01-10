@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { unified } from 'unified';
-import remarkToc from 'remark-toc';
 import rehypeSlug from 'rehype-slug';
 import rehypeReact from 'rehype-react';
 import remarkRehype from 'remark-rehype';
@@ -61,9 +60,6 @@ export const getStaticProps: GetStaticProps<{
 
 const processedContent = unified()
   .use(remarkParse)
-  .use(remarkToc, {
-    maxDepth: 3,
-  })
   .use(remarkRehype, { allowDangerousHtml: true })
   .use(rehypeRaw)
   .use(rehypeHighlight, {
@@ -80,7 +76,9 @@ const processedContent = unified()
         <PostImage src={props.src}>{props.children}</PostImage>
       ),
       a: (props: any) => (
-        <PostAnchor href={props.href}>{props.children}</PostAnchor>
+        <PostAnchor href={props.href} isExternal>
+          {props.children}
+        </PostAnchor>
       ),
       pre: CopyButton,
       iframe: (props: any) => (
@@ -106,18 +104,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { boxBg } = useGetColors();
 
   // Content cloud be undefined.
-  const postContent = processedContent.processSync(
-    `\n## Table of contents\n${postData?.content}`
-  ).result;
-
-  // Process the table of content
-  const tocHead = (postContent.props as any).children.shift();
-  (postContent.props as any).children.shift(); // '\n'
-  let toc;
-  // Table of content is ul element
-  if ((postContent.props as any).children[0].type === 'ul') {
-    toc = (postContent.props as any).children.shift();
-  }
+  const postContent = processedContent.processSync(postData?.content).result;
 
   return (
     <>
@@ -194,12 +181,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
         </Flex>
 
         {/* Table of content */}
-        {toc && (
-          <PostTOC>
-            {tocHead}
-            {toc}
-          </PostTOC>
-        )}
+        <PostTOC content={postData.content} />
       </Flex>
     </>
   );
