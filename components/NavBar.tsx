@@ -104,7 +104,7 @@ const MenuList: FC<MenuListProps> = React.memo(function MenuList({
 const NavBar: FC = () => {
   const router = useRouter();
 
-  const [isLargerThan768] = useMediaQuery('(min-width: 768px)');
+  const [isLargerThan640] = useMediaQuery('(min-width: 640px)');
   // Menu toggle
   const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: false });
   // Modal toggle
@@ -125,7 +125,7 @@ const NavBar: FC = () => {
       e.preventDefault();
 
       if (path) {
-        !isLargerThan768 &&
+        !isLargerThan640 &&
           // Click the animate icon.
           (iconRef.current?.children[0] as HTMLDivElement).click();
         router.push(path);

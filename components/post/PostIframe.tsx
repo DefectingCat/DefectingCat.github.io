@@ -8,7 +8,7 @@ interface Props {
 
 const PostIframe: FC<Props> = ({ src, children }) => {
   const { initSrc, blur, targetRef } = useLazyLoad(src, '8px');
-  const [isLargerThan768] = useMediaQuery('(min-width: 768px)');
+  const [isLargerThan640] = useMediaQuery('(min-width: 640px)');
 
   return (
     <>
@@ -16,7 +16,7 @@ const PostIframe: FC<Props> = ({ src, children }) => {
         filter={blur}
         w="100%"
         transitionDuration="slower"
-        ratio={isLargerThan768 ? 16 / 9 : 1}
+        ratio={isLargerThan640 ? 16 / 9 : 4 / 3}
       >
         <Box
           as="iframe"
