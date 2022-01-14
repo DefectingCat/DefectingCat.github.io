@@ -6,7 +6,7 @@ const NavAvatar: FC = () => {
   return (
     <>
       <div>
-        <div className={cn('w-32 h-32 shadow-lg', 'rounded-full relative')}>
+        <div className="w-32 h-32 shadow-lg rounded-full relative">
           <Image
             className="rounded-full overflow-hidden"
             width="128"
@@ -14,6 +14,8 @@ const NavAvatar: FC = () => {
             src="/images/img/avatar.svg"
             alt=""
           />
+
+          {/* Emoji on avatar */}
           <div
             className={cn(
               'w-10 h-10 rounded-full bg-white',
@@ -30,7 +32,7 @@ const NavAvatar: FC = () => {
           </div>
         </div>
 
-        <h1 className={cn('text-3xl font-semibold mt-4 mb-2')}>肥羊</h1>
+        <h1 className="text-3xl font-semibold mt-4 mb-2">肥羊</h1>
         <span className="text-gray-400">恐惧是思维杀手..</span>
       </div>
     </>
