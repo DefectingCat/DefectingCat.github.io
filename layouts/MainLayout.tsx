@@ -7,7 +7,7 @@ const MainLayout: FC = ({ children }) => {
     <>
       <div
         className={cn(
-          'grid grid-cols-12 container mx-auto p-2 items-stretch',
+          'grid grid-cols-12 container mx-auto px-4 py-8 items-stretch',
           'md:gap-4',
           'xl:grid-cols-8'
         )}
