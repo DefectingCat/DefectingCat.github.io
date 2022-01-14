@@ -2,8 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  scroll-behavior: smooth;
+}
+
 @layer base {
   body {
     @apply bg-bluish-gray;
+    font-family: "-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Segoe UI,Arial,Roboto,'PingFang SC',miui,'Hiragino Sans GB','Microsoft Yahei',sans-serif";
+  }
+
+  /* 滚动槽 */
+  ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 3px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.08);
+  }
+  ::-webkit-scrollbar-track-piece {
+    background: 0 0;
+  }
+  /* 滚动条滑块 */
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-400;
+    border-radius: 3px;
+    box-shadow: inset 0 0 10px rgba(185, 69, 69, 0.2);
   }
 }

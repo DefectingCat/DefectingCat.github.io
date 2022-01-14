@@ -4,9 +4,10 @@ import { FiHome, FiArchive, FiUser, FiSearch } from 'react-icons/fi';
 import UseAnimations from 'react-useanimations';
 import menu3 from 'react-useanimations/lib/menu3';
 import { IconType } from 'react-icons';
+import dynamic from 'next/dynamic';
 
-import NavAvatar from 'components/nav/NavAvatar';
-import NavMenuItem from 'components/nav/NavMenuItem';
+const NavAvatar = dynamic(() => import('components/nav/NavAvatar'));
+const NavMenuItem = dynamic(() => import('components/nav/NavMenuItem'));
 
 export type MenuItem = {
   id: number;
@@ -63,6 +64,8 @@ const NavBar: FC = () => {
       >
         <div className="flex justify-between">
           <NavAvatar />
+
+          {/* Mobile menu button */}
           <div className="cursor-pointer md:hidden" ref={iconRef}>
             <UseAnimations
               reverse={menuIsOpen}
@@ -74,6 +77,7 @@ const NavBar: FC = () => {
           </div>
         </div>
 
+        {/* Menus */}
         <div
           className={cn(
             { hidden: !menuIsOpen },
