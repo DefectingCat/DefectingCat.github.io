@@ -5,6 +5,7 @@ import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
 import useRouterLoading from 'lib/hooks/useRouteLoading';
 import Head from 'next/head';
+import { MDXProvider } from '@mdx-js/react';
 
 type NextPageWithLayout = NextPage & {
   // eslint-disable-next-line no-unused-vars
