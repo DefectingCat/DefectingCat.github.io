@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import cn from 'classnames';
-import NavBar from 'components/NavBar';
+import dynamic from 'next/dynamic';
+
+const NavBar = dynamic(() => import('components/NavBar'));
 
 const MainLayout: FC = ({ children }) => {
   return (

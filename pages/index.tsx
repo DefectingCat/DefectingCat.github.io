@@ -1,7 +1,9 @@
 import cn from 'classnames';
-import MainLayout from 'layouts/MainLayout';
 import { ReactElement } from 'react';
 import Head from 'next/head';
+import dynamic from 'next/dynamic';
+
+const MainLayout = dynamic(() => import('layouts/MainLayout'));
 
 const Home = () => {
   return (
