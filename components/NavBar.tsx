@@ -16,7 +16,7 @@ export type MenuItem = {
   icon: IconType;
 };
 
-const menus: MenuItem[] = [
+export const menus: MenuItem[] = [
   {
     id: 0,
     name: '首页',
@@ -56,43 +56,36 @@ const NavBar: FC = () => {
 
   return (
     <>
+      <div className="flex justify-between">
+        <NavAvatar />
+
+        {/* Mobile menu button */}
+        <div className="cursor-pointer md:hidden" ref={iconRef}>
+          <UseAnimations
+            reverse={menuIsOpen}
+            size={40}
+            animation={menu3}
+            speed={2}
+            onClick={onToggle}
+          />
+        </div>
+      </div>
+
+      {/* Menus */}
       <div
         className={cn(
-          'col-span-12 px-2',
-          'md:col-span-3 lg:col-span-2 xl:col-span-1'
+          { hidden: !menuIsOpen },
+          'bg-white mx-[-1.5rem] px-6 py-4 mt-4',
+          'md:block md:bg-transparent md:mx-0 md:p-0'
         )}
       >
-        <div className="flex justify-between">
-          <NavAvatar />
-
-          {/* Mobile menu button */}
-          <div className="cursor-pointer md:hidden" ref={iconRef}>
-            <UseAnimations
-              reverse={menuIsOpen}
-              size={40}
-              animation={menu3}
-              speed={2}
-              onClick={onToggle}
-            />
-          </div>
-        </div>
-
-        {/* Menus */}
-        <div
-          className={cn(
-            { hidden: !menuIsOpen },
-            'bg-white mx-[-1.5rem] px-6 py-4 mt-4',
-            'md:block md:bg-transparent md:mx-0 md:p-0'
-          )}
-        >
-          {menus.map((menu) => (
-            <NavMenuItem
-              key={menu.id}
-              onClick={handleMenuClick}
-              menuItem={menu}
-            />
-          ))}
-        </div>
+        {menus.map((menu) => (
+          <NavMenuItem
+            key={menu.id}
+            onClick={handleMenuClick}
+            menuItem={menu}
+          />
+        ))}
       </div>
     </>
   );
