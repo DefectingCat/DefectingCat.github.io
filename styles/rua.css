@@ -1,0 +1,401 @@
+:root {
+  --text-color: var(--chakra-colors-gray-600);
+  --heading-color: #464b1f;
+  --block-bg: linear-gradient(#fbebef, #dff0f5);
+  --block-bg-color: #f8f8f8;
+  --code-bg: var(--chakra-colors-gray-100);
+  --code-border-color: #e7eaed;
+
+  --shadow-color: #c3c5c7;
+}
+
+/* With Chakra dark mode */
+body.chakra-ui-dark {
+  --text-color: var(--chakra-colors-whiteAlpha-800);
+  --heading-color: var(--chakra-colors-whiteAlpha-800);
+  --block-bg: linear-gradient(#c395a1, #8e9fa3);
+  --block-bg-color: #888888;
+  --code-bg: var(--chakra-colors-gray-500);
+  --code-border-color: #919191;
+}
+
+::selection {
+  color: unset;
+  background: rgba(33, 150, 243, 0.2);
+}
+
+#write {
+  /* font-family: "Quicksand",'Arial Hebrew Scholar'; */
+  font-size: 16px;
+  color: var(--text-color);
+}
+
+/* TOC */
+#table-of-contents {
+  font-size: 1.6rem;
+  font-weight: normal;
+  letter-spacing: 0.02em;
+  line-height: 2rem;
+  margin: 1rem 0;
+  text-transform: uppercase;
+  color: #797979;
+  white-space: nowrap;
+}
+#table-of-contents + ul {
+  padding-left: 30px;
+  margin: 16px;
+  max-height: 40rem;
+  overflow: auto;
+  scrollbar-width: none;
+}
+#table-of-contents + ul li {
+  list-style-type: none;
+  position: relative;
+  margin: 8px 0;
+}
+#table-of-contents + ul li ul {
+  padding-left: 15px;
+}
+#table-of-contents + ul li::before {
+  content: ' - ';
+  /* font-family: 'Quicksand-bold'; */
+  position: absolute;
+  font-weight: bold;
+  font-size: 2rem;
+  color: #aabfc5;
+  transform: translate(-1.4rem, -1rem);
+}
+#table-of-contents + ul li li::before {
+  content: ' · ';
+  /* font-family: 'Quicksand-bold'; */
+  position: absolute;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #aabfc5;
+  transform: translate(-1rem, -0.75rem);
+}
+#table-of-contents + ul::-webkit-scrollbar {
+  width: 0;
+}
+
+/*#write pre.md-meta-block::selection {
+    text-shadow: none;
+    background: #B8A6D9;
+    color: hsla(81, 40%, 75%, 1);
+}*/
+
+#write a {
+  color: var(--chakra-colors-teal-500);
+  /* margin: 0 2px; */
+}
+
+/*headings*/
+#write h1 {
+  font-size: 3.25rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  line-height: 4rem;
+  margin: 0 0 1.75rem;
+  padding: 20px 30px;
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  color: var(--heading-color);
+}
+
+#write h2 {
+  font-size: 1.999rem;
+  font-weight: normal;
+  letter-spacing: 0.02em;
+  line-height: 2rem;
+  padding: 1rem 0;
+  /*text-transform: uppercase;*/
+  color: var(--heading-color);
+}
+
+#write h3 {
+  font-size: 1.413rem;
+  font-weight: normal;
+  letter-spacing: 0.02em;
+  line-height: 3rem;
+  /*text-transform: uppercase;*/
+  /* margin-left: 1rem; */
+  color: var(--heading-color);
+}
+
+#write h4 {
+  font-weight: normal;
+  letter-spacing: 0.02em;
+  font-size: 1.25rem;
+  line-height: 2rem;
+  /*text-transform: uppercase;*/
+  margin-top: 1rem;
+  /* margin-left: 3rem; */
+  color: var(--heading-color);
+}
+
+#write h5 {
+  font-size: 1.15rem;
+  /*text-transform: uppercase;*/
+  color: var(--heading-color);
+  /* margin-left: 3.5rem; */
+}
+
+#write h6 {
+  font-size: 1rem;
+  /*text-transform: uppercase;*/
+  /* margin-left: 4rem; */
+  color: var(--heading-color);
+}
+
+#write p {
+  margin: 1rem 0;
+  /* line-height: 1.7rem; */
+}
+
+/*blockquote*/
+#write blockquote::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(0.1rem + 2.43px);
+  height: 100%;
+  transform: translateX(calc(-0.05rem - 1.215px));
+  background-image: var(--block-bg);
+  border-radius: calc(0.5rem + 0.25%) 0 0 calc(0.5rem + 0.25%);
+  z-index: 1;
+}
+
+@media (min-width: 575px) {
+  #write blockquote::before {
+    width: calc(0.1rem + 0.5%);
+  }
+}
+
+#write blockquote {
+  position: relative;
+  word-spacing: 0.06em;
+  margin: 0.5rem 0;
+  padding: 1rem calc(0.5rem + 5.13px);
+  /*border-left: solid .5rem var(--select-text-bg-color);*/
+  /*border-radius: .5rem 1rem 1rem .5rem;*/
+  background-color: var(--block-bg-color);
+  line-height: 1.6;
+  /*box-shadow: 3px 3px 3px 1px var(--shadow-color);*/
+  border-radius: 0 calc(0.5rem + 0.25%) calc(0.5rem + 0.25%) 0;
+}
+
+@media (min-width: 575px) {
+  #write blockquote {
+    padding: 1rem calc(0.5rem + 1%);
+    border-radius: 0 calc(0.5rem + 0.25%) calc(0.5rem + 0.25%) 0;
+  }
+}
+
+#write blockquote::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  /*box-shadow: -3px 3px 3px 1px var(--shadow-color);*/
+  z-index: 3;
+}
+
+#write blockquote blockquote {
+  box-shadow: none;
+}
+
+#write blockquote p {
+  margin: unset;
+  line-height: unset;
+}
+
+/*list*/
+
+#write ul,
+#write ol {
+  padding-left: 30px;
+  margin: 16px;
+}
+
+#write ul li {
+  list-style-type: none;
+  position: relative;
+  margin: 8px 0;
+}
+
+#write ul li::before {
+  content: ' - ';
+  /* font-family: 'Quicksand-bold'; */
+  position: absolute;
+  font-weight: bold;
+  font-size: 2rem;
+  color: #aabfc5;
+  transform: translate(-1.4rem, -1rem);
+}
+
+#write ul li li::before {
+  content: ' · ';
+  /* font-family: 'Quicksand-bold'; */
+  position: absolute;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #aabfc5;
+  transform: translate(-1rem, -0.75rem);
+}
+
+/*task list*/
+#write .md-task-list-item {
+  transition: all 0.2s ease-in-out 0s;
+  transform: translateX(1.4rem);
+}
+
+#write .md-task-list-item::before {
+  content: '';
+}
+
+#write input + p {
+  display: inline-block;
+}
+
+#write input[type='checkbox'] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+}
+
+#write input[type='checkbox']::before {
+  content: '';
+  position: absolute;
+  transform: translate(calc(-1.1rem - 10px), calc(-1rem));
+  /*transform: translate(0px,calc(-1rem));*/
+  height: 1.4rem;
+  width: 1.4rem;
+  border-radius: 50%;
+  padding: 0.15rem;
+  background-color: white;
+  background-clip: content-box;
+  box-sizing: border-box;
+  border: solid 0.15em #c3c4d0;
+  /*background-color: deepskyblue;*/
+}
+
+#write input[type='checkbox']:checked::before {
+  content: '';
+  position: absolute;
+  /*transform: translate(-10px,70%);*/
+  height: 1.4rem;
+  width: 1.4rem;
+  border-radius: 50%;
+  padding: 0.15rem;
+  background-color: #a8c8da;
+  background-clip: content-box;
+  box-sizing: border-box;
+  border: solid 0.15rem #a8c8da;
+}
+
+#write input[type='checkbox'] + p {
+  color: inherit;
+}
+
+#write input[type='checkbox']:checked + p {
+  color: #c3c4d0;
+}
+
+#write .md-task-list-item:hover {
+  color: #c3c4d0;
+}
+
+#write [data-rmiz-wrap='visible'],
+#write [data-rmiz-wrap='hidden'] {
+  margin: 8px 0;
+}
+
+#write pre {
+  position: relative;
+  margin: 10px 0;
+}
+
+#write pre code {
+  padding: 6px 10px;
+  background-color: var(--code-bg);
+}
+
+#write code,
+#write tt {
+  border: 1px solid var(--code-border-color);
+  border-radius: 6px;
+  padding: 0 4px;
+  font-size: 0.9em;
+  background-color: var(--code-bg);
+}
+
+/*mathjax-block*/
+#write mjx-container {
+  font-size: 26px;
+  font-family: 'Apple Symbols';
+}
+
+/*table*/
+#write table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--code-border-color);
+}
+
+#write th {
+  /* font-family: Quicksand-bold; */
+  background-color: var(--code-bg);
+}
+
+/* #write tbody tr:nth-of-type(2n + 1) {
+  background-color: var(--code-bg);
+} */
+
+#write td,
+#write th {
+  position: relative;
+  border: solid 1px var(--code-border-color);
+  /* -webkit-user-modify: read-write; */
+  padding: 0.8em 0.5rem;
+}
+
+/*horizon rules*/
+/* #write hr {
+  border-top: solid 1px #eee;
+  border-bottom: solid 1px #eee;
+} */
+
+#write mark {
+  color: #fff;
+  background-color: rgba(231, 153, 176, 0.68);
+  border-radius: 0.2em;
+  /*border: 1px solid #c5c8ca;*/
+  padding: 0.1em 0.2em;
+}
+
+@media print {
+  /* add styles here */
+  #write input[type='checkbox']::before {
+    display: none;
+  }
+  #write ul li::before {
+    display: none;
+  }
+  #write ul li li::before {
+    display: none;
+  }
+  #write input[type='checkbox'] {
+    appearance: initial;
+    -moz-appearance: initial;
+    -webkit-appearance: initial;
+  }
+  #write ul li {
+    list-style-type: initial;
+  }
+}

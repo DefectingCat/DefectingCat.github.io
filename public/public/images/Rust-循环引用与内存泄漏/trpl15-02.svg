@@ -1,0 +1,15 @@
+<svg width="250pt" viewBox="0 0 363 342" xmlns="http://www.w3.org/2000/svg">
+  <g class="prefix__graph" transform="translate(16.667 325.003) scale(4.1667)">
+    <path fill="#fff" stroke="transparent" d="M-4 4v-82h87V4H-4z" />
+    <g class="prefix__node">
+      <path fill="none" stroke="#000" d="M8.5-50h63" /><text x="25.607" y="-55.8" font-family="Times,serif"
+        font-size="14">Cons</text>
+      <path fill="none" stroke="#000" d="M8.5-4v-46h23v46h-23z" /><text x="11.055" y="-22.8" font-family="Times,serif"
+        font-size="14">i32</text>
+      <path fill="none" stroke="#000" d="M31.5-4v-46h40v46h-40zM34.5-27h34" /><text x="39.831" y="-32.8"
+        font-family="Times,serif" font-size="14">Box</text>
+      <path fill="none" stroke="#000" d="M34.5-7v-20h34v20h-34z" /><text x="37.117" y="-12.8" font-family="Times,serif"
+        font-size="14">usize</text>
+    </g>
+  </g>
+</svg>
