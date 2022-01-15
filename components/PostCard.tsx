@@ -31,7 +31,7 @@ const PostCard: FC<AllPostsWithDescription> = ({
 
         <div className={cn('p-6')}>
           {/* Title */}
-          <Link href={`p/${url}`} passHref>
+          <Link href={`/p/${url}`} passHref>
             <a className="md:hover:underline">
               <h1 className="text-xl font-semibold">{title}</h1>
             </a>

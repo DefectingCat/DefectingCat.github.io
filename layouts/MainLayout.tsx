@@ -1,10 +1,14 @@
 import { FC } from 'react';
 import cn from 'classnames';
 import dynamic from 'next/dynamic';
+import Sticky from 'react-stickynode';
+import useMediaQuery from 'lib/hooks/useMediaQuery';
 
 const NavBar = dynamic(() => import('components/NavBar'));
 
 const MainLayout: FC = ({ children }) => {
+  const matched = useMediaQuery('(max-width: 640px)');
+
   return (
     <>
       <div
@@ -20,7 +24,9 @@ const MainLayout: FC = ({ children }) => {
             'md:col-span-3 lg:col-span-2 xl:col-span-1'
           )}
         >
-          <NavBar />
+          <Sticky enabled={!matched} top={32}>
+            <NavBar />
+          </Sticky>
         </aside>
 
         <main

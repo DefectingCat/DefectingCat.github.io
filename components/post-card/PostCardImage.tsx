@@ -12,7 +12,7 @@ const PostCardImage: FC<Props> = ({ index_img, url }) => {
   return (
     <>
       {index_img && (
-        <Link href={`p/${url}`} passHref>
+        <Link href={`/p/${url}`} passHref>
           <a className={cn('relative h-60 block', 'lg:h-72')}>
             <Image
               src={index_img}
