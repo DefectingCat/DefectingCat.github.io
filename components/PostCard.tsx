@@ -2,11 +2,13 @@ import Link from 'next/link';
 import { FC } from 'react';
 import cn from 'classnames';
 import { AllPostsWithDescription } from 'lib/readPosts';
-import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { FiCalendar, FiTag } from 'react-icons/fi';
 
 const DateFormater = dynamic(() => import('components/DateFormater'));
+const PostCardImage = dynamic(
+  () => import('components/post-card/PostCardImage')
+);
 
 const PostCard: FC<AllPostsWithDescription> = ({
   index_img,
@@ -25,18 +27,7 @@ const PostCard: FC<AllPostsWithDescription> = ({
           'md:hover:shadow-lg'
         )}
       >
-        {index_img && (
-          <Link href={`p/${url}`} passHref>
-            <a className={cn('relative h-60 block', 'lg:h-72')}>
-              <Image
-                src={index_img}
-                layout="fill"
-                objectFit="cover"
-                alt="Post Image"
-              />
-            </a>
-          </Link>
-        )}
+        <PostCardImage index_img={index_img} url={url} />
 
         <div className={cn('p-6')}>
           {/* Title */}
