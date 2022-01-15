@@ -74,9 +74,12 @@ const NavBar: FC = () => {
       {/* Menus */}
       <div
         className={cn(
-          { hidden: !menuIsOpen },
-          'bg-white mx-[-1.5rem] px-6 py-4 mt-4',
-          'md:block md:bg-transparent md:mx-0 md:p-0'
+          { 'max-h-[500px]': menuIsOpen },
+          { 'py-4': menuIsOpen },
+          'bg-white mx-[-1.5rem] px-6  mt-4 overflow-hidden',
+          'md:block md:bg-transparent md:mx-0 md:p-0',
+          'transition-all duration-500 h-auto max-h-0',
+          'md:max-h-max'
         )}
       >
         {menus.map((menu) => (

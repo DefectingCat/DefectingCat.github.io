@@ -10,6 +10,8 @@ const useMediaQuery = (query: string) => {
   useEffect(() => {
     setMatched(window.matchMedia(query).matches);
     window.addEventListener('resize', reportWindowSize);
+
+    return () => window.removeEventListener('resize', reportWindowSize);
   }, [query, reportWindowSize]);
 
   return matched;
