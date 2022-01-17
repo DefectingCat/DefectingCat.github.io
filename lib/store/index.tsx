@@ -6,7 +6,7 @@ export enum ActionKind {
 
 type ReducerAction = {
   type: ActionKind;
-  playload: string;
+  payload: string;
 };
 
 type State = {
@@ -22,10 +22,10 @@ const initialState: State = {
 };
 
 const reducer = (state: State, action: ReducerAction): State => {
-  const { type, playload } = action;
+  const { type, payload } = action;
   switch (type) {
     case ActionKind.SETQUERY:
-      return { searchQuery: playload };
+      return { searchQuery: payload };
     default:
       throw new Error();
   }

@@ -12,7 +12,7 @@ import RUAStore from '../lib/store';
 const H2 = dynamic(() => import('components/MDX/MDXH2'));
 
 // MDX components
-const mdxCompoents = {
+const mdxComponents = {
   h2: H2,
 };
 
@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
 
       <RUAStore>
-        <MDXProvider components={mdxCompoents}>
+        <MDXProvider components={mdxComponents}>
           {getLayout(<Component {...pageProps} />)}
         </MDXProvider>
       </RUAStore>

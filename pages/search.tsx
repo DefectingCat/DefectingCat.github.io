@@ -11,7 +11,7 @@ const Search = () => {
   const { state, dispatch } = useRUAContext();
 
   const handleInput: ChangeEventHandler<HTMLInputElement> = (e) => {
-    dispatch({ type: ActionKind.SETQUERY, playload: e.target.value });
+    dispatch({ type: ActionKind.SETQUERY, payload: e.target.value });
   };
 
   return (

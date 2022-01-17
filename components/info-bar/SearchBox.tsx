@@ -25,7 +25,7 @@ const SearchBox: FC = () => {
 
   const handleInput: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {
-      dispatch({ type: ActionKind.SETQUERY, playload: e.target.value });
+      dispatch({ type: ActionKind.SETQUERY, payload: e.target.value });
     },
     [dispatch]
   );
