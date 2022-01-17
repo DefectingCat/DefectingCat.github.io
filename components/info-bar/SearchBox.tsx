@@ -46,6 +46,7 @@ const SearchBox: FC = () => {
             'left-4 top-[50%] transform-gpu translate-y-[-50%]'
           )}
         />
+
         <input
           ref={inputRef}
           type="text"
@@ -60,6 +61,7 @@ const SearchBox: FC = () => {
           onChange={handleInput}
           onKeyUp={handleSearch}
         />
+
         <div
           className={cn(
             'absolute z-10 border flex px-1 rounded',
