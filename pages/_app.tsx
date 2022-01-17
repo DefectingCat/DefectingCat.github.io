@@ -7,6 +7,7 @@ import useRouterLoading from 'lib/hooks/useRouteLoading';
 import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
 import dynamic from 'next/dynamic';
+import RUAStore from '../lib/store';
 
 const H2 = dynamic(() => import('components/MDX/MDXH2'));
 
@@ -30,15 +31,17 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <Head>
-        <link rel="shortcut icon" href="/images/img/favicon.webp"></link>
+        <link rel="shortcut icon" href="/images/img/favicon.webp" />
         <meta name="keywords" content="Blog RUA" />
         <meta name="description" content="Personal blog." />
         <meta name="author" content="Arthur,i@rua.plus" />
       </Head>
 
-      <MDXProvider components={mdxCompoents}>
-        {getLayout(<Component {...pageProps} />)}
-      </MDXProvider>
+      <RUAStore>
+        <MDXProvider components={mdxCompoents}>
+          {getLayout(<Component {...pageProps} />)}
+        </MDXProvider>
+      </RUAStore>
     </>
   );
 }

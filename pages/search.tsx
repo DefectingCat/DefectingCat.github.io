@@ -1,19 +1,17 @@
-import { useRouter } from 'next/router';
-import { ChangeEventHandler, ReactElement, useState } from 'react';
+import { ChangeEventHandler, ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import cn from 'classnames';
 import { FiSearch } from 'react-icons/fi';
+import { ActionKind, useRUAContext } from '../lib/store';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 
 const Search = () => {
-  const router = useRouter();
-  const { q } = router.query;
+  const { state, dispatch } = useRUAContext();
 
-  const [value, setValue] = useState(q);
   const handleInput: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setValue(e.target.value);
+    dispatch({ type: ActionKind.SETQUERY, playload: e.target.value });
   };
 
   return (
@@ -36,7 +34,7 @@ const Search = () => {
             'rounded-lg bg-white w-full py-7 px-6',
             'outline-none text-lg'
           )}
-          value={value}
+          value={state.searchQuery}
           onChange={handleInput}
           placeholder="Search something..."
         />

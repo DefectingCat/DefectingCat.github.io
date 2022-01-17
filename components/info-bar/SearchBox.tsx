@@ -5,16 +5,16 @@ import {
   useCallback,
   useEffect,
   useRef,
-  useState,
 } from 'react';
 import cn from 'classnames';
 import { FiSearch } from 'react-icons/fi';
 import { useRouter } from 'next/router';
+import { ActionKind, useRUAContext } from '../../lib/store';
 
 const SearchBox: FC = () => {
   // Add keyboad event to foucs input element.
   const inputRef = useRef<HTMLInputElement>(null);
-  const [value, setValue] = useState('');
+  const { state, dispatch } = useRUAContext();
 
   const router = useRouter();
 
@@ -23,13 +23,16 @@ const SearchBox: FC = () => {
     inputRef.current?.focus();
   }, []);
 
-  const handleInput: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
-    setValue(e.target.value);
-  }, []);
+  const handleInput: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (e) => {
+      dispatch({ type: ActionKind.SETQUERY, playload: e.target.value });
+    },
+    [dispatch]
+  );
 
   const handleSearch: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key !== 'Enter') return;
-    router.push({ pathname: 'search', query: { q: value } });
+    router.push('/search');
   };
 
   useEffect(() => {
@@ -57,7 +60,7 @@ const SearchBox: FC = () => {
             'focus:px-5 focus:shadow-md focus:placeholder:font-normal',
             'duration-300 transition-all focus:z-20'
           )}
-          value={value}
+          value={state.searchQuery}
           onChange={handleInput}
           onKeyUp={handleSearch}
         />
