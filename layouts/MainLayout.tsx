@@ -5,6 +5,7 @@ import Sticky from 'react-stickynode';
 import useMediaQuery from 'lib/hooks/useMediaQuery';
 
 const NavBar = dynamic(() => import('components/NavBar'));
+const InfoBar = dynamic(() => import('components/InfoBar'));
 
 const MainLayout: FC = ({ children }) => {
   const matched = useMediaQuery('(max-width: 640px)');
@@ -39,7 +40,11 @@ const MainLayout: FC = ({ children }) => {
           {children}
         </main>
 
-        <aside className={cn('hidden', 'xl:block xl:col-span-2')}></aside>
+        <aside className={cn('hidden', 'xl:block xl:col-span-2')}>
+          <Sticky enabled={!matched} top={32}>
+            <InfoBar />
+          </Sticky>
+        </aside>
       </div>
     </>
   );

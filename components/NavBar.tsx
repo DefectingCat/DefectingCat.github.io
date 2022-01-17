@@ -49,6 +49,7 @@ const NavBar: FC = () => {
   const onToggle = useCallback(() => {
     setMenuIsOpen((menuIsOpen) => !menuIsOpen);
   }, []);
+
   // Mobile menu icon must manually clicked to colse when click the menu item.
   const handleMenuClick = useCallback(() => {
     (iconRef.current?.children[0] as HTMLDivElement).click();
@@ -76,9 +77,10 @@ const NavBar: FC = () => {
         className={cn(
           { 'max-h-[500px]': menuIsOpen },
           { 'py-4': menuIsOpen },
+          { 'max-h-0': !menuIsOpen },
           'bg-white mx-[-1.5rem] px-6  mt-4 overflow-hidden',
           'md:block md:bg-transparent md:mx-0 md:p-0',
-          'transition-all duration-500 h-auto max-h-0',
+          'transition-all duration-500 h-auto ',
           'md:max-h-max'
         )}
       >

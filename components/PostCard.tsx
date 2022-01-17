@@ -3,9 +3,10 @@ import { FC } from 'react';
 import cn from 'classnames';
 import { AllPostsWithDescription } from 'lib/readPosts';
 import dynamic from 'next/dynamic';
-import { FiCalendar, FiTag } from 'react-icons/fi';
+import { FiCalendar } from 'react-icons/fi';
 
 const DateFormater = dynamic(() => import('components/DateFormater'));
+const PostCardTags = dynamic(() => import('components/post-card/PostCardTags'));
 const PostCardImage = dynamic(
   () => import('components/post-card/PostCardImage')
 );
@@ -48,19 +49,7 @@ const PostCard: FC<AllPostsWithDescription> = ({
             </div>
 
             <div className="flex items-center">
-              {Array.isArray(tags) ? (
-                tags.map((tag) => (
-                  <div key={tag} className="flex items-center">
-                    <FiTag className="mr-2" />
-                    {tag}
-                  </div>
-                ))
-              ) : (
-                <div className="flex items-center">
-                  <FiTag className="mr-2" />
-                  {tags}
-                </div>
-              )}
+              <PostCardTags tags={tags} />
             </div>
           </div>
         </div>
