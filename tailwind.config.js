@@ -14,7 +14,7 @@ module.exports = {
       boxShadow: {
         outline: '0 0 0 3px rgba(83, 220, 246, 0.6)',
         underline: 'inset 0px -2px 0px 0px rgb(85 200 188 / 70%)',
-        throughline: 'inset 0px -8px 0px 0px rgb(85 200 188 / 70%)',
+        throughline: 'inset 0px -0.5em 0px 0px rgb(85 200 188 / 70%)',
       },
     },
   },
