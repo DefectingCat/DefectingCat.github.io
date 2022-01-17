@@ -106,7 +106,6 @@ export function getPostData(slug: string) {
  * Data like: {
  *   2021: [ post ]
  * }
- * @param allPostsData
  */
 export const getArchiveData = () => {
   const archiveData: {

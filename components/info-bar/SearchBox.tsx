@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import { ActionKind, useRUAContext } from '../../lib/store';
 
 const SearchBox: FC = () => {
-  // Add keyboad event to foucs input element.
+  // Add keyboard event to focus input element.
   const inputRef = useRef<HTMLInputElement>(null);
   const { state, dispatch } = useRUAContext();
 

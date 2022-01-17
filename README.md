@@ -1,14 +1,12 @@
-<div style="display: flex; justify-content: center">
-  <img src="./public/images/img/64.png" style="width: 128px; height: 128px;" />
-</div>
+<img src="./public/images/img/64.png" style="width: 128px; height: 128px;"  alt=''/>
 
 ## 小破站
 
 <div>
-  <img src="https://img.shields.io/github/workflow/status/DefectingCat/DefectingCat.github.io/Export%20static%20to%20github%20pages?style=flat-square" />
+  <img src="https://img.shields.io/github/workflow/status/DefectingCat/DefectingCat.github.io/Export%20static%20to%20github%20pages?style=flat-square"  alt=''/>
   
   <a href="https://blog.rua.plus/" target="_blank" rel="noreferrer">
-    <img src="https://img.shields.io/website?style=flat-square&url=https%3A%2F%2Fblog.rua.plus" />
+    <img src="https://img.shields.io/website?style=flat-square&url=https%3A%2F%2Fblog.rua.plus"  alt=''/>
   </a>
 </div>
 

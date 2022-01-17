@@ -1,11 +1,6 @@
 import { FC } from 'react';
 import cn from 'classnames';
 
-interface Props {
-  allPages: number;
-  num?: string;
-}
-
 const RUAButton: FC = ({ children }) => {
   return (
     <>

@@ -19,16 +19,11 @@ const NavAvatar: FC = () => {
           <div
             className={cn(
               'w-10 h-10 rounded-full bg-white',
-              'absolute right-0 bottom-0',
+              'absolute right-0 bottom-0 text-lg',
               'flex justify-center items-center'
             )}
           >
-            <Image
-              width="20"
-              height="17"
-              src="/images/img/sparkling-heart.png"
-              alt=""
-            />
+            ❤️
           </div>
         </div>
 
