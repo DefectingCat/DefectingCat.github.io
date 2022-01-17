@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
+import Head from 'next/head';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 
@@ -10,6 +11,10 @@ const Search = () => {
 
   return (
     <>
+      <Head>
+        <title>RUA - Search</title>
+      </Head>
+
       <code>{q}</code>
     </>
   );

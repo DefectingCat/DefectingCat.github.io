@@ -27,13 +27,10 @@ const SearchBox: FC = () => {
     setValue(e.target.value);
   }, []);
 
-  const handleSearch: KeyboardEventHandler<HTMLInputElement> = useCallback(
-    (e) => {
-      if (e.key !== 'Enter') return;
-      router.push({ pathname: 'search', query: { q: value } });
-    },
-    [router, value]
-  );
+  const handleSearch: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key !== 'Enter') return;
+    router.push({ pathname: 'search', query: { q: value } });
+  };
 
   useEffect(() => {
     window.addEventListener('keyup', handleSlash);

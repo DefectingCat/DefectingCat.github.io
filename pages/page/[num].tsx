@@ -1,15 +1,15 @@
-import cn from 'classnames';
 import { ReactElement } from 'react';
-import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import { getPagingData } from 'lib/posts';
-import { InferGetStaticPropsType } from 'next';
+import Head from 'next/head';
+import { getAllPostNum, getPagingData, PagingData } from 'lib/posts';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const PostCard = dynamic(() => import('components/PostCard'));
 const Pagination = dynamic(() => import('components/Pagination'));
 
-const Home = ({
+const Page = ({
+  num,
   allPages,
   postDatas,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -23,21 +23,33 @@ const Home = ({
         <PostCard key={post.id} {...post} />
       ))}
 
-      <Pagination allPages={allPages} num="1" />
+      <Pagination allPages={allPages} num={num} />
     </>
   );
 };
 
-export const getStaticProps = () => {
+export function getStaticPaths() {
+  return {
+    paths: getAllPostNum(),
+    fallback: false,
+  };
+}
+
+export const getStaticProps: GetStaticProps<{ num?: string } & PagingData> = ({
+  params,
+}) => {
+  const num = params?.num?.toString();
+
   return {
     props: {
-      ...getPagingData(),
+      num,
+      ...getPagingData(num),
     },
   };
 };
 
-Home.getLayout = function getLayout(page: ReactElement) {
+Page.getLayout = function getLayout(page: ReactElement) {
   return <MainLayout>{page}</MainLayout>;
 };
 
-export default Home;
+export default Page;
