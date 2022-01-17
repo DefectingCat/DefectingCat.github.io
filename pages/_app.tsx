@@ -6,6 +6,14 @@ import { ReactElement, ReactNode } from 'react';
 import useRouterLoading from 'lib/hooks/useRouteLoading';
 import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
+import dynamic from 'next/dynamic';
+
+const H2 = dynamic(() => import('components/MDX/MDXH2'));
+
+// MDX components
+const mdxCompoents = {
+  h2: H2,
+};
 
 type NextPageWithLayout = NextPage & {
   // eslint-disable-next-line no-unused-vars
@@ -28,7 +36,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <meta name="author" content="Arthur,i@rua.plus" />
       </Head>
 
-      {getLayout(<Component {...pageProps} />)}
+      <MDXProvider components={mdxCompoents}>
+        {getLayout(<Component {...pageProps} />)}
+      </MDXProvider>
     </>
   );
 }

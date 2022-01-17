@@ -21,7 +21,7 @@ const PostCard: FC<AllPostsWithDescription> = ({
 }) => {
   return (
     <>
-      <div
+      <article
         className={cn(
           'rounded-xl overflow-hidden bg-white',
           'mb-8 last:mb-0 transition-shadow duration-500',
@@ -53,7 +53,7 @@ const PostCard: FC<AllPostsWithDescription> = ({
             </div>
           </div>
         </div>
-      </div>
+      </article>
     </>
   );
 };
