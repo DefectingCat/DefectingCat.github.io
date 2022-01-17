@@ -60,7 +60,7 @@ const postWithMatter = (fileName: string) => {
   };
 };
 
-const postWithDecscription = (fileName: string) => {
+const postWithDescription = (fileName: string) => {
   const { id, matterResult } = readMatters(fileName);
 
   // Process markdown to plain text
@@ -101,7 +101,7 @@ const allPostsWithMatter = fileNames
   .sort(sortByDate);
 
 const allPostsWithDescription = fileNames
-  .map((fileName) => postWithDecscription(fileName))
+  .map((fileName) => postWithDescription(fileName))
   .sort(sortByDate);
 
 const allPostsWithContent = fileNames
@@ -111,7 +111,7 @@ const allPostsWithContent = fileNames
 export { allPostsWithMatter, allPostsWithDescription, allPostsWithContent };
 
 export type AllPostsWithMatter = ReturnType<typeof postWithMatter>;
-export type AllPostsWithDescription = ReturnType<typeof postWithDecscription>;
+export type AllPostsWithDescription = ReturnType<typeof postWithDescription>;
 export type AllPostsWithContent = ReturnType<typeof postWithContent>;
 
 /**
