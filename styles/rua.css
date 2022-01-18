@@ -50,7 +50,6 @@
   width: 0;
 }
 
-
 #write h1 {
   font-size: 3.25rem;
   font-weight: 500;
@@ -97,6 +96,10 @@
   margin: 1rem 0;
 }
 
+#write p code {
+  @apply mx-1 rounded
+}
+
 #write blockquote::before {
   content: '';
   position: absolute;
@@ -108,6 +111,10 @@
   background-image: linear-gradient(#fbebef, #dff0f5);
   border-radius: calc(0.5rem + 0.25%) 0 0 calc(0.5rem + 0.25%);
   z-index: 1;
+}
+
+#write em {
+  @apply mx-0.5
 }
 
 @media (min-width: 575px) {
