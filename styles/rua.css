@@ -32,20 +32,19 @@
   padding-left: 15px;
 }
 #table-of-contents + ul li::before {
+  @apply text-rua-gray-100;
   content: ' - ';
   position: absolute;
   font-weight: bold;
   font-size: 2rem;
-  color: #aabfc5;
   transform: translate(-1.4rem, -1rem);
 }
 #table-of-contents + ul li li::before {
+  @apply text-rua-gray-100 top-[50%];
+  @apply transform-gpu translate-x-[-1rem] translate-y-[-50%];
   content: ' · ';
   position: absolute;
-  font-size: 2rem;
-  font-weight: bold;
-  color: #aabfc5;
-  transform: translate(-1rem, -0.75rem);
+  font-size: 1.5rem;
 }
 #table-of-contents + ul::-webkit-scrollbar {
   width: 0;

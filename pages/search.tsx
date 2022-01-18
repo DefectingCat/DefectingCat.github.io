@@ -21,13 +21,6 @@ const Search = () => {
       </Head>
 
       <div className="relative text-gray-600">
-        <FiSearch
-          className={cn(
-            'absolute right-3 top-[50%] transform-gpu translate-y-[-50%]',
-            'w-6 h-6'
-          )}
-        />
-
         <input
           type="text"
           className={cn(
@@ -37,6 +30,13 @@ const Search = () => {
           value={state.searchQuery}
           onChange={handleInput}
           placeholder="Search something..."
+        />
+
+        <FiSearch
+          className={cn(
+            'absolute right-6 top-[50%] transform-gpu translate-y-[-50%]',
+            'w-6 h-6'
+          )}
         />
       </div>
     </>

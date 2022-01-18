@@ -104,7 +104,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
             </div>
           )}
 
-          <article className={cn('p-4 lg:p-7')}>
+          <article className={cn('p-4 lg:p-8')}>
             <PostHeader title={title} tags={tags} date={date} />
 
             <section className={cn()} id={'write'}>

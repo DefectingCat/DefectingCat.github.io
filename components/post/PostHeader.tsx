@@ -20,13 +20,13 @@ const PostHeader: FC<Props> = ({ title, tags, date }) => {
 
       <div className={'mb-4'}>
         {Array.isArray(tags)
-          ? // Mutil tags
+          ? // Multi tags
             tags.map((item) => (
               <div
                 key={item}
                 className={cn(
                   'rounded-md bg-gray-100 px-2 py-1 inline text-sm',
-                  'text-gray-700'
+                  'text-gray-700 mr-3'
                 )}
               >
                 {item}

@@ -10,6 +10,11 @@ module.exports = {
         bluish: {
           gray: 'rgba(245,247,250)',
         },
+        rua: {
+          gray: {
+            100: '#aabfc5'
+          }
+        }
       },
       boxShadow: {
         outline: '0 0 0 3px rgba(83, 220, 246, 0.6)',

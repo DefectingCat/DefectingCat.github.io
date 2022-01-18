@@ -10,7 +10,7 @@ const PostCardTags: FC<Props> = ({ tags }) => {
     <>
       {Array.isArray(tags) ? (
         tags.map((tag) => (
-          <div key={tag} className="flex items-center">
+          <div key={tag} className="flex items-center mr-3">
             <FiTag className="mr-2" />
             {tag}
           </div>
