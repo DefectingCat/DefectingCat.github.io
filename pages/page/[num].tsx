@@ -16,9 +16,9 @@ export function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps<
-  { num: string | undefined } & PagingData
-> = ({ params }) => {
+export const getStaticProps: GetStaticProps<{ num?: string } & PagingData> = ({
+  params,
+}) => {
   const num = params?.num?.toString();
 
   return {
