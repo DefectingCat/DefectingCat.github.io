@@ -1,32 +1,10 @@
-:root {
-  --text-color: var(--chakra-colors-gray-600);
-  --heading-color: #464b1f;
-  --block-bg: linear-gradient(#fbebef, #dff0f5);
-  --block-bg-color: #f8f8f8;
-  --code-bg: var(--chakra-colors-gray-100);
-  --code-border-color: #e7eaed;
-
-  --shadow-color: #c3c5c7;
-}
-
-/* With Chakra dark mode */
-body.chakra-ui-dark {
-  --text-color: var(--chakra-colors-whiteAlpha-800);
-  --heading-color: var(--chakra-colors-whiteAlpha-800);
-  --block-bg: linear-gradient(#c395a1, #8e9fa3);
-  --block-bg-color: #888888;
-  --code-bg: var(--chakra-colors-gray-500);
-  --code-border-color: #919191;
-}
-
 ::selection {
   color: unset;
   background: rgba(33, 150, 243, 0.2);
 }
 
 #write {
-  font-size: 16px;
-  color: var(--text-color);
+  @apply text-gray-600;
 }
 
 #table-of-contents {
@@ -34,7 +12,6 @@ body.chakra-ui-dark {
   font-weight: normal;
   letter-spacing: 0.02em;
   line-height: 2rem;
-  margin: 1rem 0;
   text-transform: uppercase;
   color: #797979;
   white-space: nowrap;
@@ -74,22 +51,16 @@ body.chakra-ui-dark {
   width: 0;
 }
 
-#write a {
-  color: var(--chakra-colors-teal-500);
-}
 
 #write h1 {
   font-size: 3.25rem;
   font-weight: 500;
   letter-spacing: 0.03em;
   line-height: 4rem;
-  margin: 0 0 1.75rem;
   padding: 20px 30px;
   text-align: center;
   text-transform: uppercase;
-  margin-top: 4rem;
-  margin-bottom: 4rem;
-  color: var(--heading-color);
+  margin: 4rem 0;
 }
 
 #write h2 {
@@ -98,7 +69,6 @@ body.chakra-ui-dark {
   letter-spacing: 0.02em;
   line-height: 2rem;
   padding: 1rem 0;
-  color: var(--heading-color);
 }
 
 #write h3 {
@@ -106,7 +76,6 @@ body.chakra-ui-dark {
   font-weight: normal;
   letter-spacing: 0.02em;
   line-height: 3rem;
-  color: var(--heading-color);
 }
 
 #write h4 {
@@ -115,17 +84,14 @@ body.chakra-ui-dark {
   font-size: 1.25rem;
   line-height: 2rem;
   margin-top: 1rem;
-  color: var(--heading-color);
 }
 
 #write h5 {
   font-size: 1.15rem;
-  color: var(--heading-color);
 }
 
 #write h6 {
   font-size: 1rem;
-  color: var(--heading-color);
 }
 
 #write p {
@@ -137,10 +103,10 @@ body.chakra-ui-dark {
   position: absolute;
   left: 0;
   top: 0;
-  width: calc(0.1rem + 2.43px);
+  width: calc(0.1rem + 2px);
   height: 100%;
-  transform: translateX(calc(-0.05rem - 1.215px));
-  background-image: var(--block-bg);
+  transform: translateX(calc(-0.05rem - 1px));
+  background-image: linear-gradient(#fbebef, #dff0f5);
   border-radius: calc(0.5rem + 0.25%) 0 0 calc(0.5rem + 0.25%);
   z-index: 1;
 }
@@ -155,8 +121,8 @@ body.chakra-ui-dark {
   position: relative;
   word-spacing: 0.06em;
   margin: 0.5rem 0;
-  padding: 1rem calc(0.5rem + 5.13px);
-  background-color: var(--block-bg-color);
+  padding: 1rem calc(0.5rem + 5px);
+  background-color: #f8f8f8;
   line-height: 1.6;
   border-radius: 0 calc(0.5rem + 0.25%) calc(0.5rem + 0.25%) 0;
 }
@@ -217,15 +183,6 @@ body.chakra-ui-dark {
   transform: translate(-1rem, -0.75rem);
 }
 
-#write .md-task-list-item {
-  transition: all 0.2s ease-in-out 0s;
-  transform: translateX(1.4rem);
-}
-
-#write .md-task-list-item::before {
-  content: '';
-}
-
 #write input + p {
   display: inline-block;
 }
@@ -272,53 +229,37 @@ body.chakra-ui-dark {
   color: #c3c4d0;
 }
 
-#write .md-task-list-item:hover {
-  color: #c3c4d0;
-}
-
-#write [data-rmiz-wrap='visible'],
-#write [data-rmiz-wrap='hidden'] {
-  margin: 8px 0;
-}
-
 #write pre {
   position: relative;
   margin: 10px 0;
 }
 
 #write pre code {
+  @apply bg-gray-100;
   padding: 6px 10px;
-  background-color: var(--code-bg);
 }
 
 #write code,
 #write tt {
-  border: 1px solid var(--code-border-color);
-  border-radius: 6px;
+  @apply bg-gray-100 rounded-md;
   padding: 0 4px;
   font-size: 0.9em;
-  background-color: var(--code-bg);
-}
-
-#write mjx-container {
-  font-size: 26px;
-  font-family: 'Apple Symbols';
 }
 
 #write table {
+  @apply border border-gray-100;
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid var(--code-border-color);
 }
 
 #write th {
-  background-color: var(--code-bg);
+  @apply bg-gray-100;
 }
 
 #write td,
 #write th {
   position: relative;
-  border: solid 1px var(--code-border-color);
+  border: solid 1px #e7eaed;
   padding: 0.8em 0.5rem;
 }
 
@@ -326,7 +267,6 @@ body.chakra-ui-dark {
   color: #fff;
   background-color: rgba(231, 153, 176, 0.68);
   border-radius: 0.2em;
-  /*border: 1px solid #c5c8ca;*/
   padding: 0.1em 0.2em;
 }
 

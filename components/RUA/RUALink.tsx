@@ -8,7 +8,7 @@ interface Props {
   isExternal?: boolean;
 }
 
-const RUALink: FC<Props> = ({ href, isExternal, children }) => {
+const RUALink: FC<Props> = ({ href, isExternal = false, children }) => {
   return (
     <>
       <a
@@ -23,7 +23,7 @@ const RUALink: FC<Props> = ({ href, isExternal, children }) => {
         )}
       >
         {children}
-        <FiExternalLink className="inline mx-[2px]" />
+        {isExternal && <FiExternalLink className="inline mx-[2px]" />}
       </a>
     </>
   );

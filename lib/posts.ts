@@ -14,22 +14,21 @@ export type {
 
 /**
  * Paging, get all posts length
- * @returns
+ * Returns an array that looks like this:
+ * [
+ *   {
+ *     params: {
+ *       num: '2' // num of page
+ *     }
+ *   },
+ *   {
+ *     params: {
+ *       num: '3'
+ *     }
+ *   }
+ * ]
  */
 export function getAllPostNum() {
-  // Returns an array that looks like this:
-  // [
-  //   {
-  //     params: {
-  //       num: '2' // num of page
-  //     }
-  //   },
-  //   {
-  //     params: {
-  //       num: '3'
-  //     }
-  //   }
-  // ]
   const pagingSize = 10;
   const allPages = Math.ceil(fileNames.length / pagingSize);
 
@@ -51,6 +50,10 @@ export interface PagingData {
   postDatas: AllPostsWithDescription[];
 }
 
+/**
+ * Get pagination data.
+ * @param start start page.
+ */
 export function getPagingData(start?: string) {
   const totalNum = allPostsWithDescription.length;
   const pagingSize = 10;
@@ -68,20 +71,24 @@ export function getPagingData(start?: string) {
   };
 }
 
+/**
+ * Returns an array that looks like this:
+ * [
+ *   {
+ *     params: {
+ *       id: 'ssg-ssr'
+ *     }
+ *   },
+ *   {
+ *     params: {
+ *       id: 'pre-rendering'
+ *     }
+ *   }
+ * ]
+ */
 export function getAllPostSlugs() {
   // Returns an array that looks like this:
-  // [
-  //   {
-  //     params: {
-  //       id: 'ssg-ssr'
-  //     }
-  //   },
-  //   {
-  //     params: {
-  //       id: 'pre-rendering'
-  //     }
-  //   }
-  // ]
+
   return allPostsWithMatter.map((post) => {
     return {
       params: {
