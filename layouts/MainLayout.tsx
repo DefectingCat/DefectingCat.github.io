@@ -6,6 +6,7 @@ import useMediaQuery from 'lib/hooks/useMediaQuery';
 
 const NavBar = dynamic(() => import('components/NavBar'));
 const InfoBar = dynamic(() => import('components/InfoBar'));
+const Footer = dynamic(() => import('components/Footer'));
 
 const MainLayout: FC = ({ children }) => {
   const matched = useMediaQuery('(max-width: 640px)');
@@ -38,6 +39,8 @@ const MainLayout: FC = ({ children }) => {
           )}
         >
           {children}
+
+          <Footer />
         </main>
 
         <aside className={cn('hidden', 'xl:block xl:col-span-2')}>

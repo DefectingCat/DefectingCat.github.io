@@ -27,6 +27,7 @@ const Button = dynamic(() => import('components/RUA/RUAButton'));
 const RUALink = dynamic(() => import('components/RUA/RUALink'));
 const TableOfContent = dynamic(() => import('components/post/PostTOC'));
 const PostHeader = dynamic(() => import('components/post/PostHeader'));
+const Footer = dynamic(() => import('components/Footer'));
 
 const processedContent = unified()
   .use(remarkParse)
@@ -95,29 +96,28 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
           </Sticky>
         </aside>
 
-        <main
-          className={cn(
-            'bg-white shadow-md col-span-12 rounded-lg',
-            'md:col-span-10 overflow-hidden lg:col-span-8'
-          )}
-        >
-          {index_img && (
-            <div className="relative aspect-video">
-              <Image
-                src={index_img}
-                layout="fill"
-                objectFit="cover"
-                alt="Article image"
-                priority
-              />
-            </div>
-          )}
+        <main className={'md:col-span-10 col-span-12 lg:col-span-8'}>
+          <div className={'bg-white shadow-md rounded-lg overflow-hidden'}>
+            {index_img && (
+              <div className="relative aspect-video">
+                <Image
+                  src={index_img}
+                  layout="fill"
+                  objectFit="cover"
+                  alt="Article image"
+                  priority
+                />
+              </div>
+            )}
 
-          <article className={cn('p-4 lg:p-8')}>
-            <PostHeader title={title} tags={tags} date={date} />
+            <article className={'p-4 lg:p-8'}>
+              <PostHeader title={title} tags={tags} date={date} />
 
-            <section id={'write'}>{postContent}</section>
-          </article>
+              <section id={'write'}>{postContent}</section>
+            </article>
+          </div>
+
+          <Footer />
         </main>
 
         <aside className={cn('hidden lg:block col-span-3')}>
