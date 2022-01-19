@@ -1,7 +1,9 @@
 import { MenuItem } from 'components/NavBar';
 import { FC } from 'react';
-import Link from 'next/link';
 import cn from 'classnames';
+import dynamic from 'next/dynamic';
+
+const Link = dynamic(() => import('components/PathLink'));
 
 interface Props {
   onClick: () => void;
@@ -12,16 +14,15 @@ const NavMenuItem: FC<Props> = ({ onClick, menuItem }) => {
   return (
     <>
       <div onClick={onClick}>
-        <Link href={menuItem.path} passHref>
-          <a
-            className={cn(
-              'rounded-lg flex items-center my-5 text-lg',
-              'text-gray-600 md:text-xl select-none'
-            )}
-          >
-            <menuItem.icon className="mr-10" />
-            <span>{menuItem.name}</span>
-          </a>
+        <Link
+          href={menuItem.path}
+          className={cn(
+            'rounded-lg flex items-center my-5 text-lg',
+            'text-gray-600 md:text-xl select-none dark:text-gray-400'
+          )}
+        >
+          <menuItem.icon className="mr-10" />
+          <span>{menuItem.name}</span>
         </Link>
       </div>
     </>

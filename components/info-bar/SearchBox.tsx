@@ -32,7 +32,7 @@ const SearchBox: FC = () => {
 
   const handleSearch: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key !== 'Enter') return;
-    router.push('/search');
+    router.push('/search').catch();
   };
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const SearchBox: FC = () => {
 
   return (
     <>
-      <div className="relative text-gray-700">
+      <div className="relative text-gray-700 dark:text-gray-400">
         <FiSearch
           className={cn(
             'absolute z-10 w-[22px] h-[22px]',
@@ -58,7 +58,8 @@ const SearchBox: FC = () => {
             'w-full rounded-lg outline-none relative',
             'py-5 px-12 placeholder:font-semibold',
             'focus:px-5 focus:shadow-md focus:placeholder:font-normal',
-            'duration-300 transition-all focus:z-20'
+            'duration-300 transition-all focus:z-20',
+            'dark:bg-rua-gray-800'
           )}
           value={state.searchQuery}
           onChange={handleInput}
@@ -69,7 +70,8 @@ const SearchBox: FC = () => {
           className={cn(
             'absolute z-10 border flex px-1 rounded',
             'right-4 top-[50%] font-semibold',
-            'transform-gpu translate-y-[-50%]'
+            'transform-gpu translate-y-[-50%]',
+            'border-rua-gray-600'
           )}
         >
           <code>/</code>

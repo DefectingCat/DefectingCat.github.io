@@ -25,7 +25,7 @@ const PostCard: FC<AllPostsWithDescription> = ({
         className={cn(
           'rounded-xl overflow-hidden bg-white',
           'mb-8 last:mb-0 transition-shadow duration-500',
-          'md:hover:shadow-lg'
+          'md:hover:shadow-lg dark:bg-rua-gray-800'
         )}
       >
         <PostCardImage index_img={index_img} url={url} />
@@ -37,10 +37,10 @@ const PostCard: FC<AllPostsWithDescription> = ({
           </Link>
 
           {/* Description */}
-          <p className="text-gray-600 py-3">{desc}</p>
+          <p className="text-gray-600 py-3 dark:text-gray-400">{desc}</p>
 
           {/* Date and tags */}
-          <div className="text-[13px] text-gray-500 flex items-center">
+          <div className="text-[13px] text-gray-500 dark:text-gray-400 flex items-center">
             <div className="flex items-center mr-4">
               <FiCalendar className="mr-2" />
               <DateFormater dateString={date} />

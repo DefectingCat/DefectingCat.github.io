@@ -8,7 +8,7 @@ const NavAvatar: FC = () => {
       <div>
         <div className="w-32 h-32 shadow-lg rounded-full relative">
           <Image
-            className="rounded-full overflow-hidden"
+            className="rounded-full overflow-hidden dark:brightness-75"
             width="128"
             height="128"
             src="/images/img/avatar.svg"
@@ -20,7 +20,8 @@ const NavAvatar: FC = () => {
             className={cn(
               'w-10 h-10 rounded-full bg-white',
               'absolute right-0 bottom-0 text-lg',
-              'flex justify-center items-center'
+              'flex justify-center items-center',
+              'dark:bg-gray-800'
             )}
           >
             ❤️

@@ -10,8 +10,14 @@ interface Props {
 const Footer: FC<Props> = ({ className }) => {
   return (
     <>
-      <footer className={cn('text-gray-600 pt-10', className)}>
-        <div className={'h-[3px] w-16 rounded-xl bg-gray-400 mb-4'} />
+      <footer
+        className={cn('text-gray-600 pt-10', 'dark:text-gray-400', className)}
+      >
+        <div
+          className={
+            'h-[3px] w-16 rounded-xl bg-gray-400 dark:bg-rua-gray-600 mb-4'
+          }
+        />
 
         <p className={'font-semibold mb-2'}>&copy; {YEAR} 小肥羊</p>
 

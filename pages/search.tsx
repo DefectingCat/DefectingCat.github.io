@@ -20,12 +20,13 @@ const Search = () => {
         <title>RUA - Search</title>
       </Head>
 
-      <div className="relative text-gray-600">
+      <div className="relative text-gray-700 dark:text-gray-400">
         <input
           type="text"
           className={cn(
             'rounded-lg bg-white w-full py-7 px-6',
-            'outline-none text-lg'
+            'outline-none text-lg',
+            'dark:bg-rua-gray-800'
           )}
           value={state.searchQuery}
           onChange={handleInput}

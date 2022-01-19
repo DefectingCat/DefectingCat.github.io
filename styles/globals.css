@@ -8,7 +8,7 @@
 
 @layer base {
   body {
-    @apply bg-bluish-gray;
+    @apply bg-bluish-gray dark:bg-rua-gray-900 dark:text-gray-200;
     font-family: "-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Segoe UI,Arial,Roboto,'PingFang SC',miui,'Hiragino Sans GB','Microsoft Yahei',sans-serif", sans-serif;
   }
 

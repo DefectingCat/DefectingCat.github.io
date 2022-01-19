@@ -12,9 +12,12 @@ module.exports = {
         },
         rua: {
           gray: {
-            100: '#aabfc5'
-          }
-        }
+            100: '#aabfc5',
+            600: 'rgb(66,66,66)',
+            800: 'rgb(35,38,38)',
+            900: 'rgb(24,25,26)',
+          },
+        },
       },
       boxShadow: {
         outline: '0 0 0 3px rgba(83, 220, 246, 0.6)',
