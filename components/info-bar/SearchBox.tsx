@@ -58,7 +58,7 @@ const SearchBox: FC = () => {
             'w-full rounded-lg outline-none relative',
             'py-5 px-12 placeholder:font-semibold',
             'focus:px-5 focus:shadow-md focus:placeholder:font-normal',
-            'duration-300 transition-all focus:z-20',
+            'transition-all focus:z-20',
             'dark:bg-rua-gray-800'
           )}
           value={state.searchQuery}

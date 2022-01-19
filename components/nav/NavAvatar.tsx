@@ -1,6 +1,9 @@
 import { FC } from 'react';
 import cn from 'classnames';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+
+const DarkModeBtn = dynamic(() => import('components/nav/DarkModeBtn'));
 
 const NavAvatar: FC = () => {
   return (
@@ -8,7 +11,7 @@ const NavAvatar: FC = () => {
       <div>
         <div className="w-32 h-32 shadow-lg rounded-full relative">
           <Image
-            className="rounded-full overflow-hidden dark:brightness-75"
+            className="rounded-full overflow-hidden"
             width="128"
             height="128"
             src="/images/img/avatar.svg"
@@ -28,7 +31,10 @@ const NavAvatar: FC = () => {
           </div>
         </div>
 
-        <h1 className="text-3xl font-semibold mt-4 mb-2">肥羊</h1>
+        <div className={'flex justify-between items-center pt-4 pb-2'}>
+          <h1 className="text-3xl font-semibold">肥羊</h1>
+          <DarkModeBtn />
+        </div>
         <span className="text-gray-400">恐惧是思维杀手..</span>
       </div>
     </>

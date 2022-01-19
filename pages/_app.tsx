@@ -8,6 +8,7 @@ import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
 import dynamic from 'next/dynamic';
 import RUAStore from '../lib/store';
+import Script from 'next/script';
 
 const H2 = dynamic(() => import('components/MDX/MDXH2'));
 
@@ -36,6 +37,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <meta name="description" content="Personal blog." />
         <meta name="author" content="Arthur,i@rua.plus" />
       </Head>
+
+      <Script src={'/js/darkMode.js'} strategy={'beforeInteractive'} />
 
       <RUAStore>
         <MDXProvider components={mdxComponents}>
