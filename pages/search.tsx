@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import cn from 'classnames';
 import { FiSearch } from 'react-icons/fi';
-import { ActionKind, useRUAContext } from '../lib/store';
+import { ActionKind, useRUAContext } from 'lib/store';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 

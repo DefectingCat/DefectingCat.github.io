@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { FC } from 'react';
 import cn from 'classnames';
 import { AllPostsWithDescription } from 'lib/readPosts';
@@ -10,6 +9,7 @@ const PostCardTags = dynamic(() => import('components/post-card/PostCardTags'));
 const PostCardImage = dynamic(
   () => import('components/post-card/PostCardImage')
 );
+const Link = dynamic(() => import('components/PathLink'));
 
 const PostCard: FC<AllPostsWithDescription> = ({
   index_img,
@@ -32,10 +32,8 @@ const PostCard: FC<AllPostsWithDescription> = ({
 
         <div className={cn('p-6')}>
           {/* Title */}
-          <Link href={`/p/${url}`} passHref>
-            <a className="md:hover:underline">
-              <h1 className="text-xl font-semibold">{title}</h1>
-            </a>
+          <Link href={`/p/${url}`} className="md:hover:underline">
+            <h1 className="text-xl font-semibold">{title}</h1>
           </Link>
 
           {/* Description */}

@@ -20,9 +20,11 @@ import Image from 'next/image';
 import { FiChevronLeft } from 'react-icons/fi';
 import Sticky from 'react-stickynode';
 import useMediaQuery from 'lib/hooks/useMediaQuery';
+import { useRUAContext } from 'lib/store';
+import Link from 'next/link';
 
 const Button = dynamic(() => import('components/RUA/RUAButton'));
-const Link = dynamic(() => import('components/RUA/RUALink'));
+const RUALink = dynamic(() => import('components/RUA/RUALink'));
 const TableOfContent = dynamic(() => import('components/post/PostTOC'));
 const PostHeader = dynamic(() => import('components/post/PostHeader'));
 
@@ -41,9 +43,9 @@ const processedContent = unified()
     createElement,
     components: {
       a: (props: any) => (
-        <Link href={props.href} isExternal>
+        <RUALink href={props.href} isExternal>
           {props.children}
-        </Link>
+        </RUALink>
       ),
     },
     Fragment,
@@ -51,6 +53,8 @@ const processedContent = unified()
 
 const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const matched = useMediaQuery('(max-width: 640px)');
+  const { state } = useRUAContext();
+  const { backPath } = state;
 
   const { title, index_img, content, tags, date } = postData;
 
@@ -75,15 +79,19 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
           )}
         >
           <Sticky enabled={!matched} top={32}>
-            <Button
-              className={cn(
-                'flex items-center w-full',
-                'text-gray-600 md:justify-center'
-              )}
-            >
-              <FiChevronLeft className="mr-2 md:hidden" />
-              BACK
-            </Button>
+            <Link href={backPath || '/'} passHref>
+              <a>
+                <Button
+                  className={cn(
+                    'flex items-center w-full',
+                    'text-gray-600 md:justify-center'
+                  )}
+                >
+                  <FiChevronLeft className="mr-2 md:hidden" />
+                  BACK
+                </Button>
+              </a>
+            </Link>
           </Sticky>
         </aside>
 
@@ -94,12 +102,13 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
           )}
         >
           {index_img && (
-            <div className="relative aspect-video ">
+            <div className="relative aspect-video">
               <Image
                 src={index_img}
                 layout="fill"
                 objectFit="cover"
                 alt="Article image"
+                priority
               />
             </div>
           )}
@@ -107,9 +116,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
           <article className={cn('p-4 lg:p-8')}>
             <PostHeader title={title} tags={tags} date={date} />
 
-            <section className={cn()} id={'write'}>
-              {postContent}
-            </section>
+            <section id={'write'}>{postContent}</section>
           </article>
         </main>
 

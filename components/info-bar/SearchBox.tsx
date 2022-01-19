@@ -9,7 +9,7 @@ import {
 import cn from 'classnames';
 import { FiSearch } from 'react-icons/fi';
 import { useRouter } from 'next/router';
-import { ActionKind, useRUAContext } from '../../lib/store';
+import { ActionKind, useRUAContext } from 'lib/store';
 
 const SearchBox: FC = () => {
   // Add keyboard event to focus input element.
