@@ -8,7 +8,6 @@ import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
 import dynamic from 'next/dynamic';
 import RUAStore from '../lib/store';
-import Script from 'next/script';
 
 const H2 = dynamic(() => import('components/MDX/MDXH2'));
 
@@ -36,9 +35,23 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <meta name="keywords" content="Blog RUA" />
         <meta name="description" content="Personal blog." />
         <meta name="author" content="Arthur,i@rua.plus" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            if (
+              localStorage.getItem('rua-theme') === 'dark' ||
+              (!('rua-theme' in localStorage) &&
+                window.matchMedia('(prefers-color-scheme: dark)').matches)
+            ) {
+              document.documentElement.classList.add('dark');
+              localStorage.setItem('rua-theme', 'dark');
+            } else {
+              document.documentElement.classList.remove('dark');
+              localStorage.setItem('rua-theme', 'light');
+            }`,
+          }}
+        />
       </Head>
-
-      <Script src={'/js/darkMode.js'} strategy={'beforeInteractive'} />
 
       <RUAStore>
         <MDXProvider components={mdxComponents}>

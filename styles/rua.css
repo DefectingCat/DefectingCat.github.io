@@ -97,7 +97,7 @@
 }
 
 #write p code {
-  @apply mx-1 rounded
+  @apply mx-1 rounded;
 }
 
 #write blockquote::before {
@@ -114,7 +114,7 @@
 }
 
 #write em {
-  @apply mx-0.5
+  @apply mx-0.5;
 }
 
 @media (min-width: 575px) {
