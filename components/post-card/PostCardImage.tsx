@@ -23,7 +23,8 @@ const PostCardImage: FC<Props> = ({ index_img, url }) => {
             layout="fill"
             objectFit="cover"
             alt="Post Image"
-            loading="lazy"
+            // loading="lazy"
+            priority
           />
         </Link>
       )}

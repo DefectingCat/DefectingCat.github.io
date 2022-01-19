@@ -35,3 +35,9 @@
     box-shadow: inset 0 0 10px rgba(185, 69, 69, 0.2);
   }
 }
+
+/* image zoom modal */
+.dark [data-rmiz-overlay] {
+  --tw-bg-opacity: 0.95;
+  background-color: rgb(35 38 38 / var(--tw-bg-opacity)) !important;
+}

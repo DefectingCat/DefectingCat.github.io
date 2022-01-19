@@ -11,6 +11,11 @@ interface Props {
   date: string;
 }
 
+const tagClass = cn(
+  'rounded-md bg-gray-100 px-2 py-1 mr-2 inline text-sm',
+  'text-gray-700 dark:text-gray-300 dark:bg-gray-500'
+);
+
 const PostHeader: FC<Props> = ({ title, tags, date }) => {
   return (
     <header className={'mb-6'}>
@@ -27,27 +32,12 @@ const PostHeader: FC<Props> = ({ title, tags, date }) => {
         {Array.isArray(tags)
           ? // Multi tags
             tags.map((item) => (
-              <div
-                key={item}
-                className={cn(
-                  'rounded-md bg-gray-100 px-2 py-1 inline text-sm',
-                  'text-gray-700 mr-3 '
-                )}
-              >
+              <div key={item} className={tagClass}>
                 {item}
               </div>
             ))
           : // Signal tags
-            tags && (
-              <div
-                className={cn(
-                  'rounded-md bg-gray-100 px-2 py-1 inline text-sm',
-                  'text-gray-700 dark:text-gray-300 dark:bg-gray-500'
-                )}
-              >
-                {tags}
-              </div>
-            )}
+            tags && <div className={tagClass}>{tags}</div>}
       </div>
 
       <div

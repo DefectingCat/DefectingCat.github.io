@@ -16,6 +16,7 @@ const NavAvatar: FC = () => {
             height="128"
             src="/images/img/avatar.svg"
             alt=""
+            priority
           />
 
           {/* Emoji on avatar */}

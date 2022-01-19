@@ -27,6 +27,8 @@ const Button = dynamic(() => import('components/RUA/RUAButton'));
 const RUALink = dynamic(() => import('components/RUA/RUALink'));
 const TableOfContent = dynamic(() => import('components/post/PostTOC'));
 const PostHeader = dynamic(() => import('components/post/PostHeader'));
+const PostImage = dynamic(() => import('components/post/PostImage'));
+const PostIframe = dynamic(() => import('components/post/PostIframe'));
 const Footer = dynamic(() => import('components/Footer'));
 
 const processedContent = unified()
@@ -48,6 +50,8 @@ const processedContent = unified()
           {props.children}
         </RUALink>
       ),
+      img: (props: any) => <PostImage src={props.src} />,
+      iframe: (props: any) => <PostIframe src={props.src} />,
     },
     Fragment,
   });
