@@ -1,8 +1,9 @@
-import React, { FC, useReducer } from 'react';
+import React, { FC, useEffect, useReducer } from 'react';
 
 export enum ActionKind {
   SETQUERY = 'SETQUERY',
   SETPATH = 'SETPATH',
+  SETTHEME = 'SETTHEME',
 }
 
 type ReducerAction = {
@@ -21,11 +22,17 @@ type State = {
    * Back path to record where to go back.
    */
   backPath: string;
+
+  /**
+   * Use document.documentElement.classList
+   */
+  isDark: boolean;
 };
 
 const initialState: State = {
   searchQuery: '',
   backPath: '',
+  isDark: false,
 };
 
 const reducer = (state: State, action: ReducerAction): State => {
@@ -35,6 +42,11 @@ const reducer = (state: State, action: ReducerAction): State => {
       return { ...state, searchQuery: payload };
     case ActionKind.SETPATH:
       return { ...state, backPath: payload };
+    case ActionKind.SETTHEME:
+      return {
+        ...state,
+        isDark: document.documentElement.classList.contains('dark'),
+      };
     default:
       throw new Error();
   }
@@ -50,6 +62,13 @@ const RUAContext = React.createContext<{
 
 const RUAStore: FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    dispatch({
+      type: ActionKind.SETTHEME,
+      payload: '',
+    });
+  }, []);
 
   return (
     <>

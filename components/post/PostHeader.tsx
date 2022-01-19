@@ -14,7 +14,12 @@ interface Props {
 const PostHeader: FC<Props> = ({ title, tags, date }) => {
   return (
     <header className={'mb-6'}>
-      <h1 className={'text-3xl md:text-4xl font-semibold text-gray-700 mb-4'}>
+      <h1
+        className={cn(
+          'text-3xl md:text-4xl font-semibold mb-4',
+          'text-gray-700 dark:text-gray-300'
+        )}
+      >
         {title}
       </h1>
 
@@ -26,7 +31,7 @@ const PostHeader: FC<Props> = ({ title, tags, date }) => {
                 key={item}
                 className={cn(
                   'rounded-md bg-gray-100 px-2 py-1 inline text-sm',
-                  'text-gray-700 mr-3'
+                  'text-gray-700 mr-3 '
                 )}
               >
                 {item}
@@ -37,7 +42,7 @@ const PostHeader: FC<Props> = ({ title, tags, date }) => {
               <div
                 className={cn(
                   'rounded-md bg-gray-100 px-2 py-1 inline text-sm',
-                  'text-gray-700'
+                  'text-gray-700 dark:text-gray-300 dark:bg-gray-500'
                 )}
               >
                 {tags}
@@ -45,7 +50,9 @@ const PostHeader: FC<Props> = ({ title, tags, date }) => {
             )}
       </div>
 
-      <div className={'flex items-center text-gray-600 text-sm'}>
+      <div
+        className={'flex items-center text-gray-600 dark:text-gray-400 text-sm'}
+      >
         <FiCalendar className={'mr-2'} />
         <DateFormater dateString={date} />
       </div>

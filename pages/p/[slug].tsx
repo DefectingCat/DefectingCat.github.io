@@ -69,7 +69,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
       <div
         className={cn(
-          'grid grid-cols-12 gap-4 p-2 container mx-auto',
+          'grid grid-cols-12 gap-4 px-2 py-4 container mx-auto',
           'md:py-8'
         )}
       >
@@ -97,7 +97,11 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
         </aside>
 
         <main className={'md:col-span-10 col-span-12 lg:col-span-8'}>
-          <div className={'bg-white shadow-md rounded-lg overflow-hidden'}>
+          <div
+            className={
+              'bg-white dark:bg-rua-gray-800 shadow-md rounded-lg overflow-hidden'
+            }
+          >
             {index_img && (
               <div className="relative aspect-video">
                 <Image

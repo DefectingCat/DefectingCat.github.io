@@ -1,20 +1,24 @@
-import { useEffect, useState } from 'react';
+import { ActionKind, useRUAContext } from '../store';
 
 const useDarkMode = () => {
-  const [isDark, setIsDark] = useState(false);
-  useEffect(() => {
-    setIsDark(document.documentElement.classList.contains('dark'));
-  }, []);
+  const { state, dispatch } = useRUAContext();
+  const { isDark } = state;
 
   const toggleDark = () => {
     if (isDark) {
       document.documentElement.classList.remove('dark');
       localStorage.setItem('rua-theme', 'light');
-      setIsDark(document.documentElement.classList.contains('dark'));
+      dispatch({
+        type: ActionKind.SETTHEME,
+        payload: '',
+      });
     } else {
       document.documentElement.classList.add('dark');
       localStorage.setItem('rua-theme', 'dark');
-      setIsDark(document.documentElement.classList.contains('dark'));
+      dispatch({
+        type: ActionKind.SETTHEME,
+        payload: '',
+      });
     }
   };
 

@@ -4,7 +4,7 @@
 }
 
 #write {
-  @apply text-gray-600;
+  @apply text-gray-600 dark:text-gray-300;
 }
 
 #table-of-contents {
@@ -247,7 +247,7 @@
 
 #write code,
 #write tt {
-  @apply bg-gray-100 rounded-md;
+  @apply bg-gray-100 dark:bg-gray-500 rounded-md;
   padding: 0 4px;
   font-size: 0.9em;
 }

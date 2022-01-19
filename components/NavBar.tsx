@@ -5,6 +5,7 @@ import UseAnimations from 'react-useanimations';
 import menu3 from 'react-useanimations/lib/menu3';
 import { IconType } from 'react-icons';
 import dynamic from 'next/dynamic';
+import useDarkMode from 'lib/hooks/useDarkMode';
 
 const NavAvatar = dynamic(() => import('components/nav/NavAvatar'));
 const NavMenuItem = dynamic(() => import('components/nav/NavMenuItem'));
@@ -44,13 +45,15 @@ export const menus: MenuItem[] = [
 ];
 
 const NavBar: FC = () => {
+  const { isDark } = useDarkMode();
+
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const iconRef = useRef<HTMLDivElement>(null);
   const onToggle = useCallback(() => {
     setMenuIsOpen((menuIsOpen) => !menuIsOpen);
   }, []);
 
-  // Mobile menu icon must manually clicked to colse when click the menu item.
+  // Mobile menu icon must manually click to colse when click the menu item.
   const handleMenuClick = useCallback(() => {
     (iconRef.current?.children[0] as HTMLDivElement).click();
   }, []);
@@ -68,6 +71,7 @@ const NavBar: FC = () => {
             animation={menu3}
             speed={2}
             onClick={onToggle}
+            strokeColor={isDark ? 'white' : 'black'}
           />
         </div>
       </div>
@@ -78,10 +82,11 @@ const NavBar: FC = () => {
           { 'max-h-[500px]': menuIsOpen },
           { 'py-4': menuIsOpen },
           { 'max-h-0': !menuIsOpen },
-          'bg-white mx-[-1.5rem] px-6  mt-4 overflow-hidden',
+          'bg-white mx-[-1.5rem] px-6 mt-4 overflow-hidden',
           'md:block md:bg-transparent md:mx-0 md:p-0',
           'transition-all duration-500 h-auto ',
-          'md:max-h-max'
+          'md:max-h-max',
+          'dark:bg-rua-gray-800 md:dark:bg-transparent'
         )}
       >
         {menus.map((menu) => (
