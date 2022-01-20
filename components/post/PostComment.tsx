@@ -2,7 +2,7 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import { Giscus } from '@giscus/react';
 import dynamic from 'next/dynamic';
 import cn from 'classnames';
-import useDarkMode from '../../lib/hooks/useDarkMode';
+import useDarkMode from 'lib/hooks/useDarkMode';
 
 const PostCommentLoading = dynamic(
   () => import('components/loading/PostCommentLoading')
@@ -12,6 +12,7 @@ const ready = /\[iFrameSizer\]\iFrameResizer.*?\:init/;
 
 const PostComment: FC = () => {
   const [commentLoaded, setCommentLoaded] = useState(false);
+
   const { isDark } = useDarkMode();
 
   /**
@@ -36,17 +37,31 @@ const PostComment: FC = () => {
 
   return (
     <>
-      <div className={cn('mt-8', { hidden: !commentLoaded })}>
-        <Giscus
-          repo="DefectingCat/DefectingCat.github.io"
-          repoId={process.env.REPO_ID ?? ''}
-          categoryId={process.env.CATEGORY_ID ?? ''}
-          category="Announcements"
-          mapping="title"
-          reactionsEnabled="1"
-          emitMetadata="0"
-          theme={isDark ? 'dark_dimmed' : 'light'}
-        />
+      <div className={cn({ hidden: !commentLoaded })}>
+        <div className={cn({ hidden: !isDark })}>
+          <Giscus
+            repo="DefectingCat/DefectingCat.github.io"
+            repoId={process.env.REPO_ID ?? ''}
+            categoryId={process.env.CATEGORY_ID ?? ''}
+            category="Announcements"
+            mapping="title"
+            reactionsEnabled="1"
+            emitMetadata="0"
+            theme={'dark_dimmed'}
+          />
+        </div>
+        <div className={cn({ hidden: isDark })}>
+          <Giscus
+            repo="DefectingCat/DefectingCat.github.io"
+            repoId={process.env.REPO_ID ?? ''}
+            categoryId={process.env.CATEGORY_ID ?? ''}
+            category="Announcements"
+            mapping="title"
+            reactionsEnabled="1"
+            emitMetadata="0"
+            theme={'light'}
+          />
+        </div>
       </div>
       {commentLoaded || <PostCommentLoading />}
     </>

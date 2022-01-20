@@ -19,9 +19,13 @@ const PostImage: FC<Props> = ({ src }) => {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           ref={targetRef}
-          className={cn('rounded-md duration-300 object-cover', {
-            blur: blur,
-          })}
+          className={cn(
+            'rounded-md duration-300 object-cover',
+            {
+              blur: blur,
+            },
+            'h-full'
+          )}
           src={initSrc}
           alt="Post image"
         />

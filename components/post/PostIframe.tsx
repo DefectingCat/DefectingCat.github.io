@@ -20,6 +20,7 @@ const PostIframe: FC<Props> = ({ src }) => {
       )}
     >
       <iframe
+        title={'Post iframe'}
         className={'w-full h-full'}
         ref={targetRef}
         src={initSrc}

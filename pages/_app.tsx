@@ -1,5 +1,6 @@
 import 'styles/globals.css';
 import 'styles/rua.css';
+import 'styles/dark-hljs.css';
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
@@ -29,6 +30,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <Head>
+        <html lang={'en'} />
         <link rel="shortcut icon" href="/images/img/favicon.webp" />
         <meta name="keywords" content="Blog RUA" />
         <meta name="description" content="Personal blog." />
@@ -49,6 +51,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             }`,
           }}
         />
+        <title>RUA</title>
       </Head>
 
       <RUAStore>

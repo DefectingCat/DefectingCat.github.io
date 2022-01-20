@@ -10,7 +10,6 @@ import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import rehypeReact from 'rehype-react';
 import 'highlight.js/styles/github.css';
-// import 'highlight.js/styles/github-dark.css';
 import xml from 'highlight.js/lib/languages/xml';
 import bash from 'highlight.js/lib/languages/bash';
 import Head from 'next/head';
@@ -24,6 +23,10 @@ import { useRUAContext } from 'lib/store';
 import Link from 'next/link';
 import useInView from 'lib/hooks/useInView';
 
+const PostCommentLoading = dynamic(
+  () => import('components/loading/PostCommentLoading')
+);
+
 const Button = dynamic(() => import('components/RUA/RUAButton'));
 const RUALink = dynamic(() => import('components/RUA/RUALink'));
 const TableOfContent = dynamic(() => import('components/post/PostTOC'));
@@ -31,12 +34,10 @@ const PostHeader = dynamic(() => import('components/post/PostHeader'));
 const PostImage = dynamic(() => import('components/post/PostImage'));
 const PostIframe = dynamic(() => import('components/post/PostIframe'));
 const Footer = dynamic(() => import('components/Footer'));
-const PostCommentLoading = dynamic(
-  () => import('components/loading/PostCommentLoading')
-);
 const PostComment = dynamic(() => import('components/post/PostComment'), {
   loading: () => <PostCommentLoading />,
 });
+const DarkModeBtn = dynamic(() => import('components/nav/DarkModeBtn'));
 
 const processedContent = unified()
   .use(remarkParse)
@@ -89,7 +90,8 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
         <aside
           className={cn(
             'col-span-12 justify-end',
-            'md:col-span-2 lg:col-span-1'
+            'md:col-span-2 lg:col-span-1',
+            'relative text-right'
           )}
         >
           <Sticky enabled={!matched} top={32}>
@@ -107,6 +109,14 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
               </a>
             </Link>
           </Sticky>
+
+          <DarkModeBtn
+            className={cn(
+              'absolute top-[50%] right-1 translate-y-[-50%]',
+              'md:fixed md:top-[unset] md:translate-y-0 md:right-[unset]',
+              'md:bottom-[32px] md:translate-x-[-100%]'
+            )}
+          />
         </aside>
 
         <main className={'md:col-span-10 col-span-12 lg:col-span-8'}>
@@ -134,7 +144,9 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
             </article>
           </div>
 
-          <div ref={targetRef}>{inView && <PostComment />}</div>
+          <div ref={targetRef} className={'mt-8 min-h-[349px]'}>
+            {inView && <PostComment />}
+          </div>
           <Footer />
         </main>
 
