@@ -3,11 +3,10 @@ import 'styles/rua.css';
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
-import useRouterLoading from 'lib/hooks/useRouteLoading';
 import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
 import dynamic from 'next/dynamic';
-import RUAStore from '../lib/store';
+import RUAStore from 'lib/store';
 
 const H2 = dynamic(() => import('components/MDX/MDXH2'));
 
@@ -26,7 +25,6 @@ type AppPropsWithLayout = AppProps & {
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
-  const [loading] = useRouterLoading();
 
   return (
     <>

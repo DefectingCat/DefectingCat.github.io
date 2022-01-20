@@ -22,6 +22,7 @@ import Sticky from 'react-stickynode';
 import useMediaQuery from 'lib/hooks/useMediaQuery';
 import { useRUAContext } from 'lib/store';
 import Link from 'next/link';
+import useInView from 'lib/hooks/useInView';
 
 const Button = dynamic(() => import('components/RUA/RUAButton'));
 const RUALink = dynamic(() => import('components/RUA/RUALink'));
@@ -30,6 +31,12 @@ const PostHeader = dynamic(() => import('components/post/PostHeader'));
 const PostImage = dynamic(() => import('components/post/PostImage'));
 const PostIframe = dynamic(() => import('components/post/PostIframe'));
 const Footer = dynamic(() => import('components/Footer'));
+const PostCommentLoading = dynamic(
+  () => import('components/loading/PostCommentLoading')
+);
+const PostComment = dynamic(() => import('components/post/PostComment'), {
+  loading: () => <PostCommentLoading />,
+});
 
 const processedContent = unified()
   .use(remarkParse)
@@ -57,6 +64,8 @@ const processedContent = unified()
   });
 
 const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { targetRef, inView } = useInView();
+
   const matched = useMediaQuery('(max-width: 640px)');
   const { state } = useRUAContext();
   const { backPath } = state;
@@ -125,6 +134,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
             </article>
           </div>
 
+          <div ref={targetRef}>{inView && <PostComment />}</div>
           <Footer />
         </main>
 

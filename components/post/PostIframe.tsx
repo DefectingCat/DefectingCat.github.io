@@ -8,16 +8,13 @@ interface Props {
 }
 
 const PostIframe: FC<Props> = ({ src }) => {
-  const { initSrc, blur, targetRef } = useLazyLoad(src);
+  const { initSrc, targetRef } = useLazyLoad(src);
   const isLargerThan640 = useMediaQuery('(min-width: 640px)');
 
   return (
     <div
       className={cn(
         'rounded-md overflow-hidden',
-        {
-          blur: blur,
-        },
         { 'aspect-video': isLargerThan640 },
         { 'aspect-square': !isLargerThan640 }
       )}

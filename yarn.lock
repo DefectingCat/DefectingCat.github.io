@@ -2,6 +2,110 @@
 # yarn lockfile v1
 
 
+"@algolia/cache-browser-local-storage@4.12.0":
+  version "4.12.0"
+  resolved "https://registry.npmmirror.com/@algolia/cache-browser-local-storage/download/@algolia/cache-browser-local-storage-4.12.0.tgz#1f873e4f28a39d25b0a589ebe8f826509458e1fb"
+  integrity sha512-l+G560B6N1k0rIcOjTO1yCzFUbg2Zy2HCii9s03e13jGgqduVQmk79UUCYszjsJ5GPJpUEKcVEtAIpP7tjsXVA==
+  dependencies:
+    "@algolia/cache-common" "4.12.0"
+
+"@algolia/cache-common@4.12.0":
+  version "4.12.0"
+  resolved "https://registry.npmmirror.com/@algolia/cache-common/download/@algolia/cache-common-4.12.0.tgz#c1111a4d3e9ba2d52cadb4523152580db0887293"
+  integrity sha512-2Z8BV+NX7oN7RmmQbLqmW8lfN9aAjOexX1FJjzB0YfKC9ifpi9Jl4nSxlnbU+iLR6QhHo0IfuyQ7wcnucCGCGQ==
+
+"@algolia/cache-in-memory@4.12.0":
+  version "4.12.0"
+  resolved "https://registry.npmmirror.com/@algolia/cache-in-memory/download/@algolia/cache-in-memory-4.12.0.tgz#f4bdcbf8a6419f0166cfc7ef5594af871741e29e"
+  integrity sha512-b6ANkZF6vGAo+sYv6g25W5a0u3o6F549gEAgtTDTVA1aHcdWwe/HG/dTJ7NsnHbuR+A831tIwnNYQjRp3/V/Jw==
+  dependencies:
+    "@algolia/cache-common" "4.12.0"
+
+"@algolia/client-account@4.12.0":
+  version "4.12.0"
+  resolved "https://registry.npmmirror.com/@algolia/client-account/download/@algolia/client-account-4.12.0.tgz#b28445b47e2abf81dc76982d16ba8458f5c99521"
+  integrity sha512-gzXN75ZydNheNXUN3epS+aLsKnB/PHFVlGUUjXL8WHs4lJP3B5FtHvaA/NCN5DsM3aamhuY5p0ff1XIA+Lbcrw==
+  dependencies:
+    "@algolia/client-common" "4.12.0"
+    "@algolia/client-search" "4.12.0"
+    "@algolia/transporter" "4.12.0"
+
+"@algolia/client-analytics@4.12.0":
+  version "4.12.0"
+  resolved "https://registry.npmmirror.com/@algolia/client-analytics/download/@algolia/client-analytics-4.12.0.tgz#470f115517256c92a5605ae95762531c7906ec74"
+  integrity sha512-rO2cZCt00Opk66QBZb7IBGfCq4ZE3EiuGkXssf2Monb5urujy0r8CknK2i7bzaKtPbd2vlvhmLP4CEHQqF6SLQ==
+  dependencies:
+    "@algolia/client-common" "4.12.0"
+    "@algolia/client-search" "4.12.0"
+    "@algolia/requester-common" "4.12.0"
+    "@algolia/transporter" "4.12.0"
+
+"@algolia/client-common@4.12.0":
+  version "4.12.0"
+  resolved "https://registry.npmmirror.com/@algolia/client-common/download/@algolia/client-common-4.12.0.tgz#402395e2cffad89188d76b83615acffb3e45e658"
+  integrity sha512-fcrFN7FBmxiSyjeu3sF4OnPkC1l7/8oyQ8RMM8CHpVY8cad6/ay35MrfRfgfqdzdFA8LzcBYO7fykuJv0eOqxw==
+  dependencies:
+    "@algolia/requester-common" "4.12.0"
+    "@algolia/transporter" "4.12.0"
+
+"@algolia/client-personalization@4.12.0":
+  version "4.12.0"
+  resolved "https://registry.npmmirror.com/@algolia/client-personalization/download/@algolia/client-personalization-4.12.0.tgz#09c89c1558a91db3bfa60d17f7258ae63861352b"
+  integrity sha512-wCJfSQEmX6ZOuJBJGjy+sbXiW0iy7tMNAhsVMV9RRaJE4727e5WAqwFWZssD877WQ74+/nF/VyTaB1+wejo33Q==
+  dependencies:
+    "@algolia/client-common" "4.12.0"
+    "@algolia/requester-common" "4.12.0"
+    "@algolia/transporter" "4.12.0"
+
+"@algolia/client-search@4.12.0":
+  version "4.12.0"
+  resolved "https://registry.npmmirror.com/@algolia/client-search/download/@algolia/client-search-4.12.0.tgz#ac099ee9f8de85ec204d840bcac734224c7d150c"
+  integrity sha512-ik6dswcTQtOdZN+8aKntI9X2E6Qpqjtyda/+VANiHThY9GD2PBXuNuuC2HvlF26AbBYp5xaSE/EKxn1DIiIJ4Q==
+  dependencies:
+    "@algolia/client-common" "4.12.0"
+    "@algolia/requester-common" "4.12.0"
+    "@algolia/transporter" "4.12.0"
+
+"@algolia/logger-common@4.12.0":
+  version "4.12.0"
+  resolved "https://registry.npmmirror.com/@algolia/logger-common/download/@algolia/logger-common-4.12.0.tgz#0f9dbe7ace88194b395a2cb958490eb47ac91f8e"
+  integrity sha512-V//9rzLdJujA3iZ/tPhmKR/m2kjSZrymxOfUiF3024u2/7UyOpH92OOCrHUf023uMGYHRzyhBz5ESfL1oCdh7g==
+
+"@algolia/logger-console@4.12.0":
+  version "4.12.0"
+  resolved "https://registry.npmmirror.com/@algolia/logger-console/download/@algolia/logger-console-4.12.0.tgz#a40edeb989bf0d7ff79d989171dad64cd0f01225"
+  integrity sha512-pHvoGv53KXRIJHLk9uxBwKirwEo12G9+uo0sJLWESThAN3v5M+ycliU1AkUXQN8+9rds2KxfULAb+vfyfBKf8A==
+  dependencies:
+    "@algolia/logger-common" "4.12.0"
+
+"@algolia/requester-browser-xhr@4.12.0":
+  version "4.12.0"
+  resolved "https://registry.npmmirror.com/@algolia/requester-browser-xhr/download/@algolia/requester-browser-xhr-4.12.0.tgz#64e8e4d4f0724e477421454215195400351cfe61"
+  integrity sha512-rGlHNMM3jIZBwSpz33CVkeXHilzuzHuFXEEW1icP/k3KW7kwBrKFJwBy42RzAJa5BYlLsTCFTS3xkPhYwTQKLg==
+  dependencies:
+    "@algolia/requester-common" "4.12.0"
+
+"@algolia/requester-common@4.12.0":
+  version "4.12.0"
+  resolved "https://registry.npmmirror.com/@algolia/requester-common/download/@algolia/requester-common-4.12.0.tgz#b4d96f3cbd73206b6042e523d414a34cc005c2e2"
+  integrity sha512-qgfdc73nXqpVyOMr6CMTx3nXvud9dP6GcMGDqPct+fnxogGcJsp24cY2nMqUrAfgmTJe9Nmy7Lddv0FyHjONMg==
+
+"@algolia/requester-node-http@4.12.0":
+  version "4.12.0"
+  resolved "https://registry.npmmirror.com/@algolia/requester-node-http/download/@algolia/requester-node-http-4.12.0.tgz#8d8e1b67edbaec8e8e8b8c7c606945b969667267"
+  integrity sha512-mOTRGf/v/dXshBoZKNhMG00ZGxoUH9QdSpuMKYnuWwIgstN24uj3DQx+Ho3c+uq0TYfq7n2v71uoJWuiW32NMQ==
+  dependencies:
+    "@algolia/requester-common" "4.12.0"
+
+"@algolia/transporter@4.12.0":
+  version "4.12.0"
+  resolved "https://registry.npmmirror.com/@algolia/transporter/download/@algolia/transporter-4.12.0.tgz#e375e10731df95f1be3593b32e86b5c6452cc213"
+  integrity sha512-MOQVHZ4BcBpf3LtOY/3fqXHAcvI8MahrXDHk9QrBE/iGensQhDiZby5Dn3o2JN/zd9FMnVbdPQ8gnkiMwZiakQ==
+  dependencies:
+    "@algolia/cache-common" "4.12.0"
+    "@algolia/logger-common" "4.12.0"
+    "@algolia/requester-common" "4.12.0"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.7":
   version "7.16.7"
   resolved "https://registry.npmmirror.com/@babel/code-frame/download/@babel/code-frame-7.16.7.tgz#44416b6bd7624b998f5b1af5d470856c40138789"
@@ -380,6 +484,13 @@
     js-yaml "^4.1.0"
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
+
+"@giscus/react@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/@giscus/react/download/@giscus/react-1.0.1.tgz#3fae2b5e00912a76cb136679f6229d3d6ea28898"
+  integrity sha512-vViRGjfmDy9xvRIx+6+hocL3iAipbKx4gxtSpQBzOksDwnZS0QbB+r19bYQ08vw8CfHRwE6ws8AOO9yEUrzUyQ==
+  dependencies:
+    iframe-resizer-react "^1.1.0"
 
 "@humanwhocodes/config-array@^0.9.2":
   version "0.9.2"
@@ -1107,6 +1218,26 @@ ajv@^6.10.0, ajv@^6.12.4:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
+
+algoliasearch@^4.12.0:
+  version "4.12.0"
+  resolved "https://registry.npmmirror.com/algoliasearch/download/algoliasearch-4.12.0.tgz#30f2619b6e3a5b79b6aa0f18ab66fbce88240aba"
+  integrity sha512-fZOMMm+F3Bi5M/MoFIz7hiuyCitJza0Hu+r8Wzz4LIQClC6YGMRq7kT6NNU1fSSoFDSeJIwMfedbbi5G9dJoVQ==
+  dependencies:
+    "@algolia/cache-browser-local-storage" "4.12.0"
+    "@algolia/cache-common" "4.12.0"
+    "@algolia/cache-in-memory" "4.12.0"
+    "@algolia/client-account" "4.12.0"
+    "@algolia/client-analytics" "4.12.0"
+    "@algolia/client-common" "4.12.0"
+    "@algolia/client-personalization" "4.12.0"
+    "@algolia/client-search" "4.12.0"
+    "@algolia/logger-common" "4.12.0"
+    "@algolia/logger-console" "4.12.0"
+    "@algolia/requester-browser-xhr" "4.12.0"
+    "@algolia/requester-common" "4.12.0"
+    "@algolia/requester-node-http" "4.12.0"
+    "@algolia/transporter" "4.12.0"
 
 ansi-colors@^4.1.1:
   version "4.1.1"
@@ -1978,6 +2109,11 @@ domexception@^2.0.1:
   integrity sha1-+0Su+6eT4VdLCvau0oAdBXUp8wQ=
   dependencies:
     webidl-conversions "^5.0.0"
+
+dotenv@^14.2.0:
+  version "14.2.0"
+  resolved "https://registry.npmmirror.com/dotenv/download/dotenv-14.2.0.tgz#7e77fd5dd6cff5942c4496e1acf2d0f37a9e67aa"
+  integrity sha512-05POuPJyPpO6jqzTNweQFfAyMSD4qa4lvsMOWyTRTdpHKy6nnnN+IYWaXF+lHivhBH/ufDKlR4IWCAN3oPnHuw==
 
 electron-to-chromium@^1.4.17:
   version "1.4.45"
@@ -2969,6 +3105,19 @@ ieee754@^1.1.13:
   resolved "https://registry.npm.taobao.org/ieee754/download/ieee754-1.2.1.tgz#8eb7a10a63fff25d15a57b001586d177d1b0d352"
   integrity sha1-jrehCmP/8l0VpXsAFYbRd9Gw01I=
 
+iframe-resizer-react@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.nlark.com/iframe-resizer-react/download/iframe-resizer-react-1.1.0.tgz#5009e019b7a5c7f1c009bff5bcdf0dbf33557465"
+  integrity sha1-UAngGbelx/HACb/1vN8NvzNVdGU=
+  dependencies:
+    iframe-resizer "^4.3.0"
+    warning "^4.0.3"
+
+iframe-resizer@^4.3.0:
+  version "4.3.2"
+  resolved "https://registry.nlark.com/iframe-resizer/download/iframe-resizer-4.3.2.tgz#42dd88345d18b9e377b6044dddb98c664ab0ce6b"
+  integrity sha1-Qt2INF0YueN3tgRN3bmMZkqwzms=
+
 ignore@^4.0.6:
   version "4.0.6"
   resolved "https://registry.npmmirror.com/ignore/download/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
@@ -3924,7 +4073,7 @@ longest-streak@^3.0.0:
   resolved "https://registry.npmmirror.com/longest-streak/download/longest-streak-3.0.1.tgz?cache=0&sync_timestamp=1636446222992&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Flongest-streak%2Fdownload%2Flongest-streak-3.0.1.tgz#c97315b7afa0e7d9525db9a5a2953651432bdc5d"
   integrity sha512-cHlYSUpL2s7Fb3394mYxwTYj8niTaNHUCLr0qdiCXQfSjfuA7CKofpX2uSwEfFDQ0EB7JcnMnm+GjbqqoinYYg==
 
-loose-envify@^1.1.0, loose-envify@^1.4.0:
+loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.nlark.com/loose-envify/download/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha1-ce5R+nvkyuwaY4OffmgtgTLTDK8=
@@ -6448,6 +6597,13 @@ walker@^1.0.7:
   integrity sha1-vUmNtHev5XPcBBhfAR06uKjXZT8=
   dependencies:
     makeerror "1.0.12"
+
+warning@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.nlark.com/warning/download/warning-4.0.3.tgz#16e9e077eb8a86d6af7d64aa1e05fd85b4678ca3"
+  integrity sha1-Fungd+uKhtavfWSqHgX9hbRnjKM=
+  dependencies:
+    loose-envify "^1.0.0"
 
 web-namespaces@^1.0.0:
   version "1.1.4"
