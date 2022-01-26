@@ -147,6 +147,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
           <div ref={targetRef} className={'mt-8 min-h-[349px]'}>
             {inView && <PostComment />}
           </div>
+
           <Footer />
         </main>
 
