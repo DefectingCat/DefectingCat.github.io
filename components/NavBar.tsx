@@ -1,6 +1,6 @@
 import { FC, useCallback, useRef, useState } from 'react';
 import cn from 'classnames';
-import { FiHome, FiArchive, FiUser, FiSearch } from 'react-icons/fi';
+import { FiHome, FiArchive, FiUser, FiSearch, FiTwitter } from 'react-icons/fi';
 import UseAnimations from 'react-useanimations';
 import menu3 from 'react-useanimations/lib/menu3';
 import { IconType } from 'react-icons';
@@ -20,25 +20,31 @@ export type MenuItem = {
 export const menus: MenuItem[] = [
   {
     id: 0,
-    name: '首页',
+    name: 'Home',
     path: '/',
     icon: FiHome,
   },
   {
     id: 1,
-    name: '归档',
+    name: 'Archive',
     path: '/archive',
     icon: FiArchive,
   },
   {
     id: 4,
-    name: '关于',
+    name: 'About',
     path: '/about',
     icon: FiUser,
   },
   {
     id: 5,
-    name: '搜索',
+    name: 'Tweets',
+    path: '/search',
+    icon: FiTwitter,
+  },
+  {
+    id: 6,
+    name: 'Search',
     path: '/search',
     icon: FiSearch,
   },

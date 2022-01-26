@@ -15,8 +15,8 @@ module.exports = {
           gray: {
             100: '#aabfc5',
             600: 'rgb(66,66,66)',
-            800: 'rgb(35,38,38)',
-            900: 'rgb(24,25,26)',
+            800: 'rgb(35,38,38)', // card background in dark
+            900: 'rgb(24,25,26)', // body background in dark
           },
         },
       },
@@ -24,6 +24,9 @@ module.exports = {
         outline: '0 0 0 3px rgba(83, 220, 246, 0.6)',
         underline: 'inset 0px -2px 0px 0px rgb(85 200 188 / 70%)',
         throughline: 'inset 0px -0.5em 0px 0px rgb(85 200 188 / 70%)',
+      },
+      backgroundImage: {
+        underline: 'linear-gradient(rgb(130 130 130),#909090)',
       },
     },
   },

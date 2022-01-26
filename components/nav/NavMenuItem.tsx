@@ -17,11 +17,11 @@ const NavMenuItem: FC<Props> = ({ onClick, menuItem }) => {
         <Link
           href={menuItem.path}
           className={cn(
-            'rounded-lg flex items-center my-5 text-lg',
+            'rounded-lg flex items-center my-5 text-lg font-semibold',
             'text-gray-600 md:text-xl select-none dark:text-gray-400'
           )}
         >
-          <menuItem.icon className="mr-10" />
+          <menuItem.icon className="mr-9" />
           <span>{menuItem.name}</span>
         </Link>
       </div>
