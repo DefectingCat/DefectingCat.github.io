@@ -23,5 +23,6 @@ model Tweets {
   content  String
   Users    Users?   @relation(fields: [usersId], references: [id])
   usersId  String?
-  createAt DateTime
+  createAt DateTime @default(now())
+  updateAt DateTime @default(now())
 }
