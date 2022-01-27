@@ -9,7 +9,7 @@ import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import rehypeReact from 'rehype-react';
-import 'highlight.js/styles/github.css';
+import 'highlight.js/styles/atom-one-light.css';
 import xml from 'highlight.js/lib/languages/xml';
 import bash from 'highlight.js/lib/languages/bash';
 import Head from 'next/head';

@@ -247,7 +247,7 @@
 
 #write code,
 #write tt {
-  @apply bg-gray-100 dark:bg-gray-500 rounded-md;
+  @apply bg-gray-100 dark:bg-rua-gray-900 rounded-md;
   padding: 0 4px;
   font-size: 0.9em;
 }

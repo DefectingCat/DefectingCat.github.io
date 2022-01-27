@@ -30,7 +30,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <Head>
-        <html lang={'en'} />
         <link rel="shortcut icon" href="/images/img/favicon.webp" />
         <meta name="keywords" content="Blog RUA" />
         <meta name="description" content="Personal blog." />
