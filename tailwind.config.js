@@ -26,7 +26,8 @@ module.exports = {
         throughline: 'inset 0px -0.5em 0px 0px rgb(85 200 188 / 70%)',
       },
       backgroundImage: {
-        underline: 'linear-gradient(rgb(130 130 130),#909090)',
+        underline: 'linear-gradient(rgb(240 240 240),rgb(240 240 240))',
+        'underline-dark': 'linear-gradient(rgb(110 110 110),rgb(160 160 160))',
       },
     },
   },

@@ -19,10 +19,10 @@ const ArchiveCard: FC<Props> = ({ post }) => {
         href={`p/${url}`}
         className={cn(
           'block',
-          'bg-underline bg-bottom bg-no-repeat bg-[length:95%_1px]',
+          'bg-underline bg-bottom bg-no-repeat bg-[length:95%_2px]',
           'duration-300 transition-all',
-          'last:bg-none',
-          'hover:bg-[length:100%_1px]'
+          'last:bg-none dark:bg-underline-dark',
+          'hover:bg-[length:100%_2px]'
         )}
       >
         <div className={cn('p-5')}>

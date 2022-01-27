@@ -7,6 +7,7 @@ import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
 import rehypeReact from 'rehype-react';
 import dynamic from 'next/dynamic';
+import cn from 'classnames';
 
 const Link = dynamic(() => import('components/RUA/RUALink'));
 
@@ -27,7 +28,19 @@ const processedTOC = unified()
   .use(rehypeReact, {
     createElement,
     components: {
-      a: (props: any) => <Link href={props.href}>{props.children}</Link>,
+      a: (props: any) => (
+        <a
+          href={props.href}
+          className={cn(
+            'text-gray-700 dark:text-gray-400',
+            'dark:bg-underline bg-left-bottom bg-no-repeat bg-[length:0%_2px]',
+            'bg-underline-dark duration-300 transition-all',
+            'hover:bg-[length:100%_2px]'
+          )}
+        >
+          {props.children}
+        </a>
+      ),
     },
     Fragment,
   });

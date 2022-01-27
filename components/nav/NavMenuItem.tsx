@@ -21,7 +21,7 @@ const NavMenuItem: FC<Props> = ({ onClick, menuItem }) => {
             'text-gray-600 md:text-xl select-none dark:text-gray-400'
           )}
         >
-          <menuItem.icon className="mr-9" />
+          <menuItem.icon className="mr-9 xl:mr-6 2xl:mr-9" />
           <span>{menuItem.name}</span>
         </Link>
       </div>
