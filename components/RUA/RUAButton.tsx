@@ -1,11 +1,12 @@
-import { FC } from 'react';
+import { FC, MouseEventHandler } from 'react';
 import cn from 'classnames';
 
 interface Props {
   className?: string;
+  onClick?: MouseEventHandler<HTMLButtonElement> | undefined;
 }
 
-const RUAButton: FC<Props> = ({ className, children }) => {
+const RUAButton: FC<Props> = ({ className, children, onClick }) => {
   return (
     <>
       <button
@@ -15,6 +16,7 @@ const RUAButton: FC<Props> = ({ className, children }) => {
           'dark:text-gray-400 dark:bg-rua-gray-800 dark:active:bg-gray-600',
           className
         )}
+        onClick={onClick}
       >
         {children}
       </button>

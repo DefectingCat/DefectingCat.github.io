@@ -10,6 +10,9 @@ import cn from 'classnames';
 import { FiSearch } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 import { ActionKind, useRUAContext } from 'lib/store';
+import dynamic from 'next/dynamic';
+
+const Input = dynamic(() => import('components/RUA/RUAInput'));
 
 const SearchBox: FC = () => {
   // Add keyboard event to focus input element.
@@ -50,17 +53,11 @@ const SearchBox: FC = () => {
           )}
         />
 
-        <input
+        <Input
           ref={inputRef}
           type="text"
           placeholder="Search"
-          className={cn(
-            'w-full rounded-lg outline-none relative',
-            'py-5 px-12 placeholder:font-semibold',
-            'focus:px-5 focus:shadow-md focus:placeholder:font-normal',
-            'transition-all focus:z-20',
-            'dark:bg-rua-gray-800'
-          )}
+          className="!px-12 !py-5 focus:!px-5 w-full"
           value={state.searchQuery}
           onChange={handleInput}
           onKeyUp={handleSearch}

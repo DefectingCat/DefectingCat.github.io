@@ -39,7 +39,7 @@ export const menus: MenuItem[] = [
   {
     id: 5,
     name: 'Tweets',
-    path: '/search',
+    path: '/tweets',
     icon: FiTwitter,
   },
   {
