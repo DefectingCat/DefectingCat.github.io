@@ -44,7 +44,7 @@ const Tweets = ({ tweets }: InferGetStaticPropsType<typeof getStaticProps>) => {
             <Input placeholder="Password" className="py-3" type="password" />
           </div>
           <Button className="px-5 py-2" onClick={handleLoginClick}>
-            Login{showInput ? '!' : '?'}
+            Login{showInput ? '🚀' : '🤔'}
           </Button>
         </div>
       </div>
