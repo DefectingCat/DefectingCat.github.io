@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider             = "mysql"
-  url                  = env("PLANETSCALE_DB_HOST")
+  url                  = env("PLANETSCALE_PRISMA_DATABASE_URL")
   referentialIntegrity = "prisma"
 }
 
@@ -31,29 +31,30 @@ model Tweets {
 }
 
 model Posts {
-  id         String     @id @default(uuid())
-  Users      Users?     @relation(fields: [usersId], references: [id])
+  id         String    @id @default(uuid())
+  Users      Users?    @relation(fields: [usersId], references: [id])
   usersId    String?
   title      String
-  date       DateTime   @default(now())
-  updateAt   DateTime   @updatedAt
+  date       DateTime  @default(now())
+  updateAt   DateTime  @updatedAt
   tags       Tags[]
-  categories Category[]
+  categories Category? @relation(fields: [categoryId], references: [id])
   url        String
-  index_img  String
-  content    String     @db.LongText
+  index_img  String?
+  content    String    @db.LongText
+  desc       String    @db.VarChar(255)
+  file_name  String    @db.VarChar(255)
+  categoryId String
 }
 
 model Tags {
-  id      String  @id @default(uuid())
-  name    String
-  Posts   Posts[] @relation(fields: [postsId], references: [id])
-  postsId String?
+  id    String  @id @default(uuid())
+  name  String
+  Posts Posts[]
 }
 
 model Category {
-  id      String  @id @default(uuid())
-  name    String
-  Posts   Posts[] @relation(fields: [postsId], references: [id])
-  postsId String?
+  id    String  @id @default(uuid())
+  name  String
+  Posts Posts[]
 }
