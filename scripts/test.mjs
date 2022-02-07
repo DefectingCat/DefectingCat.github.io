@@ -5,13 +5,22 @@ const prisma = new PrismaClient();
 
 async function main() {
   const content = await prisma.posts.findMany({
-    take: 1,
-    include: {
-      tags: {
-        select: {
-          name: true,
+    where: {
+      OR: [
+        {
+          content: {
+            contains: 'rust',
+          },
         },
-      },
+        {
+          title: {
+            contains: 'rust',
+          },
+        },
+      ],
+    },
+    select: {
+      title: true,
     },
   });
 
