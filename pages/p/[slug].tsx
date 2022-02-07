@@ -1,4 +1,3 @@
-import { AllPostsWithContent, getAllPostSlugs, getPostData } from 'lib/posts';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import React, { createElement, Fragment } from 'react';
 import { unified } from 'unified';
@@ -22,6 +21,7 @@ import useMediaQuery from 'lib/hooks/useMediaQuery';
 import { useRUAContext } from 'lib/store';
 import Link from 'next/link';
 import useInView from 'lib/hooks/useInView';
+import { PrismaClient, Posts, Tags } from '@prisma/client';
 
 const PostCommentLoading = dynamic(
   () => import('components/loading/PostCommentLoading')
@@ -69,14 +69,18 @@ const processedContent = unified()
     Fragment,
   });
 
-const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { targetRef, inView } = useInView();
 
   const matched = useMediaQuery('(max-width: 640px)');
   const { state } = useRUAContext();
   const { backPath } = state;
 
-  const { title, index_img, content, tags, date } = postData;
+  if (!post) {
+    return <>404</>;
+  }
+
+  const { title, index_img, content, tags, date } = post;
 
   const postContent = processedContent.processSync(content).result;
 
@@ -143,7 +147,7 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
             )}
 
             <article className={'p-4 lg:p-8'}>
-              <PostHeader title={title} tags={tags} date={date} />
+              <PostHeader title={title} tags={tags} date={date.toString()} />
 
               <section id={'write'}>{postContent}</section>
             </article>
@@ -168,19 +172,55 @@ const Post = ({ postData }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 export default Post;
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const prisma = new PrismaClient();
+  const posts = await prisma.posts.findMany({
+    orderBy: {
+      date: 'desc',
+    },
+    select: {
+      url: true,
+    },
+  });
+  const paths = posts.map((post) => {
+    return {
+      params: {
+        slug: post.url,
+      },
+    };
+  });
+
   return {
-    paths: getAllPostSlugs(),
-    fallback: false,
+    paths,
+    fallback: true,
   };
 }
 
+export type Post = {
+  tags: Tags[];
+} & Posts;
+
 export const getStaticProps: GetStaticProps<{
-  postData: AllPostsWithContent;
-}> = ({ params }) => {
+  post: Post | null;
+}> = async ({ params }) => {
+  const prisma = new PrismaClient();
+  const post = await prisma.posts.findFirst({
+    where: {
+      url: params?.slug?.toString() ?? '',
+    },
+    include: {
+      tags: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+
   return {
     props: {
-      postData: getPostData(params?.slug?.toString() ?? ''),
+      post: JSON.parse(JSON.stringify(post)),
     },
+    revalidate: 10,
   };
 };

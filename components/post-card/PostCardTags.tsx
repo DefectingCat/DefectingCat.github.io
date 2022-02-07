@@ -1,26 +1,20 @@
 import { FC } from 'react';
 import { FiTag } from 'react-icons/fi';
+import { Tags } from '@prisma/client';
 
 interface Props {
-  tags: string | string[];
+  tags: Partial<Tags>[];
 }
 
 const PostCardTags: FC<Props> = ({ tags }) => {
   return (
     <>
-      {Array.isArray(tags) ? (
-        tags.map((tag) => (
-          <div key={tag} className="flex items-center mr-3">
-            <FiTag className="mr-2" />
-            {tag}
-          </div>
-        ))
-      ) : (
-        <div className="flex items-center">
+      {tags.map((tag) => (
+        <div key={tag.name} className="flex items-center mr-3">
           <FiTag className="mr-2" />
-          {tags}
+          {tag.name}
         </div>
-      )}
+      ))}
     </>
   );
 };

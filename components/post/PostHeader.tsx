@@ -2,12 +2,13 @@ import React, { FC } from 'react';
 import dynamic from 'next/dynamic';
 import { FiCalendar } from 'react-icons/fi';
 import cn from 'classnames';
+import { Tags } from '@prisma/client';
 
 const DateFormater = dynamic(() => import('components/DateFormater'));
 
 interface Props {
   title: string;
-  tags: string[] | string;
+  tags: Tags[];
   date: string;
 }
 
@@ -29,15 +30,11 @@ const PostHeader: FC<Props> = ({ title, tags, date }) => {
       </h1>
 
       <div className={'mb-4'}>
-        {Array.isArray(tags)
-          ? // Multi tags
-            tags.map((item) => (
-              <div key={item} className={tagClass}>
-                {item}
-              </div>
-            ))
-          : // Signal tags
-            tags && <div className={tagClass}>{tags}</div>}
+        {tags.map((item) => (
+          <div key={item.name} className={tagClass}>
+            {item.name}
+          </div>
+        ))}
       </div>
 
       <div

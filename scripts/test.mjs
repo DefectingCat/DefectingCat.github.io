@@ -5,7 +5,8 @@ const prisma = new PrismaClient();
 
 async function main() {
   const content = await prisma.posts.findMany({
-    select: {
+    take: 1,
+    include: {
       tags: {
         select: {
           name: true,

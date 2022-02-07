@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import cn from 'classnames';
-import { AllPostsWithDescription } from 'lib/readPosts';
+import { Post } from 'pages/index';
 import dynamic from 'next/dynamic';
 import { FiCalendar } from 'react-icons/fi';
 
@@ -11,14 +11,7 @@ const PostCardImage = dynamic(
 );
 const Link = dynamic(() => import('components/PathLink'));
 
-const PostCard: FC<AllPostsWithDescription> = ({
-  index_img,
-  url,
-  title,
-  desc,
-  date,
-  tags,
-}) => {
+const PostCard: FC<Post> = ({ index_img, url, title, desc, date, tags }) => {
   return (
     <>
       <article
@@ -37,7 +30,7 @@ const PostCard: FC<AllPostsWithDescription> = ({
           </Link>
 
           {/* Description */}
-          <p className="text-gray-600 py-3 dark:text-gray-400">{desc}</p>
+          <p className="py-3 text-gray-600 dark:text-gray-400">{desc}</p>
 
           {/* Date and tags */}
           <div className="text-[13px] text-gray-500 dark:text-gray-400 flex items-center">

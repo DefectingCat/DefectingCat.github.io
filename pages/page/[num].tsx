@@ -1,8 +1,9 @@
 import { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { getAllPostNum, getPagingData, PagingData } from 'lib/posts';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { PrismaClient } from '@prisma/client';
+import { Post } from 'pages/index';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const PostCard = dynamic(() => import('components/PostCard'));
@@ -11,7 +12,7 @@ const Pagination = dynamic(() => import('components/Pagination'));
 const Page = ({
   num,
   allPages,
-  postDatas,
+  posts,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
@@ -19,7 +20,7 @@ const Page = ({
         <title>RUA - Home</title>
       </Head>
 
-      {postDatas.map((post) => (
+      {posts.map((post) => (
         <PostCard key={post.id} {...post} />
       ))}
 
@@ -28,23 +29,67 @@ const Page = ({
   );
 };
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const prisma = new PrismaClient();
+
+  const pagingSize = 10;
+  const totalNum = await prisma.posts.count();
+  const allPages = Math.ceil(totalNum / pagingSize);
+
+  const numPages = [];
+  for (let i = 2; i <= allPages; i++) {
+    numPages.push({
+      params: {
+        num: i.toString(),
+      },
+    });
+  }
+
   return {
-    paths: getAllPostNum(),
+    paths: numPages,
     fallback: false,
   };
 }
 
-export const getStaticProps: GetStaticProps<{ num?: string } & PagingData> = ({
-  params,
-}) => {
+export const getStaticProps: GetStaticProps<{
+  num?: string;
+  allPages: number;
+  posts: Post[];
+}> = async ({ params }) => {
   const num = params?.num?.toString();
+  const prisma = new PrismaClient();
+
+  const pagingSize = 10;
+  const totalNum = await prisma.posts.count();
+  const posts = await prisma.posts.findMany({
+    orderBy: {
+      date: 'desc',
+    },
+    skip: Number(num) * 10 - pagingSize,
+    take: 10,
+    select: {
+      id: true,
+      title: true,
+      date: true,
+      desc: true,
+      index_img: true,
+      url: true,
+      tags: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+  const allPages = Math.ceil(totalNum / pagingSize);
 
   return {
     props: {
       num,
-      ...getPagingData(num),
+      allPages,
+      posts: JSON.parse(JSON.stringify(posts)) as Post[],
     },
+    revalidate: 10,
   };
 };
 
