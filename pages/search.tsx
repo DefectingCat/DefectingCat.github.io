@@ -1,18 +1,43 @@
-import { ChangeEventHandler, ReactElement } from 'react';
+import {
+  ChangeEventHandler,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import cn from 'classnames';
 import { FiSearch } from 'react-icons/fi';
 import { ActionKind, useRUAContext } from 'lib/store';
+import debounce from 'lib/utils/debounce';
+import { search } from 'lib/API';
+import { SearchType } from 'lib/API/types';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 
 const Search = () => {
   const { state, dispatch } = useRUAContext();
 
-  const handleInput: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const [searchResult, setSearchResult] = useState<SearchType>();
+  const querySearch = async (q: string, page = 1) => {
+    const result = await search(q, page);
+
+    if (result?.message == 'ok') {
+      setSearchResult(result);
+    }
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debounceSearch = useCallback(debounce(querySearch, 350), []);
+
+  const handleInput: ChangeEventHandler<HTMLInputElement> = async (e) => {
     dispatch({ type: ActionKind.SETQUERY, payload: e.target.value });
   };
+
+  useEffect(() => {
+    debounceSearch(state.searchQuery, 1);
+  }, [debounceSearch, state.searchQuery]);
 
   return (
     <>
@@ -39,6 +64,12 @@ const Search = () => {
             'w-6 h-6'
           )}
         />
+      </div>
+
+      <div className="mt-4">
+        {searchResult?.result.map((result) => (
+          <p key={result.id}>{result.title}</p>
+        ))}
       </div>
     </>
   );

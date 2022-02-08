@@ -4,27 +4,51 @@ const { PrismaClient } = prismaClient;
 const prisma = new PrismaClient();
 
 async function main() {
-  const content = await prisma.posts.findMany({
+  const result = await prisma.posts.findMany({
+    orderBy: {
+      title: 'asc',
+    },
     where: {
       OR: [
         {
           content: {
-            contains: 'rust',
+            contains: 'javascript',
           },
         },
         {
           title: {
-            contains: 'rust',
+            contains: 'javascript',
           },
         },
       ],
     },
     select: {
+      id: true,
       title: true,
+      date: true,
+      url: true,
+      desc: true,
     },
   });
 
-  console.log(content);
+  const count = await prisma.posts.count({
+    where: {
+      OR: [
+        {
+          content: {
+            contains: 'javascript',
+          },
+        },
+        {
+          title: {
+            contains: 'javascript',
+          },
+        },
+      ],
+    },
+  });
+
+  console.log(count);
 }
 
 main().then();

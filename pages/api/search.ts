@@ -10,12 +10,23 @@ export default async function handler(
 ) {
   const search = async () => {
     const searchBody = req.body;
-    console.log(searchBody);
 
     try {
       const { q } = searchBody;
 
-      const result = await prisma.posts.findMany({
+      if (!q) throw new Error();
+
+      const queryOrder: {
+        orderBy: {
+          title: 'asc';
+        };
+      } = {
+        orderBy: {
+          title: 'asc',
+        },
+      };
+
+      const queryWhere = {
         where: {
           OR: [
             {
@@ -30,6 +41,9 @@ export default async function handler(
             },
           ],
         },
+      };
+
+      const querySelect = {
         select: {
           id: true,
           title: true,
@@ -37,42 +51,53 @@ export default async function handler(
           url: true,
           desc: true,
         },
-      });
-
-      const data = {
-        result,
       };
 
-      return res.status(200).json(result);
+      const count = await prisma.posts.count(queryWhere);
+
+      let data = {};
+      const totalPage = Math.ceil(count / 10);
+
+      if (count > 10) {
+        const page = searchBody.page ?? 1;
+
+        const result = await prisma.posts.findMany({
+          take: 10,
+          skip: (page - 1) * 10,
+          ...queryOrder,
+          ...queryWhere,
+          ...querySelect,
+        });
+
+        data = {
+          page,
+          result,
+          hasNext: totalPage - page > 0,
+          totalPage,
+          message: 'ok',
+        };
+      } else {
+        const result = await prisma.posts.findMany({
+          ...queryOrder,
+          ...queryWhere,
+          ...querySelect,
+        });
+
+        data = {
+          page: 1,
+          result,
+          hasNext: false,
+          totalPage,
+          message: 'ok',
+        };
+      }
+
+      return res.status(200).json(data);
     } catch {
       return res.status(404).json({
         message: 'Not found.',
       });
     }
-
-    // try {
-    //   const { name } = q;
-    //   if (Array.isArray(name)) throw new Error();
-
-    //   const user = await prisma.users.findFirst({
-    //     select: {
-    //       username: true,
-    //       emil: true,
-    //     },
-    //     where: {
-    //       username: name,
-    //     },
-    //   });
-    //   user
-    //     ? res.status(200).json(user)
-    //     : res.status(404).json({
-    //         message: 'Not found.',
-    //       });
-    // } catch (e) {
-    //   return res.status(404).json({
-    //     message: 'Not found.',
-    //   });
-    // }
   };
 
   switch (req.method) {
