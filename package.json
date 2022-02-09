@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/build-post.mjs && next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watch",
@@ -24,6 +24,7 @@
     "react": "^18.0.0-rc.0",
     "react-dom": "^18.0.0-rc.0",
     "react-icons": "^4.3.1",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-medium-image-zoom": "^4.3.5",
     "react-stickynode": "^4.0.0",
     "react-useanimations": "^2.0.8",

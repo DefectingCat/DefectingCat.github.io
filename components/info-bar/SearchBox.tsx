@@ -10,9 +10,7 @@ import cn from 'classnames';
 import { FiSearch } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 import { ActionKind, useRUAContext } from 'lib/store';
-import dynamic from 'next/dynamic';
-
-const Input = dynamic(() => import('components/RUA/RUAInput'));
+import Input from 'components/RUA/RUAInput';
 
 const SearchBox: FC = () => {
   // Add keyboard event to focus input element.

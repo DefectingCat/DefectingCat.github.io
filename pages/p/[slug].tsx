@@ -22,12 +22,10 @@ import { useRUAContext } from 'lib/store';
 import Link from 'next/link';
 import useInView from 'lib/hooks/useInView';
 import { PrismaClient, Posts, Tags } from '@prisma/client';
+import PostHeadLoading from 'components/loading/PostHeadLoading';
 
 const PostCommentLoading = dynamic(
   () => import('components/loading/PostCommentLoading')
-);
-const PostHeadLoading = dynamic(
-  () => import('components/loading/PostHeadLoading')
 );
 
 const Button = dynamic(() => import('components/RUA/RUAButton'));

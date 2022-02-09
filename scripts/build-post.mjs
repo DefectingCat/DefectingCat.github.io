@@ -63,6 +63,7 @@ async function getSortedPostsData() {
 
 async function saveTagsToDB(posts) {
   const allTagsSet = new Set();
+
   // Save all tags into a Set.
   posts.map((post) => {
     if (post.tags) {
@@ -72,8 +73,8 @@ async function saveTagsToDB(posts) {
     }
   });
   const allTags = Array.from(allTagsSet);
-  // Find tag in DB by name
 
+  // Find tag in DB by name
   for (const tag of allTags) {
     const tagInDB = await prisma.tags.findFirst({
       select: {

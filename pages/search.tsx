@@ -13,17 +13,27 @@ import { ActionKind, useRUAContext } from 'lib/store';
 import debounce from 'lib/utils/debounce';
 import { search } from 'lib/API';
 import { SearchType } from 'lib/API/types';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
+const SearchCard = dynamic(() => import('components/SearchCard'));
+const SearchCardLoading = dynamic(
+  () => import('components/loading/SearchCardLoading')
+);
 
 const Search = () => {
   const { state, dispatch } = useRUAContext();
 
+  // Search result
   const [searchResult, setSearchResult] = useState<SearchType>();
+  // Search state
+  const [searching, setSearching] = useState(false);
   const querySearch = async (q: string, page = 1) => {
+    setSearching(true);
     const result = await search(q, page);
 
     if (result?.message == 'ok') {
+      setSearching(false);
       setSearchResult(result);
     }
   };
@@ -35,8 +45,19 @@ const Search = () => {
     dispatch({ type: ActionKind.SETQUERY, payload: e.target.value });
   };
 
+  const loadMore = async () => {
+    const result = await search(
+      state.searchQuery,
+      Number(searchResult?.page) + 1
+    );
+    if (result?.message == 'ok' && searchResult?.result) {
+      const newData = [...searchResult.result, ...result.result];
+      setSearchResult({ ...searchResult, ...result, result: newData });
+    }
+  };
+
   useEffect(() => {
-    debounceSearch(state.searchQuery, 1);
+    if (state.searchQuery) debounceSearch(state.searchQuery, 1);
   }, [debounceSearch, state.searchQuery]);
 
   return (
@@ -66,10 +87,28 @@ const Search = () => {
         />
       </div>
 
-      <div className="mt-4">
-        {searchResult?.result.map((result) => (
-          <p key={result.id}>{result.title}</p>
-        ))}
+      <div className="mt-6">
+        {searching ? (
+          <SearchCardLoading />
+        ) : (
+          <InfiniteScroll
+            dataLength={searchResult?.result.length ?? 10}
+            next={loadMore}
+            hasMore={!!searchResult?.hasNext}
+            loader={<SearchCardLoading />}
+            style={{
+              overflow: 'unset',
+            }}
+          >
+            {searchResult?.result.length ? (
+              searchResult.result.map((post) => (
+                <SearchCard key={post.id} {...post} />
+              ))
+            ) : (
+              <div className="text-xl text-gray-500">Nothing here.</div>
+            )}
+          </InfiniteScroll>
+        )}
       </div>
     </>
   );

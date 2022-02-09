@@ -4,10 +4,7 @@ import { ReactElement } from 'react';
 import Head from 'next/head';
 import cn from 'classnames';
 import { PrismaClient } from '@prisma/client';
-
-const ArchiveCardLoading = dynamic(
-  () => import('components/loading/ArchiveCardLoading')
-);
+import ArchiveCardLoading from 'components/loading/ArchiveCardLoading';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const ArchiveCard = dynamic(() => import('components/ArchiveCard'), {
