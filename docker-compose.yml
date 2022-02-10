@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  mysql:
+    container_name: mysql
+    image: mysql
+    # restart: always
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+    networks: 
+      - "front"
+
+  blog:
+    container_name: blog
+    build:
+      context: .
+      network: defectingcatgithubio_front
+    ports:
+      - "3000:3000"
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    depends_on: 
+      - "mysql"
+    networks: 
+      - "front"
+
+networks:
+  front:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "true"

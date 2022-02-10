@@ -4,6 +4,7 @@ export enum ActionKind {
   SETQUERY = 'SETQUERY',
   SETPATH = 'SETPATH',
   SETTHEME = 'SETTHEME',
+  SETTOKEN = 'SETTOEKN',
 }
 
 type ReducerAction = {
@@ -27,12 +28,18 @@ type State = {
    * Use document.documentElement.classList
    */
   isDark: boolean;
+
+  /**
+   * User token, if exist that's mean user logined.
+   */
+  token: string | null;
 };
 
 const initialState: State = {
   searchQuery: '',
   backPath: '',
   isDark: false,
+  token: null,
 };
 
 const reducer = (state: State, action: ReducerAction): State => {
@@ -46,6 +53,11 @@ const reducer = (state: State, action: ReducerAction): State => {
       return {
         ...state,
         isDark: document.documentElement.classList.contains('dark'),
+      };
+    case ActionKind.SETTOKEN:
+      return {
+        ...state,
+        token: window.localStorage.getItem('token'),
       };
     default:
       throw new Error();
@@ -66,6 +78,10 @@ const RUAStore: FC = ({ children }) => {
   useEffect(() => {
     dispatch({
       type: ActionKind.SETTHEME,
+      payload: '',
+    });
+    dispatch({
+      type: ActionKind.SETTOKEN,
       payload: '',
     });
   }, []);
