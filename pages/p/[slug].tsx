@@ -1,5 +1,5 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import React, { createElement, Fragment } from 'react';
+import React, { createElement, Fragment, useEffect } from 'react';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
@@ -23,6 +23,7 @@ import Link from 'next/link';
 import useInView from 'lib/hooks/useInView';
 import { PrismaClient, Posts, Tags } from '@prisma/client';
 import PostHeadLoading from 'components/loading/PostHeadLoading';
+import { useRouter } from 'next/router';
 
 const PostCommentLoading = dynamic(
   () => import('components/loading/PostCommentLoading')
@@ -74,9 +75,13 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { state } = useRUAContext();
   const { backPath } = state;
 
-  if (!post) {
-    return <>404</>;
-  }
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!post) router.replace('/404');
+  });
+
+  if (!post) return;
 
   const { title, index_img, content, tags, date } = post;
 
