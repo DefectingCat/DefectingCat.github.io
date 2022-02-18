@@ -13,7 +13,8 @@ module.exports = withMDX({
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   swcMinify: true,
   experimental: {
-    // concurrentFeatures: true,
-    // serverComponents: true,
+    concurrentFeatures: true,
+    // runtime: 'nodejs',
+    outputStandalone: true,
   },
 });

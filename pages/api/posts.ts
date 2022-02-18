@@ -9,8 +9,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const search = async () => {
-    const searchBody = req.query;
-
     const totalNum = await prisma.posts.count();
     const posts = await prisma.posts.findMany({
       orderBy: {

@@ -74,6 +74,8 @@ async function saveTagsToDB(posts) {
   });
   const allTags = Array.from(allTagsSet);
 
+  let newTagsNum = 0;
+
   // Find tag in DB by name
   for (const tag of allTags) {
     const tagInDB = await prisma.tags.findFirst({
@@ -93,13 +95,14 @@ async function saveTagsToDB(posts) {
         },
       });
 
+      newTagsNum++;
       console.log(
         `Save tag ${tagReadToDB.name} sucessfuly! id: ${tagReadToDB.id}`
       );
     }
   }
 
-  console.log('Save tag to DB done!');
+  if (newTagsNum) console.log(`Save ${newTagsNum} tags to DB done!`);
 }
 
 async function saveCategoryToDB(posts) {
@@ -107,6 +110,8 @@ async function saveCategoryToDB(posts) {
   posts.map((post) => {
     if (post.categories) allCategoies.push(post.categories);
   });
+
+  let newCateNum = 0;
 
   for (const category of allCategoies) {
     const categoryInDB = await prisma.category.findFirst({
@@ -126,13 +131,14 @@ async function saveCategoryToDB(posts) {
         },
       });
 
+      newCateNum++;
       console.log(
         `Save category ${categoryReadToDB.name} sucessfuly! id: ${categoryReadToDB.id}`
       );
     }
   }
 
-  console.log('Save category to DB done!');
+  if (newCateNum) console.log(`Save ${newCateNum} categories to DB done!`);
 }
 
 async function savePostToDB(posts) {
@@ -146,30 +152,35 @@ async function savePostToDB(posts) {
     },
   });
 
+  let newPostNum = 0;
+  let updatePostNum = 0;
+
   for (const post of posts) {
     const postInDB = await prisma.posts.findFirst({
       select: {
         file_name: true,
+        date: true,
+        id: true,
       },
       where: {
         file_name: post.file_name,
       },
     });
 
+    const {
+      title,
+      date,
+      tags,
+      categories,
+      url,
+      index_img,
+      content,
+      desc,
+      file_name,
+    } = post;
+
     // If don't exist, insert tag to DB.
     if (postInDB == null) {
-      const {
-        title,
-        date,
-        tags,
-        categories,
-        url,
-        index_img,
-        content,
-        desc,
-        file_name,
-      } = post;
-
       const categoryId = await prisma.category.findFirst({
         select: {
           id: true,
@@ -206,13 +217,61 @@ async function savePostToDB(posts) {
         },
       });
 
+      newPostNum++;
       console.log(
-        `Save post ${postReadToDB.title} sucessfuly! id: ${postReadToDB.id}`
+        `Save new post ${postReadToDB.title} sucessfully! id: ${postReadToDB.id}`
       );
+    } else {
+      const postDate = new Date(post.date);
+      const postInDBDate = new Date(postInDB.date);
+
+      // Update exist post.
+      if (postDate.getTime() !== postInDBDate.getTime()) {
+        const categoryId = await prisma.category.findFirst({
+          select: {
+            id: true,
+          },
+          where: {
+            name: categories,
+          },
+        });
+
+        const postUpdateRes = await prisma.posts.update({
+          select: {
+            title: true,
+          },
+          where: {
+            id: postInDB.id,
+          },
+          data: {
+            title,
+            date,
+            url,
+            index_img: index_img ?? null,
+            content,
+            desc,
+            file_name,
+            tags: tags
+              ? {
+                  connect: await findPostTag(tags),
+                }
+              : {},
+            categories: {
+              connect: {
+                id: categoryId.id,
+              },
+            },
+          },
+        });
+
+        updatePostNum++;
+        console.log(`Update post ${postUpdateRes.title} sucessfully!`);
+      }
     }
   }
 
-  console.log('Save post to DB done!');
+  if (newPostNum) console.log(`Save new ${newPostNum} post(s) to DB done!`);
+  if (updatePostNum) console.log(`Update ${updatePostNum} post(s) to DB done!`);
 }
 
 async function findPostTag(tags) {

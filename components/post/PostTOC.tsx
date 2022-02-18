@@ -6,10 +6,7 @@ import remarkRehype from 'remark-rehype';
 import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
 import rehypeReact from 'rehype-react';
-import dynamic from 'next/dynamic';
 import cn from 'classnames';
-
-const Link = dynamic(() => import('components/RUA/RUALink'));
 
 interface Props {
   content: string;
