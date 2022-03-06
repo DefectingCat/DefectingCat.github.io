@@ -5,9 +5,9 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
   && apk update --no-cache \
   && apk upgrade --no-cache \
   && apk add --no-cache libc6-compat \
-  && yarn config set registry https://registry.npm.taobao.org \
-  && yarn config set sharp_binary_host "https://npm.taobao.org/mirrors/sharp" \
-  && yarn config set sharp_libvips_binary_host "https://npm.taobao.org/mirrors/sharp-libvips"
+  && yarn config set registry https://registry.npmmirror.com \
+  && yarn config set sharp_binary_host "https://npmmirror.com/mirrors/sharp" \
+  && yarn config set sharp_libvips_binary_host "https://npmmirror.com/mirrors/sharp-libvips"
 
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -21,7 +21,7 @@ COPY --from=deps /app/node_modules ./node_modules
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
   && apk update --no-cache \
   && apk upgrade --no-cache \
-  && yarn config set registry https://registry.npm.taobao.org \
+  && yarn config set registry https://registry.npmmirror.com \
   && npx prisma generate \
   && yarn build && yarn install --production --ignore-scripts --prefer-offline
 
