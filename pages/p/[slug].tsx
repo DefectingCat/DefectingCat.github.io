@@ -1,16 +1,6 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import React, { createElement, Fragment, useEffect } from 'react';
-import { unified } from 'unified';
-import remarkParse from 'remark-parse';
-import remarkRehype from 'remark-rehype';
-import rehypeRaw from 'rehype-raw';
-import rehypeHighlight from 'rehype-highlight';
-import rehypeSlug from 'rehype-slug';
-import remarkGfm from 'remark-gfm';
-import rehypeReact from 'rehype-react';
+import React, { useEffect } from 'react';
 import 'highlight.js/styles/atom-one-light.css';
-import xml from 'highlight.js/lib/languages/xml';
-import bash from 'highlight.js/lib/languages/bash';
 import Head from 'next/head';
 import cn from 'classnames';
 import dynamic from 'next/dynamic';
@@ -24,49 +14,22 @@ import useInView from 'lib/hooks/useInView';
 import { PrismaClient, Posts, Tags } from '@prisma/client';
 import PostHeadLoading from 'components/loading/PostHeadLoading';
 import { useRouter } from 'next/router';
+import useUnified from 'lib/hooks/useUnified';
 
 const PostCommentLoading = dynamic(
   () => import('components/loading/PostCommentLoading')
 );
 
 const Button = dynamic(() => import('components/RUA/RUAButton'));
-const RUALink = dynamic(() => import('components/RUA/RUALink'));
 const TableOfContent = dynamic(() => import('components/post/PostTOC'));
 const PostHeader = dynamic(() => import('components/post/PostHeader'), {
   loading: () => <PostHeadLoading />,
 });
-const PostImage = dynamic(() => import('components/post/PostImage'));
-const PostIframe = dynamic(() => import('components/post/PostIframe'));
 const Footer = dynamic(() => import('components/Footer'));
 const PostComment = dynamic(() => import('components/post/PostComment'), {
   loading: () => <PostCommentLoading />,
 });
 const DarkModeBtn = dynamic(() => import('components/nav/DarkModeBtn'));
-
-const processedContent = unified()
-  .use(remarkParse)
-  .use(remarkRehype, { allowDangerousHtml: true })
-  .use(rehypeRaw)
-  .use(rehypeHighlight, {
-    languages: { vue: xml, bash },
-    aliases: { bash: ['npm'] },
-    ignoreMissing: true,
-  })
-  .use(rehypeSlug)
-  .use(remarkGfm, { tableCellPadding: true })
-  .use(rehypeReact, {
-    createElement,
-    components: {
-      a: (props: any) => (
-        <RUALink href={props.href} isExternal>
-          {props.children}
-        </RUALink>
-      ),
-      img: (props: any) => <PostImage src={props.src} />,
-      iframe: (props: any) => <PostIframe src={props.src} />,
-    },
-    Fragment,
-  });
 
 const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { targetRef, inView } = useInView();
@@ -81,11 +44,10 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
     if (!post) router.replace('/404');
   });
 
+  const postContent = useUnified(post ? post.content : '');
+
   if (!post) return;
-
   const { title, index_img, content, tags, date } = post;
-
-  const postContent = processedContent.processSync(content).result;
 
   return (
     <>

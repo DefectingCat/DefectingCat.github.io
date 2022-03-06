@@ -96,7 +96,8 @@
   margin: 1rem 0;
 }
 
-#write p code {
+#write p code,
+#tweet p code {
   @apply mx-1 rounded;
 }
 
@@ -160,18 +161,27 @@
 }
 
 #write ul,
-#write ol {
+#write ol,
+#tweet ul,
+#tweet ol {
   padding-left: 30px;
   margin: 16px;
 }
 
-#write ul li {
+#write ol,
+#tweet ol {
+  list-style: decimal;
+}
+
+#write ul li,
+#tweet ul li {
   list-style-type: none;
   position: relative;
   margin: 8px 0;
 }
 
-#write ul li::before {
+#write ul li::before,
+#tweet ul li::before {
   content: ' - ';
   position: absolute;
   font-weight: bold;
@@ -180,7 +190,8 @@
   transform: translate(-1.4rem, -1rem);
 }
 
-#write ul li li::before {
+#write ul li li::before,
+#tweet ul li li::before {
   content: ' · ';
   position: absolute;
   font-size: 2rem;
@@ -193,14 +204,16 @@
   display: inline-block;
 }
 
-#write input[type='checkbox'] {
+#write input[type='checkbox'],
+#tweet input[type='checkbox'] {
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
   position: relative;
 }
 
-#write input[type='checkbox']::before {
+#write input[type='checkbox']::before,
+#tweet input[type='checkbox']::before {
   content: '';
   position: absolute;
   transform: translate(calc(-1.1rem - 10px), calc(-1rem));
@@ -214,7 +227,8 @@
   border: solid 0.15em #c3c4d0;
 }
 
-#write input[type='checkbox']:checked::before {
+#write input[type='checkbox']:checked::before,
+#tweet input[type='checkbox']:checked::before {
   content: '';
   position: absolute;
   height: 1.4rem;
@@ -227,27 +241,33 @@
   border: solid 0.15rem #a8c8da;
 }
 
-#write input[type='checkbox'] + p {
+#write input[type='checkbox'] + p,
+#tweet input[type='checkbox'] + p {
   color: inherit;
 }
 
-#write input[type='checkbox']:checked + p {
+#write input[type='checkbox']:checked + p,
+#tweet input[type='checkbox']:checked + p {
   color: #c3c4d0;
 }
 
-#write pre {
+#write pre,
+#tweet pre {
   position: relative;
   margin: 10px 0;
 }
 
-#write pre code {
+#write pre code,
+#tweet pre code {
   @apply bg-gray-100;
   padding: 6px 10px;
 }
 
 #write code,
-#write tt {
-  @apply bg-gray-100 dark:bg-rua-gray-900 rounded-md;
+#write tt,
+#tweet code,
+#tweet tt {
+  @apply bg-gray-100 rounded-md dark:bg-rua-gray-900;
   padding: 0 4px;
   font-size: 0.9em;
 }
@@ -269,7 +289,8 @@
   padding: 0.8em 0.5rem;
 }
 
-#write mark {
+#write mark,
+#tweet mark {
   color: #fff;
   background-color: rgba(231, 153, 176, 0.68);
   border-radius: 0.2em;
