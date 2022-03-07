@@ -186,6 +186,5 @@ export const getStaticProps: GetStaticProps<{
     props: {
       post: JSON.parse(JSON.stringify(post)),
     },
-    revalidate: 10,
   };
 };

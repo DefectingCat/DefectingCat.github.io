@@ -70,7 +70,6 @@ export const getStaticProps = async () => {
       allPages,
       posts: JSON.parse(JSON.stringify(posts)) as Post[],
     },
-    revalidate: 10,
   };
 };
 

@@ -80,7 +80,6 @@ export const getStaticProps = async () => {
       },
       archiveKeys: Object.keys(archiveData).reverse(),
     },
-    revalidate: 60,
   };
 };
 
