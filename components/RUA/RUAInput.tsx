@@ -1,22 +1,17 @@
-import {
-  ChangeEventHandler,
-  HTMLInputTypeAttribute,
-  KeyboardEventHandler,
-  forwardRef,
-} from 'react';
+import { forwardRef, DetailedHTMLProps, InputHTMLAttributes } from 'react';
 import cn from 'classnames';
 
-interface Props {
-  className?: string;
-  placeholder?: string;
-  value?: string | number | readonly string[] | undefined;
-  type?: HTMLInputTypeAttribute | undefined;
-  onChange?: ChangeEventHandler<HTMLInputElement> | undefined;
-  onKeyUp?: KeyboardEventHandler<HTMLInputElement> | undefined;
-}
+interface Props
+  extends DetailedHTMLProps<
+    InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  > {}
 
 const RUAInput = forwardRef<HTMLInputElement, Props>(
-  ({ className, placeholder, value, onChange, onKeyUp, type }, ref) => {
+  (
+    { className, placeholder, value, onChange, onKeyUp, type, ...rest },
+    ref
+  ) => {
     return (
       <>
         <input
@@ -34,6 +29,7 @@ const RUAInput = forwardRef<HTMLInputElement, Props>(
           value={value}
           onChange={onChange}
           onKeyUp={onKeyUp}
+          {...rest}
         />
       </>
     );

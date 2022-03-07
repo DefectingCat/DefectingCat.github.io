@@ -22,7 +22,7 @@ const MainLayout: FC = ({ children }) => {
       >
         <aside
           className={cn(
-            'col-span-12 px-2 sticky top-8',
+            'col-span-12 px-2 top-8',
             'md:col-span-3 lg:col-span-2 xl:col-span-1'
           )}
         >
