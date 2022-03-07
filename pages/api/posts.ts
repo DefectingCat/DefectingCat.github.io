@@ -8,7 +8,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const search = async () => {
+  const getPosts = async () => {
     const totalNum = await prisma.posts.count();
     const posts = await prisma.posts.findMany({
       orderBy: {
@@ -46,7 +46,7 @@ export default async function handler(
 
   switch (req.method) {
     case 'GET':
-      return search();
+      return getPosts();
     default:
       return res.status(405).end(`Method ${req.method} Not Allowed`);
   }

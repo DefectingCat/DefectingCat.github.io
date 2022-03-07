@@ -89,7 +89,6 @@ export const getStaticProps: GetStaticProps<{
       allPages,
       posts: JSON.parse(JSON.stringify(posts)) as Post[],
     },
-    revalidate: 10,
   };
 };
 
