@@ -15,7 +15,7 @@ font-family: 'Poppins', sans-serif;
 
 @layer base {
   body {
-    @apply bg-bluish-gray dark:bg-rua-gray-900 dark:text-gray-200;
+    @apply text-gray-600 bg-bluish-gray dark:bg-rua-gray-900 dark:text-gray-200 font-Poppins;
   }
 
   img,
