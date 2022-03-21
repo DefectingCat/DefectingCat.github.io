@@ -6,6 +6,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        Aleo: ['Aleo', 'serif'],
+        'Aref-Ruqaa': ['Aref Ruqaa', 'serif'],
+        Barlow: ['Barlow', 'sans-serif'],
+        Poppins: ['Poppins', 'sans-serif'],
+      },
       colors: {
         bluish: {
           gray: 'rgba(245,247,250)',
