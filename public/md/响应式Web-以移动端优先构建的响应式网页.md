@@ -12,19 +12,16 @@
 
 ```css
 .grid-cols-12 {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-columns: repeat(12, minmax(0, 1fr));
 }
 
-@media (min-width: 1280px)
-.xl\:grid-cols-8 {
-    grid-template-columns: repeat(8, minmax(0, 1fr));
+@media (min-width: 1280px) .xl\:grid-cols-8 {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
 }
 ```
 
-![Grid1.png](C:\Users\xfy\Git\DefectingCat.github.io\public\images\响应式Web-以移动端优先构建的响应式网页\Grid1.png)
+![Grid1.png](../images/响应式Web-以移动端优先构建的响应式网页/Grid1.png)
 
-![Grid2.png](C:\Users\xfy\Git\DefectingCat.github.io\public\images\响应式Web-以移动端优先构建的响应式网页\Grid2.png)
+![Grid2.png](../images/响应式Web-以移动端优先构建的响应式网页/Grid2.png)
 
-![Grid3.png](C:\Users\xfy\Git\DefectingCat.github.io\public\images\响应式Web-以移动端优先构建的响应式网页\Grid3.png)
-
-
+![Grid3.png](../images/响应式Web-以移动端优先构建的响应式网页/Grid3.png)
