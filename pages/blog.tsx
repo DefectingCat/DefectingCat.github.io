@@ -1,8 +1,7 @@
 import MainLayout from 'layouts/MainLayout';
-import { Post } from 'types';
 import { InferGetStaticPropsType } from 'next';
 import { ReactElement } from 'react';
-import { server } from 'lib/utils/constant';
+import { postLists } from 'lib/posts';
 
 const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
@@ -23,12 +22,9 @@ const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
 };
 
 export const getStaticProps = async () => {
-  const response = await fetch(`${server}/api/posts`);
-  const posts = (await response.json()) as Post[];
-
   return {
     props: {
-      posts,
+      posts: await postLists(),
     },
   };
 };

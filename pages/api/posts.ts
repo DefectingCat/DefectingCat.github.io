@@ -1,31 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-import { MyMatters, Post } from 'types';
-import { sortByDate } from 'lib/utils';
+import { Post } from 'types';
+import { postLists } from 'lib/posts';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Post[]>
 ) {
-  const getPosts = () => {
-    const files = fs.readdirSync(path.join('pages/p'));
-    const posts = files
-      .map((filename) => {
-        const markdownWithMeta = fs.readFileSync(
-          path.join('pages/p', filename),
-          'utf-8'
-        );
-        const slug = filename.replace(/\.mdx$/, '');
-        const { data: meta } = matter(markdownWithMeta);
-        return {
-          slug,
-          ...({ ...meta } as MyMatters),
-        };
-      })
-      .sort(sortByDate);
-
+  const getPosts = async () => {
+    const posts = await postLists();
     res.status(200).json(posts);
   };
 
