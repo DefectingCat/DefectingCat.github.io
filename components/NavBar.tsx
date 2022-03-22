@@ -2,6 +2,9 @@ import cn from 'classnames';
 import Link from 'next/link';
 import { FC, useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
+import dynamic from 'next/dynamic';
+
+const DarkModeBtn = dynamic(() => import('components/DarkModeBtn'));
 
 const txtMenu = [
   {
@@ -68,6 +71,15 @@ const HeadBar: FC = () => {
                 <Link href={m.path}>{m.name}</Link>
               </li>
             ))}
+            <li
+              className={cn(
+                'mb-2 last:mb-0 md:mb-0',
+                'md:mr-4 md:last:mr-0',
+                'flex items-center'
+              )}
+            >
+              <DarkModeBtn />
+            </li>
           </ul>
         </nav>
       </header>

@@ -10,6 +10,9 @@ const withMDX = require('@next/mdx')({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // experimental: {
+  //    reactMode: 'concurrent',
+  // },
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
 };
 

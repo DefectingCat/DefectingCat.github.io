@@ -1,15 +1,7 @@
 import 'styles/globals.css';
-import type { AppProps } from 'next/app';
-import { NextPage } from 'next';
-import { ReactElement, ReactNode } from 'react';
 import Head from 'next/head';
-
-type NextPageWithLayout = NextPage & {
-  getLayout?: (page: ReactElement) => ReactNode;
-};
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
-};
+import { AppPropsWithLayout } from 'types';
+import { ThemeProvider } from 'next-themes';
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
@@ -24,7 +16,15 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <title>RUA</title>
       </Head>
 
-      {getLayout(<Component {...pageProps} />)}
+      <ThemeProvider
+        attribute="class"
+        storageKey="rua-theme"
+        themes={['light', 'dark']}
+        enableSystem
+        defaultTheme="system"
+      >
+        {getLayout(<Component {...pageProps} />)}
+      </ThemeProvider>
     </>
   );
 }
