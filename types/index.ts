@@ -9,3 +9,13 @@ export type NextPageWithLayout = {
 export type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
+
+export interface MyMatters {
+  title: string;
+  date: string;
+  tags: string;
+}
+
+export interface Post extends MyMatters {
+  slug: string;
+}

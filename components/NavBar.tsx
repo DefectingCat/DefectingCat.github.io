@@ -52,14 +52,14 @@ const HeadBar: FC = () => {
           className={cn(
             'text-lg md:block',
             'bg-white rounded-md',
+            'dark:bg-rua-gray-800',
             'absolute md:static',
             'p-5 right-6 top-14',
             'md:bg-transparent md:p-[unset]',
             'md:right-[unset] md:top-[unset]',
             'w-1/3 md:w-auto',
-            {
-              hidden: !showMenu,
-            }
+            'md:dark:bg-transparent',
+            showMenu || 'hidden'
           )}
         >
           <ul className={cn('flex flex-col', 'md:flex-row')}>
