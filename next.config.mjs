@@ -1,13 +1,14 @@
 import remarkFrontmatter from 'remark-frontmatter';
 import mdx from '@next/mdx';
 import rehypePrism from '@mapbox/rehype-prism';
+import remarkToc from 'remark-toc';
 
 const withMDX = mdx({
   extension: /\.mdx?$/,
   options: {
-    remarkPlugins: [remarkFrontmatter],
+    remarkPlugins: [remarkFrontmatter, remarkToc],
     rehypePlugins: [rehypePrism],
-    // providerImportSource: '@mdx-js/react',
+    providerImportSource: '@mdx-js/react',
   },
 });
 
