@@ -22,7 +22,9 @@ const PostCard: FC<Props> = ({ post }) => {
             )}
           >
             <div>
-              <h2 className="mb-4 text-3xl font-Barlow">{post.title}</h2>
+              <h2 className="mb-4 text-3xl font-semibold font-Barlow">
+                {post.title}
+              </h2>
 
               <div className="flex items-center text-sm">
                 {post.tags.map((tag) => (

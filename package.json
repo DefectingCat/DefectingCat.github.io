@@ -11,6 +11,7 @@
     "test-ci": "jest --ci --coverage"
   },
   "dependencies": {
+    "@mapbox/rehype-prism": "^0.8.0",
     "@mdx-js/loader": "^2.1.0",
     "@next/mdx": "^12.1.0",
     "classnames": "^2.3.1",
@@ -18,7 +19,8 @@
     "next-themes": "^0.1.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-icons": "^4.3.1"
+    "react-icons": "^4.3.1",
+    "remark-frontmatter": "^4.0.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.2",

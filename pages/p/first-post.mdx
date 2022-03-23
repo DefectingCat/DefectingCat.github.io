@@ -4,6 +4,8 @@ date: '2022-03-22'
 tags: ['functions', 'JavaScript']
 ---
 
+import Layout from 'layouts/MDXLayout.tsx';
+
 ## Hello
 
 This is my first post.
@@ -11,3 +13,5 @@ This is my first post.
 ```tsx
 console.log('Hello world.');
 ```
+
+export default ({ children }) => <Layout>{children}</Layout>;
