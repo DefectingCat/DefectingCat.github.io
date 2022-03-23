@@ -25,5 +25,7 @@ export const postLists = async (): Promise<Post[]> => {
     })
     .sort(sortByDate);
 
+  console.log(posts);
+
   return posts;
 };

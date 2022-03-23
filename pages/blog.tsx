@@ -2,18 +2,27 @@ import MainLayout from 'layouts/MainLayout';
 import { InferGetStaticPropsType } from 'next';
 import { ReactElement } from 'react';
 import { postLists } from 'lib/posts';
+import cn from 'classnames';
+import dynamic from 'next/dynamic';
+
+const PostCard = dynamic(() => import('components/PostCard'));
 
 const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
-      <main className="max-w-3xl mx-auto">
-        <h1 className="text-5xl font-semibold text-center font-Barlow">
+      <main className="max-w-4xl mx-auto">
+        <h1
+          className={cn(
+            'text-5xl font-semibold text-center font-Barlow',
+            'mt-8 mb-20'
+          )}
+        >
           Blog posts
         </h1>
 
-        <div>
+        <div className="px-4 lg:px-0">
           {posts.map((post) => (
-            <article key={post.slug}>{post.title}</article>
+            <PostCard key={post.slug} post={post} />
           ))}
         </div>
       </main>

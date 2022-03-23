@@ -19,9 +19,7 @@ describe('NavBar', () => {
     expect(home).toBeInTheDocument();
     expect(blog).toBeInTheDocument();
 
-    expect(home.hasAttribute('href')).toBeTruthy();
-    expect(home.getAttribute('href')).toEqual('/');
-    expect(blog.hasAttribute('href')).toBeTruthy();
-    expect(blog.getAttribute('href')).toEqual('/blog');
+    expect(home).toHaveAttribute('href', '/');
+    expect(blog).toHaveAttribute('href', '/blog');
   });
 });
