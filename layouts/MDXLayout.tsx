@@ -1,12 +1,19 @@
 import { FC } from 'react';
-import MainLayout from 'layouts/MainLayout';
+import dynamic from 'next/dynamic';
 
-const MDXLayout: FC = ({ children }) => {
+const Footer = dynamic(() => import('components/Footer'));
+const HeadBar = dynamic(() => import('components/NavBar'));
+
+const MainLayout: FC = ({ children }) => {
   return (
     <>
-      <MainLayout>{children}</MainLayout>
+      <HeadBar />
+
+      <main id="article">{children}</main>
+
+      <Footer />
     </>
   );
 };
 
-export default MDXLayout;
+export default MainLayout;

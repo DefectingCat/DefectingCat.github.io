@@ -1,5 +1,8 @@
 import { FC } from 'react';
-import HeadBar from 'components/NavBar';
+import dynamic from 'next/dynamic';
+
+const Footer = dynamic(() => import('components/Footer'));
+const HeadBar = dynamic(() => import('components/NavBar'));
 
 const MainLayout: FC = ({ children }) => {
   return (
@@ -7,6 +10,8 @@ const MainLayout: FC = ({ children }) => {
       <HeadBar />
 
       <main>{children}</main>
+
+      <Footer />
     </>
   );
 };

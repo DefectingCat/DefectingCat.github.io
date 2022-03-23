@@ -4,13 +4,15 @@ import type { NextPageWithLayout } from 'types';
 
 const Home: NextPageWithLayout = () => {
   return (
-    <div className="text-lg text-red-700">
+    <>
       <Head>
         <title>RUA - HOME</title>
       </Head>
 
-      <div>hi</div>
-    </div>
+      <main className="h-[calc(100vh-142px)] flex justify-center items-center text-xl">
+        <div>Hi there,👋 Im a next.js app.</div>
+      </main>
+    </>
   );
 };
 
