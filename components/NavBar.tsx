@@ -17,6 +17,11 @@ const txtMenu = [
     name: 'Blog',
     path: '/blog',
   },
+  {
+    id: 2,
+    name: 'About',
+    path: '/about',
+  },
 ];
 
 const HeadBar: FC = () => {
@@ -27,7 +32,7 @@ const HeadBar: FC = () => {
       <header
         className={cn(
           'flex justify-between mx-auto',
-          'max-w-6xl p-6 lg:px-0 h-[84px]',
+          'max-w-6xl p-6 xl:px-0 h-[84px]',
           'items-center relative'
         )}
       >

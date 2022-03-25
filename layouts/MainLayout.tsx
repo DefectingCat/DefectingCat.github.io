@@ -9,7 +9,7 @@ const MainLayout: FC = ({ children }) => {
     <>
       <HeadBar />
 
-      <main>{children}</main>
+      {children}
 
       <Footer />
     </>
