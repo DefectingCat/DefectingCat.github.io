@@ -1,7 +1,119 @@
+#article {
+  @apply text-lg leading-10;
+}
+
 #article h1 {
   font-weight: bold;
-  margin: 0 0 0.5em 0;
   text-align: center;
   @apply text-gray-800 dark:text-gray-200;
-  @apply text-5xl font-Barlow;
+  @apply mt-8 text-5xl font-Barlow;
+}
+
+#article time {
+  display: block;
+  text-align: center;
+  @apply text-gray-400 dark:text-gray-600;
+  @apply mt-8 mb-20;
+}
+
+#article h2 {
+  font-weight: bold;
+  @apply relative text-3xl;
+  @apply text-gray-700 dark:text-gray-200;
+  @apply mt-8 mb-2;
+}
+#article h2:hover::before {
+  content: '#';
+  left: -1.6rem;
+  @apply absolute text-gray-400;
+}
+
+#article h3 {
+  font-weight: bold;
+  @apply relative text-2xl;
+  @apply mt-6 mb-2;
+}
+#article h3:hover::before {
+  content: '#';
+  left: -1.5rem;
+  @apply absolute text-gray-400;
+}
+
+#article h4 {
+  font-weight: bold;
+  @apply relative text-xl;
+  @apply mt-6 mb-2;
+}
+#article h4:hover::before {
+  content: '#';
+  left: -1.5rem;
+  @apply absolute text-gray-400;
+}
+
+#article h5 {
+  font-weight: bold;
+  @apply relative;
+  @apply mt-4 mb-2;
+}
+#article h5:hover::before {
+  content: '#';
+  left: -1.5rem;
+  @apply absolute text-gray-400;
+}
+
+#article h6 {
+  font-weight: bold;
+  @apply relative;
+  @apply mt-2 mb-2;
+}
+#article h6:hover::before {
+  content: '#';
+  left: -1.5rem;
+  @apply absolute text-gray-400;
+}
+
+#article table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow: auto;
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+#article td,
+#article th {
+  padding: 0;
+}
+#article details summary {
+  cursor: pointer;
+}
+#article table th {
+  font-weight: 600;
+}
+#article table th,
+#article table td {
+  padding: 6px 13px;
+}
+#article thead tr:first-child {
+  @apply border-t-0;
+}
+#article table tr {
+  background-color: #ffffff;
+  border-top: 1px solid hsla(210, 18%, 87%, 1);
+}
+#article table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+#article table img {
+  background-color: transparent;
+}
+
+.dark #article table tr:nth-child(2n) {
+  background-color: #161b22;
+}
+.dark #article table tr {
+  background-color: #0d1117;
+  border-top: 1px solid #21262d;
 }

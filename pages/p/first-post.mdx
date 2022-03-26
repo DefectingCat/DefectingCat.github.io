@@ -6,11 +6,13 @@ tags: ['functions', 'JavaScript']
 
 import Layout from 'layouts/MDXLayout.tsx';
 
-export default ({ children }) => <Layout>{children}</Layout>;
+export const meta = {
+  title: 'First post test',
+  date: '2022-03-22',
+  tags: ['functions', 'JavaScript'],
+};
 
-# Hello world
-
-<time>2022-03-22</time>
+export default ({ children }) => <Layout {...meta}>{children}</Layout>;
 
 ## Hello
 

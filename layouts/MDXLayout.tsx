@@ -1,11 +1,14 @@
 import { FC } from 'react';
 import dynamic from 'next/dynamic';
+import { MyMatters } from 'types';
 // import { renderToString } from 'react-dom/server';
 
 const Footer = dynamic(() => import('components/Footer'));
 const HeadBar = dynamic(() => import('components/NavBar'));
 
-const MainLayout: FC = ({ children }) => {
+interface Props extends MyMatters {}
+
+const MainLayout: FC<Props> = ({ title, date, children }) => {
   // const contentString = renderToString(children as any);
 
   // const getHeadings = (source: string) => {
@@ -35,7 +38,13 @@ const MainLayout: FC = ({ children }) => {
       <HeadBar />
 
       <main id="article" className="max-w-5xl px-8 mx-auto my-10">
-        {children}
+        <article>
+          <h1>{title}</h1>
+
+          <time>{date}</time>
+
+          {children}
+        </article>
       </main>
 
       <Footer />
