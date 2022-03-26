@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import dynamic from 'next/dynamic';
-import { renderToString } from 'react-dom/server';
+// import { renderToString } from 'react-dom/server';
 
 const Footer = dynamic(() => import('components/Footer'));
 const HeadBar = dynamic(() => import('components/NavBar'));

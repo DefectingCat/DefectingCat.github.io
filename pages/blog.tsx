@@ -14,7 +14,7 @@ const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
         <h1
           className={cn(
             'text-5xl font-bold text-center font-Barlow',
-            'mt-8 mb-20'
+            'mt-8 mb-20 text-gray-800 dark:text-gray-200'
           )}
         >
           Blog posts

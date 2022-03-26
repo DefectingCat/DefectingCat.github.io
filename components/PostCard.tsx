@@ -18,8 +18,8 @@ const PostCard: FC<Props> = ({ post }) => {
               'hover:bg-sky-100 hover:bg-opacity-50',
               // 'hover:bg-rua-gray-100 hover:bg-opacity-10',
               'dark:hover:bg-rua-gray-800 dark:hover:bg-opacity-100',
-              'flex items-center justify-between',
-              'mb-4'
+              'flex items-center justify-between text-gray-800 ',
+              'mb-4 dark:text-gray-200'
             )}
           >
             <div>
