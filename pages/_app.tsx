@@ -4,6 +4,7 @@ import { AppPropsWithLayout } from 'types';
 import { ThemeProvider } from 'next-themes';
 import 'styles/prism-one-light.css';
 import 'styles/prism-one-dark.css';
+import 'styles/rua.css';
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
