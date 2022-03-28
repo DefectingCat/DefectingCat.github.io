@@ -2,6 +2,15 @@
   @apply text-lg leading-10;
 }
 
+/* For the table of content */
+#article h2#table-of-contents + ul {
+  @apply border-l-4 border-gray-300;
+  @apply pl-4;
+}
+#article h2#table-of-contents:hover::before {
+  content: unset;
+}
+
 #article h1 {
   font-weight: bold;
   text-align: center;
@@ -16,60 +25,47 @@
   @apply mt-8 mb-20;
 }
 
-#article h2 {
+#article h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: bold;
-  @apply relative text-3xl;
-  @apply text-gray-700 dark:text-gray-200;
-  @apply mt-8 mb-2;
 }
-#article h2:hover::before {
+#article h2:hover::before,
+h3:hover::before,
+h4:hover::before,
+h5:hover::before,
+h6:hover::before {
   content: '#';
   left: -1.6rem;
   @apply absolute text-gray-400;
 }
 
+#article h2 {
+  @apply relative text-3xl;
+  @apply text-gray-700 dark:text-gray-200;
+  @apply mt-8 mb-2;
+}
+
 #article h3 {
-  font-weight: bold;
   @apply relative text-2xl;
   @apply mt-6 mb-2;
 }
-#article h3:hover::before {
-  content: '#';
-  left: -1.5rem;
-  @apply absolute text-gray-400;
-}
 
 #article h4 {
-  font-weight: bold;
   @apply relative text-xl;
   @apply mt-6 mb-2;
 }
-#article h4:hover::before {
-  content: '#';
-  left: -1.5rem;
-  @apply absolute text-gray-400;
-}
 
 #article h5 {
-  font-weight: bold;
   @apply relative;
   @apply mt-4 mb-2;
 }
-#article h5:hover::before {
-  content: '#';
-  left: -1.5rem;
-  @apply absolute text-gray-400;
-}
 
 #article h6 {
-  font-weight: bold;
   @apply relative;
   @apply mt-2 mb-2;
-}
-#article h6:hover::before {
-  content: '#';
-  left: -1.5rem;
-  @apply absolute text-gray-400;
 }
 
 #article table {

@@ -10,7 +10,11 @@ const composedConfig = composePlugins([
   mdx({
     extension: /\.mdx?$/,
     options: {
-      remarkPlugins: [remarkFrontmatter, remarkToc, remarkGfm],
+      remarkPlugins: [
+        remarkFrontmatter,
+        () => remarkToc({ maxDepth: 2 }),
+        remarkGfm,
+      ],
       rehypePlugins: [rehypePrism, rehypeSlug],
       providerImportSource: '@mdx-js/react',
     },
