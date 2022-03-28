@@ -5,6 +5,12 @@ import { ThemeProvider } from 'next-themes';
 import 'styles/prism-one-light.css';
 import 'styles/prism-one-dark.css';
 import 'styles/rua.css';
+import { MDXProvider } from '@mdx-js/react';
+import Anchor from 'components/mdx/Anchor';
+
+const components = {
+  a: Anchor,
+};
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
@@ -26,7 +32,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         enableSystem
         defaultTheme="system"
       >
-        {getLayout(<Component {...pageProps} />)}
+        <MDXProvider components={components}>
+          {getLayout(<Component {...pageProps} />)}
+        </MDXProvider>
       </ThemeProvider>
     </>
   );
