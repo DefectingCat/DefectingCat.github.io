@@ -38,7 +38,7 @@ h4:hover::before,
 h5:hover::before,
 h6:hover::before {
   content: '#';
-  left: -1.6rem;
+  left: -1.7rem;
   @apply absolute text-gray-400;
 }
 

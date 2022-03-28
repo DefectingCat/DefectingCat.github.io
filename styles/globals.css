@@ -6,6 +6,17 @@
   scroll-behavior: smooth;
 }
 
+*::selection {
+  background: hsl(230, 1%, 90%);
+  color: inherit;
+}
+
+.dark *::selection {
+  background: hsl(220, 13%, 28%);
+  color: inherit;
+  text-shadow: none;
+}
+
 /* 
 font-family: 'Aleo', serif;
 font-family: 'Aref Ruqaa', serif;

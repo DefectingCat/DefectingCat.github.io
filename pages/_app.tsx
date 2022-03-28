@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <Head>
-        <link rel="shortcut icon" href="/images/img/favicon.webp" />
+        <link rel="shortcut icon" href="/images/img/favicon.ico" />
         <meta name="keywords" content="Blog RUA" />
         <meta name="description" content="Personal blog." />
         <meta name="author" content="Arthur,i@rua.plus" />
