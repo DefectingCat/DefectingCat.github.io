@@ -2,15 +2,6 @@
   @apply text-lg leading-10;
 }
 
-/* For the table of content */
-#article h2#table-of-contents + ul {
-  @apply border-l-4 border-gray-300;
-  @apply pl-4;
-}
-#article h2#table-of-contents:hover::before {
-  content: unset;
-}
-
 #article h1 {
   font-weight: bold;
   text-align: center;
