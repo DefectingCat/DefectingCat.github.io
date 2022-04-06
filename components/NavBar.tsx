@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import Link from 'next/link';
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
 import dynamic from 'next/dynamic';
 
@@ -26,6 +26,9 @@ const txtMenu = [
 
 const HeadBar: FC = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const handleClick = useCallback(() => {
+    setShowMenu((showMenu) => !showMenu);
+  }, []);
 
   return (
     <>
@@ -51,7 +54,7 @@ const HeadBar: FC = () => {
 
         <FiMenu
           className="cursor-pointer w-7 h-7 md:hidden"
-          onClick={() => setShowMenu(!showMenu)}
+          onClick={handleClick}
         />
         <nav
           className={cn(
@@ -62,7 +65,7 @@ const HeadBar: FC = () => {
             'p-5 right-6 top-14',
             'md:bg-transparent md:p-[unset]',
             'md:right-[unset] md:top-[unset]',
-            'w-1/3 md:w-auto',
+            'w-1/3 md:w-auto z-10',
             'md:dark:bg-transparent',
             showMenu || 'hidden'
           )}
@@ -71,6 +74,7 @@ const HeadBar: FC = () => {
             {txtMenu.map((m) => (
               <li
                 key={m.id}
+                onClick={handleClick}
                 className={cn('mb-2 last:mb-0 md:mb-0', 'md:mr-4 md:last:mr-0')}
               >
                 <Link href={m.path}>{m.name}</Link>
