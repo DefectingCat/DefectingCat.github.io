@@ -3,6 +3,7 @@ import MainLayout from 'layouts/MainLayout';
 import Head from 'next/head';
 import { useState } from 'react';
 import type { NextPageWithLayout } from 'types';
+import style from 'styles/index/index.module.css';
 
 const Home: NextPageWithLayout = () => {
   const [showLang, setShowLang] = useState(false);
@@ -22,7 +23,7 @@ const Home: NextPageWithLayout = () => {
               onMouseOver={() => setShowLang(true)}
               onMouseLeave={() => setShowLang(false)}
             >
-              <span className="text-sky-500 dark:text-sky-600 font-Aleo">
+              <span className={cn('font-Aleo font-semibold', style.gradient)}>
                 I make websites{' '}
               </span>
               <span className="text-xs text-gray-500 dark:text-gray-400">

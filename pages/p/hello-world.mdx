@@ -1,0 +1,27 @@
+---
+title: Hello world
+date: '2022-04-06'
+tags: ['hello world']
+---
+
+import Layout from 'layouts/MDXLayout.tsx';
+
+export const meta = {
+  title: 'Hello world',
+  date: '2022-04-06',
+  tags: ['hello world'],
+};
+
+export default ({ children }) => (
+  <Layout {...meta} showTOC={false}>
+    {children}
+  </Layout>
+);
+
+## Hello
+
+This is my first post!
+
+```ts
+console.log('Hello world');
+```

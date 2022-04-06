@@ -10,7 +10,7 @@ const Footer: FC = () => {
         <div className="h-[2px] bg-slate-500"></div>
 
         <div className="flex items-center justify-between py-4">
-          <div>&copy; 2022-{nowDay} Powered by Next.js 💙 xfy</div>
+          <div>&copy; {nowDay} Powered by Next.js 💙 xfy</div>
           <div>
             <a
               href="https://github.com/DefectingCat"

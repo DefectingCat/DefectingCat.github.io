@@ -8,9 +8,11 @@ import PostTOC from 'components/post/PostTOC';
 const Footer = dynamic(() => import('components/Footer'));
 const HeadBar = dynamic(() => import('components/NavBar'));
 
-interface Props extends MyMatters {}
+interface Props extends MyMatters {
+  showTOC?: boolean;
+}
 
-const MainLayout: FC<Props> = ({ title, date, children }) => {
+const MainLayout: FC<Props> = ({ title, date, showTOC = true, children }) => {
   const contentString = renderToString(children as any);
   const headings = getHeadings(contentString);
 
@@ -24,7 +26,7 @@ const MainLayout: FC<Props> = ({ title, date, children }) => {
 
           <time>{date}</time>
 
-          <PostTOC headings={headings} />
+          {showTOC && <PostTOC headings={headings} />}
 
           {children}
         </article>
