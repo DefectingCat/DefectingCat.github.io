@@ -13,13 +13,11 @@ const PostTOC: FC<Props> = ({ headings }) => {
 
       <ul className="pl-4 border-l-4 border-gray-300">
         {headings?.map((h) => (
-          <>
-            <li>
-              <Anchor href={h.link} external={false}>
-                {h.text}
-              </Anchor>
-            </li>
-          </>
+          <li key={h.link}>
+            <Anchor href={h.link} external={false}>
+              {h.text}
+            </Anchor>
+          </li>
         ))}
       </ul>
     </>
