@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import NextImage from 'next/image';
 import { DetailedHTMLProps, ImgHTMLAttributes } from 'react';
 

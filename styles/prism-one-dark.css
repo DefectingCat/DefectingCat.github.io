@@ -28,8 +28,8 @@
  * --syntax-cursor-line: hsla(220, 100%, 80%, 0.04);
  */
 
-.dark code[class*='language-'],
-.dark pre[class*='language-'] {
+.dark code,
+.dark pre {
   background: hsl(220, 13%, 18%);
   color: hsl(220, 14%, 71%);
   text-shadow: 0 1px rgba(0, 0, 0, 0.3);
@@ -51,24 +51,24 @@
 }
 
 /* Selection */
-.dark code[class*='language-']::-moz-selection,
-.dark code[class*='language-'] *::-moz-selection,
-.dark pre[class*='language-'] *::-moz-selection {
+.dark code::-moz-selection,
+.dark code *::-moz-selection,
+.dark pre *::-moz-selection {
   background: hsl(220, 13%, 28%);
   color: inherit;
   text-shadow: none;
 }
 
-.dark code[class*='language-']::selection,
-.dark code[class*='language-'] *::selection,
-.dark pre[class*='language-'] *::selection {
+.dark code::selection,
+.dark code *::selection,
+.dark pre *::selection {
   background: hsl(220, 13%, 28%);
   color: inherit;
   text-shadow: none;
 }
 
 /* Code blocks */
-.dark pre[class*='language-'] {
+.dark pre {
   padding: 1em;
   margin: 0.5em 0;
   overflow: auto;
@@ -76,7 +76,7 @@
 }
 
 /* Inline code */
-.dark :not(pre) > code[class*='language-'] {
+.dark :not(pre) > code {
   padding: 0.2em 0.3em;
   border-radius: 0.3em;
   white-space: normal;
@@ -84,8 +84,8 @@
 
 /* Print */
 @media print {
-  .dark code[class*='language-'],
-  .dark pre[class*='language-'] {
+  .dark code,
+  .dark pre {
     text-shadow: none;
   }
 }

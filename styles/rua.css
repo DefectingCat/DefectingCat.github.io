@@ -91,6 +91,13 @@
   @apply text-lg leading-10;
 }
 
+#article .toc {
+  padding-left: 0.8em;
+}
+#article .toc li {
+  list-style-type: none;
+}
+
 #article h1 {
   font-weight: bold;
   text-align: center;
@@ -271,4 +278,47 @@ h6:hover::before {
 }
 #article sup {
   top: -0.5em;
+}
+
+#article ol li {
+  list-style-type: auto;
+}
+#article ul li {
+  list-style-type: initial;
+}
+#article ul.no-list,
+#article ol.no-list {
+  padding: 0;
+  list-style-type: none;
+}
+#article ol[type='1'] {
+  list-style-type: decimal;
+}
+#article ol[type='a'] {
+  list-style-type: lower-alpha;
+}
+#article ol[type='i'] {
+  list-style-type: lower-roman;
+}
+#article div > ol:not([type]) {
+  list-style-type: decimal;
+}
+#article ul,
+#article ol {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 2em;
+}
+#article ol ol,
+#article ul ol {
+  list-style-type: lower-roman;
+}
+#article ul ul ol,
+#article ul ol ol,
+#article ol ul ol,
+#article ol ol ol {
+  list-style-type: lower-alpha;
+}
+#article dd {
+  margin-left: 0;
 }

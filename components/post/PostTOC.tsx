@@ -11,7 +11,7 @@ const PostTOC: FC<Props> = ({ headings }) => {
     <>
       <h2>What&apos;s inside?</h2>
 
-      <ul className="pl-4 border-l-4 border-gray-300">
+      <ul className="pl-4 border-l-4 border-gray-300 toc">
         {headings?.map((h) => (
           <li key={h.link}>
             <Anchor href={h.link} external={false}>
