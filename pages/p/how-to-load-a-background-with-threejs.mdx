@@ -5,7 +5,11 @@ tags: ['three.js', 'JavaScript']
 ---
 
 import Layout from 'layouts/MDXLayout.tsx';
-import RUASandpack from 'components/RUA/RUASandpack.tsx';
+import dynamic from 'next/dynamic';
+
+export const RUASandpack = dynamic(() =>
+  import('components/RUA/RUASandpack.tsx')
+);
 
 export const meta = {
   title: 'How to load a background with three.js',
@@ -60,7 +64,7 @@ export const main = `import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 export default function App() {
-  const ref = useRef<HTMLCanvasElement>(null);
+  const ref = useRef(null);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(
     75,
@@ -70,7 +74,7 @@ export default function App() {
   );
   useEffect(() => {
     const renderer = new THREE.WebGLRenderer({
-      canvas: ref.current!,
+      canvas: ref.current,
     });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);

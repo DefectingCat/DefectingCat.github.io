@@ -5,7 +5,11 @@ tags: ['Hello world']
 ---
 
 import Layout from 'layouts/MDXLayout.tsx';
-import RUASandpack from 'components/RUA/RUASandpack.tsx';
+import dynamic from 'next/dynamic';
+
+export const RUASandpack = dynamic(() =>
+  import('components/RUA/RUASandpack.tsx')
+);
 
 export const meta = {
   title: 'Hello world',
