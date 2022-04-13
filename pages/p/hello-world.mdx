@@ -1,15 +1,16 @@
 ---
 title: Hello world
 date: '2022-04-06'
-tags: ['hello world']
+tags: ['Hello world']
 ---
 
 import Layout from 'layouts/MDXLayout.tsx';
+import RUASandpack from 'components/RUA/RUASandpack.tsx';
 
 export const meta = {
   title: 'Hello world',
   date: '2022-04-06',
-  tags: ['hello world'],
+  tags: ['Hello world'],
 };
 
 export default ({ children }) => (
@@ -25,3 +26,16 @@ This is my first post!
 ```ts
 console.log('Hello world');
 ```
+
+## Say hello to world
+
+export const main = `export default function App() {
+  return <h1>Hello world</h1>
+}`;
+
+<RUASandpack
+  template="react"
+  files={{
+    '/App.js': main,
+  }}
+/>

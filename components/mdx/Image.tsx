@@ -1,5 +1,6 @@
 import NextImage from 'next/image';
 import { DetailedHTMLProps, ImgHTMLAttributes } from 'react';
+import styles from './Image.module.css';
 
 interface Props
   extends DetailedHTMLProps<
@@ -10,14 +11,15 @@ interface Props
 const Image = ({ src, alt }: Props) => {
   return (
     <>
-      <NextImage
-        src={src ?? ''}
-        alt={alt}
-        layout="responsive"
-        width="100%"
-        height="100%"
-      />
-      <span className="block text-center text-gray-400">{alt}</span>
+      <p className={styles.imageContainer}>
+        <NextImage
+          src={src ?? ''}
+          alt={alt}
+          layout="fill"
+          className={styles.image}
+        />
+        <span className="block text-center text-gray-400">{alt}</span>
+      </p>
     </>
   );
 };

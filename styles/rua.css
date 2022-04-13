@@ -323,3 +323,12 @@ h6:hover::before {
 #article dd {
   margin-left: 0;
 }
+
+#article .sp-layout > .sp-stack {
+  height: 400px;
+}
+@media screen and (max-width: 768px) {
+  #article .sp-layout > .sp-stack {
+    height: auto;
+  }
+}
