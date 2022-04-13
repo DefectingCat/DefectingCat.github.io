@@ -1,3 +1,20 @@
+---
+title: How to load a background with three.js
+date: '2022-04-13'
+tags: ['three.js', 'JavaScript']
+---
+
+import Layout from 'layouts/MDXLayout.tsx';
+import RUASandpack from 'components/RUA/RUASandpack.tsx';
+
+export const meta = {
+  title: 'How to load a background with three.js',
+  date: '2022-04-13',
+  tags: ['three.js', 'JavaScript'],
+};
+
+export default ({ children }) => <Layout {...meta}>{children}</Layout>;
+
 Image a camera inside a cube box. The cube box is our scene. just like `const scene = new THREE.Scene();`. The camera is our perspect camera.
 
 ```ts
@@ -46,3 +63,13 @@ renderer.render(scene, camera);
 ```
 
 Now, we can get a black canvas in our document.
+
+export const main = `console.log('Hello World');
+`;
+
+<RUASandpack
+  template="vanilla-ts"
+  files={{
+    'src/index.ts': main,
+  }}
+/>

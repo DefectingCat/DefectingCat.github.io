@@ -22,7 +22,7 @@ const PostCard: FC<Props> = ({ post }) => {
               'mb-4 dark:text-gray-200'
             )}
           >
-            <div>
+            <div className="flex-1">
               <h2 className="mb-4 text-3xl font-semibold font-Barlow">
                 {post.title}
               </h2>

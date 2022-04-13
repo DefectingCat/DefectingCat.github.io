@@ -11,6 +11,7 @@
     "test-ci": "jest --ci --coverage"
   },
   "dependencies": {
+    "@codesandbox/sandpack-react": "^0.18.1",
     "@mapbox/rehype-prism": "^0.8.0",
     "@mdx-js/loader": "^2.1.0",
     "@mdx-js/react": "^2.1.0",
