@@ -11,7 +11,7 @@ interface Props
 const Image = ({ src, alt }: Props) => {
   return (
     <>
-      <p className={styles.imageContainer}>
+      <span className={styles.imageContainer}>
         <NextImage
           src={src ?? ''}
           alt={alt}
@@ -19,7 +19,7 @@ const Image = ({ src, alt }: Props) => {
           className={styles.image}
         />
         {alt && <span className="block text-center text-gray-400">{alt}</span>}
-      </p>
+      </span>
     </>
   );
 };
