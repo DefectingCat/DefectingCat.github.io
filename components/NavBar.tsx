@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { FC, useCallback, useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
 import dynamic from 'next/dynamic';
+import { DocSearch } from '@docsearch/react';
+import '@docsearch/css';
 
 const DarkModeBtn = dynamic(() => import('components/DarkModeBtn'));
 
@@ -70,7 +72,7 @@ const HeadBar: FC = () => {
             showMenu || 'hidden'
           )}
         >
-          <ul className={cn('flex flex-col', 'md:flex-row')}>
+          <ul className={cn('flex flex-col ', 'md:flex-row md:items-center')}>
             {txtMenu.map((m) => (
               <li
                 key={m.id}
@@ -88,6 +90,13 @@ const HeadBar: FC = () => {
               )}
             >
               <DarkModeBtn />
+            </li>
+            <li className="DocSearch-wrapper">
+              <DocSearch
+                appId="R2IYF7ETH7"
+                indexName="599cec31baffa4868cae4e79f180729b"
+                apiKey="docsearch"
+              />
             </li>
           </ul>
         </nav>
