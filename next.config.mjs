@@ -25,6 +25,9 @@ const composedConfig = composePlugins([
     // experimental: {
     //    reactMode: 'concurrent',
     // },
+    experimental: {
+      outputStandalone: true,
+    },
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   },
 ]);
