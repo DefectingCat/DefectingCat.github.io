@@ -18,7 +18,7 @@ const Image = ({ src, alt }: Props) => {
           layout="fill"
           className={styles.image}
         />
-        <span className="block text-center text-gray-400">{alt}</span>
+        {alt && <span className="block text-center text-gray-400">{alt}</span>}
       </p>
     </>
   );

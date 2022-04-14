@@ -259,7 +259,7 @@ h6:hover::before {
 #article pre,
 #article samp {
   font-family: monospace, monospace;
-  font-size: 1em;
+  font-size: 17px;
 }
 
 #article mark {
@@ -331,4 +331,8 @@ h6:hover::before {
   #article .sp-layout > .sp-stack {
     height: auto;
   }
+}
+
+#article img {
+  border-radius: 6px;
 }

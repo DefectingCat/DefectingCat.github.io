@@ -20,7 +20,7 @@ const MainLayout: FC<Props> = ({ title, date, showTOC = true, children }) => {
     <>
       <HeadBar />
 
-      <main id="article" className="max-w-5xl px-8 mx-auto my-10">
+      <main id="article" className="max-w-5xl px-4 mx-auto my-10">
         <article>
           <h1>{title}</h1>
 

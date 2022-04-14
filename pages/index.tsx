@@ -15,7 +15,7 @@ const Home: NextPageWithLayout = () => {
       </Head>
 
       <main className="min-h-[calc(100vh-142px)] flex justify-center items-center text-xl">
-        <div className="z-0 w-full max-w-3xl px-10 my-4 text-2xl md:fixed">
+        <div className="z-0 w-full max-w-3xl px-4 my-4 text-2xl md:fixed">
           <div className="max-w-xl leading-10">
             <h1 className="pb-4 text-4xl">Hi there 👋, I&apos;m Arthur. </h1>
             <p>I&apos;m a Fron-end developer. Yes, that&apos;s mean</p>

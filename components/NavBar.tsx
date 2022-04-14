@@ -37,7 +37,7 @@ const HeadBar: FC = () => {
       <header
         className={cn(
           'flex justify-between mx-auto',
-          'max-w-6xl p-6 xl:px-0 h-[84px]',
+          'max-w-6xl p-4 xl:px-0 h-[84px]',
           'items-center relative'
         )}
       >

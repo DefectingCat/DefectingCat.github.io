@@ -6,7 +6,7 @@ const nowDay = new Date().getFullYear();
 const Footer: FC = () => {
   return (
     <>
-      <footer className="max-w-6xl px-10 mx-auto xl:px-0">
+      <footer className="max-w-6xl px-4 mx-auto xl:px-0">
         <div className="h-[2px] bg-slate-500"></div>
 
         <div className="flex items-center justify-between py-4">
