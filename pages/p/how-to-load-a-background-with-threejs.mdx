@@ -41,7 +41,7 @@ And now, We need render scene into our document. So we need a WebGL renderer.
 ```ts
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('#canvas')
-  antialias: true,
+  antialias: true,  // for performance reason, we will trun off antialias
 });
 ```
 
@@ -118,7 +118,7 @@ export default function App() {
   }}
 />
 
-## Load a Skybox
+## Load a skyboxes
 
 Image a camera inside a cube box. The cube box is our scene. just like `const scene = new THREE.Scene();`. The camera is our perspect camera.
 
@@ -128,8 +128,138 @@ new THREE.PerspectiveCamera();
 
 Now, we are inside of the cube box. The inside texture of the box is our sky. Our camera can see all six texture surround ours give ours the illusion the we are within a larger environment.
 
-We know how skybox works. But what is a skybox?
+We know how skyboxes works. But what is a skyboxeses?
 
 ### Texture
 
-![Skybox_example.png](/images/p/how-to-load-a-background-with-threejs/Skybox_example.png)
+We need set texture to cube box each side. so we need six pictures.
+
+The skybos is six images that can be connected each other.
+
+![skyboxes_example.png](/images/p/how-to-load-a-background-with-threejs/skybox_example.png)
+
+We just need load six images in some order, and set them to the scene background.
+
+```ts
+import corona_bk from 'assets/first-project/skyboxes/corona_bk.png';
+import corona_dn from 'assets/first-project/skyboxes/corona_dn.png';
+import corona_ft from 'assets/first-project/skyboxes/corona_ft.png';
+import corona_lf from 'assets/first-project/skyboxes/corona_lf.png';
+import corona_rt from 'assets/first-project/skyboxes/corona_rt.png';
+import corona_up from 'assets/first-project/skyboxes/corona_up.png';
+
+const sky = new THREE.CubeTextureLoader(manager).load([
+  corona_ft,
+  corona_bk,
+  corona_up,
+  corona_dn,
+  corona_rt,
+  corona_lf,
+]);
+scene.background = sky;
+```
+
+The order is:
+
+1. front
+2. back
+3. up
+4. down
+5. right
+6. left
+
+If load textrue successfully. we can see some picture of six pictures.
+
+That's not enough. We are in 3D world, we need to loot around in the cubebox. So we need add a control.
+
+```ts
+const controls = new OrbitControls(camera, ref.current!);
+controls.enablePan = false;
+controls.update();
+```
+
+export const main2 = `import { useEffect, useRef } from "react";
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+const manager = new THREE.LoadingManager();
+manager.onProgress = (item, loaded, total) => {
+  console.log(loaded, total);
+};
+
+export default function App() {
+  const ref = useRef(null);
+  const scene = new THREE.Scene();
+  const sky = new THREE.CubeTextureLoader(manager).load([
+    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_ft.png",
+    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_bk.png",
+    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_up.png",
+    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_dn.png",
+    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_rt.png",
+    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_lf.png"
+  ]);
+  scene.background = sky;
+  const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
+  camera.position.set(0, 1, 0);
+  camera.up.set(0, 0, 1);
+  scene.add(camera);
+  useEffect(() => {
+    const renderer = new THREE.WebGLRenderer({
+      canvas: ref.current
+    });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    const controls = new OrbitControls(camera, ref.current);
+    controls.enablePan = false;
+    controls.target.set(0, 0, 0);
+    controls.update();
+    const render = (time) => {
+      renderer.render(scene, camera);
+      requestAnimationFrame(render);
+    };
+    requestAnimationFrame(render);
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      render(0);
+    }
+    window.addEventListener("resize", onWindowResize);
+    return () => {
+      window.removeEventListener("resize", onWindowResize);
+    };
+  }, []);
+  return (
+    <>
+      <canvas ref={ref}></canvas>
+    </>
+  );
+}
+`;
+
+<RUASandpack
+  template="react"
+  files={{
+    '/App.js': main2,
+  }}
+  options={{
+    autorun: false,
+  }}
+  customSetup={{
+    dependencies: {
+      'stats.js': '^0.17.0',
+      three: '^0.139.2',
+      'lil-gui': '^0.16.1',
+    },
+  }}
+/>
+
+For OrbitControls, the camera must be in not default position. I set it to `(0, 1, 0)`.
+
+Also we need set to the camera up vector `camera.up.set(0, 0, 1);`.
+
+> OrbitControls must execute update method after that it created `controls.update();`
