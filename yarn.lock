@@ -952,10 +952,10 @@
     refractor "^3.4.0"
     unist-util-visit "^2.0.3"
 
-"@mdx-js/loader@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.npmmirror.com/@mdx-js/loader/-/loader-2.1.0.tgz#cbcc234c9607fa2d1dd46ffb0234560e6662f080"
-  integrity sha512-r2CqhmBELQUoUxiWDh8SnlD7QTRNULgXE26gmmlD/uE0HWM7CG8iw6F3ZfvVr5p9y2z4MHWsOHbaJEuNCa8i3Q==
+"@mdx-js/loader@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.npmmirror.com/@mdx-js/loader/-/loader-2.1.1.tgz#98f0f2d8fc7f6b2f2c51ea2f4185e9c1ebcb187a"
+  integrity sha512-24danl02C30QoXVQTqvoEL84jN1e2BBSYMk9A/DGYBtHWXg5kdVp+A6P4hrFOwHvkEIjRbY0N49jPOSbpOgrOQ==
   dependencies:
     "@mdx-js/mdx" "^2.0.0"
     source-map "^0.7.0"
@@ -1003,10 +1003,10 @@
   dependencies:
     glob "7.1.7"
 
-"@next/mdx@^12.1.0":
-  version "12.1.0"
-  resolved "https://registry.npmmirror.com/@next/mdx/-/mdx-12.1.0.tgz#0100917865012b16adc6806f0b1b126e7fa6dd79"
-  integrity sha512-Y+VF6mMbm7pbiSj6c0YI0bD02aK0JUglWplHW48o65JYGhJSD7jzDfuIJG6/XdQ8fhTnDj/6+kYLnV+1QmXFRQ==
+"@next/mdx@^12.1.5":
+  version "12.1.5"
+  resolved "https://registry.npmmirror.com/@next/mdx/-/mdx-12.1.5.tgz#302fbf195b406d32423f6a0317771d3b27f88e8e"
+  integrity sha512-3R8J/3jKz4bCAOWDKVhxXoUETy3eqC+zaNlgwLK7LAid3UZjioVZ+jxIJmopd1auqjpev7doKeRE2p8YG55QLg==
 
 "@next/swc-android-arm64@12.1.0":
   version "12.1.0"
