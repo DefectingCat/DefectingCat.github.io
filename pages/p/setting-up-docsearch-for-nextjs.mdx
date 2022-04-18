@@ -1,0 +1,54 @@
+---
+title: Setting up DocSearch for next.js
+date: '2022-04-18'
+tags: ['Next.js', 'JavaScript']
+---
+
+import Layout from 'layouts/MDXLayout.tsx';
+import dynamic from 'next/dynamic';
+
+export const RUASandpack = dynamic(() =>
+  import('components/RUA/RUASandpack.tsx')
+);
+
+export const meta = {
+  title: 'Setting up DocSearch for next.js',
+  date: '2022-04-18',
+  tags: ['Next.js', 'JavaScript'],
+};
+
+export default ({ children }) => <Layout {...meta}>{children}</Layout>;
+
+I use next.js and mdx plugin to build my blog site. It's a next.js SSG project.
+
+Also it's a JAMStack site. So i need a extenal search engine.
+
+The Algolia is my first choice. We can build our own Algolia front UI, or use [DocSearch](https://github.com/algolia/docsearch)
+
+## Purpose
+
+Algolia split DocSearch into to parts:
+
+- A cralwer to crawl our sites.
+
+- A frontend UI liburary to show search result.
+
+In legacy edition, Algolia provide a docsearch-scraper to build our own crawler.
+
+Although it's still can plug it to DocSearch v3. But now it's deprecated.
+
+They introduct the [Algolia Crawler web interface](https://crawler.algolia.com/admin/users/login) to manage the crawler.
+
+But i can login with my Algolia account.
+
+![Can't login to Algolia Crawler](/images/p/setting-up-docsearch-for-nextjs/cannot-login-to-algolia-crawler.png)
+
+So i need find another way to generate my post index.
+
+## Index format
+
+The DocSearch frontend UI read result as specific format. We just need to provide the same format to DocSearch.
+
+Then DocSearch fronted UI can works.
+
+![Index format](/images/p/setting-up-docsearch-for-nextjs/index-format.png)
