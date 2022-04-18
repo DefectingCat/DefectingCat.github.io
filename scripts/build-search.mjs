@@ -20,17 +20,21 @@ const postLists = () => {
     const slug = f.replace(/\.mdx$/, '');
     const regex = /^#{2}(?!#)(.*)/gm;
 
-    content.match(regex)?.map((heading) => {
+    content.match(regex)?.map((h) => {
+      const heading = h.substring(3);
+
       myPosts.push({
         content: null,
         hierarchy: {
           lvl0: 'Post',
           lvl1: slug,
-          lvl2: heading.substring(3),
+          lvl2: heading,
         },
         type: 'lvl2',
         objectID: `${nanoid()}-https://rua.plus/p/${slug}`,
-        url: 'https://rua.plus/p/' + slug,
+        url: `https://rua.plus/p/${slug}#${heading
+          .toLocaleLowerCase()
+          .replace(/ /g, '-')}`,
       });
     });
 
@@ -42,7 +46,7 @@ const postLists = () => {
       },
       type: 'lvl1',
       objectID: `${nanoid()}-https://rua.plus/p/${slug}`,
-      url: 'https://rua.plus/p/' + slug,
+      url: `https://rua.plus/p/${slug}`,
     });
   });
   return myPosts;
@@ -92,5 +96,4 @@ function test() {
   posts.map((p) => console.log(p));
 }
 // test();
-
 main();
