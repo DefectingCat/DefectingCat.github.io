@@ -93,9 +93,9 @@ const HeadBar: FC = () => {
             </li>
             <li className="DocSearch-wrapper">
               <DocSearch
-                appId="R2IYF7ETH7"
-                indexName="599cec31baffa4868cae4e79f180729b"
-                apiKey="docsearch"
+                appId={process.env.NEXT_PUBLIC_ALGOLIA_APP_ID ?? ''}
+                indexName="RUA"
+                apiKey={process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ADMIN_KEY ?? ''}
               />
             </li>
           </ul>
