@@ -13,14 +13,14 @@ const postLists = () => {
   const files = fs.readdirSync(path.join('pages/p'));
 
   const myPosts = [];
-  files.map((f, fi) => {
+  files.map((f) => {
     const content = fs.readFileSync(path.join('pages/p', f), 'utf-8');
     // const { data: meta, content } = matter(markdownWithMeta);
 
     const slug = f.replace(/\.mdx$/, '');
     const regex = /^#{2}(?!#)(.*)/gm;
 
-    content.match(regex)?.map((heading, i) => {
+    content.match(regex)?.map((heading) => {
       myPosts.push({
         content: null,
         hierarchy: {
