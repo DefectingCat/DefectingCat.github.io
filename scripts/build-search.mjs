@@ -2,45 +2,50 @@ import { config } from 'dotenv';
 import algoliasearch from 'algoliasearch/lite.js';
 import fs from 'fs';
 import path from 'path';
-import matter from 'gray-matter';
-
-export const sortByDate = ({ date: a }, { date: b }) => {
-  if (a < b) {
-    return 1;
-  } else if (a > b) {
-    return -1;
-  } else {
-    return 0;
-  }
-};
+import { nanoid } from 'nanoid';
 
 /**
- * Read post meta info with gray-matter.
+ * Build post information for Algolia search.
  * @param filename
  * @returns
  */
-const readFileMeta = (filename) => {
-  const markdownWithMeta = fs.readFileSync(
-    path.join('pages/p', filename),
-    'utf-8'
-  );
-  const slug = filename.replace(/\.mdx$/, '');
-  const { data: meta } = matter(markdownWithMeta);
-  return {
-    slug,
-    ...{ ...meta },
-  };
-};
-
-/**
- * Read all posts with matter info.
- * @returns
- */
-export const postLists = async () => {
+const postLists = () => {
   const files = fs.readdirSync(path.join('pages/p'));
-  const posts = files.map(readFileMeta).sort(sortByDate);
 
-  return posts;
+  const myPosts = [];
+  files.map((f, fi) => {
+    const content = fs.readFileSync(path.join('pages/p', f), 'utf-8');
+    // const { data: meta, content } = matter(markdownWithMeta);
+
+    const slug = f.replace(/\.mdx$/, '');
+    const regex = /^#{2}(?!#)(.*)/gm;
+
+    content.match(regex)?.map((heading, i) => {
+      myPosts.push({
+        content: null,
+        hierarchy: {
+          lvl0: 'Post',
+          lvl1: slug,
+          lvl2: heading.substring(3),
+        },
+        type: 'lvl2',
+        objectID: `${nanoid()}-https://rua.plus/p/${slug}`,
+        url: 'https://rua.plus/p/' + slug,
+      });
+    });
+
+    myPosts.push({
+      content: null,
+      hierarchy: {
+        lvl0: 'Post',
+        lvl1: slug,
+      },
+      type: 'lvl1',
+      objectID: `${nanoid()}-https://rua.plus/p/${slug}`,
+      url: 'https://rua.plus/p/' + slug,
+    });
+  });
+  return myPosts;
 };
 
 async function main() {
@@ -55,9 +60,7 @@ async function main() {
   }
 
   try {
-    const posts = await postLists();
-    // All objects must have an unique objectID
-    posts.forEach((p) => (p.objectID = p.slug));
+    const posts = postLists();
 
     // initialize the client with your environment variables
     const client = algoliasearch(
@@ -84,9 +87,10 @@ async function main() {
   }
 }
 
-// (async () => {
-//   const posts = await postLists();
-//   console.log(posts);
-// })();
+function test() {
+  const posts = postLists();
+  posts.map((p) => console.log(p));
+}
+// test();
 
 main();
