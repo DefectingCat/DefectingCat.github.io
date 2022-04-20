@@ -13,6 +13,7 @@
   "dependencies": {
     "@codesandbox/sandpack-react": "^0.18.1",
     "@docsearch/react": "3",
+    "@giscus/react": "^2.0.3",
     "@mapbox/rehype-prism": "^0.8.0",
     "@mdx-js/loader": "^2.1.1",
     "@mdx-js/react": "^2.1.0",

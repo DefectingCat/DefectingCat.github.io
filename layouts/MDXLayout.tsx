@@ -7,6 +7,7 @@ import PostTOC from 'components/post/PostTOC';
 
 const Footer = dynamic(() => import('components/Footer'));
 const HeadBar = dynamic(() => import('components/NavBar'));
+const PostComment = dynamic(() => import('components/post/PostComment'));
 
 interface Props extends MyMatters {
   showTOC?: boolean;
@@ -29,6 +30,8 @@ const MainLayout: FC<Props> = ({ title, date, showTOC = true, children }) => {
           {showTOC && <PostTOC headings={headings} />}
 
           {children}
+
+          <PostComment />
         </article>
       </main>
 
