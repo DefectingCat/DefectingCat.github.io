@@ -34,13 +34,15 @@ const PostComment: FC = () => {
         {inView && (
           <Giscus
             repo="DefectingCat/DefectingCat.github.io"
-            repoId={process.env.NEXT_PUBLIC_GISCUS_REPO_ID ?? ''}
-            categoryId={process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID ?? ''}
+            repoId="MDEwOlJlcG9zaXRvcnkyMzk5MTUyNzk="
+            categoryId="DIC_kwDODkzRD84B_43T"
             category="Announcements"
-            mapping="title"
+            mapping="pathname"
             reactionsEnabled="1"
             emitMetadata="0"
             theme={currentTheme === 'dark' ? 'dark_dimmed' : 'light'}
+            loading="lazy"
+            inputPosition="top"
           />
         )}
       </div>

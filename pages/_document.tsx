@@ -12,7 +12,7 @@ export default function Document() {
         />
         <link
           rel="preconnect"
-          href="https://YOUR_APP_ID-dsn.algolia.net"
+          href="https://ZUYZBUJBQW-dsn.algolia.net"
           crossOrigin=""
         />
       </Head>
