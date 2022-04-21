@@ -21,6 +21,11 @@ const txtMenu = [
   },
   {
     id: 2,
+    name: 'Gists',
+    path: '/gists',
+  },
+  {
+    id: 3,
     name: 'About',
     path: '/about',
   },
@@ -96,6 +101,7 @@ const HeadBar: FC = () => {
                 appId={process.env.NEXT_PUBLIC_ALGOLIA_APP_ID ?? ''}
                 indexName="RUA"
                 apiKey={process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ADMIN_KEY ?? ''}
+                placeholder="Search..."
               />
             </li>
           </ul>
