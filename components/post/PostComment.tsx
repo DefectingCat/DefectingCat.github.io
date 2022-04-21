@@ -2,6 +2,7 @@ import { FC } from 'react';
 import Giscus from '@giscus/react';
 import { useTheme } from 'next-themes';
 import useInView from 'lib/hooks/useInView';
+import Image from 'next/image';
 
 const PostComment: FC = () => {
   const { systemTheme, theme } = useTheme();
@@ -11,7 +12,23 @@ const PostComment: FC = () => {
 
   return (
     <>
-      <div className="my-4"></div>
+      <div className="text-center">
+        {currentTheme === 'dark' ? (
+          <Image
+            src="/images/img/comment-line-dark.svg"
+            width={300}
+            height={150}
+            alt=""
+          />
+        ) : (
+          <Image
+            src="/images/img/comment-line.svg"
+            width={300}
+            height={150}
+            alt=""
+          />
+        )}
+      </div>
 
       <div className="mt-4" ref={ref}>
         {inView && (

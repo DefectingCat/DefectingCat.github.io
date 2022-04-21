@@ -1,6 +1,7 @@
 .imageContainer {
   width: 100%;
   padding: 10px 0;
+  position: relative;
 }
 
 .imageContainer > span {
