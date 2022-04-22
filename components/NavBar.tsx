@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import Link from 'next/link';
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
 import dynamic from 'next/dynamic';
 import { DocSearch } from '@docsearch/react';
@@ -36,6 +36,9 @@ const HeadBar: FC = () => {
   const handleClick = useCallback(() => {
     setShowMenu((showMenu) => !showMenu);
   }, []);
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   return (
     <>
@@ -97,12 +100,16 @@ const HeadBar: FC = () => {
               <DarkModeBtn />
             </li>
             <li className="DocSearch-wrapper">
-              <DocSearch
-                appId={process.env.NEXT_PUBLIC_ALGOLIA_APP_ID ?? ''}
-                indexName="RUA"
-                apiKey={process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ADMIN_KEY ?? ''}
-                placeholder="Search..."
-              />
+              {mounted && (
+                <DocSearch
+                  appId={process.env.NEXT_PUBLIC_ALGOLIA_APP_ID ?? ''}
+                  indexName="RUA"
+                  apiKey={
+                    process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ADMIN_KEY ?? ''
+                  }
+                  placeholder="Search..."
+                />
+              )}
             </li>
           </ul>
         </nav>
