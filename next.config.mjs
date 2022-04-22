@@ -4,6 +4,10 @@ import rehypePrism from '@mapbox/rehype-prism';
 import composePlugins from 'next-compose-plugins';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
+// import { remarkCodeHike } from '@code-hike/mdx';
+// import { createRequire } from 'module';
+// const require = createRequire(import.meta.url);
+// const theme = require('shiki/themes/nord.json');
 
 const composedConfig = composePlugins([
   mdx({
@@ -21,6 +25,8 @@ const composedConfig = composePlugins([
     //    reactMode: 'concurrent',
     // },
     experimental: {
+      // runtime: 'nodejs',
+      // reactMode: 'concurrent',
       outputStandalone: true,
     },
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],

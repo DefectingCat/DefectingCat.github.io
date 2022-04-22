@@ -4,6 +4,9 @@ import { ReactElement } from 'react';
 import { Gist, GithubUser } from 'types';
 import Image from 'next/image';
 import classNames from 'classnames';
+import dynamic from 'next/dynamic';
+
+const GistsCode = dynamic(() => import('components/gists/GistsCode'));
 
 const Gists = ({
   gists,
@@ -43,18 +46,9 @@ const Gists = ({
           <div className="py-4 md:pl-8">
             {gists.map((g) => (
               <div key={g.id}>
-                {Object.keys(g.files).map((f) => {
-                  const file = g.files;
-                  return (
-                    <div key={file[f].raw_url} className="py-4 text-sm">
-                      <h1 className="md:text-lg">
-                        {g.owner.login} / {file[f].filename}
-                      </h1>
-                      <p className="text-gray-400">Update at: {g.updated_at}</p>
-                      <p className="text-gray-500">{g.description}</p>
-                    </div>
-                  );
-                })}
+                {Object.keys(g.files).map((f) => (
+                  <GistsCode key={g.files[f].raw_url} gist={g} f={f} />
+                ))}
               </div>
             ))}
           </div>
