@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import dynamic from 'next/dynamic';
 import { MyMatters } from 'types';
 import { renderToString } from 'react-dom/server';
@@ -11,9 +10,10 @@ const PostComment = dynamic(() => import('components/post/PostComment'));
 
 interface Props extends MyMatters {
   showTOC?: boolean;
+  children: React.ReactNode;
 }
 
-const MainLayout: FC<Props> = ({ title, date, showTOC = true, children }) => {
+const MainLayout = ({ title, date, showTOC = true, children }: Props) => {
   const contentString = renderToString(children as any);
   const headings = getHeadings(contentString);
 

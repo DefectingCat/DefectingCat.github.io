@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import { Gist } from 'types';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
@@ -12,7 +11,7 @@ interface Props {
   f: string;
 }
 
-const GistsCode: FC<Props> = ({ gist, f }) => {
+const GistsCode = ({ gist, f }: Props) => {
   const file = gist.files;
 
   const test = unified()

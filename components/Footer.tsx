@@ -1,9 +1,8 @@
-import { FC } from 'react';
 import { FiGithub } from 'react-icons/fi';
 
 const nowDay = new Date().getFullYear();
 
-const Footer: FC = () => {
+const Footer = () => {
   return (
     <>
       <footer className="max-w-6xl px-4 mx-auto xl:px-0">

@@ -1,10 +1,9 @@
-import { FC } from 'react';
 import Giscus from '@giscus/react';
 import { useTheme } from 'next-themes';
 import useInView from 'lib/hooks/useInView';
 import Image from 'next/image';
 
-const PostComment: FC = () => {
+const PostComment = () => {
   const { systemTheme, theme } = useTheme();
   const currentTheme = theme === 'system' ? systemTheme : theme;
 

@@ -1,8 +1,8 @@
 import { useTheme } from 'next-themes';
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiMoon, FiSun } from 'react-icons/fi';
 
-const DarkModeBtn: FC = () => {
+const DarkModeBtn = () => {
   const [mounted, setMounted] = useState(false);
   const { systemTheme, theme, setTheme } = useTheme();
   // When mounted on client, now we can show the UI

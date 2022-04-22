@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import { Sandpack, SandpackProps } from '@codesandbox/sandpack-react';
 import '@codesandbox/sandpack-react/dist/index.css';
 import { useTheme } from 'next-themes';
@@ -6,7 +5,7 @@ import useInView from 'lib/hooks/useInView';
 
 interface Props extends SandpackProps {}
 
-const RUASandpack: FC<Props> = ({ ...rest }) => {
+const RUASandpack = ({ ...rest }: Props) => {
   const { systemTheme, theme } = useTheme();
   const currentTheme = theme === 'system' ? systemTheme : theme;
 

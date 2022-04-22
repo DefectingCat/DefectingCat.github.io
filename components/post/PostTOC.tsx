@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import { getHeadings } from 'lib/utils';
 import Anchor from 'components/mdx/Anchor';
 
@@ -6,7 +5,7 @@ interface Props {
   headings: ReturnType<typeof getHeadings>;
 }
 
-const PostTOC: FC<Props> = ({ headings }) => {
+const PostTOC = ({ headings }: Props) => {
   return (
     <>
       <h2>What&apos;s inside?</h2>

@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import Link from 'next/link';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
 import dynamic from 'next/dynamic';
 import { DocSearch } from '@docsearch/react';
@@ -31,7 +31,7 @@ const txtMenu = [
   },
 ];
 
-const HeadBar: FC = () => {
+const HeadBar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const handleClick = useCallback(() => {
     setShowMenu((showMenu) => !showMenu);

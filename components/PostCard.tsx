@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { FC } from 'react';
 import { Post } from 'types';
 import cn from 'classnames';
 
@@ -7,7 +6,7 @@ interface Props {
   post: Post;
 }
 
-const PostCard: FC<Props> = ({ post }) => {
+const PostCard = ({ post }: Props) => {
   return (
     <>
       <Link href={`/p/${post.slug}`} passHref>
