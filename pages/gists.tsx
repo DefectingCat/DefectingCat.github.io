@@ -43,7 +43,7 @@ const Gists = ({
             </div>
           </div>
 
-          <div className="py-4 md:pl-8">
+          <div className="py-4 overflow-hidden md:pl-8">
             {gists.map((g) => (
               <div key={g.id}>
                 {Object.keys(g.files).map((f) => (
