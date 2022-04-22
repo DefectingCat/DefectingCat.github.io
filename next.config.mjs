@@ -21,12 +21,9 @@ const composedConfig = composePlugins([
   /** @type {import('next').NextConfig} */
   {
     reactStrictMode: true,
-    // experimental: {
-    //    reactMode: 'concurrent',
-    // },
     experimental: {
-      // runtime: 'nodejs',
-      // reactMode: 'concurrent',
+      runtime: 'nodejs',
+      reactMode: 'concurrent',
       outputStandalone: true,
     },
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
