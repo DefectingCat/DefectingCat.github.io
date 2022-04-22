@@ -6,6 +6,8 @@ import rehypePrism from '@mapbox/rehype-prism';
 import remarkGfm from 'remark-gfm';
 import { createElement, Fragment, useEffect, useState } from 'react';
 import rehypeReact from 'rehype-react';
+import useInView from 'lib/hooks/useInView';
+import classNames from 'classnames';
 
 interface Props {
   gist: Gist;
@@ -17,16 +19,18 @@ const GistsCode = ({ gist, f }: Props) => {
   const url = file[f].raw_url;
   const format = file[f].language;
 
+  const { ref, inView } = useInView();
+
   const [rawCode, setRawCode] = useState('');
   useEffect(() => {
-    getRawCode();
+    inView && getRawCode();
 
     async function getRawCode() {
       const res = await fetch(url);
       const raw = await res.text();
       setRawCode(`\`\`\`${format ?? ''}\n${raw}`);
     }
-  }, [format, url]);
+  }, [format, url, inView]);
 
   const code = unified()
     .use(remarkParse)
@@ -41,7 +45,13 @@ const GistsCode = ({ gist, f }: Props) => {
 
   return (
     <>
-      <div className="pb-4 text-sm">
+      <div
+        className={classNames('pb-4 text-sm')}
+        style={{
+          minHeight: !inView ? '320px' : 'auto',
+        }}
+        ref={ref}
+      >
         <h1 className="md:text-lg">
           {gist.owner.login} / {file[f].filename}
         </h1>

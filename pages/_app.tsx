@@ -7,11 +7,9 @@ import 'styles/prism-one-dark.css';
 import 'styles/rua.css';
 import { MDXProvider } from '@mdx-js/react';
 import Anchor from 'components/mdx/Anchor';
-import Image from 'components/mdx/Image';
 
 const components = {
   a: Anchor,
-  img: Image,
 };
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {

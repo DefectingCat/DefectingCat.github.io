@@ -4,12 +4,13 @@ date: '2022-04-18'
 tags: ['Next.js', 'JavaScript']
 ---
 
-import Layout from 'layouts/MDXLayout.tsx';
+import Layout from 'layouts/MDXLayout';
 import dynamic from 'next/dynamic';
+import Image from 'components/mdx/Image';
+import image1 from 'public/images/p/setting-up-docsearch-for-nextjs/cannot-login-to-algolia-crawler.png';
+import image2 from 'public/images/p/setting-up-docsearch-for-nextjs/index-format.png';
 
-export const RUASandpack = dynamic(() =>
-  import('components/RUA/RUASandpack.tsx')
-);
+export const RUASandpack = dynamic(() => import('components/RUA/RUASandpack'));
 
 export const meta = {
   title: 'Setting up DocSearch for next.js',
@@ -41,7 +42,7 @@ They introduct the [Algolia Crawler web interface](https://crawler.algolia.com/a
 
 But i can login with my Algolia account.
 
-![Can't login to Algolia Crawler](/images/p/setting-up-docsearch-for-nextjs/cannot-login-to-algolia-crawler.png)
+<Image src={image1} alt="Can't login to Algolia Crawler" />
 
 So i need find another way to generate my post index.
 
@@ -51,7 +52,7 @@ The DocSearch frontend UI read result as specific format. We just need to provid
 
 Then DocSearch fronted UI can works.
 
-![Index format](/images/p/setting-up-docsearch-for-nextjs/index-format.png)
+<Image src={image2} alt="Index format" />
 
 So we need post same format to Algolia.
 

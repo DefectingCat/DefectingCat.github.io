@@ -1,23 +1,12 @@
-import NextImage from 'next/image';
-import { DetailedHTMLProps, ImgHTMLAttributes } from 'react';
-import styles from './Image.module.css';
+import NextImage, { ImageProps } from 'next/image';
 
-interface Props
-  extends DetailedHTMLProps<
-    ImgHTMLAttributes<HTMLImageElement>,
-    HTMLImageElement
-  > {}
+interface Props extends ImageProps {}
 
-const Image = ({ src, alt }: Props) => {
+const Image = ({ alt, ...rest }: Props) => {
   return (
     <>
-      <span className={styles.imageContainer}>
-        <NextImage
-          src={src ?? ''}
-          alt={alt}
-          layout="fill"
-          className={styles.image}
-        />
+      <span className="block text-center">
+        <NextImage alt={alt} {...rest} />
         {alt && <span className="block text-center text-gray-400">{alt}</span>}
       </span>
     </>

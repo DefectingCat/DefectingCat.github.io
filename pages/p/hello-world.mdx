@@ -4,12 +4,10 @@ date: '2022-04-06'
 tags: ['Hello world']
 ---
 
-import Layout from 'layouts/MDXLayout.tsx';
+import Layout from 'layouts/MDXLayout';
 import dynamic from 'next/dynamic';
 
-export const RUASandpack = dynamic(() =>
-  import('components/RUA/RUASandpack.tsx')
-);
+export const RUASandpack = dynamic(() => import('components/RUA/RUASandpack'));
 
 export const meta = {
   title: 'Hello world',

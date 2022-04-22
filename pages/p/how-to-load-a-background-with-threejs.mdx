@@ -4,12 +4,12 @@ date: '2022-04-13'
 tags: ['three.js', 'JavaScript']
 ---
 
-import Layout from 'layouts/MDXLayout.tsx';
+import Layout from 'layouts/MDXLayout';
 import dynamic from 'next/dynamic';
+import Image from 'components/mdx/Image';
+import image1 from 'public/images/p/how-to-load-a-background-with-threejs/Skybox_example.png';
 
-export const RUASandpack = dynamic(() =>
-  import('components/RUA/RUASandpack.tsx')
-);
+export const RUASandpack = dynamic(() => import('components/RUA/RUASandpack'));
 
 export const meta = {
   title: 'How to load a background with three.js',
@@ -142,7 +142,7 @@ We need set texture to cube box each side. so we need six pictures.
 
 The skybos is six images that can be connected each other.
 
-![skyboxes_example.png](/images/p/how-to-load-a-background-with-threejs/Skybox_example.png)
+<Image src={image1} alt="Skyboxes example" />
 
 We just need load six images in some order, and set them to the scene background.
 

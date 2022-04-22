@@ -22,7 +22,7 @@ const composedConfig = composePlugins([
   {
     reactStrictMode: true,
     experimental: {
-      runtime: 'nodejs',
+      // runtime: 'nodejs',
       outputStandalone: true,
     },
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
