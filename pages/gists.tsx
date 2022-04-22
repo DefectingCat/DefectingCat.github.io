@@ -5,6 +5,7 @@ import { Gist, GithubUser } from 'types';
 import Image from 'next/image';
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
+import avatar from 'public/images/img/avatar.svg';
 
 const GistsCode = dynamic(() => import('components/gists/GistsCode'));
 
@@ -24,10 +25,8 @@ const Gists = ({
               )}
             >
               <Image
-                src={user.avatar_url}
-                alt="User Avatar"
-                width={280}
-                height={280}
+                src={avatar}
+                alt="Avatar"
                 priority
                 className="rounded-full"
               />
