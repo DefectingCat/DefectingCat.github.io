@@ -24,7 +24,6 @@ const GistsCode = ({ gist, f }: Props) => {
     async function getRawCode() {
       const res = await fetch(url);
       const raw = await res.text();
-      console.log(raw);
       setRawCode(`\`\`\`${format ?? ''}\n${raw}`);
     }
   }, [format, url]);

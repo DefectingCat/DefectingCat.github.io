@@ -16,7 +16,7 @@ const Gists = ({
     <>
       <main className="max-w-5xl px-4 mx-auto lg:px-0">
         <div className="md:flex">
-          <div className="flex items-center md:block">
+          <div className="flex items-center flex-1 max-w-[280px] md:block">
             <div
               className={classNames(
                 'w-16 h-16 mr-4 overflow-hidden',
@@ -43,7 +43,7 @@ const Gists = ({
             </div>
           </div>
 
-          <div className="py-4 overflow-hidden md:pl-8">
+          <div className="flex-1 py-4 overflow-hidden md:pl-8">
             {gists.map((g) => (
               <div key={g.id}>
                 {Object.keys(g.files).map((f) => (
