@@ -42,6 +42,7 @@ const Gists = ({
               <h1 className="text-xl font-bold font-Barlow md:text-2xl">
                 {user.name}
               </h1>
+
               <h2 className="text-xl text-gray-400 font-Barlow md:text-2xl">
                 {user.login}
               </h2>

@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import useInView from 'lib/hooks/useInView';
 import loadingImage from 'public/images/img/mona-loading-default.gif';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface Props {
   gist: Gist;
@@ -49,7 +50,8 @@ const GistsCode = ({ gist, f }: Props) => {
     <>
       <div ref={ref} className={classNames('pb-4 text-sm')}>
         <h1 className="md:text-lg">
-          {gist.owner.login} / {file[f].filename}
+          {gist.owner.login} /
+          <Link href={`/g/${gist.id}`}>{file[f].filename}</Link>
         </h1>
         <p className="text-gray-400">Update at: {gist.updated_at}</p>
         <p className="text-gray-500">{gist.description}</p>
