@@ -1,4 +1,3 @@
-import MainLayout from 'layouts/MainLayout';
 import { InferGetStaticPropsType } from 'next';
 import { ReactElement } from 'react';
 import { postLists } from 'lib/posts';
@@ -6,6 +5,7 @@ import cn from 'classnames';
 import dynamic from 'next/dynamic';
 
 const PostCard = dynamic(() => import('components/PostCard'));
+const MainLayout = dynamic(() => import('layouts/MainLayout'));
 
 const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (

@@ -1,9 +1,11 @@
 import cn from 'classnames';
-import MainLayout from 'layouts/MainLayout';
 import Head from 'next/head';
 import { useState } from 'react';
 import type { NextPageWithLayout } from 'types';
 import style from 'styles/index/index.module.css';
+import dynamic from 'next/dynamic';
+
+const MainLayout = dynamic(() => import('layouts/MainLayout'));
 
 const Home: NextPageWithLayout = () => {
   const [showLang, setShowLang] = useState(false);

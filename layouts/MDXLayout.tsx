@@ -13,7 +13,7 @@ interface Props extends MyMatters {
   children: React.ReactNode;
 }
 
-const MainLayout = ({ title, date, showTOC = true, children }: Props) => {
+const MDXLayout = ({ title, date, showTOC = true, children }: Props) => {
   const contentString = renderToString(children as any);
   const headings = getHeadings(contentString);
 
@@ -40,4 +40,4 @@ const MainLayout = ({ title, date, showTOC = true, children }: Props) => {
   );
 };
 
-export default MainLayout;
+export default MDXLayout;

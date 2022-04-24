@@ -1,5 +1,7 @@
-import MainLayout from 'layouts/MainLayout';
+import dynamic from 'next/dynamic';
 import { NextPageWithLayout } from 'types';
+
+const MainLayout = dynamic(() => import('layouts/MainLayout'));
 
 const About: NextPageWithLayout = () => {
   return (
