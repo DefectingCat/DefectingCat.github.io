@@ -1,4 +1,3 @@
-import MainLayout from 'layouts/MainLayout';
 import { InferGetStaticPropsType } from 'next';
 import { ReactElement } from 'react';
 import { Gist, GithubUser } from 'types';
@@ -7,6 +6,7 @@ import classNames from 'classnames';
 import dynamic from 'next/dynamic';
 import avatar from 'public/images/img/avatar.svg';
 
+const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const GistsCode = dynamic(() => import('components/gists/GistsCode'));
 
 const Gists = ({
@@ -17,7 +17,13 @@ const Gists = ({
     <>
       <main className="max-w-5xl px-4 mx-auto lg:px-0">
         <div className="md:flex">
-          <div className="flex items-center flex-1 max-w-[280px] md:block">
+          <div
+            className={classNames(
+              'flex items-center flex-1',
+              'max-w-[280px] md:block',
+              'mb-4'
+            )}
+          >
             <div
               className={classNames(
                 'w-16 h-16 mr-4 overflow-hidden',

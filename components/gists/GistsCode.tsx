@@ -6,8 +6,10 @@ import rehypePrism from '@mapbox/rehype-prism';
 import remarkGfm from 'remark-gfm';
 import { createElement, Fragment, useEffect, useState } from 'react';
 import rehypeReact from 'rehype-react';
-import useInView from 'lib/hooks/useInView';
 import classNames from 'classnames';
+import useInView from 'lib/hooks/useInView';
+import loadingImage from 'public/images/img/mona-loading-default.gif';
+import Image from 'next/image';
 
 interface Props {
   gist: Gist;
@@ -30,7 +32,7 @@ const GistsCode = ({ gist, f }: Props) => {
       const raw = await res.text();
       setRawCode(`\`\`\`${format ?? ''}\n${raw}`);
     }
-  }, [format, url, inView]);
+  }, [format, inView, url]);
 
   const code = unified()
     .use(remarkParse)
@@ -45,20 +47,27 @@ const GistsCode = ({ gist, f }: Props) => {
 
   return (
     <>
-      <div
-        className={classNames('pb-4 text-sm')}
-        style={{
-          minHeight: !inView ? '320px' : 'auto',
-        }}
-        ref={ref}
-      >
+      <div ref={ref} className={classNames('pb-4 text-sm')}>
         <h1 className="md:text-lg">
           {gist.owner.login} / {file[f].filename}
         </h1>
         <p className="text-gray-400">Update at: {gist.updated_at}</p>
         <p className="text-gray-500">{gist.description}</p>
 
-        {code}
+        {rawCode ? (
+          <div className={classNames(!rawCode && 'min-h-[300px]')}>{code}</div>
+        ) : (
+          <div
+            className={classNames(
+              'h-[300px] flex',
+              'flex-col items-center justify-center'
+            )}
+          >
+            <Image width={50} height={50} src={loadingImage} alt="Loading" />
+
+            <span className="my-4">rua rua rua...</span>
+          </div>
+        )}
       </div>
     </>
   );
