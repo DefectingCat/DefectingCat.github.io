@@ -34,45 +34,11 @@ const Gist = ({ gist }: InferGetStaticPropsType<typeof getStaticProps>) => {
             <p className="pb-2 text-lg text-gray-500">{gist.description}</p>
 
             {Object.keys(gist.files).map((f) => (
-              <div key={gist.files[f].raw_url} className={styles.wrapper}>
-                <div className="h-[30px] bg-[#f6f8fa] dark:bg-[hsl(220,13%,18%)] flex">
-                  <div className="flex items-center h-full mx-3">
-                    <div
-                      className={classNames(
-                        'box-border inline-block',
-                        'w-[13px] h-[13px] mr-2',
-                        'rounded-full bg-[#ce5347]'
-                      )}
-                    ></div>
-                    <div
-                      className={classNames(
-                        'box-border inline-block',
-                        'w-[13px] h-[13px] mr-2',
-                        'rounded-full bg-[#d6a243]'
-                      )}
-                    ></div>
-                    <div
-                      className={classNames(
-                        'box-border inline-block',
-                        'w-[13px] h-[13px]',
-                        'rounded-full bg-[#58a942]'
-                      )}
-                    ></div>
-                  </div>
-
-                  <div
-                    className={classNames(
-                      'px-4 bg-white',
-                      'leading-[30px]',
-                      'dark:bg-[hsl(220,13%,18%)] dark:border-b dark:border-b-[rgb(128,203,196)]'
-                    )}
-                  >
-                    {gist.files[f].filename}
-                  </div>
-                </div>
-
-                <GistsCode file={gist.files[f]} />
-              </div>
+              <GistsCode
+                key={gist.files[f].raw_url}
+                file={gist.files[f]}
+                showFileName
+              />
             ))}
           </div>
         </div>

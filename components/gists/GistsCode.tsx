@@ -6,12 +6,15 @@ import rehypePrism from '@mapbox/rehype-prism';
 import remarkGfm from 'remark-gfm';
 import { createElement, Fragment } from 'react';
 import rehypeReact from 'rehype-react';
+import styles from './styles.module.css';
+import classNames from 'classnames';
 
 interface Props {
   file: GistsFile;
+  showFileName?: boolean;
 }
 
-const GistsCode = ({ file }: Props) => {
+const GistsCode = ({ file, showFileName = false }: Props) => {
   const code = unified()
     .use(remarkParse)
     .use(remarkRehype)
@@ -25,7 +28,49 @@ const GistsCode = ({ file }: Props) => {
 
   return (
     <>
-      <div>{code}</div>
+      {showFileName ? (
+        <div className={styles.wrapper}>
+          <div className="h-[30px] bg-[#f6f8fa] dark:bg-[hsl(220,13%,18%)] flex">
+            <div className="flex items-center h-full mx-3">
+              <div
+                className={classNames(
+                  'box-border inline-block',
+                  'w-[13px] h-[13px] mr-2',
+                  'rounded-full bg-[#ce5347]'
+                )}
+              ></div>
+              <div
+                className={classNames(
+                  'box-border inline-block',
+                  'w-[13px] h-[13px] mr-2',
+                  'rounded-full bg-[#d6a243]'
+                )}
+              ></div>
+              <div
+                className={classNames(
+                  'box-border inline-block',
+                  'w-[13px] h-[13px]',
+                  'rounded-full bg-[#58a942]'
+                )}
+              ></div>
+            </div>
+
+            <div
+              className={classNames(
+                'px-4 bg-white',
+                'leading-[30px]',
+                'dark:bg-[hsl(220,13%,18%)] dark:border-b dark:border-b-[rgb(128,203,196)]'
+              )}
+            >
+              {file.filename}
+            </div>
+          </div>
+
+          <div>{code}</div>
+        </div>
+      ) : (
+        <div>{code}</div>
+      )}
     </>
   );
 };
