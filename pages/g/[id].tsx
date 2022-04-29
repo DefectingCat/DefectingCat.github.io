@@ -4,11 +4,13 @@ import { ReactElement } from 'react';
 import { SignalGist } from 'types';
 import avatar from 'public/images/img/avatar.svg';
 import Image from 'next/image';
-import styles from './styles.module.css';
-import classNames from 'classnames';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const GistsCode = dynamic(() => import('components/gists/GistsCode'));
+
+dayjs.extend(relativeTime);
 
 const Gist = ({ gist }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
@@ -28,7 +30,9 @@ const Gist = ({ gist }: InferGetStaticPropsType<typeof getStaticProps>) => {
               {gist.owner.login} /{Object.keys(gist.files)[0]}
             </h1>
           </div>
-          <p className="pl-10 text-gray-400 ">Last active: {gist.updated_at}</p>
+          <p className="pl-10 text-gray-400 ">
+            Last active: {dayjs(gist.updated_at).fromNow()}
+          </p>
 
           <div className="py-4">
             <p className="pb-2 text-lg text-gray-500">{gist.description}</p>

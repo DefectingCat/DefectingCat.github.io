@@ -6,10 +6,14 @@ import classNames from 'classnames';
 import dynamic from 'next/dynamic';
 import avatar from 'public/images/img/avatar.svg';
 import Link from 'next/link';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const GistsCode = dynamic(() => import('components/gists/GistsCode'));
 const Anchor = dynamic(() => import('components/mdx/Anchor'));
+
+dayjs.extend(relativeTime);
 
 const Gists = ({
   gists,
@@ -62,7 +66,9 @@ const Gists = ({
                         <Anchor external={false}>{g.files[f].filename}</Anchor>
                       </Link>
                     </h1>
-                    <p className="text-gray-400">Update at: {g.updated_at}</p>
+                    <p className="text-gray-400">
+                      Last active: {dayjs(g.updated_at).fromNow()}
+                    </p>
                     <p className="text-gray-500">{g.description}</p>
 
                     <GistsCode file={g.files[f]} />
