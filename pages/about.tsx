@@ -3,6 +3,9 @@ import { NextPageWithLayout } from 'types';
 import avatar from 'public/images/img/avatar.svg';
 import Image from 'next/image';
 import classNames from 'classnames';
+import Tab from 'components/RUA/tab';
+
+const TabItem = Tab.Item;
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 
