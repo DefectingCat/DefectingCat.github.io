@@ -13,7 +13,7 @@ const PostCard = ({ post }: Props) => {
         <a>
           <article
             className={cn(
-              'rounded-xl py-4 px-5 md:p-7',
+              'rounded-xl py-4 px-5 md:p-7 ',
               'hover:bg-sky-100 hover:bg-opacity-50',
               // 'hover:bg-rua-gray-100 hover:bg-opacity-10',
               'dark:hover:bg-rua-gray-800 dark:hover:bg-opacity-100',

@@ -4,7 +4,12 @@ import { postLists } from 'lib/posts';
 import cn from 'classnames';
 import dynamic from 'next/dynamic';
 
-const PostCard = dynamic(() => import('components/PostCard'));
+const PostCardLoading = dynamic(
+  () => import('components/RUA/loading/PostCardLoading')
+);
+const PostCard = dynamic(() => import('components/PostCard'), {
+  loading: () => <PostCardLoading />,
+});
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 
 const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {

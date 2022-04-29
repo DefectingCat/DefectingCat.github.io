@@ -9,8 +9,11 @@ import Link from 'next/link';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
+const Loading = dynamic(() => import('components/RUA/loading/RUALoading'));
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
-const GistsCode = dynamic(() => import('components/gists/GistsCode'));
+const GistsCode = dynamic(() => import('components/gists/GistsCode'), {
+  loading: () => <Loading />,
+});
 const Anchor = dynamic(() => import('components/mdx/Anchor'));
 
 dayjs.extend(relativeTime);
