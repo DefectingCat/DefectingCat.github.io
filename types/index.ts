@@ -47,6 +47,7 @@ export interface GistsFile {
   language: GistsLanguage | null;
   raw_url: string;
   size: number;
+  content: string;
 }
 export enum GistsLanguage {
   JavaScript = 'JavaScript',

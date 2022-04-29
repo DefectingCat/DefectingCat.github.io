@@ -71,7 +71,7 @@ const Gist = ({ gist }: InferGetStaticPropsType<typeof getStaticProps>) => {
                   </div>
                 </div>
 
-                <GistsCode gist={gist} f={f} />
+                <GistsCode file={gist.files[f]} />
               </div>
             ))}
           </div>
@@ -92,14 +92,24 @@ export const getStaticProps: GetStaticProps<{
   id: string | undefined;
   gist: SignalGist;
 }> = async ({ params }) => {
+  const gist = (await fetch(`https://api.github.com/gists/${params?.id}`).then(
+    (res) => res.json()
+  )) as SignalGist;
+
+  await Promise.all(
+    Object.keys(gist.files).map(async (f) => {
+      gist.files[f].content = await fetch(gist.files[f].raw_url).then((res) =>
+        res.text()
+      );
+    })
+  );
+
   return {
     props: {
       id: params?.id?.toString(),
-      gist: await fetch(`https://api.github.com/gists/${params?.id}`).then(
-        (res) => res.json()
-      ),
+      gist,
     },
-    revalidate: 3600,
+    revalidate: 600,
   };
 };
 

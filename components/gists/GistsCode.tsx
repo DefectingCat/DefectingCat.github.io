@@ -1,39 +1,17 @@
-import { Gist } from 'types';
+import { GistsFile } from 'types';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import rehypePrism from '@mapbox/rehype-prism';
 import remarkGfm from 'remark-gfm';
-import { createElement, Fragment, useEffect, useState } from 'react';
+import { createElement, Fragment } from 'react';
 import rehypeReact from 'rehype-react';
-import classNames from 'classnames';
-import useInView from 'lib/hooks/useInView';
-import loadingImage from 'public/images/img/mona-loading-default.gif';
-import Image from 'next/image';
 
 interface Props {
-  gist: Gist;
-  f: string;
+  file: GistsFile;
 }
 
-const GistsCode = ({ gist, f }: Props) => {
-  const file = gist.files;
-  const url = file[f].raw_url;
-  const format = file[f].language;
-
-  const { ref, inView } = useInView();
-
-  const [rawCode, setRawCode] = useState('');
-  useEffect(() => {
-    inView && getRawCode();
-
-    async function getRawCode() {
-      const res = await fetch(url);
-      const raw = await res.text();
-      setRawCode(`\`\`\`${format ?? ''}\n${raw}`);
-    }
-  }, [format, inView, url]);
-
+const GistsCode = ({ file }: Props) => {
   const code = unified()
     .use(remarkParse)
     .use(remarkRehype)
@@ -43,26 +21,11 @@ const GistsCode = ({ gist, f }: Props) => {
       createElement,
       Fragment,
     })
-    .processSync(rawCode).result;
+    .processSync(`\`\`\`${file.language ?? ''}\n${file.content}`).result;
 
   return (
     <>
-      <div ref={ref}>
-        {rawCode ? (
-          <div className={classNames(!rawCode && 'min-h-[300px]')}>{code}</div>
-        ) : (
-          <div
-            className={classNames(
-              'h-[300px] flex loading',
-              'flex-col items-center justify-center'
-            )}
-          >
-            <Image width={50} height={50} src={loadingImage} alt="Loading" />
-
-            <span className="my-4">rua rua rua...</span>
-          </div>
-        )}
-      </div>
+      <div>{code}</div>
     </>
   );
 };

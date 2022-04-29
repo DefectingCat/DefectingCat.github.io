@@ -15,7 +15,6 @@ const Gists = ({
   gists,
   user,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  console.log(gists);
   return (
     <>
       <main className="max-w-5xl px-4 mx-auto lg:px-0">
@@ -66,7 +65,7 @@ const Gists = ({
                     <p className="text-gray-400">Update at: {g.updated_at}</p>
                     <p className="text-gray-500">{g.description}</p>
 
-                    <GistsCode gist={g} f={f} />
+                    <GistsCode file={g.files[f]} />
                   </div>
                 ))}
               </div>
@@ -82,14 +81,29 @@ export const getStaticProps: GetStaticProps<{
   gists: Gist[];
   user: GithubUser;
 }> = async () => {
+  const gists = (await fetch(
+    'https://api.github.com/users/DefectingCat/gists'
+  ).then((res) => res.json())) as Gist[];
+  const user = await fetch('https://api.github.com/users/DefectingCat').then(
+    (res) => res.json()
+  );
+
+  await Promise.all(
+    gists.map(async (g) => {
+      await Promise.all(
+        Object.keys(g.files).map(async (f) => {
+          g.files[f].content = await fetch(g.files[f].raw_url).then((res) =>
+            res.text()
+          );
+        })
+      );
+    })
+  );
+
   return {
     props: {
-      gists: await fetch(
-        'https://api.github.com/users/DefectingCat/gists'
-      ).then((res) => res.json()),
-      user: await fetch('https://api.github.com/users/DefectingCat').then(
-        (res) => res.json()
-      ),
+      gists,
+      user,
     },
     revalidate: 600,
   };
