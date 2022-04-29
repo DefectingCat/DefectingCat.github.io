@@ -11,6 +11,8 @@ import image1 from 'public/images/p/setting-up-docsearch-for-nextjs/cannot-login
 import image2 from 'public/images/p/setting-up-docsearch-for-nextjs/index-format.png';
 
 export const RUASandpack = dynamic(() => import('components/RUA/RUASandpack'));
+export const Tab = dynamic(() => import('components/RUA/Tab'));
+export const TabItem = dynamic(() => import('components/RUA/Tab/TabItem'));
 
 export const meta = {
   title: 'Setting up DocSearch for next.js',
@@ -59,3 +61,12 @@ So we need post same format to Algolia.
 ## Push our data
 
 Algolia provide JavaScript API Client to push data to Algolia.
+
+<Tab defaultValue="yarn">
+  <TabItem label="yarn" value="yarn">
+    <pre>yarn add algoliasearch-client</pre>
+  </TabItem>
+  <TabItem label="npm" value="npm">
+    <pre>npm install algoliasearch-client</pre>
+  </TabItem>
+</Tab>

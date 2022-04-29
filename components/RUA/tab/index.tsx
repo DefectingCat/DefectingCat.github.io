@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useCallback } from 'react';
+import { ItemProps } from './TabItem';
 
 type Props = {
   defaultValue: string | number;
@@ -26,7 +27,11 @@ const Tab = ({ defaultValue, children }: Props) => {
   return (
     <>
       <div>
-        <ul role="tablist" aria-orientation="horizontal" className="flex">
+        <ul
+          role="tablist"
+          aria-orientation="horizontal"
+          className="flex list-none !p-[unset]"
+        >
           {children.map((child) => (
             <li
               role="tab"
@@ -34,12 +39,13 @@ const Tab = ({ defaultValue, children }: Props) => {
               key={child.props.label}
               onClick={() => handleSwitch(child.props.value)}
               className={classNames(
-                'px-4 py-4 rounded-t-lg',
+                'px-5 py-3 rounded-t-lg',
                 child.props.value === currentValue &&
                   'text-teal-500 border-b-[3px] border-teal-500',
                 'select-none cursor-pointer',
                 'min-w-[76px] text-center',
-                'hover:bg-gray-200 dark:hover:bg-rua-gray-800'
+                'hover:bg-gray-200 dark:hover:bg-rua-gray-800',
+                '!list-none'
               )}
             >
               {child.props.label}
@@ -48,23 +54,6 @@ const Tab = ({ defaultValue, children }: Props) => {
         </ul>
 
         <div className="mt-4">{childrenWithProps}</div>
-      </div>
-    </>
-  );
-};
-
-type ItemProps = {
-  value: string | number;
-  label: string | number;
-  showContent?: boolean;
-  children?: React.ReactNode;
-};
-
-Tab.Item = function TabItem({ showContent, children }: ItemProps) {
-  return (
-    <>
-      <div className={classNames('hidden', showContent && '!block')}>
-        {children}
       </div>
     </>
   );

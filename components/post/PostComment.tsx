@@ -11,7 +11,7 @@ const PostComment = () => {
 
   return (
     <>
-      <div className="text-center">
+      <div className="text-center select-none">
         {currentTheme === 'dark' ? (
           <Image
             src="/images/img/comment-line-dark.svg"
