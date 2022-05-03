@@ -66,6 +66,17 @@ const HeadBar = () => {
           className="cursor-pointer w-7 h-7 md:hidden"
           onClick={handleClick}
         />
+
+        {/* Disable modal */}
+        <div
+          className={cn(
+            'fixed top-0 left-0 bottom-0 right-0',
+            'z-10 lg:hidden',
+            showMenu || 'hidden'
+          )}
+          onClick={handleClick}
+        ></div>
+
         <nav
           className={cn(
             'text-lg md:block',
@@ -75,7 +86,7 @@ const HeadBar = () => {
             'p-5 right-6 top-14',
             'md:bg-transparent md:p-[unset]',
             'md:right-[unset] md:top-[unset]',
-            'w-1/3 md:w-auto z-10',
+            'w-1/3 md:w-auto z-20',
             'md:dark:bg-transparent',
             showMenu || 'hidden'
           )}
