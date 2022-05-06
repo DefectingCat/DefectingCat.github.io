@@ -12,6 +12,7 @@ module.exports = {
         'Aref-Ruqaa': ['Aref Ruqaa', 'serif'],
         Barlow: ['Barlow', 'sans-serif'],
         Poppins: ['Poppins', 'sans-serif'],
+        Mono: ['JetBrains Mono', 'monospace'],
       },
       colors: {
         bluish: {

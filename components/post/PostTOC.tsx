@@ -18,7 +18,8 @@ const PostTOC = ({ headings }: Props) => {
       <div
         className={classNames(
           'rounded-lg transition-all',
-          'duration-500 overflow-hidden'
+          'duration-500 overflow-hidden',
+          'my-4'
         )}
         style={{
           maxHeight: show ? (headings?.length ?? 0) * 50 + 70 : 70,
@@ -31,7 +32,8 @@ const PostTOC = ({ headings }: Props) => {
             'rounded-lg border border-gray-300',
             'dark:bg-rua-gray-800 dark:border-rua-gray-600',
             'select-none cursor-pointer',
-            'flex justify-between items-center'
+            'flex justify-between items-center',
+            '!text-2xl'
           )}
           onClick={handleClick}
         >

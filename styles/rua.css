@@ -244,6 +244,7 @@ h6:hover::before {
   font-size: 85%;
   background-color: var(--color-neutral-muted);
   border-radius: 6px;
+  font-family: 'JetBrains Mono', -apple-system, monospace;
 }
 #article pre > code {
   padding: 0;
@@ -252,14 +253,16 @@ h6:hover::before {
   white-space: pre;
   background: transparent;
   border: 0;
+  font-family: 'JetBrains Mono', -apple-system, monospace;
 }
 
 #article code,
 #article kbd,
 #article pre,
 #article samp {
-  font-family: monospace, monospace;
-  font-size: 17px;
+  /* font-family: monospace, monospace; */
+  font-family: 'JetBrains Mono', -apple-system, monospace;
+  font-size: 16px;
 }
 
 #article mark {
@@ -335,4 +338,9 @@ h6:hover::before {
 
 #article img {
   border-radius: 6px;
+}
+
+#article .cm-editor .cm-line {
+  font-size: 15px;
+  font-family: 'JetBrains Mono', -apple-system, monospace;
 }

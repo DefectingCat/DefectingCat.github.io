@@ -1,6 +1,6 @@
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
-import { FiMoon, FiSun } from 'react-icons/fi';
+import { FiMoon, FiSun, FiHeart } from 'react-icons/fi';
 
 const DarkModeBtn = () => {
   const [mounted, setMounted] = useState(false);
@@ -10,7 +10,12 @@ const DarkModeBtn = () => {
 
   const currentTheme = theme === 'system' ? systemTheme : theme;
 
-  if (!mounted) return null;
+  if (!mounted)
+    return (
+      <button>
+        <FiHeart className="w-5 h-5" />
+      </button>
+    );
 
   return (
     <>

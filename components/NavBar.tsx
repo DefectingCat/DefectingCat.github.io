@@ -111,7 +111,7 @@ const HeadBar = () => {
               <DarkModeBtn />
             </li>
             <li className="DocSearch-wrapper">
-              {mounted && (
+              {mounted ? (
                 <DocSearch
                   appId={process.env.NEXT_PUBLIC_ALGOLIA_APP_ID ?? ''}
                   indexName="RUA"
@@ -120,6 +120,13 @@ const HeadBar = () => {
                   }
                   placeholder="Search..."
                 />
+              ) : (
+                <div
+                  className={cn(
+                    'w-[164.453px] h-[30px]',
+                    'bg-[#ebedf0] rounded-[40px] animate-pulse'
+                  )}
+                ></div>
               )}
             </li>
           </ul>
