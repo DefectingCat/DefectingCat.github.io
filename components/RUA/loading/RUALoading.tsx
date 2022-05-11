@@ -1,17 +1,33 @@
 import React from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
 import loadingImage from 'public/images/img/mona-loading-default.gif';
+import loadingImageDimmed from 'public/images/img/mona-loading-dimmed.gif';
 import Image from 'next/image';
+import { useTheme } from 'next-themes';
 
-const RUALoading = () => {
+type Props = {
+  classNames?: string;
+};
+
+const RUALoading = ({ classNames }: Props) => {
+  const { systemTheme, theme } = useTheme();
+  const currentTheme = theme === 'system' ? systemTheme : theme;
+
   return (
     <div
-      className={classNames(
-        'h-[300px] flex loading',
-        'flex-col items-center justify-center'
+      className={cn(
+        'flex loading',
+        'flex-col items-center justify-center',
+        classNames
       )}
     >
-      <Image width={50} height={50} src={loadingImage} alt="Loading" />
+      <Image
+        width={50}
+        height={50}
+        priority
+        src={currentTheme === 'dark' ? loadingImageDimmed : loadingImage}
+        alt="Loading"
+      />
 
       <span className="my-4">rua rua rua...</span>
     </div>

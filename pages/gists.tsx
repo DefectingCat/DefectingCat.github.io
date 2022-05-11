@@ -8,11 +8,11 @@ import avatar from 'public/images/img/avatar.svg';
 import Link from 'next/link';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import Loading from 'components/RUA/loading/RUALoading'
+import Loading from 'components/RUA/loading/RUALoading';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const GistsCode = dynamic(() => import('components/gists/GistsCode'), {
-  loading: () => <Loading />,
+  loading: () => <Loading classNames="h-[300px]" />,
 });
 const Anchor = dynamic(() => import('components/mdx/Anchor'));
 
