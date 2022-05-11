@@ -1,7 +1,5 @@
 import dynamic from 'next/dynamic';
 import { NextPageWithLayout } from 'types';
-import avatar from 'public/images/img/avatar.svg';
-import Image from 'next/image';
 import classNames from 'classnames';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
@@ -12,11 +10,11 @@ const About: NextPageWithLayout = () => {
       <main className="h-[calc(100vh-142px)] flex flex-col">
         <div
           className={classNames(
-            'flex items-center max-w-3xl',
+            'flex max-w-3xl',
             'px-10 py-4 mx-auto lg:px-0 lg:py-10'
           )}
         >
-          <div className="w-16 h-16 lg:w-[72px] lg:h-[72px]">
+          {/* <div className="w-16 h-16 lg:w-[72px] lg:h-[72px]">
             <Image
               src={avatar}
               alt="Avatar"
@@ -35,7 +33,10 @@ const About: NextPageWithLayout = () => {
             <div className="text-base lg:text-lg">
               Long may the sun shine ☀️
             </div>
-          </div>
+          </div> */}
+          <h1 className="text-5xl font-semibold font-Barlow">About</h1>
+
+          <p></p>
         </div>
       </main>
     </>
