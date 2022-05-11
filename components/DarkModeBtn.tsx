@@ -1,6 +1,7 @@
+import classNames from 'classnames';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
-import { FiMoon, FiSun, FiHeart } from 'react-icons/fi';
+import { FiMoon, FiSun } from 'react-icons/fi';
 
 const DarkModeBtn = () => {
   const [mounted, setMounted] = useState(false);
@@ -13,7 +14,12 @@ const DarkModeBtn = () => {
   if (!mounted)
     return (
       <button>
-        <FiHeart className="w-5 h-5" />
+        <div
+          className={classNames(
+            'w-5 h-5 rounded-md animate-pulse',
+            'bg-gray-300 dark:bg-gray-500'
+          )}
+        ></div>
       </button>
     );
 
