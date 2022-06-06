@@ -1,4 +1,4 @@
-import { GetStaticProps, InferGetStaticPropsType, GetStaticPaths } from 'next';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
 import { ReactElement } from 'react';
 import { SignalGist } from 'types';

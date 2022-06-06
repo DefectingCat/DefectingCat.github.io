@@ -26,7 +26,7 @@ const composedConfig = composePlugins([
       outputStandalone: true,
     },
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-    images: { domains: ['avatars.githubusercontent.com'] },
+    images: {domains: ['avatars.githubusercontent.com']},
   },
 ]);
 

@@ -4,6 +4,7 @@ date: '2022-04-18'
 tags: ['Next.js', 'JavaScript']
 ---
 
+
 import Layout from 'layouts/MDXLayout';
 import dynamic from 'next/dynamic';
 import Image from 'components/mdx/Image';
@@ -20,7 +21,7 @@ export const meta = {
   tags: ['Next.js', 'JavaScript'],
 };
 
-export default ({ children }) => <Layout {...meta}>{children}</Layout>;
+export default ({children}) => <Layout {...meta}>{children}</Layout>;
 
 I use next.js and mdx plugin to build my blog site. It's a next.js SSG project.
 
@@ -44,7 +45,7 @@ They introduct the [Algolia Crawler web interface](https://crawler.algolia.com/a
 
 But i can't login with my Algolia account.
 
-<Image src={image1} alt="Can't login to Algolia Crawler" />
+<Image src={image1} alt="Can't login to Algolia Crawler"/>
 
 So i need find another way to generate my post index.
 
@@ -54,7 +55,7 @@ The DocSearch frontend UI read result as specific format. We just need to provid
 
 Then DocSearch fronted UI can works.
 
-<Image src={image2} alt="Index format" />
+<Image src={image2} alt="Index format"/>
 
 So we need post same format to Algolia.
 

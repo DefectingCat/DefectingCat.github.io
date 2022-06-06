@@ -1,16 +1,16 @@
 .imageContainer {
-  width: 100%;
-  padding: 10px 0;
-  position: relative;
+    width: 100%;
+    padding: 10px 0;
+    position: relative;
 }
 
 .imageContainer > span {
-  position: unset !important;
+    position: unset !important;
 }
 
 .imageContainer .image {
-  object-fit: contain;
-  width: 100% !important;
-  position: relative !important;
-  height: unset !important;
+    object-fit: contain;
+    width: 100% !important;
+    position: relative !important;
+    height: unset !important;
 }

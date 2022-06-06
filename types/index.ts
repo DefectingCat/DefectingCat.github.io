@@ -41,6 +41,7 @@ export interface Gist {
   owner: GistsOwner;
   truncated: boolean;
 }
+
 export interface GistsFile {
   filename: string;
   type: GistsFileType;
@@ -49,17 +50,20 @@ export interface GistsFile {
   size: number;
   content: string;
 }
+
 export enum GistsLanguage {
   JavaScript = 'JavaScript',
   PublicKey = 'Public Key',
   TypeScript = 'TypeScript',
 }
+
 export enum GistsFileType {
   ApplicationJavascript = 'application/javascript',
   ApplicationPGPSignature = 'application/pgp-signature',
   TextPlain = 'text/plain',
   VideoMP2T = 'video/MP2T',
 }
+
 export interface GistsOwner {
   login: GistsLogin;
   id: number;
@@ -80,24 +84,31 @@ export interface GistsOwner {
   type: GistsOwnerType;
   site_admin: boolean;
 }
+
 export enum GistsEventsURL {
   HTTPSAPIGithubCOMUsersDefectingCatEventsPrivacy = 'https://api.github.com/users/DefectingCat/events{/privacy}',
 }
+
 export enum GistsFollowingURL {
   HTTPSAPIGithubCOMUsersDefectingCatFollowingOtherUser = 'https://api.github.com/users/DefectingCat/following{/other_user}',
 }
+
 export enum GistsURL {
   HTTPSAPIGithubCOMUsersDefectingCatGistsGistID = 'https://api.github.com/users/DefectingCat/gists{/gist_id}',
 }
+
 export enum GistsLogin {
   DefectingCat = 'DefectingCat',
 }
+
 export enum GistsNodeID {
   MDQ6VXNlcjI1MDMzNDkz = 'MDQ6VXNlcjI1MDMzNDkz',
 }
+
 export enum GistsStarredURL {
   HTTPSAPIGithubCOMUsersDefectingCatStarredOwnerRepo = 'https://api.github.com/users/DefectingCat/starred{/owner}{/repo}',
 }
+
 export enum GistsOwnerType {
   User = 'User',
 }

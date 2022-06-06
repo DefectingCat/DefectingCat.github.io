@@ -3,7 +3,7 @@ import { ReactElement } from 'react';
 import { postLists } from 'lib/posts';
 import cn from 'classnames';
 import dynamic from 'next/dynamic';
-import PostCardLoading from 'components/RUA/loading/PostCardLoading'
+import PostCardLoading from 'components/RUA/loading/PostCardLoading';
 
 const PostCard = dynamic(() => import('components/PostCard'), {
   loading: () => <PostCardLoading />,

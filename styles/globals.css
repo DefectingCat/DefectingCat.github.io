@@ -3,18 +3,18 @@
 @tailwind utilities;
 
 * {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 *::selection {
-  background: hsl(230, 1%, 90%);
-  color: inherit;
+    background: hsl(230, 1%, 90%);
+    color: inherit;
 }
 
 .dark *::selection {
-  background: hsl(220, 13%, 28%);
-  color: inherit;
-  text-shadow: none;
+    background: hsl(220, 13%, 28%);
+    color: inherit;
+    text-shadow: none;
 }
 
 /* 
@@ -26,79 +26,88 @@ font-family: 'Poppins', sans-serif;
 */
 
 @layer base {
-  body {
-    @apply text-gray-600 bg-bluish-gray dark:bg-rua-gray-900 dark:text-gray-200;
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Helvetica Neue',
-      Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', miui,
-      'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
-  }
+    body {
+        @apply text-gray-600 bg-bluish-gray dark:bg-rua-gray-900 dark:text-gray-200;
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Helvetica Neue',
+        Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', miui,
+        'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
+    }
 
-  img,
-  iframe {
-    @apply dark:brightness-75;
-  }
+    img,
+    iframe {
+        @apply dark:brightness-75;
+    }
 
-  /* 滚动槽 */
-  ::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
-  }
-  ::-webkit-scrollbar-track {
-    border-radius: 3px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.08);
-  }
-  ::-webkit-scrollbar-track-piece {
-    background: 0 0;
-  }
-  /* 滚动条滑块 */
-  ::-webkit-scrollbar-thumb {
-    @apply bg-gray-400;
-    border-radius: 3px;
-    box-shadow: inset 0 0 10px rgba(185, 69, 69, 0.2);
-  }
+    /* 滚动槽 */
+    ::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+
+    ::-webkit-scrollbar-track {
+        border-radius: 3px;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.08);
+    }
+
+    ::-webkit-scrollbar-track-piece {
+        background: 0 0;
+    }
+
+    /* 滚动条滑块 */
+    ::-webkit-scrollbar-thumb {
+        @apply bg-gray-400;
+        border-radius: 3px;
+        box-shadow: inset 0 0 10px rgba(185, 69, 69, 0.2);
+    }
 }
 
 /* DocSearch */
 html.dark {
-  --docsearch-text-color: #f5f6f7;
-  --docsearch-container-background: rgba(9, 10, 17, 0.8);
-  --docsearch-modal-background: #15172a;
-  --docsearch-modal-shadow: inset 1px 1px 0 0 #2c2e40, 0 3px 8px 0 #000309;
-  --docsearch-searchbox-background: #090a11;
-  --docsearch-searchbox-focus-background: #000;
-  --docsearch-hit-color: #bec3c9;
-  --docsearch-hit-shadow: none;
-  --docsearch-hit-background: #090a11;
-  --docsearch-key-gradient: linear-gradient(-26.5deg, #565872, #31355b);
-  --docsearch-key-shadow: inset 0 -2px 0 0 #282d55, inset 0 0 1px 1px #51577d,
+    --docsearch-text-color: #f5f6f7;
+    --docsearch-container-background: rgba(9, 10, 17, 0.8);
+    --docsearch-modal-background: #15172a;
+    --docsearch-modal-shadow: inset 1px 1px 0 0 #2c2e40, 0 3px 8px 0 #000309;
+    --docsearch-searchbox-background: #090a11;
+    --docsearch-searchbox-focus-background: #000;
+    --docsearch-hit-color: #bec3c9;
+    --docsearch-hit-shadow: none;
+    --docsearch-hit-background: #090a11;
+    --docsearch-key-gradient: linear-gradient(-26.5deg, #565872, #31355b);
+    --docsearch-key-shadow: inset 0 -2px 0 0 #282d55, inset 0 0 1px 1px #51577d,
     0 2px 2px 0 rgba(3, 4, 9, 0.3);
-  --docsearch-footer-background: #1e2136;
-  --docsearch-footer-shadow: inset 0 1px 0 0 rgba(73, 76, 106, 0.5),
+    --docsearch-footer-background: #1e2136;
+    --docsearch-footer-shadow: inset 0 1px 0 0 rgba(73, 76, 106, 0.5),
     0 -4px 8px 0 rgba(0, 0, 0, 0.2);
-  --docsearch-logo-color: #fff;
-  --docsearch-muted-color: #7f8497;
+    --docsearch-logo-color: #fff;
+    --docsearch-muted-color: #7f8497;
 }
+
 html {
-  --docsearch-primary-color: rgb(75, 85, 99) !important;
+    --docsearch-primary-color: rgb(75, 85, 99) !important;
 }
+
 .DocSearch-wrapper .DocSearch-Button {
-  margin-left: unset;
+    margin-left: unset;
 }
+
 @media (max-width: 640px) {
-  .DocSearch-wrapper .DocSearch-Button {
-    align-items: unset;
-    background: unset;
-    padding: unset;
-    height: unset;
-  }
+    .DocSearch-wrapper .DocSearch-Button {
+        align-items: unset;
+        background: unset;
+        padding: unset;
+        height: unset;
+    }
 }
+
 .DocSearch-wrapper .DocSearch-Button .DocSearch-Search-Icon {
-  @apply text-gray-600 dark:text-gray-200;
+    @apply text-gray-600 dark:text-gray-200;
 }
+
 .DocSearch .DocSearch-Form {
-  border-radius: 6px;
+    border-radius: 6px;
 }
+
 .DocSearch .DocSearch-Screen-Icon {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }

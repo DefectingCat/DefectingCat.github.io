@@ -1,8 +1,8 @@
-import { config } from 'dotenv';
+import {config} from 'dotenv';
 import algoliasearch from 'algoliasearch/lite.js';
 import fs from 'fs';
 import path from 'path';
-import { nanoid } from 'nanoid';
+import {nanoid} from 'nanoid';
 
 /**
  * Build post information for Algolia search.
@@ -95,5 +95,6 @@ function test() {
   const posts = postLists();
   posts.map((p) => console.log(p));
 }
+
 // test();
 main();

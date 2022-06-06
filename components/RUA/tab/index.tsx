@@ -1,6 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
-import { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ItemProps } from './TabItem';
 
 type Props = {

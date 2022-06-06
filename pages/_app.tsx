@@ -8,7 +8,7 @@ import 'styles/rua.css';
 import { MDXProvider } from '@mdx-js/react';
 import Anchor from 'components/mdx/Anchor';
 import { useRouter } from 'next/router';
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 
 const VercelLoading = dynamic(

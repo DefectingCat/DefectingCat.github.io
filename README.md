@@ -4,7 +4,7 @@
 
 <div>
   <img src="https://img.shields.io/github/workflow/status/DefectingCat/DefectingCat.github.io/Export%20static%20to%20github%20pages?style=flat-square"  alt=''/>
-  
+
   <a href="https://rua.plus/" target="_blank" rel="noreferrer">
     <img src="https://img.shields.io/website?style=flat-square&url=https%3A%2F%2Frua.plus"  alt=''/>
   </a>
