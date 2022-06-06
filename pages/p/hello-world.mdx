@@ -4,7 +4,6 @@ date: '2022-04-06'
 tags: ['Hello world']
 ---
 
-
 import Layout from 'layouts/MDXLayout';
 import dynamic from 'next/dynamic';
 
@@ -16,7 +15,7 @@ export const meta = {
   tags: ['Hello world'],
 };
 
-export default ({children}) => (
+export default ({ children }) => (
   <Layout {...meta} showTOC={false}>
     {children}
   </Layout>

@@ -13,7 +13,7 @@ const PostCardLoading = () => {
       )}
     >
       <div className="flex-1">
-        <h2 className="mb-4 bg-gray-300 rounded-lg w-96 h-9 dark:bg-gray-500"></h2>
+        <h2 className="mb-4 bg-gray-300 rounded-lg w-full md:w-96 h-9 dark:bg-gray-500"></h2>
 
         <div className="flex items-center text-sm">
           <div className="w-16 h-5 mr-4 bg-gray-300 rounded-md last:mr-0 dark:bg-gray-500"></div>
@@ -21,7 +21,7 @@ const PostCardLoading = () => {
         </div>
       </div>
 
-      <div className="w-24 h-6 bg-gray-300 rounded-md dark:bg-gray-500"></div>
+      <div className="hidden md:block w-24 h-6 bg-gray-300 rounded-md dark:bg-gray-500"></div>
     </article>
   );
 };

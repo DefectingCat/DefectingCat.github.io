@@ -4,7 +4,6 @@ date: '2022-04-14'
 tags: [Linux, Server]
 ---
 
-
 import Layout from 'layouts/MDXLayout';
 import Image from 'components/mdx/Image';
 import image1 from 'public/images/p/my-develop-environmental/logo.svg';
@@ -16,11 +15,11 @@ export const meta = {
   tags: ['Linux', 'Server'],
 };
 
-export default ({children}) => <Layout {...meta}>{children}</Layout>;
+export default ({ children }) => <Layout {...meta}>{children}</Layout>;
 
 最近迁移了自己的小服务器，也顺便把本机的环境重新设置了一下，其中环节还是有点复杂的小细节的。所以打算整理下思路，方便以后再设置同样环境。
 
-<Image src={image1} placeholder="" priority/>
+<Image src={image1} placeholder="" priority />
 
 ## 对于服务器
 
@@ -204,7 +203,7 @@ source $HOME/.cargo/env
 
 对于 Windoiws 环境则需要在“设置”-“高级系统设置”-“环境变量”中添加对应的变量到用户/系统变量中。
 
-<Image src={image2} alt="Windows environmentail"/>
+<Image src={image2} alt="Windows environmentail" />
 
 当然这几个主要的变量可以放在 `.zshrc` 中，以后更新还会用到的。
 
