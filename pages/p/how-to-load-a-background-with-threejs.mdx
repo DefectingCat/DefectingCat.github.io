@@ -21,7 +21,7 @@ export default ({ children }) => <Layout {...meta}>{children}</Layout>;
 
 ## Three.js setup
 
-First, we need a little bit of setup. Let's create a sence and a camera.
+First, we need a little of setup. Let's create a scene and a camera.
 
 ```ts
 const scene = new THREE.Scene();
@@ -45,7 +45,7 @@ const renderer = new THREE.WebGLRenderer({
 });
 ```
 
-With a little bit of setup:
+With a little of setup:
 
 ```ts
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -132,15 +132,15 @@ Image a camera inside a cube box. The cube box is our scene. just like `const sc
 new THREE.PerspectiveCamera();
 ```
 
-Now, we are inside of the cube box. The inside texture of the box is our sky. Our camera can see all six texture surround ours give ours the illusion the we are within a larger environment.
+Now, we are inside the cube box. The inside texture of the box is our sky. Our camera can see all six texture surround ours give ours the illusion the we are within a larger environment.
 
-We know how skyboxes works. But what is a skyboxeses?
+We know how sky boxes works. But what is a sky boxes?
 
 ### Texture
 
 We need set texture to cube box each side. so we need six pictures.
 
-The skybos is six images that can be connected each other.
+The skybox is six images that can be connected each other.
 
 <Image src={image1} alt="Skyboxes example" />
 
@@ -267,6 +267,6 @@ export default function App() {
 
 For OrbitControls, the camera must be in not default position. I set it to `(0, 1, 0)`.
 
-Also we need set to the camera up vector `camera.up.set(0, 0, 1);`.
+Also, we need set to the camera up vector `camera.up.set(0, 0, 1);`.
 
 > OrbitControls must execute update method after that it created `controls.update();`
