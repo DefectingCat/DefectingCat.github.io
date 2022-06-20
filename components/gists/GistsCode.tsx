@@ -59,7 +59,8 @@ const GistsCode = ({ file, showFileName = false }: Props) => {
               className={classNames(
                 'px-4 bg-white',
                 'leading-[30px]',
-                'dark:bg-[hsl(220,13%,18%)] dark:border-b dark:border-b-[rgb(128,203,196)]'
+                'dark:bg-[hsl(220,13%,18%)] dark:border-b dark:border-b-[rgb(128,203,196)]',
+                'overflow-hidden whitespace-nowrap overflow-ellipsis'
               )}
             >
               {file.filename}

@@ -31,7 +31,7 @@ export const getUser = async () => {
   )) as GithubUser;
 };
 
-export const getSignalGist = async (id: string | string[] | undefined) => {
+export const getSignalGist = async (id: string) => {
   return (await fetch(`${baseUrl}/gists/${id}`, { headers }).then((res) =>
     res.json()
   )) as SignalGist;

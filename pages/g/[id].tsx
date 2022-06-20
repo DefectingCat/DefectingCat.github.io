@@ -29,13 +29,14 @@ const Gist = ({ gist }: InferGetStaticPropsType<typeof getStaticProps>) => {
               height={32}
               className="rounded-full "
             />
-            <h1 className="ml-2 text-xl">
+            <h1 className="ml-2 overflow-hidden text-xl whitespace-nowrap overflow-ellipsis">
               <Link href={`/gists`} passHref>
                 <Anchor external={false}>{gist.owner.login}</Anchor>
               </Link>
               /{Object.keys(gist.files)[0]}
             </h1>
           </div>
+
           <p className="pl-10 text-gray-400 ">
             Last active: {dayjs(gist.updated_at).fromNow()}
           </p>
@@ -68,6 +69,12 @@ export const getStaticProps: GetStaticProps<{
   id: string | undefined;
   gist: SignalGist;
 }> = async ({ params }) => {
+  if (typeof params?.id !== 'string') {
+    return {
+      notFound: true,
+    };
+  }
+
   const gist = await getSignalGist(params?.id);
 
   await Promise.all(
