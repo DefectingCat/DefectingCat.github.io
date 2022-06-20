@@ -9,6 +9,8 @@ import Link from 'next/link';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import Loading from 'components/RUA/loading/RUALoading';
+import { getGists, getUser } from 'lib/fetcher';
+import { FiLink, FiMail, FiTwitter } from 'react-icons/fi';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const GistsCode = dynamic(() => import('components/gists/GistsCode'), {
@@ -56,6 +58,34 @@ const Gists = ({
                 {user.login}
               </h2>
             </div>
+
+            <div className="my-4">{user.bio}</div>
+
+            <div>
+              <div className="flex items-center mb-1">
+                <FiMail className="mr-2" />
+                <span>
+                  <a href={`mailto:${user.email}`}>{user.email}</a>
+                </span>
+              </div>
+              <div className="flex items-center mb-1">
+                <FiLink className="mr-2" />
+                <a href={user.blog} target="_blank" rel="noreferrer">
+                  {user.blog}
+                </a>
+              </div>
+              <div className="flex items-center mb-1">
+                <FiTwitter className="mr-2" />
+                <a
+                  rel="noreferrer"
+                  target="_blank"
+                  href={`https://twitter.com/${user.twitter_username}`}
+                >
+                  {' '}
+                  @{user.twitter_username}
+                </a>
+              </div>
+            </div>
           </div>
 
           <div className="flex-1 py-4 overflow-hidden md:pl-8">
@@ -90,12 +120,8 @@ export const getStaticProps: GetStaticProps<{
   gists: Gist[];
   user: GithubUser;
 }> = async () => {
-  const gists = (await fetch(
-    'https://api.github.com/users/DefectingCat/gists'
-  ).then((res) => res.json())) as Gist[];
-  const user = await fetch('https://api.github.com/users/DefectingCat').then(
-    (res) => res.json()
-  );
+  const gists = await getGists();
+  const user = await getUser();
 
   await Promise.all(
     gists.map(async (g) => {
