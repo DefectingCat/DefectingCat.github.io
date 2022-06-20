@@ -1,16 +1,16 @@
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import { ReactElement } from 'react';
-import { Gist, GithubUser } from 'types';
-import Image from 'next/image';
 import classNames from 'classnames';
-import dynamic from 'next/dynamic';
-import avatar from 'public/images/img/avatar.svg';
-import Link from 'next/link';
+import Loading from 'components/RUA/loading/RUALoading';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import Loading from 'components/RUA/loading/RUALoading';
 import { getGists, getUser } from 'lib/fetcher';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
+import Link from 'next/link';
+import avatar from 'public/images/img/avatar.svg';
+import { ReactElement } from 'react';
 import { FiLink, FiMail, FiTwitter } from 'react-icons/fi';
+import { Gist, GithubUser } from 'types';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const GistsCode = dynamic(() => import('components/gists/GistsCode'), {
@@ -81,7 +81,6 @@ const Gists = ({
                   target="_blank"
                   href={`https://twitter.com/${user.twitter_username}`}
                 >
-                  {' '}
                   @{user.twitter_username}
                 </a>
               </div>

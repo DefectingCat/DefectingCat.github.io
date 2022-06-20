@@ -1,7 +1,7 @@
-import { Gist, GithubUser } from 'types';
+import { Gist, GithubUser, SignalGist } from 'types';
 import { Base64 } from 'js-base64';
 
-const baseUrl = 'https://api.github.com/';
+const baseUrl = 'https://api.github.com';
 const username = 'DefectingCat';
 const password = process.env.NEXT_PUBLIC_GITHUB_API;
 
@@ -15,10 +15,10 @@ headers.set(
  * Get all gists
  * @returns
  */
-export const getGists = async () => {
-  return (await fetch(`${baseUrl}users/${username}/gists`, { headers }).then(
-    (res) => res.json()
-  )) as Gist[];
+export const getGists = async (page = 1, perPage = 10) => {
+  return (await fetch(`${baseUrl}/gists?per_page=${perPage}&page=${page}`, {
+    headers,
+  }).then((res) => res.json())) as Gist[];
 };
 
 /**
@@ -26,7 +26,13 @@ export const getGists = async () => {
  * @returns
  */
 export const getUser = async () => {
-  return (await fetch(`${baseUrl}user`, { headers }).then((res) =>
+  return (await fetch(`${baseUrl}/user`, { headers }).then((res) =>
     res.json()
   )) as GithubUser;
+};
+
+export const getSignalGist = async (id: string | string[] | undefined) => {
+  return (await fetch(`${baseUrl}/gists/${id}`, { headers }).then((res) =>
+    res.json()
+  )) as SignalGist;
 };

@@ -1,11 +1,14 @@
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
-import dynamic from 'next/dynamic';
-import { ReactElement } from 'react';
-import { SignalGist } from 'types';
-import avatar from 'public/images/img/avatar.svg';
-import Image from 'next/image';
+import Anchor from 'components/mdx/Anchor';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { getSignalGist } from 'lib/fetcher';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
+import Link from 'next/link';
+import avatar from 'public/images/img/avatar.svg';
+import { ReactElement } from 'react';
+import { SignalGist } from 'types';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const GistsCode = dynamic(() => import('components/gists/GistsCode'));
@@ -27,7 +30,10 @@ const Gist = ({ gist }: InferGetStaticPropsType<typeof getStaticProps>) => {
               className="rounded-full "
             />
             <h1 className="ml-2 text-xl">
-              {gist.owner.login} /{Object.keys(gist.files)[0]}
+              <Link href={`/gists`} passHref>
+                <Anchor external={false}>{gist.owner.login}</Anchor>
+              </Link>
+              /{Object.keys(gist.files)[0]}
             </h1>
           </div>
           <p className="pl-10 text-gray-400 ">
@@ -62,9 +68,7 @@ export const getStaticProps: GetStaticProps<{
   id: string | undefined;
   gist: SignalGist;
 }> = async ({ params }) => {
-  const gist = (await fetch(`https://api.github.com/gists/${params?.id}`).then(
-    (res) => res.json()
-  )) as SignalGist;
+  const gist = await getSignalGist(params?.id);
 
   await Promise.all(
     Object.keys(gist.files).map(async (f) => {

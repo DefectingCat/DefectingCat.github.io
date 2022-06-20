@@ -1,15 +1,15 @@
-import 'styles/globals.css';
-import Head from 'next/head';
-import { AppPropsWithLayout } from 'types';
-import { ThemeProvider } from 'next-themes';
-import 'styles/prism-one-light.css';
-import 'styles/prism-one-dark.css';
-import 'styles/rua.css';
 import { MDXProvider } from '@mdx-js/react';
 import Anchor from 'components/mdx/Anchor';
+import { ThemeProvider } from 'next-themes';
+import dynamic from 'next/dynamic';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
+import 'styles/globals.css';
+import 'styles/prism-one-dark.css';
+import 'styles/prism-one-light.css';
+import 'styles/rua.css';
+import { AppPropsWithLayout } from 'types';
 
 const VercelLoading = dynamic(
   () => import('components/RUA/loading/VercelLoading')
