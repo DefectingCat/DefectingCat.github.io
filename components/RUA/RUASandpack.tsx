@@ -1,5 +1,4 @@
 import { Sandpack, SandpackProps } from '@codesandbox/sandpack-react';
-import '@codesandbox/sandpack-react/dist/index.css';
 import { useTheme } from 'next-themes';
 import useInView from 'lib/hooks/useInView';
 
