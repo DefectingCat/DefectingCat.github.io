@@ -1,5 +1,5 @@
-import { Gist, GithubUser, SignalGist } from 'types';
 import { Base64 } from 'js-base64';
+import { Gist, GithubUser, SignalGist } from 'types';
 
 const baseUrl = 'https://api.github.com';
 const username = 'DefectingCat';
@@ -12,7 +12,7 @@ headers.set(
 );
 
 /**
- * Get all gists
+ * Get all gists.
  * @returns
  */
 export const getGists = async (page = 1, perPage = 10) => {
@@ -31,6 +31,11 @@ export const getUser = async () => {
   )) as GithubUser;
 };
 
+/**
+ * Get one gist.
+ * @param id
+ * @returns
+ */
 export const getSignalGist = async (id: string) => {
   return (await fetch(`${baseUrl}/gists/${id}`, { headers }).then((res) =>
     res.json()

@@ -21,7 +21,6 @@ const Gists = ({
       <main className="max-w-5xl px-4 mx-auto lg:px-0">
         <div className="md:flex">
           <UserInfo user={user} />
-
           <FileContent gists={gists} />
         </div>
       </main>

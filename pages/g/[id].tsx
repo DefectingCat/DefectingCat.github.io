@@ -19,7 +19,7 @@ const Gist = ({ gist }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
       <main className="max-w-5xl px-4 mx-auto lg:px-0">
-        <div className={'pb-4 text-sm'}>
+        <div className="pb-4 text-sm">
           <div className="flex items-center py-1 ">
             <Image
               src={avatar}
@@ -30,7 +30,7 @@ const Gist = ({ gist }: InferGetStaticPropsType<typeof getStaticProps>) => {
               className="rounded-full "
             />
             <h1 className="ml-2 overflow-hidden text-xl whitespace-nowrap overflow-ellipsis">
-              <Link href={`/gists`} passHref>
+              <Link href="/gists" passHref>
                 <Anchor external={false}>{gist.owner.login}</Anchor>
               </Link>
               /{Object.keys(gist.files)[0]}

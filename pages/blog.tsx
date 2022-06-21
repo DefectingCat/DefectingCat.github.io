@@ -1,9 +1,9 @@
-import { InferGetStaticPropsType } from 'next';
-import { ReactElement } from 'react';
-import { postLists } from 'lib/posts';
 import cn from 'classnames';
-import dynamic from 'next/dynamic';
 import PostCardLoading from 'components/RUA/loading/PostCardLoading';
+import { postLists } from 'lib/posts';
+import { InferGetStaticPropsType } from 'next';
+import dynamic from 'next/dynamic';
+import { ReactElement } from 'react';
 
 const PostCard = dynamic(() => import('components/PostCard'), {
   loading: () => <PostCardLoading />,

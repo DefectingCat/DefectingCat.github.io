@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import dynamic from 'next/dynamic';
 import { NextPageWithLayout } from 'types';
-import classNames from 'classnames';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 

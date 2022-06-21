@@ -1,13 +1,13 @@
-import { GistsFile } from 'types';
-import { unified } from 'unified';
-import remarkParse from 'remark-parse';
-import remarkRehype from 'remark-rehype';
 import rehypePrism from '@mapbox/rehype-prism';
-import remarkGfm from 'remark-gfm';
+import classNames from 'classnames';
 import { createElement, Fragment } from 'react';
 import rehypeReact from 'rehype-react';
+import remarkGfm from 'remark-gfm';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import { GistsFile } from 'types';
+import { unified } from 'unified';
 import styles from './styles.module.css';
-import classNames from 'classnames';
 
 interface Props {
   file: GistsFile;
