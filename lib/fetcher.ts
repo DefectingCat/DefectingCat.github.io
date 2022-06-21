@@ -7,7 +7,7 @@ const octokit = new Octokit({
 });
 
 const linkMatch = /<(.*?)>/;
-// const relMatch = /"(.*?)"/;
+const relMatch = /"(.*?)"/;
 
 export type GistData = {
   id: string;
@@ -17,10 +17,11 @@ export type GistData = {
   description: string | null;
 };
 export type GetGists = {
-  next: string | null;
-  total: string | null;
+  pageSize: pageSize;
   gists: GistData[];
 };
+export type pageSize = { [key in PageKeys]: string | null };
+export type PageKeys = 'prev' | 'next' | 'last' | 'first';
 
 /**
  * Get all gists.
@@ -31,15 +32,30 @@ export const getGists = async (page = 1, perPage = 10) => {
     page,
     per_page: perPage,
   });
+  /**
+   *
+   * <https://api.github.com/gists?page=1&per_page=1>; rel="prev",
+   * <https://api.github.com/gists?page=3&per_page=1>; rel="next",
+   * <https://api.github.com/gists?page=40&per_page=1>; rel="last",
+   * <https://api.github.com/gists?page=1&per_page=1>; rel="first"
+   */
   const link = result.headers.link?.split(',');
 
   if (!link) return null;
-  const next = new URLSearchParams(
-    link[0].match(linkMatch)?.[1].split('?')[1]
-  ).get('page');
-  const total = new URLSearchParams(
-    link[1].match(linkMatch)?.[1].split('?')[1]
-  ).get('page');
+
+  const pageSize: pageSize = {
+    prev: null,
+    next: null,
+    last: null,
+    first: null,
+  };
+  link.map((l) => {
+    const text = l.match(relMatch)?.[1] as PageKeys;
+    if (!text) return;
+    pageSize[text] = new URLSearchParams(
+      l.match(linkMatch)?.[1].split('?')[1]
+    ).get('page');
+  });
 
   const data: GistData[] = result.data.map((item) => ({
     id: item.id,
@@ -62,8 +78,7 @@ export const getGists = async (page = 1, perPage = 10) => {
   );
 
   return {
-    next,
-    total,
+    pageSize,
     gists: data,
   };
 };
@@ -77,15 +92,47 @@ export const getUser = async () => {
   return (await octokit.rest.users.getAuthenticated()).data;
 };
 
+export type GetSignalGist = Awaited<ReturnType<typeof getSignalGist>>;
+export type SingalGist = {
+  login: string | undefined;
+  files: { [key: string]: GistsFile };
+  updated_at: string | undefined;
+  description: string | undefined | null;
+};
 /**
  * Get one gist.
  * @param id
  * @returns
  */
 export const getSignalGist = async (id: string) => {
-  return (
+  const result = (
     await octokit.rest.gists.get({
       gist_id: id,
     })
   ).data;
+
+  if (result.files == null) return;
+
+  const data: SingalGist = {
+    login: result.owner?.login,
+    updated_at: result.updated_at,
+    description: result.description,
+    files: result.files as SingalGist['files'],
+  };
+
+  await Promise.all(
+    Object.keys(data.files).map(async (f) => {
+      const url = data.files?.[f]?.raw_url;
+      if (!url) return;
+      let target = data.files[f];
+      if (!target?.content)
+        target = {
+          ...target,
+          content: '',
+        };
+      target.content = await fetch(url).then((res) => res.text());
+    })
+  );
+
+  return data;
 };

@@ -7,7 +7,7 @@ import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { GistsFile } from 'types';
 import { unified } from 'unified';
-import styles from './styles.module.css';
+import styles from './GistsCode.module.css';
 
 interface Props {
   file: GistsFile;

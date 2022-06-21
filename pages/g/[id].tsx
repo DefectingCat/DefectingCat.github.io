@@ -1,14 +1,13 @@
 import Anchor from 'components/mdx/Anchor';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { getSignalGist } from 'lib/fetcher';
+import { getSignalGist, SingalGist } from 'lib/fetcher';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import avatar from 'public/images/img/avatar.svg';
 import { ReactElement } from 'react';
-import { SignalGist } from 'types';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const GistsCode = dynamic(() => import('components/gists/GistsCode'));
@@ -31,7 +30,7 @@ const Gist = ({ gist }: InferGetStaticPropsType<typeof getStaticProps>) => {
             />
             <h1 className="ml-2 overflow-hidden text-xl whitespace-nowrap overflow-ellipsis">
               <Link href="/gists" passHref>
-                <Anchor external={false}>{gist.owner.login}</Anchor>
+                <Anchor external={false}>{gist.login}</Anchor>
               </Link>
               /{Object.keys(gist.files)[0]}
             </h1>
@@ -67,23 +66,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<{
   id: string | undefined;
-  gist: SignalGist;
+  gist: SingalGist;
 }> = async ({ params }) => {
-  if (typeof params?.id !== 'string') {
+  if (typeof params?.id !== 'string')
     return {
       notFound: true,
     };
-  }
 
-  const gist = await getSignalGist(params?.id);
-
-  await Promise.all(
-    Object.keys(gist.files).map(async (f) => {
-      gist.files[f].content = await fetch(gist.files[f].raw_url).then((res) =>
-        res.text()
-      );
-    })
-  );
+  const gist = await getSignalGist(params.id);
+  if (!gist || !gist.files)
+    return {
+      notFound: true,
+    };
 
   return {
     props: {

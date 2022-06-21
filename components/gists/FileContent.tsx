@@ -16,7 +16,7 @@ type Props = {
 const FileContent = ({ gists }: Props) => {
   return (
     <>
-      <div className="flex-1 py-4 overflow-hidden md:pl-8">
+      <div className="overflow-hidden">
         {gists.map((g) => (
           <div key={g.id}>
             {Object.keys(g.files).map((f) => (

@@ -8,6 +8,7 @@ import { ReactElement } from 'react';
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const UserInfo = dynamic(() => import('components/gists/UserInfo'));
 const FileContent = dynamic(() => import('components/gists/FileContent'));
+const Pagination = dynamic(() => import('components/gists/Pagination'));
 
 dayjs.extend(relativeTime);
 
@@ -20,7 +21,11 @@ const Gists = ({
       <main className="max-w-5xl px-4 mx-auto lg:px-0">
         <div className="md:flex">
           <UserInfo user={user} />
-          <FileContent gists={gists.gists} />
+
+          <div className="flex-1 py-4 overflow-hidden md:pl-8">
+            <FileContent gists={gists.gists} />
+            <Pagination pageSize={gists.pageSize} />
+          </div>
         </div>
       </main>
     </>
