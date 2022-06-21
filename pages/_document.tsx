@@ -1,4 +1,5 @@
 import { Head, Html, Main, NextScript } from 'next/document';
+import { getSandpackCssText } from '@codesandbox/sandpack-react';
 
 export default function Document() {
   return (
@@ -14,6 +15,10 @@ export default function Document() {
           rel="preconnect"
           href="https://ZUYZBUJBQW-dsn.algolia.net"
           crossOrigin=""
+        />
+        <style
+          dangerouslySetInnerHTML={{ __html: getSandpackCssText() }}
+          id="sandpack"
         />
       </Head>
       <body>
