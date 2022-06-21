@@ -1,16 +1,16 @@
 import Anchor from 'components/mdx/Anchor';
 import Loading from 'components/RUA/loading/RUALoading';
 import dayjs from 'dayjs';
+import { GistData } from 'lib/fetcher';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { Gist } from 'types';
 
 const GistsCode = dynamic(() => import('components/gists/GistsCode'), {
   loading: () => <Loading classNames="h-[300px]" />,
 });
 
 type Props = {
-  gists: Gist[];
+  gists: GistData[];
 };
 
 const FileContent = ({ gists }: Props) => {
@@ -23,7 +23,7 @@ const FileContent = ({ gists }: Props) => {
               <div key={g.files[f].raw_url} className="pb-4 ">
                 {/* Username and file name */}
                 <h1 className="md:text-lg">
-                  {g.owner.login} /
+                  {g.login} /
                   <Link href={`/g/${g.id}`} passHref>
                     <Anchor external={false}>{g.files[f].filename}</Anchor>
                   </Link>

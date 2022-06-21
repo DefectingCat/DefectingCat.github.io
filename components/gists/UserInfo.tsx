@@ -1,11 +1,11 @@
 import classNames from 'classnames';
+import { GetUser } from 'lib/fetcher';
 import Image from 'next/image';
 import avatar from 'public/images/img/avatar.svg';
 import { FiLink, FiMail, FiTwitter } from 'react-icons/fi';
-import { GithubUser } from 'types';
 
 type Props = {
-  user: GithubUser;
+  user: GetUser;
 };
 
 const UserInfo = ({ user }: Props) => {
@@ -53,22 +53,26 @@ const UserInfo = ({ user }: Props) => {
               <a href={`mailto:${user.email}`}>{user.email}</a>
             </span>
           </div>
-          <div className="flex items-center mb-1">
-            <FiLink className="mr-2" />
-            <a href={user.blog} target="_blank" rel="noreferrer">
-              {user.blog}
-            </a>
-          </div>
-          <div className="flex items-center mb-1">
-            <FiTwitter className="mr-2" />
-            <a
-              rel="noreferrer"
-              target="_blank"
-              href={`https://twitter.com/${user.twitter_username}`}
-            >
-              @{user.twitter_username}
-            </a>
-          </div>
+          {user.blog && (
+            <div className="flex items-center mb-1">
+              <FiLink className="mr-2" />
+              <a href={user.blog} target="_blank" rel="noreferrer">
+                {user.blog}
+              </a>
+            </div>
+          )}
+          {user.twitter_username && (
+            <div className="flex items-center mb-1">
+              <FiTwitter className="mr-2" />
+              <a
+                rel="noreferrer"
+                target="_blank"
+                href={`https://twitter.com/${user.twitter_username}`}
+              >
+                @{user.twitter_username}
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -1,10 +1,9 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { getGists, getUser } from 'lib/fetcher';
+import { GetGists, getGists, GetUser, getUser } from 'lib/fetcher';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
 import { ReactElement } from 'react';
-import { Gist, GithubUser } from 'types';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const UserInfo = dynamic(() => import('components/gists/UserInfo'));
@@ -21,7 +20,7 @@ const Gists = ({
       <main className="max-w-5xl px-4 mx-auto lg:px-0">
         <div className="md:flex">
           <UserInfo user={user} />
-          <FileContent gists={gists} />
+          <FileContent gists={gists.gists} />
         </div>
       </main>
     </>
@@ -29,27 +28,20 @@ const Gists = ({
 };
 
 export const getStaticProps: GetStaticProps<{
-  gists: Gist[];
-  user: GithubUser;
+  gists: GetGists;
+  user: GetUser;
 }> = async () => {
-  const gists = await getGists();
-  const user = await getUser();
+  const result = await getGists();
+  if (!result)
+    return {
+      notFound: true,
+    };
 
-  await Promise.all(
-    gists.map(async (g) => {
-      await Promise.all(
-        Object.keys(g.files).map(async (f) => {
-          g.files[f].content = await fetch(g.files[f].raw_url).then((res) =>
-            res.text()
-          );
-        })
-      );
-    })
-  );
+  const user = await getUser();
 
   return {
     props: {
-      gists,
+      gists: result,
       user,
     },
     revalidate: 600,

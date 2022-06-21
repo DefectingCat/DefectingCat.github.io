@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { getGists, getUser } from 'lib/fetcher';
+import { GetGists, getGists, GetUser, getUser } from 'lib/fetcher';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
+import { ParsedUrlQuery } from 'querystring';
 import { ReactElement } from 'react';
-import { Gist, GithubUser } from 'types';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const UserInfo = dynamic(() => import('components/gists/UserInfo'));
@@ -21,7 +21,7 @@ const Gists = ({
       <main className="max-w-5xl px-4 mx-auto lg:px-0">
         <div className="md:flex">
           <UserInfo user={user} />
-          <FileContent gists={gists} />
+          <FileContent gists={gists.gists} />
         </div>
       </main>
     </>
@@ -29,40 +29,50 @@ const Gists = ({
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const result = await getGists();
+  const next = Number(result?.next);
+  const total = Number(result?.total);
+  const paths: (
+    | string
+    | {
+        params: ParsedUrlQuery;
+        locale?: string | undefined;
+      }
+  )[] = [];
+  for (let i = next; i <= total; i++) {
+    paths.push({
+      params: {
+        p: i.toString(),
+      },
+    });
+  }
+
   return {
-    paths: [],
-    fallback: 'blocking',
+    paths,
+    fallback: false,
   };
 };
 
 export const getStaticProps: GetStaticProps<{
-  gists: Gist[];
-  user: GithubUser;
+  gists: GetGists;
+  user: GetUser;
 }> = async ({ params }) => {
-  if (typeof params?.p !== 'string') {
+  if (typeof params?.p !== 'string')
     return {
       notFound: true,
     };
-  }
 
-  const gists = await getGists(Number(params?.p));
+  const result = await getGists(Number(params?.p));
+  if (!result)
+    return {
+      notFound: true,
+    };
+
   const user = await getUser();
-
-  await Promise.all(
-    gists.map(async (g) => {
-      await Promise.all(
-        Object.keys(g.files).map(async (f) => {
-          g.files[f].content = await fetch(g.files[f].raw_url).then((res) =>
-            res.text()
-          );
-        })
-      );
-    })
-  );
 
   return {
     props: {
-      gists,
+      gists: result,
       user,
     },
     revalidate: 600,
