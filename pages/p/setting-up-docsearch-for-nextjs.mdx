@@ -64,9 +64,121 @@ Algolia provide JavaScript API Client to push data to Algolia.
 
 <Tab defaultValue="yarn">
   <TabItem label="yarn" value="yarn">
-    <pre>yarn add algoliasearch-client</pre>
+    <pre>yarn add algoliasearch</pre>
   </TabItem>
   <TabItem label="npm" value="npm">
-    <pre>npm install algoliasearch-client</pre>
+    <pre>npm install algoliasearch</pre>
   </TabItem>
 </Tab>
+
+The client will help us push data to Algolia. We just need to prepare out data.
+
+### Docsearch format
+
+Because Docsearch read result as specific format. our data need to be like this:
+
+```js
+{
+  content: null,
+  hierarchy: {
+    lvl0: 'Post',
+    lvl1: slug,
+    lvl2: heading,
+  },
+  type: 'lvl2',
+  objectID: 'id',
+  url: 'url',
+}
+```
+
+### Generate format
+
+For generate our data, we need:
+
+- [dotenv](https://www.npmjs.com/package/dotenv): read Algolia app ID and admin key in `.env` file.
+- [algoliasearch](https://www.npmjs.com/package/algoliasearch): JavaScript API client.
+- `fs` and `path`: read post file.
+- [nanoid](https://www.npmjs.com/package/nanoid) (optional): generate unique `objectID`.
+
+For use ECMAScript `import`, we need set file suffix with `.mjs`. The node.js can use `import` statement.
+
+```js
+// build-search.mjs
+
+import { config } from 'dotenv';
+import algoliasearch from 'algoliasearch/lite.js';
+import fs from 'fs';
+import path from 'path';
+import { nanoid } from 'nanoid';
+```
+
+Next, read post content from file. First we need read whole content from the file:
+
+```js
+const files = fs.readdirSync(path.join('pages/p'));
+```
+
+Then, prepare a empty array to store post data. And traverse content to generate format we need.
+
+```js
+const myPosts = [];
+files.map((f) => {
+  const content = fs.readFileSync(path.join('pages/p', f), 'utf-8');
+  // const { data: meta, content } = matter(markdownWithMeta);
+
+  const slug = f.replace(/\.mdx$/, '');
+  const regex = /^#{2}(?!#)(.*)/gm;
+
+  content.match(regex)?.map((h) => {
+    const heading = h.substring(3);
+
+    myPosts.push({
+      content: null,
+      hierarchy: {
+        lvl0: 'Post',
+        lvl1: slug,
+        lvl2: heading,
+      },
+      type: 'lvl2',
+      objectID: `${nanoid()}-https://rua.plus/p/${slug}`,
+      url: `https://rua.plus/p/${slug}#${heading
+        .toLocaleLowerCase()
+        .replace(/ /g, '-')}`,
+    });
+  });
+```
+
+The `type` property means level of table of contents.
+
+I just need h2 title in search result. So just match them with `/^#{2}(?!#)(.*)/gm`.
+
+And post title is the `lvl1` type:
+
+```js
+myPosts.push({
+  content: null,
+  hierarchy: {
+    lvl0: 'Post',
+    lvl1: slug,
+  },
+  type: 'lvl1',
+  objectID: `${nanoid()}-https://rua.plus/p/${slug}`,
+  url: `https://rua.plus/p/${slug}`,
+});
+```
+
+### Push to Algolia
+
+Algolia API is easy to use. First we need specify the index name.
+
+```js
+const index = client.initIndex('RUA');
+```
+
+And save the objects.
+
+```js
+const algoliaResponse = await index.replaceAllObjects(posts);
+```
+
+All done!
