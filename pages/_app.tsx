@@ -1,10 +1,9 @@
 import { MDXProvider } from '@mdx-js/react';
 import Anchor from 'components/mdx/Anchor';
+import useRouterLoading from 'lib/hooks/useRouterLoading';
 import { ThemeProvider } from 'next-themes';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
 import 'styles/globals.css';
 import 'styles/prism-one-dark.css';
 import 'styles/prism-one-light.css';
@@ -22,34 +21,7 @@ const components = {
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-
-  const handleStart = useCallback(
-    (url: string) => {
-      url !== router.pathname ? setLoading(true) : setLoading(false);
-    },
-    [router.pathname]
-  );
-
-  const handleComplete = useCallback(() => {
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    router.events.on('routeChangeStart', handleStart);
-    router.events.on('routeChangeComplete', handleComplete);
-    router.events.on('routeChangeError', handleComplete);
-
-    // If the component is unmounted, unsubscribe
-    // from the event with the `off` method:
-    return () => {
-      router.events.off('routeChangeStart', handleStart);
-      router.events.off('routeChangeComplete', handleComplete);
-      router.events.off('routeChangeError', handleComplete);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { loading } = useRouterLoading();
 
   return (
     <>
