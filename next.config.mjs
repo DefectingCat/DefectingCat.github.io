@@ -14,7 +14,10 @@ const composedConfig = composePlugins([
     extension: /\.mdx?$/,
     options: {
       remarkPlugins: [remarkFrontmatter, remarkGfm],
-      rehypePlugins: [rehypePrism, rehypeSlug],
+      rehypePlugins: [
+        [rehypePrism, { alias: { vue: 'xml' }, ignoreMissing: true }],
+        rehypeSlug,
+      ],
       providerImportSource: '@mdx-js/react',
     },
   }),
