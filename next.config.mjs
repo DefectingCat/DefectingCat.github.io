@@ -21,12 +21,13 @@ const composedConfig = composePlugins([
   /** @type {import('next').NextConfig} */
   {
     reactStrictMode: true,
+    output: 'standalone',
     experimental: {
       // runtime: 'nodejs',
-      outputStandalone: true,
+      // outputStandalone: true,
     },
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-    images: {domains: ['avatars.githubusercontent.com']},
+    images: { domains: ['avatars.githubusercontent.com'] },
   },
 ]);
 
