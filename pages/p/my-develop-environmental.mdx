@@ -88,14 +88,20 @@ chsh -s $(which zsh)
 
 ### Plugins
 
-我比较常用的是 zsh-autosuggestions 与 zsh-syntax-highlighting，比较可惜的是这俩 Gitee mirror 上都还没有。所以我用的是 fastgit。
+我比较常用的是 zsh-autosuggestions 与 zsh-syntax-highlighting，比较可惜的是这俩 Gitee mirror 上都还没有。
 
 ```bash
-git clone https://hub.fastgit.org/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
-git clone https://hub.fastgit.org/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
 # Add to .zshrc
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git zsh-autosuggestions)
+```
+
+```bash
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+
+source ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ```
 
 ### Theme
