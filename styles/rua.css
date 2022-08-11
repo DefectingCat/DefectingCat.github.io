@@ -89,7 +89,7 @@
 }
 
 #article {
-  @apply text-lg leading-10;
+  @apply text-lg;
 }
 
 #article .toc {
@@ -99,6 +99,10 @@
 
 #article .toc li {
   list-style-type: none;
+}
+
+#article p {
+  margin: 1em 0;
 }
 
 #article h1 {
