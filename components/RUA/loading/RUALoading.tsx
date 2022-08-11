@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
-import loadingImage from 'public/images/img/mona-loading-default.gif';
-import loadingImageDimmed from 'public/images/img/mona-loading-dimmed.gif';
+import loadingImage from 'assets/images/img/mona-loading-default.gif';
+import loadingImageDimmed from 'assets/images/img/mona-loading-dimmed.gif';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
 

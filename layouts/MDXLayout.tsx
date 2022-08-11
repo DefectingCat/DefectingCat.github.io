@@ -10,11 +10,11 @@ const PostComment = dynamic(() => import('components/post/PostComment'));
 
 interface Props extends MyMatters {
   showTOC?: boolean;
-  children: React.ReactNode;
+  children: React.ReactElement;
 }
 
 const MDXLayout = ({ title, date, showTOC = true, children }: Props) => {
-  const contentString = renderToString(children as any);
+  const contentString = renderToString(children);
   const headings = getHeadings(contentString);
 
   return (

@@ -1,4 +1,4 @@
-<img src="./public/images/img/64.png" style="width: 128px; height: 128px;"  alt=''/>
+<img src="./assets/images/img/64.png" style="width: 128px; height: 128px;"  alt=''/>
 
 ## 小破站
 
