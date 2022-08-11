@@ -1,4 +1,4 @@
-import { Sandpack, SandpackProps  } from '@codesandbox/sandpack-react';
+import { Sandpack, SandpackProps } from '@codesandbox/sandpack-react';
 import { useTheme } from 'next-themes';
 
 interface Props extends SandpackProps {}

@@ -1,12 +1,10 @@
 import dynamic from 'next/dynamic';
 import { MyMatters } from 'types';
-import { renderToString } from 'react-dom/server';
-import { getHeadings } from 'lib/utils';
-import PostTOC from 'components/post/PostTOC';
 
 const Footer = dynamic(() => import('components/Footer'));
 const HeadBar = dynamic(() => import('components/NavBar'));
 const PostComment = dynamic(() => import('components/post/PostComment'));
+const SlideToc = dynamic(() => import('components/post/SlideToc'));
 
 interface Props extends MyMatters {
   showTOC?: boolean;
@@ -14,23 +12,17 @@ interface Props extends MyMatters {
 }
 
 const MDXLayout = ({ title, date, showTOC = true, children }: Props) => {
-  const contentString = renderToString(children);
-  const headings = getHeadings(contentString);
-
   return (
     <>
       <HeadBar />
 
-      <main id="article" className="max-w-5xl px-4 mx-auto my-10">
-        <article>
-          <h1>{title}</h1>
+      <main id="article" className="relative max-w-4xl px-4 mx-auto my-10">
+        <h1>{title}</h1>
+        <time>{date}</time>
+        {showTOC && <SlideToc />}
 
-          <time>{date}</time>
-
-          {showTOC && <PostTOC headings={headings} />}
-
+        <article id="post-content">
           {children}
-
           <PostComment />
         </article>
       </main>

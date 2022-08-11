@@ -93,12 +93,32 @@
 }
 
 #article .toc {
-  padding-left: 0.8em;
-  @apply my-4;
+  @apply hidden dark:bg-rua-gray-700;
+  @apply fixed z-10 p-6 bg-white rounded-md xl:inline-block;
+  @apply translate-x-[110%] top-1/2 -translate-y-1/2;
+  @apply max-h-[85%] overflow-auto;
 }
 
-#article .toc li {
+#article .toc .toc-list .toc-list {
+  padding-left: 1rem;
+  padding-top: 0.5rem;
   list-style-type: none;
+}
+
+#article .toc .toc-list-item {
+  padding-bottom: 0.5rem;
+  @apply transition-all;
+}
+
+#article .toc .toc-list-item:last-child {
+  padding-bottom: 0;
+}
+
+/* #article .toc .toc-link {
+} */
+
+#article .toc .is-active-link {
+  @apply font-semibold transition-all;
 }
 
 #article p {
@@ -116,7 +136,7 @@
   display: block;
   text-align: center;
   @apply text-gray-400 dark:text-gray-600;
-  @apply mt-8 mb-20;
+  @apply mt-8 mb-10;
 }
 
 #article h2,
@@ -301,7 +321,7 @@ h6:hover::before {
   top: -0.5em;
 }
 
-#article ol li {
+#article ol li:not(.toc-list-item) {
   list-style-type: auto;
 }
 
@@ -327,12 +347,12 @@ h6:hover::before {
   list-style-type: lower-roman;
 }
 
-#article div > ol:not([type]) {
+#article div > ol:not([type]):not(.toc-list) {
   list-style-type: decimal;
 }
 
 #article ul,
-#article ol {
+#article ol:not(.toc-list) {
   margin-top: 0;
   margin-bottom: 0;
   padding-left: 2em;
