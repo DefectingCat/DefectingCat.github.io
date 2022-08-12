@@ -1,8 +1,8 @@
-import {config} from 'dotenv';
+import { config } from 'dotenv';
 import algoliasearch from 'algoliasearch/lite.js';
 import fs from 'fs';
 import path from 'path';
-import {nanoid} from 'nanoid';
+import { nanoid } from 'nanoid';
 
 /**
  * Build post information for Algolia search.
@@ -18,24 +18,50 @@ const postLists = () => {
     // const { data: meta, content } = matter(markdownWithMeta);
 
     const slug = f.replace(/\.mdx$/, '');
-    const regex = /^#{2}(?!#)(.*)/gm;
+    const regex = /^#{2,3}(?!#)(.*)/gm;
+
+    let lastH2 = '';
 
     content.match(regex)?.map((h) => {
-      const heading = h.substring(3);
-
-      myPosts.push({
-        content: null,
-        hierarchy: {
-          lvl0: 'Post',
-          lvl1: slug,
-          lvl2: heading,
-        },
-        type: 'lvl2',
-        objectID: `${nanoid()}-https://rua.plus/p/${slug}`,
-        url: `https://rua.plus/p/${slug}#${heading
-          .toLocaleLowerCase()
-          .replace(/ /g, '-')}`,
-      });
+      const heading = h.split(' ');
+      const level = heading[0].length;
+      const head = h.substring(level + 1);
+      switch (level) {
+        case 2: {
+          myPosts.push({
+            content: null,
+            hierarchy: {
+              lvl0: 'Post',
+              lvl1: slug,
+              lvl2: head,
+            },
+            type: `lvl${level}`,
+            objectID: `${nanoid()}-https://rua.plus/p/${slug}`,
+            url: `https://rua.plus/p/${slug}#${head
+              .toLocaleLowerCase()
+              .replace(/ /g, '-')}`,
+          });
+          lastH2 = head;
+          break;
+        }
+        case 3: {
+          myPosts.push({
+            content: null,
+            hierarchy: {
+              lvl0: 'Post',
+              lvl1: slug,
+              lvl2: lastH2,
+              lvl3: h.substring(level + 1),
+            },
+            type: `lvl${level}`,
+            objectID: `${nanoid()}-https://rua.plus/p/${slug}`,
+            url: `https://rua.plus/p/${slug}#${head
+              .toLocaleLowerCase()
+              .replace(/ /g, '-')}`,
+          });
+          break;
+        }
+      }
     });
 
     myPosts.push({
