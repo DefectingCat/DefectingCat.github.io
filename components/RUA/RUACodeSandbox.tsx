@@ -21,8 +21,7 @@ const RUACodeSandbox = ({ url }: Props) => {
   const currentTheme = theme === 'system' ? systemTheme : theme ?? 'light';
 
   const { ref, inView } = useInView();
-  const sandUrl = new URL(url);
-  const embed = sandUrl.pathname.split('/')[2];
+  const embed = new URL(url).pathname.split('/')[2];
   const [src, setSrc] = useState('');
   useEffect(() => {
     inView &&
