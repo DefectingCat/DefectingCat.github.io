@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import useMounted from 'lib/hooks/useMounted';
+import { useEffect } from 'react';
 import tocbot from 'tocbot';
 
 const SlideToc = () => {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const { mounted } = useMounted();
 
   useEffect(() => {
     // Waiting the right time.

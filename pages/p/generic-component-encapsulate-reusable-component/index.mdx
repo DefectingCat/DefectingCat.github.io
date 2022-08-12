@@ -1,0 +1,338 @@
+---
+title: 组件泛型实例-封装可复用的表单组件
+date: '2022-08-12'
+tags: [TypeScript, React]
+---
+
+export const meta = {
+  title: '组件泛型实例-封装可复用的表单组件',
+  date: '2022-08-12',
+  tags: ['TypeScript', 'React'],
+};
+
+import Layout from 'layouts/MDXLayout';
+import dynamic from 'next/dynamic';
+import Image from 'components/mdx/Image';
+import image0 from 'assets/images/p/generic-component-encapsulate-reusable-component/Untitled.png';
+import image1 from 'assets/images/p/generic-component-encapsulate-reusable-component/Untitled.png';
+import image2 from 'assets/images/p/generic-component-encapsulate-reusable-component/Untitled.png';
+import image3 from 'assets/images/p/generic-component-encapsulate-reusable-component/Untitled.png';
+import image4 from 'assets/images/p/generic-component-encapsulate-reusable-component/Untitled.png';
+import image5 from 'assets/images/p/generic-component-encapsulate-reusable-component/Untitled.png';
+import app from './hook-form-basic/App.ts';
+import app2 from './react-generic/App.ts';
+import child from './react-generic/Child.ts';
+
+export const RUASandpack = dynamic(() => import('components/RUA/RUASandpack'));
+export const RUACodeSandbox = dynamic(() =>
+  import('components/RUA/RUACodeSandbox')
+);
+
+export default ({ children }) => <Layout {...meta}>{children}</Layout>;
+
+当前很多 UI 库都会为我们集成可复用的 Form 组件，并且是开箱即用。但有时候我们往往可能需要为自己的组件集成 Form。单纯的手动管理所有的状态可能不是件理想的活，尤其是表单验证。
+
+[React Hook Forms](https://react-hook-form.com/) 为我们提供了完善的状态管理，并且可以集成到任何组件中去。
+
+你可能会问，如今已经有了像是 MUI、Ant Design 等此类优秀的组件库，为什么还需要使用 React Hook Forms 来管理表单。
+
+[MUI: The React component library you always wanted](https://mui.com/zh/)
+
+虽然一些优秀的成熟组件库会为我们提供良好的表单解决方案，但它终究需要与组件库一起使用。而并非只是提供表单的状态管理，并没有完全的与组件库解耦合。
+
+同时，当我们使用诸如 [Daisyui](https://daisyui.com/) 等此类的 CSS 组件时，它们是与状态完全解耦合的。我们需要自己为其维护状态。
+
+## Hook our form
+
+对于一个表单来说，提供的表单项越多，所需要的状态管理就越繁琐。不仅仅是状态管理，后续的表单验证才是一个表单的核心所在。
+
+React Hook Forms 对 TypeScript 支持良好，有了 TypeScript 我们就可以在开发时验证表单类型。而表单的数据类型也是后续封装通用组件较为繁琐的一个地方。
+
+<RUASandpack
+  template="react-ts"
+  files={{
+    '/App.tsx': app,
+  }}
+  customSetup={{
+    dependencies: {
+      '@emotion/react': '^11.10.0',
+      '@emotion/styled': '^11.10.0',
+      'react-hook-form': '^7.34.0',
+    },
+  }}
+/>
+
+React Hook Forms 在使用方面，使用了一个 `register` 函数代替了我们为每个表单项管理状态的步骤。从写法上就可以看出，这个函数返回了我们的表单所需要的属性，以及其状态。
+
+```tsx
+<input type="text" id="firstname" {...register('firstName')} />
+```
+
+在表单提交方面，`handleSubmit` 方法接受一个回调，其参数就是表单输入后的状态。
+
+```tsx
+const onSubmit = handleSubmit((data) => console.log(data));
+```
+
+表单验证通过后，就可以成功调用这个函数，以实现我们的表单提交。
+
+这是一段最基础的用法，没有表单验证提示，仅仅只是接受任何用户输入的数据。并且同样的组件也没有实现复用。
+
+## Input 组件
+
+封装一个可复用的 `Input` 组件可能是再简单不过的事情了，对于其参数类型，主要部分还是来自于 `HTMLInput` 。我们只需要个别定义的属性，再利用剩余参数将其全部赋值给真正的 `input`
+
+```tsx
+export type FormInputProps = {
+  label?: string | undefined;
+} & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
+```
+
+```tsx
+const Input = ({ name, label, ...rest }: FormInputProps) => {
+  return (
+    <>
+      <label htmlFor={name}>{label}</label>
+
+      <S.Wrapper>
+        <S.Input name={name} {...rest} />
+      </S.Wrapper>
+    </>
+  );
+};
+```
+
+用起来自然也是和常见的组件一样方便：
+
+```tsx
+<div>
+  <Input name="firstname" label="First name:" />
+</div>
+
+<div>
+  <Input name="lastname" label="Last name:" />
+</div>
+```
+
+但是如果仅仅只是这样，我们的组件还不能与 React Hook Forms 一起工作。因为其核心部分 `register` 函数还无法传递给我们的 `Input` 组件。也就是说我们的组件现在还是不可控的，这时候再尝试提交就会发现无法获取其状态。
+
+<Image src={image0} alt="无法获取其状态" />
+
+当然我们不能简单的将 `register` 函数塞给 `Input` 组件，因为它还没有合适的签名。`register` 函数会根据表单的数据签名和不同的表单项来实现自己的签名。
+
+从 `register` 函数的签名中就可以看出，它接受一个泛型，该泛型就是对应的表单项类型。
+
+```tsx
+register: <"firstName">(name: "firstName", options?: ...)
+```
+
+也就是 `FormData` 中的 `firstName` ：
+
+```tsx
+type FormData = {
+  firstName: string;
+  lastName: string;
+  favorite: Pet;
+};
+```
+
+没错，要想正确的给组件中的 `register` 函数签名，我们就得给我们的函数式组件上个泛型。
+
+## 泛型
+
+在考虑给组件添加一个泛型之前，需要先简单的了解下泛型是如何工作的。
+
+一个函数的泛型可以非常的简单，它代表了一个任意的类型值（当然也可以对其进行约束）。并根据指定的参数为泛型时，自动推断该类型值。
+
+```ts
+const logAndReturn = <T extends unknown>(target: T) => {
+  console.log(target);
+  return target;
+};
+
+// const logAndReturn: <42>(target: 42) => 42
+logAndReturn(42);
+// const logAndReturn: <"42">(target: "42") => "42"
+logAndReturn('42');
+```
+
+### 类型别名中的泛型
+
+类型别名中的泛型与函数不同的是，它需要手动传递一个函数的泛型值（或来自其他地方的泛型），并根据该泛型来决定其值。并且如果泛型有约束的话，还需要符合其约束。
+
+例如，我们有一个描述个人的类型别名：
+
+```ts
+type Person<T extends number | string> = {
+  name: string;
+  age: number;
+  favorite: T;
+};
+```
+
+而我们需要编写一个函数，根据其 `favorite` 来决定打印的值。函数大概长这样：
+
+```tsx
+const sayIt = <T extends number | string>(p: Person<T>) => {
+  const type = typeof p.favorite;
+  switch (type) {
+    case 'string':
+      console.log(`My favorite word is: ${p.favorite}`);
+      return;
+    case 'number':
+      console.log(`My favorite number is: ${p.favorite}`);
+      return;
+  }
+};
+```
+
+当指定参数为 `p: Person<T>` 时，就需要将函数的泛型传递给类型别名。且类型别名中的泛型约束在了 `<T extends number | string>` 之间，函数必须保证使其子类型。否则就会提示无法满足其类型。
+
+<Image src={image1} alt="未约束的泛型" />
+
+和参数类型，泛型也是向下兼容的，只要保证其类型是子类型即可。也就是说这样也是可以的 `const sayIt = <T extends 42>(p: Person<T>) => {}` 。数字 42 是 `number` 类型的子类型。
+
+随后在调用函数时，就能发现泛型给我们带来的作用了。
+
+<Image src={image2} alt="传递数字给泛型" />
+
+<Image src={image3} alt="传递字符串给泛型" />
+
+### React 中的泛型
+
+我们的 React 函数组件也是一个函数，对于泛型的规则同样适用。
+
+来看一个简单的小组件，该组件可以以一个常见的对象类型 `Record<string, unknown>` 来根据指定的 key 访问其值，并展示在 DOM 上。
+
+<RUASandpack
+  template="react-ts"
+  files={{
+    '/App.tsx': app2,
+    '/Child.tsx': child,
+  }}
+/>
+
+例如，这样的一个值：
+
+```tsx
+const testData = {
+  firstName: 'xfy',
+  lastName: 'xfyxfy',
+};
+```
+
+当传递其对应的 key 时，我们的子组件就会展示对应的属性。也就是 `data[key]` ，这是再简单不过的一个属性访问方式了。
+
+```tsx
+<Child data={testData} name="firstName" />
+```
+
+但不仅如此，我们还希望我们的子组件能够根据已经存在的值，推断出我们能够传递的 key。
+
+<Image src={image4} alt="类型推断" />
+
+这正是泛型的作用。
+
+首先，我们子组件的参数签名必然需要一个泛型。并且我们将泛型约束在为一个常见的对象 `Record<string, unknown>`，且不在乎属性值具体是什么类型（unknown）。
+
+```tsx
+type Props<T extends Record<string, unknown>> = {
+  name: keyof T;
+  data: T;
+};
+```
+
+这便是我们组件的参数具体的签名。还记得上述类型别名需要将函数的泛型传递给它吗？接下来就是要给函数式组件添加一个泛型，并将其传递给 `Props` 。
+
+我们的组件也是一个标准的函数，所以接下来就简单多了。只需要将泛型正确的约束，并传递给别名即可。
+
+```tsx
+const Child = <T extends Record<string, unknown>>({
+  name,
+  data,
+}: Props<T>) => {};
+```
+
+```tsx
+const Child = <T extends Record<string, unknown>>({ name, data }: Props<T>) => {
+  const [showName, setShowName] = useState<T[keyof T]>();
+  const valid = () => {
+    console.log(data[name]);
+    setShowName(data[name]);
+  };
+
+  return (
+    <>
+      <div>{name}</div>
+      <button onClick={valid}>Show {name}</button>
+
+      <div>{JSON.stringify(showName)}</div>
+    </>
+  );
+};
+```
+
+## 带有泛型的 Input 组件
+
+`register` 函数对表单项的验证与上述较为类似，它也会根据表单项的 key 来决定传递对应的 name。为了满足 `register` 函数，可复用的 Input 组件就得需要一个泛型，用来接受不同的表单数据类型。
+
+React hook forms 为我们提前准备好了适用于 `register` 函数的类型别名 `UseFormRegister` ，它会接受一个泛型，该泛型就是我们的表单数据类型。
+
+所以 `register` 函数的签名看起来就像这样 `register?: UseFormRegister<T>;` 这里的 `T` 就是我们的表单类型。但是我们还不知道传入当前组件中的表单类型是什么，所以我们的组件参数签名也需要一个泛型。
+
+所以这里我们的组件参数看起来是这样的：
+
+```tsx
+export type FormInputProps<TFormValues> = {
+  name: Path<TFormValues>;
+  label?: string | undefined;
+  rules?: RegisterOptions;
+  register?: UseFormRegister<TFormValues>;
+} & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
+```
+
+值得注意的是，这里给 `input` 使用的 name 属性。因为 `register` 函数注册时使用的名称需要确保为表单类型的中的一个。所以这里需要使用 React hook forms 导出的 `Path<TFormValues>` 类型，以配合 `register` 函数。
+
+这里就和上述泛型组件很相似了，接下来要做的就是将组件的泛型传递给参数签名：
+
+```tsx
+const Input = <T extends Record<string, unknown>>({
+  name,
+  label,
+  ...rest
+}: FormInputProps<T>) => {};
+```
+
+这里给组件的泛型小小的约束一下，我们希望传递过来的表单类型是一个普通的对象结构 `<T extends Record<string, unknown>>` 。
+
+不仅如此，还不能忘了 `register` 函数还需要注册在 DOM 上。
+
+```tsx
+<S.Input
+  err={!!errorMsg}
+  name={name}
+  {...(register && register(name, rules))}
+  {...rest}
+/>
+```
+
+得益于泛型的功劳，我们将 `register` 函数传递给 `Input` 组件时，我们的组件就知道了这次表单的类型。并且确定了 `name` 属性的类型。
+
+<Image src={image5} alt="类型推断" />
+
+这是因为 `register` 函数本身的签名：`const register: UseFormRegister<FormData>` 。这才使得我们的组件成功接受到了泛型。
+
+再添加一些 `rules` 以及验证未通过时的提示，这样一个可复用的 React hook form 组件就封装好了。
+
+```tsx
+<Input
+  name="lastName"
+  label="Last name:"
+  placeholder="Last Name"
+  register={register}
+  rules={{ required: true }}
+  errorMsg={errors.lastName && 'Please input'}
+/>
+```
+
+<RUACodeSandbox url="https://codesandbox.io/s/reusable-input-o7e4jt?file=/src/App.tsx" />

@@ -1,14 +1,11 @@
 import classNames from 'classnames';
+import useMounted from 'lib/hooks/useMounted';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
 import { FiMoon, FiSun } from 'react-icons/fi';
 
 const DarkModeBtn = () => {
-  const [mounted, setMounted] = useState(false);
+  const { mounted } = useMounted();
   const { systemTheme, theme, setTheme } = useTheme();
-  // When mounted on client, now we can show the UI
-  useEffect(() => setMounted(true), []);
-
   const currentTheme = theme === 'system' ? systemTheme : theme;
 
   if (!mounted)
