@@ -4,24 +4,6 @@ date: '2022-04-18'
 tags: ['Next.js', 'JavaScript']
 ---
 
-import Layout from 'layouts/MDXLayout';
-import dynamic from 'next/dynamic';
-import Image from 'components/mdx/Image';
-import image1 from 'assets/images/p/setting-up-docsearch-for-nextjs/cannot-login-to-algolia-crawler.png';
-import image2 from 'assets/images/p/setting-up-docsearch-for-nextjs/index-format.png';
-
-export const RUASandpack = dynamic(() => import('components/RUA/RUASandpack'));
-export const Tab = dynamic(() => import('components/RUA/tab'));
-export const TabItem = dynamic(() => import('components/RUA/tab/TabItem'));
-
-export const meta = {
-  title: 'Setting up DocSearch for next.js',
-  date: '2022-04-18',
-  tags: ['Next.js', 'JavaScript'],
-};
-
-export default ({ children }) => <Layout {...meta}>{children}</Layout>;
-
 I use next.js and mdx plugin to build my blog site. It's a next.js SSG project.
 
 Also it's a JAMStack site. So i need a extenal search engine.
@@ -44,7 +26,10 @@ They introduct the [Algolia Crawler web interface](https://crawler.algolia.com/a
 
 But i can't login with my Algolia account.
 
-<Image src={image1} alt="Can't login to Algolia Crawler" />
+<Image
+  src={images['setting-up-docsearch'].crawler}
+  alt="Can't login to Algolia Crawler"
+/>
 
 So i need find another way to generate my post index.
 
@@ -54,7 +39,7 @@ The DocSearch frontend UI read result as specific format. We just need to provid
 
 Then DocSearch fronted UI can works.
 
-<Image src={image2} alt="Index format" />
+<Image src={images['setting-up-docsearch'].indexFormat} alt="Index format" />
 
 So we need post same format to Algolia.
 

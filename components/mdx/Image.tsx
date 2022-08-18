@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import NextImage, { ImageProps } from 'next/future/image';
 
 interface Props extends ImageProps {}
@@ -5,10 +6,18 @@ interface Props extends ImageProps {}
 const Image = ({ alt, ...rest }: Props) => {
   return (
     <>
-      <span className="block text-center">
-        <NextImage alt={alt} {...rest} />
-        {alt && <span className="block text-center text-gray-400">{alt}</span>}
-      </span>
+      <NextImage className="mx-auto" alt={alt} {...rest} />
+      {alt && (
+        <span
+          className={classNames(
+            'block mx-auto',
+            'text-center text-gray-400',
+            'mt-2'
+          )}
+        >
+          {alt}
+        </span>
+      )}
     </>
   );
 };
