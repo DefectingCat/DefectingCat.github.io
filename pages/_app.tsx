@@ -40,9 +40,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         enableSystem
         defaultTheme="system"
       >
-        <MDXProvider components={components}>
-          {getLayout(<Component {...pageProps} />)}
-        </MDXProvider>
+        {/* <MDXProvider components={components}> */}
+        {getLayout(<Component {...pageProps} />)}
+        {/* </MDXProvider> */}
       </ThemeProvider>
 
       {loading && <VercelLoading />}

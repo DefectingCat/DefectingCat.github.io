@@ -1,17 +1,19 @@
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
 import { MyMatters, Post } from 'types';
 import { sortByDate } from 'lib/utils';
+
+const dataPath = 'data/posts';
 
 /**
  * Read post meta info with gray-matter.
  * @param filename
  * @returns
  */
-const readFileMeta = (filename: string) => {
-  const markdownWithMeta = fs.readFileSync(
-    path.join('pages/p', filename),
+const readFileMeta = async (filename: string) => {
+  const markdownWithMeta = await fs.readFile(
+    path.join(dataPath, filename),
     'utf-8'
   );
   const slug = filename.replace(/\.mdx$/, '');
@@ -27,8 +29,25 @@ const readFileMeta = (filename: string) => {
  * @returns
  */
 export const postLists = async (): Promise<Post[]> => {
-  const files = fs.readdirSync(path.join('pages/p'));
-  const posts = files.map(readFileMeta).sort(sortByDate);
+  const files = await fs.readdir(path.join(dataPath));
+  return (await Promise.all(files.map(readFileMeta))).sort(sortByDate);
+};
 
-  return posts;
+const readFilePath = async (filename: string) => {
+  const slug = filename.replace(/\.mdx$/, '');
+  return {
+    params: {
+      slug,
+    },
+  };
+};
+
+export const allPostsPath = async () => {
+  const files = await fs.readdir(path.join(dataPath));
+  return await Promise.all(files.map(readFilePath));
+};
+
+export const readSinglePost = async (slug: string) => {
+  const filename = path.join(`${dataPath}/${slug}.mdx`);
+  return await fs.readFile(filename, { encoding: 'utf-8' });
 };
