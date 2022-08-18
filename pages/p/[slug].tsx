@@ -8,7 +8,6 @@ import rehypePrism from '@mapbox/rehype-prism';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import dynamic from 'next/dynamic';
-import { MyMatters } from 'types';
 
 const Footer = dynamic(() => import('components/Footer'));
 const HeadBar = dynamic(() => import('components/NavBar'));
@@ -26,7 +25,7 @@ const Slug = ({
         <time>{mdxSource.frontmatter?.date}</time>
 
         <article id="post-content">
-          <MDXRemote {...mdxSource} components={components} />
+          <MDXRemote {...mdxSource} components={components as {}} />
           <PostComment />
         </article>
       </main>

@@ -4,21 +4,6 @@ date: '2022-04-13'
 tags: ['three.js', 'JavaScript']
 ---
 
-import Layout from 'layouts/MDXLayout';
-import dynamic from 'next/dynamic';
-import Image from 'components/mdx/Image';
-import image1 from 'assets/images/p/how-to-load-a-background-with-threejs/Skybox_example.png';
-
-export const RUASandpack = dynamic(() => import('components/RUA/RUASandpack'));
-
-export const meta = {
-  title: 'How to load a background with three.js',
-  date: '2022-04-13',
-  tags: ['three.js', 'JavaScript'],
-};
-
-export default ({ children }) => <Layout {...meta}>{children}</Layout>;
-
 ## Three.js setup
 
 First, we need a little of setup. Let's create a scene and a camera.
@@ -60,57 +45,11 @@ renderer.render(scene, camera);
 
 Now, we can get a black canvas in our document.
 
-export const main = `import { useEffect, useRef } from 'react';
-import * as THREE from 'three';
-
-export default function App() {
-  const ref = useRef(null);
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
-  useEffect(() => {
-    const renderer = new THREE.WebGLRenderer({
-      canvas: ref.current,
-    });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    const render = (time) => {
-      renderer.render(scene, camera);
-      requestAnimationFrame(render);
-    };
-    requestAnimationFrame(render);
-    function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      render(0);
-    }
-    window.addEventListener('resize', onWindowResize);
-    return () => {
-      window.removeEventListener('resize', onWindowResize);
-    };
-  }, []);
-  return (
-    <>
-      <canvas ref={ref}></canvas>
-    </>
-  )
-}`;
-
-export const styles = `* {
-  padding: 0;
-  margin: 0;
-}`;
-
 <RUASandpack
   template="react"
   files={{
-    '/App.js': main,
-    '/styles.css': styles,
+    '/App.js': sandpack['load-background-main'],
+    '/styles.css': sandpack['load-background-styles'],
   }}
   options={{
     autorun: false,
@@ -142,7 +81,7 @@ We need set texture to cube box each side. so we need six pictures.
 
 The skybox is six images that can be connected each other.
 
-<Image src={image1} alt="Skyboxes example" />
+<Image src={images['load-background']['skybox_example']} />
 
 We just need load six images in some order, and set them to the scene background.
 
@@ -184,74 +123,11 @@ controls.enablePan = false;
 controls.update();
 ```
 
-export const main2 = `import { useEffect, useRef } from "react";
-import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-const manager = new THREE.LoadingManager();
-manager.onProgress = (item, loaded, total) => {
-  console.log(loaded, total);
-};
-
-export default function App() {
-  const ref = useRef(null);
-  const scene = new THREE.Scene();
-  const sky = new THREE.CubeTextureLoader(manager).load([
-    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_ft.png",
-    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_bk.png",
-    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_up.png",
-    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_dn.png",
-    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_rt.png",
-    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_lf.png"
-  ]);
-  scene.background = sky;
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
-  camera.position.set(0, 1, 0);
-  camera.up.set(0, 0, 1);
-  scene.add(camera);
-  useEffect(() => {
-    const renderer = new THREE.WebGLRenderer({
-      canvas: ref.current
-    });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    const controls = new OrbitControls(camera, ref.current);
-    controls.enablePan = false;
-    controls.target.set(0, 0, 0);
-    controls.update();
-    const render = (time) => {
-      renderer.render(scene, camera);
-      requestAnimationFrame(render);
-    };
-    requestAnimationFrame(render);
-    function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      render(0);
-    }
-    window.addEventListener("resize", onWindowResize);
-    return () => {
-      window.removeEventListener("resize", onWindowResize);
-    };
-  }, []);
-  return (
-    <>
-      <canvas ref={ref}></canvas>
-    </>
-  );
-}
-`;
-
 <RUASandpack
   template="react"
   files={{
-    '/App.js': main2,
-    '/styles.css': styles,
+    '/App.js': sandpack['load-background-main2'],
+    '/styles.css': sandpack['load-background-styles'],
   }}
   options={{
     autorun: false,
