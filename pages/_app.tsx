@@ -1,5 +1,3 @@
-import { MDXProvider } from '@mdx-js/react';
-import Anchor from 'components/mdx/Anchor';
 import useRouterLoading from 'lib/hooks/useRouterLoading';
 import { ThemeProvider } from 'next-themes';
 import dynamic from 'next/dynamic';
@@ -13,10 +11,6 @@ import { AppPropsWithLayout } from 'types';
 const VercelLoading = dynamic(
   () => import('components/RUA/loading/VercelLoading')
 );
-
-const components = {
-  a: Anchor,
-};
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
@@ -40,9 +34,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         enableSystem
         defaultTheme="system"
       >
-        {/* <MDXProvider components={components}> */}
         {getLayout(<Component {...pageProps} />)}
-        {/* </MDXProvider> */}
       </ThemeProvider>
 
       {loading && <VercelLoading />}

@@ -33,6 +33,11 @@ export const postLists = async (): Promise<Post[]> => {
   return (await Promise.all(files.map(readFileMeta))).sort(sortByDate);
 };
 
+/**
+ * Replace file name.
+ * @param filename
+ * @returns
+ */
 const readFilePath = async (filename: string) => {
   const slug = filename.replace(/\.mdx$/, '');
   return {
@@ -42,11 +47,20 @@ const readFilePath = async (filename: string) => {
   };
 };
 
+/**
+ * Read posts folder.
+ * @returns
+ */
 export const allPostsPath = async () => {
   const files = await fs.readdir(path.join(dataPath));
   return await Promise.all(files.map(readFilePath));
 };
 
+/**
+ * Read single postcontent.
+ * @param slug
+ * @returns
+ */
 export const readSinglePost = async (slug: string) => {
   const filename = path.join(`${dataPath}/${slug}.mdx`);
   return await fs.readFile(filename, { encoding: 'utf-8' });
