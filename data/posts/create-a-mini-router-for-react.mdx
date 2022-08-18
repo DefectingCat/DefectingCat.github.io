@@ -4,24 +4,9 @@ date: '2022-08-03'
 tags: [JavaScript, React]
 ---
 
-import Layout from 'layouts/MDXLayout';
-import Image from 'components/mdx/Image';
-import image1 from 'assets/images/p/create-a-mini-router-for-react/router.webp';
-import image2 from 'assets/images/p/create-a-mini-router-for-react/Web架构.svg';
-import image3 from 'assets/images/p/create-a-mini-router-for-react/迷你路由器.svg';
-import image4 from 'assets/images/p/create-a-mini-router-for-react/image-20210823154009498.webp';
-
-export const meta = {
-  title: '现代前端的Web应用路由-为React打造一个迷你路由器',
-  date: '2022-08-03',
-  tags: ['JavaScript', 'React'],
-};
-
-export default ({ children }) => <Layout {...meta}>{children}</Layout>;
-
 路由不仅仅只是网络的代名词，它更像是一种表达路径的概念。与网络中的路由相似，前端中的页面路由也是带领我们前往指定的地方。
 
-<Image src={image1} placeholder="" priority />
+<Image src={images.miniRouter.miniRouter1} placeholder="" priority />
 
 ## 现代前端的 Web 应用路由
 
@@ -29,7 +14,12 @@ export default ({ children }) => <Layout {...meta}>{children}</Layout>;
 
 自那时起，Web 服务器在设计和构造方面经历了很多发展（前端也是）。如今，JavaScript 框架和浏览器技术已经足够先进，允许我们利用 JavaScript 在客户端渲染 HTML 页面，以至于 Web 应用可以采用更独特的前后的分离机制。在第一次由服务端下发了对应的 JavaScript 代码后，后续的工作就全部交给客户端 JavaScript。而后端服务器负责发送原始数据，通常是 JSON 等。
 
-<Image src={image2} alt="Web架构" />
+<Image
+  src={'/images/p/create-a-mini-router-for-react/Web架构.svg'}
+  alt="Web架构"
+  width="732"
+  height="462"
+/>
 
 在旧架构中，动态内容由 Web 服务器生成，服务器会在数据库中获取数据，并利用数据渲染 HTML 模板发送给浏览器。每次切换页面都会获取新的由服务端渲染的页面发送给浏览器。
 
@@ -57,7 +47,12 @@ React 是现代众多成熟的 SPA 应用框架之一，它自然也需要使用
 
 首先来看下本次路由的基本工作原理，本质上很简单，我们需要一个可以渲染任意组件的父组件 `<Router />` 或者叫 `<router-view>` 之类的。然后再根据浏览器地址的变化，渲染注册路由时对应的组件即可。
 
-<Image src={image3} alt="迷你路由器" />
+<Image
+  src={'/images/p/create-a-mini-router-for-react/迷你路由器.svg'}
+  alt="迷你路由器"
+  width="916"
+  height="514"
+/>
 
 ### 配置文件
 
@@ -122,7 +117,7 @@ export default Router;
 
 现在我们直接从地址栏访问对应的路由，我们的 Router 组件应该就可以根据已经注册好的路由配置文件来找到正确的组件，并将其渲染出来了。
 
-<Image src={image4} alt="image-20210823154009498" />
+<Image src={images.miniRouter.miniRouter4} alt="image-20210823154009498" />
 
 ### 切换路由
 

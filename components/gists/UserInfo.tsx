@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { GetUser } from 'lib/fetcher';
 import Image from 'next/image';
-import avatar from 'assets/images/img/avatar.svg';
+import avatar from 'public/images/img/avatar.svg';
 import { FiLink, FiMail, FiTwitter } from 'react-icons/fi';
 
 type Props = {
