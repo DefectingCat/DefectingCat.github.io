@@ -6,7 +6,7 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import avatar from 'assets/images/img/avatar.svg';
+import avatar from 'public/images/img/avatar.svg';
 import { ReactElement } from 'react';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));

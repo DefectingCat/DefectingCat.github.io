@@ -1250,14 +1250,6 @@
     refractor "^3.4.0"
     unist-util-visit "^2.0.3"
 
-"@mdx-js/loader@^2.1.2":
-  version "2.1.2"
-  resolved "https://registry.npmmirror.com/@mdx-js/loader/-/loader-2.1.2.tgz#fe7631bbef1e6546f4289f7adaef60083c22063a"
-  integrity sha512-P7CWhrqE5rZ3ewBngZ9t/zQPbSq42iuty78K3zJ8Bl518qnOX1d106c+n7I/zHODPAmw9JfYMQdbv9WrrHa0DA==
-  dependencies:
-    "@mdx-js/mdx" "^2.0.0"
-    source-map "^0.7.0"
-
 "@mdx-js/mdx@^2.0.0":
   version "2.1.0"
   resolved "https://registry.npmmirror.com/@mdx-js/mdx/-/mdx-2.1.0.tgz#a984cee27a378619a82d193288031a7b83a54b26"
@@ -1289,14 +1281,6 @@
     "@types/mdx" "^2.0.0"
     "@types/react" ">=16"
 
-"@mdx-js/react@^2.1.2":
-  version "2.1.2"
-  resolved "https://registry.npmmirror.com/@mdx-js/react/-/react-2.1.2.tgz#02972f170cd3ad9113ce448245c5f636bb3e750d"
-  integrity sha512-52e3DTJBrjsw3U51ZCdZ3N1IBaqnbzLIngCSXpKtiYiGr7PIqp3/P/+kym0MPTwBL/y9ZBmCieD8FyrXuEDrRw==
-  dependencies:
-    "@types/mdx" "^2.0.0"
-    "@types/react" ">=16"
-
 "@next/env@12.2.4":
   version "12.2.4"
   resolved "https://registry.yarnpkg.com/@next/env/-/env-12.2.4.tgz#5ba9bed9970be4113773233148b4539691bfc4fe"
@@ -1308,11 +1292,6 @@
   integrity sha512-ChDkUIkJeYWKRx+FdF+EhUgvKtK1wF+Xew4Os7ef3iAjMch5GGBiezw2zGXTa/C0E6potz4j11EpX89mngffug==
   dependencies:
     glob "7.1.7"
-
-"@next/mdx@^12.2.4":
-  version "12.2.4"
-  resolved "https://registry.yarnpkg.com/@next/mdx/-/mdx-12.2.4.tgz#a94d2e6eef91a4da1298e3a802563aad66cd7826"
-  integrity sha512-3Bj8gS6T0ZeAzoZQ66oNIXpgWeaYyiHB/mb8pJwDkgZiCUpaacxkfZ5HFqMdndAMJSCkKWcjhWaoGo7pUP88pg==
 
 "@next/swc-android-arm-eabi@12.2.4":
   version "12.2.4"
@@ -7804,11 +7783,6 @@ source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.1:
   resolved "https://registry.npmmirror.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
 
-source-map@^0.7.0:
-  version "0.7.3"
-  resolved "https://registry.npmmirror.com/source-map/-/source-map-0.7.3.tgz#5302f8169031735226544092e64981f751750383"
-  integrity sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ==
-
 space-separated-tokens@^1.0.0:
   version "1.1.5"
   resolved "https://registry.npmmirror.com/space-separated-tokens/-/space-separated-tokens-1.1.5.tgz#85f32c3d10d9682007e917414ddc5c26d1aa6899"
@@ -8172,11 +8146,6 @@ to-regex-range@^5.0.1:
   integrity sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==
   dependencies:
     is-number "^7.0.0"
-
-tocbot@^4.18.2:
-  version "4.18.2"
-  resolved "https://registry.npmmirror.com/tocbot/-/tocbot-4.18.2.tgz#e98bb4120fae02f0e4a01d3acff03f3db2ba3ad9"
-  integrity sha512-bWUfEYQZ4oFgT+qZYvzlTgbsTmA645ApHbo1iRaOBUeFfy5IpctgAQQjCXbPZy+4RDZ1JJYlIBgoApZMzMaYog==
 
 tough-cookie@^4.0.0:
   version "4.0.0"
