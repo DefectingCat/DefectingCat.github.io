@@ -19,24 +19,6 @@ const TocItem = ({ item }: { item: SingleToc }) => {
     </li>
   );
 };
-const TocList = ({
-  toc,
-  children,
-}: {
-  toc: SingleToc[];
-  children?: React.ReactElement;
-}) => {
-  return (
-    <ul className="pl-4 border-l-4 border-gray-300 toc">
-      {toc.map((h) => (
-        <>
-          <TocItem key={h.head} item={h} />
-          {children}
-        </>
-      ))}
-    </ul>
-  );
-};
 
 const PostToc = ({ toc, tocLength }: Props) => {
   const [show, setShow] = useState(false);
