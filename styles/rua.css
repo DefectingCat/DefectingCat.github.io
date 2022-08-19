@@ -118,7 +118,7 @@
 } */
 
 #article .toc .is-active-link {
-  @apply font-semibold transition-all;
+  @apply font-semibold;
 }
 
 #article p {

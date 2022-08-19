@@ -12,7 +12,7 @@ const Image = ({ alt, ...rest }: Props) => {
           className={classNames(
             'block mx-auto',
             'text-center text-gray-400',
-            'mt-2'
+            'my-2'
           )}
         >
           {alt}
