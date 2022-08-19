@@ -33,3 +33,45 @@ export const getHeadings = (source: string) => {
     };
   });
 };
+
+export type SingleToc = {
+  level: number;
+  head: string;
+  link: string;
+  children: SingleToc[];
+};
+export const generateToc = (source: string) => {
+  const regex = /^#{2,3}(?!#)(.*)/gm;
+
+  let lastH2: SingleToc | null = null;
+  const toc: SingleToc[] = [];
+
+  source.match(regex)?.map((h) => {
+    const heading = h.split(' ');
+    const level = heading[0].length;
+    const head = h.substring(level + 1);
+    switch (level) {
+      case 2: {
+        lastH2 = {
+          level,
+          head,
+          link: `#${head.toLocaleLowerCase().replace(/ /g, '-')}`,
+          children: [],
+        };
+        toc.push(lastH2);
+        break;
+      }
+      case 3: {
+        lastH2?.children.push({
+          level,
+          head,
+          link: `#${head.toLocaleLowerCase().replace(/ /g, '-')}`,
+          children: [],
+        });
+        break;
+      }
+    }
+  });
+
+  return toc;
+};

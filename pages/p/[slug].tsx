@@ -8,6 +8,8 @@ import rehypePrism from '@mapbox/rehype-prism';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import dynamic from 'next/dynamic';
+import { generateToc, SingleToc } from 'lib/utils';
+import PostToc from 'components/post/PostToc';
 
 const Footer = dynamic(() => import('components/Footer'));
 const HeadBar = dynamic(() => import('components/NavBar'));
@@ -15,6 +17,8 @@ const PostComment = dynamic(() => import('components/post/PostComment'));
 
 const Slug = ({
   mdxSource,
+  toc,
+  tocLength,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
@@ -23,6 +27,7 @@ const Slug = ({
       <main id="article" className="relative max-w-4xl px-4 mx-auto my-10">
         <h1>{mdxSource.frontmatter?.title}</h1>
         <time>{mdxSource.frontmatter?.date}</time>
+        <PostToc toc={toc} tocLength={tocLength} />
 
         <article id="post-content">
           <MDXRemote {...mdxSource} components={components as {}} />
@@ -44,6 +49,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<{
   mdxSource: MDXRemoteSerializeResult;
+  toc: SingleToc[];
+  tocLength: number;
 }> = async ({ params }) => {
   const slug = params?.slug?.toString();
   if (!slug)
@@ -52,6 +59,12 @@ export const getStaticProps: GetStaticProps<{
     };
 
   const post = await readSinglePost(slug);
+  const toc = generateToc(post);
+  let tocLength = toc.length;
+  toc.forEach(
+    (item) => item.children.length && (tocLength += item.children.length)
+  );
+
   const mdxSource = await serialize(post, {
     mdxOptions: {
       remarkPlugins: [remarkGfm],
@@ -63,9 +76,12 @@ export const getStaticProps: GetStaticProps<{
     parseFrontmatter: true,
     scope: data,
   });
+
   return {
     props: {
       mdxSource,
+      toc,
+      tocLength,
     },
   };
 };

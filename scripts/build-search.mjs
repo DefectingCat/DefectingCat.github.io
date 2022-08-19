@@ -4,17 +4,19 @@ import fs from 'fs';
 import path from 'path';
 import { nanoid } from 'nanoid';
 
+const dataPath = 'data/posts';
+
 /**
  * Build post information for Algolia search.
  * @param filename
  * @returns
  */
 const postLists = () => {
-  const files = fs.readdirSync(path.join('pages/p'));
+  const files = fs.readdirSync(path.join(dataPath));
 
   const myPosts = [];
   files.map((f) => {
-    const content = fs.readFileSync(path.join('pages/p', f), 'utf-8');
+    const content = fs.readFileSync(path.join(dataPath, f), 'utf-8');
     // const { data: meta, content } = matter(markdownWithMeta);
 
     const slug = f.replace(/\.mdx$/, '');

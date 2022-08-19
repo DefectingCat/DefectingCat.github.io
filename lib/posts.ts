@@ -4,7 +4,7 @@ import matter from 'gray-matter';
 import { MyMatters, Post } from 'types';
 import { sortByDate } from 'lib/utils';
 
-const dataPath = 'data/posts';
+export const dataPath = 'data/posts';
 
 /**
  * Read post meta info with gray-matter.

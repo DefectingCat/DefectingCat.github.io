@@ -1,4 +1,4 @@
-import { getHeadings } from 'lib/utils';
+import { getHeadings, SingleToc } from 'lib/utils';
 import Anchor from 'components/mdx/Anchor';
 import styles from './PostToc.module.css';
 import classNames from 'classnames';
@@ -6,10 +6,39 @@ import { useCallback, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 
 interface Props {
-  headings: ReturnType<typeof getHeadings>;
+  toc: SingleToc[];
+  tocLength: number;
 }
 
-const PostTOC = ({ headings }: Props) => {
+const TocItem = ({ item }: { item: SingleToc }) => {
+  return (
+    <li key={item.head}>
+      <Anchor href={item.link} external={false}>
+        {item.head}
+      </Anchor>
+    </li>
+  );
+};
+const TocList = ({
+  toc,
+  children,
+}: {
+  toc: SingleToc[];
+  children?: React.ReactElement;
+}) => {
+  return (
+    <ul className="pl-4 border-l-4 border-gray-300 toc">
+      {toc.map((h) => (
+        <>
+          <TocItem key={h.head} item={h} />
+          {children}
+        </>
+      ))}
+    </ul>
+  );
+};
+
+const PostToc = ({ toc, tocLength }: Props) => {
   const [show, setShow] = useState(false);
   const handleClick = useCallback(() => setShow((show) => !show), []);
 
@@ -22,7 +51,7 @@ const PostTOC = ({ headings }: Props) => {
           'my-4'
         )}
         style={{
-          maxHeight: show ? (headings?.length ?? 0) * 50 + 70 : 70,
+          maxHeight: show ? (tocLength ?? 0) * 50 + 70 : 70,
         }}
       >
         <h2
@@ -47,18 +76,23 @@ const PostTOC = ({ headings }: Props) => {
           />
         </h2>
 
-        <ul className="pl-4 border-l-4 border-gray-300 toc">
-          {headings?.map((h) => (
-            <li key={h.link}>
-              <Anchor href={h.link} external={false}>
-                {h.text}
-              </Anchor>
-            </li>
-          ))}
-        </ul>
+        <div className="pl-4 border-l-4 border-gray-300 toc">
+          <ul className="!pl-[unset]">
+            {toc?.map((h) => (
+              <>
+                <TocItem item={h} key={h.link} />
+                {h.children.map((child) => (
+                  <ul className="!pl-4" key={child.link}>
+                    <TocItem item={child} />
+                  </ul>
+                ))}
+              </>
+            ))}
+          </ul>
+        </div>
       </div>
     </>
   );
 };
 
-export default PostTOC;
+export default PostToc;

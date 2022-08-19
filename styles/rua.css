@@ -93,32 +93,12 @@
 }
 
 #article .toc {
-  @apply hidden dark:bg-rua-gray-700;
-  @apply fixed z-10 p-6 bg-white rounded-md xl:inline-block;
-  @apply translate-x-[110%] top-1/2 -translate-y-1/2;
-  @apply max-h-[85%] overflow-auto;
+  padding-left: 0.8em;
+  @apply my-4;
 }
 
-#article .toc .toc-list .toc-list {
-  padding-left: 1rem;
-  padding-top: 0.5rem;
+#article .toc li {
   list-style-type: none;
-}
-
-#article .toc .toc-list-item {
-  padding-bottom: 0.5rem;
-  @apply transition-all;
-}
-
-#article .toc .toc-list-item:last-child {
-  padding-bottom: 0;
-}
-
-/* #article .toc .toc-link {
-} */
-
-#article .toc .is-active-link {
-  @apply font-semibold;
 }
 
 #article p {
