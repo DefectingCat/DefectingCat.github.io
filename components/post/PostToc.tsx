@@ -2,7 +2,7 @@ import { getHeadings, SingleToc } from 'lib/utils';
 import Anchor from 'components/mdx/Anchor';
 import styles from './PostToc.module.css';
 import classNames from 'classnames';
-import { useCallback, useState } from 'react';
+import { Fragment, useCallback, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 
 interface Props {
@@ -61,14 +61,14 @@ const PostToc = ({ toc, tocLength }: Props) => {
         <div className="pl-4 border-l-4 border-gray-300 toc">
           <ul className="!pl-[unset]">
             {toc?.map((h) => (
-              <>
-                <TocItem item={h} key={h.link} />
+              <Fragment key={h.link}>
+                <TocItem item={h} />
                 {h.children.map((child) => (
                   <ul className="!pl-4" key={child.link}>
                     <TocItem item={child} />
                   </ul>
                 ))}
-              </>
+              </Fragment>
             ))}
           </ul>
         </div>
