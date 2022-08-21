@@ -12,7 +12,7 @@
     "test-ci": "jest --ci --coverage"
   },
   "dependencies": {
-    "@codesandbox/sandpack-react": "^1.5.0",
+    "@codesandbox/sandpack-react": "^1.5.1",
     "@docsearch/react": "3",
     "@giscus/react": "^2.2.0",
     "@mapbox/rehype-prism": "^0.8.0",
@@ -37,7 +37,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@types/jest": "^28.1.7",
-    "@types/node": "18.7.6",
+    "@types/node": "18.7.8",
     "@types/react": "18.0.17",
     "autoprefixer": "^10.4.8",
     "dotenv": "^16.0.1",

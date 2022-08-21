@@ -40,6 +40,11 @@ export type SingleToc = {
   link: string;
   children: SingleToc[];
 };
+/**
+ * Generate post toc
+ * @param source
+ * @returns
+ */
 export const generateToc = (source: string) => {
   const regex = /^#{2,3}(?!#)(.*)/gm;
 
@@ -50,12 +55,17 @@ export const generateToc = (source: string) => {
     const heading = h.split(' ');
     const level = heading[0].length;
     const head = h.substring(level + 1);
+    const link = `#${head
+      .toLocaleLowerCase()
+      .replace(/ /g, '-')
+      .replace(/\./g, '')}`;
+
     switch (level) {
       case 2: {
         lastH2 = {
           level,
           head,
-          link: `#${head.toLocaleLowerCase().replace(/ /g, '-')}`,
+          link,
           children: [],
         };
         toc.push(lastH2);
@@ -65,7 +75,7 @@ export const generateToc = (source: string) => {
         lastH2?.children.push({
           level,
           head,
-          link: `#${head.toLocaleLowerCase().replace(/ /g, '-')}`,
+          link,
           children: [],
         });
         break;
