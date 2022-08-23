@@ -15,11 +15,10 @@ dayjs.extend(relativeTime);
 const Gists = ({
   gists,
   user,
+  prev,
+  next,
+  total,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const prev = Number(gists.pageSize.prev);
-  const next = Number(gists.pageSize.next);
-  const total = Number(gists.pageSize.last);
-
   return (
     <>
       <main className="max-w-5xl px-4 mx-auto lg:px-0">
@@ -46,6 +45,9 @@ const Gists = ({
 export const getStaticProps: GetStaticProps<{
   gists: GetGists;
   user: GetUser;
+  prev: number;
+  next: number;
+  total: number;
 }> = async () => {
   const result = await getGists();
   if (!result)
@@ -59,6 +61,9 @@ export const getStaticProps: GetStaticProps<{
     props: {
       gists: result,
       user,
+      prev: Number(result.pageSize.prev),
+      next: Number(result.pageSize.next),
+      total: Number(result.pageSize.last),
     },
     revalidate: 600,
   };

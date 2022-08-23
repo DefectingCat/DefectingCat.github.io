@@ -34,6 +34,25 @@ export const postLists = async (): Promise<Post[]> => {
 };
 
 /**
+ * Get posts list page.
+ */
+export const PostPerPage = 5;
+export type PostPath = { params: { page: string } };
+const postPathCallback = (prev: PostPath[], _: unknown, i: number) =>
+  i + 1 > 2
+    ? prev.concat({
+        params: { page: (i + 1).toString() },
+      })
+    : prev;
+export const getPostListPath = async () => {
+  const length = (await fs.readdir(path.join(dataPath))).length;
+  const pages = Math.ceil(length / PostPerPage);
+  return Array.from({ length: pages }).reduce<PostPath[]>(postPathCallback, [
+    { params: { page: '2' } },
+  ]);
+};
+
+/**
  * Replace file name.
  * @param filename
  * @returns

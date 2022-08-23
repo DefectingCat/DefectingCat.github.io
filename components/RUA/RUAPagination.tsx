@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { DetailedHTMLProps, HTMLAttributes } from 'react';
 
 const Button = dynamic(() => import('components/RUA/Button'));
 
@@ -10,7 +11,7 @@ type Props = {
   nextLink: string;
   current?: number;
   total?: number;
-};
+} & DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
 
 const RUAPagination = ({
   hasPrev,
@@ -19,10 +20,11 @@ const RUAPagination = ({
   nextLink,
   current,
   total,
+  ...rest
 }: Props) => {
   return (
     <>
-      <nav>
+      <nav {...rest}>
         <ul className="flex items-center justify-between -space-x-px">
           <li>
             {hasPrev ? (
