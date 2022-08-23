@@ -1,11 +1,14 @@
 import classNames from 'classnames';
+import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 
 export type ButtonProps = {
   children: React.ReactNode;
-  disabled?: boolean;
-};
+} & DetailedHTMLProps<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>;
 
-const Button = ({ children, disabled }: ButtonProps) => {
+const Button = ({ children, ...rest }: ButtonProps) => {
   return (
     <>
       <button
@@ -13,7 +16,7 @@ const Button = ({ children, disabled }: ButtonProps) => {
           'bg-white border border-transparent hover:border-gray-200',
           'outline-none hover:bg-gray-50 focus:ring-4 dark:border-transparent',
           'focus:ring-cyan-200 font-medium rounded-lg text-sm',
-          'px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white ',
+          'px-5 py-2.5 dark:bg-gray-800 dark:text-white ',
           'dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:ring-cyan-800',
           'transition-all disabled:hover:bg-gray-200',
           'disabled:cursor-not-allowed disabled:dark:hover:bg-gray-700',
@@ -22,7 +25,7 @@ const Button = ({ children, disabled }: ButtonProps) => {
           'dark:disabled:bg-gray-700 dark:disabled:text-gray-300',
           'disabled:dark:hover:border-transparent'
         )}
-        disabled={disabled}
+        {...rest}
       >
         {children}
       </button>

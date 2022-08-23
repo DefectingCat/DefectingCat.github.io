@@ -17,6 +17,9 @@ export type GistData = {
   description: string | null;
 };
 export type GetGists = {
+  /**
+   * { prev: null, next: '2', last: '5', first: null }
+   */
   pageSize: pageSize;
   gists: GistData[];
 };
