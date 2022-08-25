@@ -840,18 +840,18 @@
     style-mod "^4.0.0"
     w3c-keyname "^2.2.4"
 
-"@codesandbox/sandpack-client@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.npmmirror.com/@codesandbox/sandpack-client/-/sandpack-client-1.4.0.tgz#8433e6dafd5e62750608eed12011e03435e5e57e"
-  integrity sha512-wQGQba6QeLcS/nD/i6lsJLYAaj0yTSYF2dcb6pqBPah2PlJhU13sR5aHBX8bsOqSNETougk84sdYiQMmmIvPcQ==
+"@codesandbox/sandpack-client@^1.5.4":
+  version "1.5.4"
+  resolved "https://registry.npmmirror.com/@codesandbox/sandpack-client/-/sandpack-client-1.5.4.tgz#92c0fdfb371bf52f945ca8c707187d9e94928f80"
+  integrity sha512-NK3PSTbfiVkbx++WzjpAkIfvc1tcixBOUNmbnSLui4qJ+PzQd7tXpDmrHgLm4Do3Gyw/cdljNfxXhTC9w04Q0g==
   dependencies:
     codesandbox-import-utils "^1.2.3"
     lodash.isequal "^4.5.0"
 
-"@codesandbox/sandpack-react@^1.5.1":
-  version "1.5.1"
-  resolved "https://registry.npmmirror.com/@codesandbox/sandpack-react/-/sandpack-react-1.5.1.tgz#463231882aa618e5335eb971cd19bf7db0cfca35"
-  integrity sha512-WuNPgRiR1fdaPkrVs+n/Kqx5bOqI5C4MS3XsQaRXng/Cph0TBdoKxGFVs+9/sZpgid5g16A6O3EZVREQE6Sc3g==
+"@codesandbox/sandpack-react@^1.5.4":
+  version "1.5.4"
+  resolved "https://registry.npmmirror.com/@codesandbox/sandpack-react/-/sandpack-react-1.5.4.tgz#6c8daad647bd4ce1b778596d9febdbed4c00ac49"
+  integrity sha512-zuHLJ1MhWD2J/+5z4h6HMWw7gO+1/dbAPa/11s+avnUop/apTF6niAG+NgsidjV6sIUzN5z3uUPx1Kpmpcw7fw==
   dependencies:
     "@code-hike/classer" "^0.0.0-aa6efee"
     "@codemirror/closebrackets" "^0.19.0"
@@ -868,7 +868,7 @@
     "@codemirror/matchbrackets" "^0.19.3"
     "@codemirror/state" "^0.19.6"
     "@codemirror/view" "^0.19.32"
-    "@codesandbox/sandpack-client" "^1.4.0"
+    "@codesandbox/sandpack-client" "^1.5.4"
     "@react-hook/intersection-observer" "^3.1.1"
     "@stitches/core" "^1.2.6"
     codesandbox-import-util-types "^2.2.3"
@@ -1901,10 +1901,10 @@
     jest-matcher-utils "^27.0.0"
     pretty-format "^27.0.0"
 
-"@types/jest@^28.1.7":
-  version "28.1.7"
-  resolved "https://registry.npmmirror.com/@types/jest/-/jest-28.1.7.tgz#a680c5d05b69634c2d54a63cb106d7fb1adaba16"
-  integrity sha512-acDN4VHD40V24tgu0iC44jchXavRNVFXQ/E6Z5XNsswgoSO/4NgsXoEYmPUGookKldlZQyIpmrEXsHI9cA3ZTA==
+"@types/jest@^28.1.8":
+  version "28.1.8"
+  resolved "https://registry.npmmirror.com/@types/jest/-/jest-28.1.8.tgz#6936409f3c9724ea431efd412ea0238a0f03b09b"
+  integrity sha512-8TJkV++s7B6XqnDrzR1m/TT0A0h948Pnl/097veySPN67VRAgQ4gZ7n2KfJo2rVq6njQjdxU3GCCyDvAeuHoiw==
   dependencies:
     expect "^28.0.0"
     pretty-format "^28.0.0"
@@ -1967,10 +1967,10 @@
   resolved "https://registry.npmmirror.com/@types/node/-/node-17.0.22.tgz#38b6c4b9b2f3ed9f2e376cce42a298fb2375251e"
   integrity sha512-8FwbVoG4fy+ykY86XCAclKZDORttqE5/s7dyWZKLXTdv3vRy5HozBEinG5IqhvPXXzIZEcTVbuHlQEI6iuwcmw==
 
-"@types/node@18.7.8":
-  version "18.7.8"
-  resolved "https://registry.npmmirror.com/@types/node/-/node-18.7.8.tgz#6bbf2be6fbf9c187a5040d4277d24a06a18957a1"
-  integrity sha512-/YP55EMK2341JkODUb8DM9O0x1SIz2aBvyF33Uf1c76St3VpsMXEIW0nxuKkq/5cxnbz0RD9cfwNZHEAZQD3ag==
+"@types/node@18.7.13":
+  version "18.7.13"
+  resolved "https://registry.npmmirror.com/@types/node/-/node-18.7.13.tgz#23e6c5168333480d454243378b69e861ab5c011a"
+  integrity sha512-46yIhxSe5xEaJZXWdIBP7GU4HDTG8/eo0qd9atdiL+lFpA03y8KS+lkTN834TWJj5767GbWv4n/P6efyTFt1Dw==
 
 "@types/parse5@*":
   version "6.0.3"
@@ -6499,11 +6499,6 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
-
-next-compose-plugins@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.npmmirror.com/next-compose-plugins/-/next-compose-plugins-2.2.1.tgz#020fc53f275a7e719d62521bef4300fbb6fde5ab"
-  integrity sha512-OjJ+fV15FXO2uQXQagLD4C0abYErBjyjE0I0FHpOEIB8upw0hg1ldFP6cqHTJBH1cZqy96OeR3u1dJ+Ez2D4Bg==
 
 next-mdx-remote@^4.1.0:
   version "4.1.0"
