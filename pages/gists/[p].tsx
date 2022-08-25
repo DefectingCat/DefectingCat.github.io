@@ -26,9 +26,10 @@ const Gists = ({
         <div className="md:flex">
           <UserInfo user={user} />
 
-          <div className="flex-1 py-4 overflow-hidden md:pl-8">
+          <div className="flex-1 px-1 py-4 overflow-hidden md:pl-8">
             <FileContent gists={gists.gists} />
             <Pagination
+              className="mt-4"
               hasPrev={!!prev}
               hasNext={!!next}
               prevLink={prev === 1 ? `/gists/` : `/gists/${prev}`}

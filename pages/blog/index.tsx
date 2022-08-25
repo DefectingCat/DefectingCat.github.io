@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import PostCardLoading from 'components/RUA/loading/PostCardLoading';
 import { postLists, PostPerPage } from 'lib/posts';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
@@ -15,7 +14,6 @@ const Pagination = dynamic(() => import('components/RUA/RUAPagination'));
 
 const Blog = ({
   posts,
-  prev,
   next,
   total,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -29,7 +27,7 @@ const Blog = ({
         </BlogList>
 
         <Pagination
-          className="py-6 px-7 lg:px-5"
+          className="py-6 mt-4 px-7 lg:px-5"
           hasPrev={false}
           hasNext={next === total}
           prevLink={''}
@@ -44,7 +42,6 @@ const Blog = ({
 
 export const getStaticProps: GetStaticProps<{
   posts: Post[];
-  prev: number;
   next: number;
   total: number;
 }> = async () => {
@@ -53,7 +50,6 @@ export const getStaticProps: GetStaticProps<{
     props: {
       // Latest posts.
       posts: posts.slice(0, PostPerPage),
-      prev: 0,
       next: 2,
       total: Math.ceil(posts.length / PostPerPage),
     },

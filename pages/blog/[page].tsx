@@ -28,7 +28,7 @@ const BlogPage = ({
         </BlogList>
 
         <Pagination
-          className="py-6 px-7 lg:px-5"
+          className="py-6 mt-4 px-7 lg:px-5"
           hasPrev={!!prev}
           hasNext={next === total}
           prevLink={prev === 1 ? '/blog' : `/blog/${prev}`}
