@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import useInView from 'lib/hooks/useInView';
 import { useTheme } from 'next-themes';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import RUALoading from './loading/RUALoading';
 
 const partten =
@@ -31,9 +31,9 @@ const RUACodeSandbox = ({ url }: Props) => {
   }, [currentTheme, embed, inView]);
 
   const [load, setLoad] = useState(false);
-  const handleLoad = useCallback(() => {
+  const handleLoad = () => {
     setLoad(true);
-  }, []);
+  };
 
   if (!isUrl) return null;
 

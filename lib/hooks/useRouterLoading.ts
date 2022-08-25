@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useCallback, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * Loading state when router changed.
@@ -9,16 +9,12 @@ const useRouterLoading = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const handleStart = useCallback(
-    (url: string) => {
-      url !== router.pathname ? setLoading(true) : setLoading(false);
-    },
-    [router.pathname]
-  );
-
-  const handleComplete = useCallback(() => {
+  const handleStart = (url: string) => {
+    url !== router.pathname ? setLoading(true) : setLoading(false);
+  };
+  const handleComplete = () => {
     setLoading(false);
-  }, []);
+  };
 
   useEffect(() => {
     router.events.on('routeChangeStart', handleStart);

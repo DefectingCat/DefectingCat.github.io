@@ -1,9 +1,9 @@
-import { getHeadings, SingleToc } from 'lib/utils';
-import Anchor from 'components/mdx/Anchor';
-import styles from './PostToc.module.css';
 import classNames from 'classnames';
-import { Fragment, useCallback, useState } from 'react';
+import Anchor from 'components/mdx/Anchor';
+import { SingleToc } from 'lib/utils';
+import { Fragment, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
+import styles from './PostToc.module.css';
 
 interface Props {
   toc: SingleToc[];
@@ -22,7 +22,7 @@ const TocItem = ({ item }: { item: SingleToc }) => {
 
 const PostToc = ({ toc, tocLength }: Props) => {
   const [show, setShow] = useState(false);
-  const handleClick = useCallback(() => setShow((show) => !show), []);
+  const handleClick = () => setShow((show) => !show);
 
   return (
     <>

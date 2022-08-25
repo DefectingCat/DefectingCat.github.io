@@ -3,7 +3,7 @@ import { DocSearch } from '@docsearch/react';
 import cn from 'classnames';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
 
 const DarkModeBtn = dynamic(() => import('components/DarkModeBtn'));
@@ -47,9 +47,9 @@ const parentIdChecker = (el: HTMLElement | null): boolean => {
 
 const HeadBar = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     setShowMenu((showMenu) => !showMenu);
-  }, []);
+  };
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -57,15 +57,15 @@ const HeadBar = () => {
   /**
    * Click anywhere to close nav on mobile.
    */
-  const handleCloseNav = useCallback((e: TouchEvent) => {
+  const handleCloseNav = (e: TouchEvent) => {
     parentIdChecker(e.target as HTMLElement) || setShowMenu(false);
-  }, []);
+  };
   useEffect(() => {
     window.addEventListener('touchstart', handleCloseNav);
     return () => {
       window.removeEventListener('touchstart', handleCloseNav);
     };
-  }, [handleCloseNav]);
+  }, []);
 
   return (
     <>

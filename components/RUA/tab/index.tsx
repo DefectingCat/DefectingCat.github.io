@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { ItemProps } from './TabItem';
 
 type Props = {
@@ -9,9 +9,9 @@ type Props = {
 
 const Tab = ({ defaultValue, children }: Props) => {
   const [currentValue, setCurrentValue] = useState(defaultValue);
-  const handleSwitch = useCallback((value: ItemProps['value']) => {
+  const handleSwitch = (value: ItemProps['value']) => {
     setCurrentValue(value);
-  }, []);
+  };
 
   // Pass current selected state to child
   const childrenWithProps = React.Children.map(children, (child) => {
