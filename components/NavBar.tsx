@@ -1,10 +1,10 @@
+import '@docsearch/css';
+import { DocSearch } from '@docsearch/react';
 import cn from 'classnames';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
-import dynamic from 'next/dynamic';
-import { DocSearch } from '@docsearch/react';
-import '@docsearch/css';
 
 const DarkModeBtn = dynamic(() => import('components/DarkModeBtn'));
 
@@ -31,6 +31,20 @@ const txtMenu = [
   },
 ];
 
+/**
+ * Check element's id and it's parents
+ * @param el
+ * @returns
+ */
+const parentIdChecker = (el: HTMLElement | null): boolean => {
+  if (!el) return false;
+  if (!el?.id) return parentIdChecker(el.parentElement);
+  return (
+    !!['menu', 'menu-icon'].filter((item) => item === el.id).length ||
+    parentIdChecker(el.parentElement)
+  );
+};
+
 const HeadBar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const handleClick = useCallback(() => {
@@ -39,6 +53,19 @@ const HeadBar = () => {
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+
+  /**
+   * Click anywhere to close nav on mobile.
+   */
+  const handleCloseNav = useCallback((e: TouchEvent) => {
+    parentIdChecker(e.target as HTMLElement) || setShowMenu(false);
+  }, []);
+  useEffect(() => {
+    window.addEventListener('touchstart', handleCloseNav);
+    return () => {
+      window.removeEventListener('touchstart', handleCloseNav);
+    };
+  }, [handleCloseNav]);
 
   return (
     <>
@@ -65,17 +92,8 @@ const HeadBar = () => {
         <FiMenu
           className="cursor-pointer w-7 h-7 md:hidden"
           onClick={handleClick}
+          id="menu-icon"
         />
-
-        {/* Disable modal */}
-        <div
-          className={cn(
-            'fixed top-0 left-0 bottom-0 right-0',
-            'z-10 lg:hidden',
-            showMenu || 'hidden'
-          )}
-          onClick={handleClick}
-        ></div>
 
         <nav
           className={cn(
@@ -90,6 +108,7 @@ const HeadBar = () => {
             'md:dark:bg-transparent',
             showMenu || 'hidden'
           )}
+          id="menu"
         >
           <ul className={cn('flex flex-col ', 'md:flex-row md:items-center')}>
             {txtMenu.map((m) => (
