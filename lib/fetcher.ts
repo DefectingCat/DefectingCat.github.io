@@ -4,6 +4,8 @@ import { GistsFile } from 'types';
 const password = process.env.NEXT_PUBLIC_GITHUB_API;
 const octokit = new Octokit({
   auth: password,
+  // @TODO reverse proxy
+  baseUrl: 'http://api.github.com',
 });
 
 const linkMatch = /<(.*?)>/;
