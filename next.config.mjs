@@ -14,6 +14,7 @@
 //     images: { domains: ['avatars.githubusercontent.com'] },
 //   },
 // ]);
+
 /**
  * @type {import('next').NextConfig}
  */
@@ -24,8 +25,18 @@ const nextConfig = {
   experimental: {
     // runtime: 'nodejs',
     // outputStandalone: true,
-    images: { allowFutureImage: true },
+    images:
+      process.env.NEXT_BUILD === 'export'
+        ? { allowFutureImage: true, unoptimized: true }
+        : { allowFutureImage: true },
   },
+  // images:
+  //   process.env.NEXT_BUILD === 'export'
+  //     ? {
+  //         loader: 'imgix',
+  //         path: 'https://rua.plus/',
+  //       }
+  //     : {},
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
 };
 
