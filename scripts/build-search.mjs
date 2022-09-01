@@ -1,8 +1,8 @@
+/* @ts-check */
 import { config } from 'dotenv';
 import algoliasearch from 'algoliasearch/lite.js';
 import fs from 'fs';
 import path from 'path';
-import { nanoid } from 'nanoid';
 
 const dataPath = 'data/posts';
 
@@ -23,43 +23,39 @@ const postLists = () => {
     const regex = /^#{2,3}(?!#)(.*)/gm;
 
     let lastH2 = '';
+    const url = `https://rua.plus/p/${slug}#${head
+      .toLocaleLowerCase()
+      .replace(/ /g, '-')}`;
 
     content.match(regex)?.map((h) => {
       const heading = h.split(' ');
       const level = heading[0].length;
       const head = h.substring(level + 1);
+      const record = {
+        content: null,
+        hierarchy: {
+          lvl0: 'Post',
+          lvl1: slug,
+          lvl2: head,
+        },
+        type: `lvl${level}`,
+        objectID: url,
+        url,
+      };
+
       switch (level) {
         case 2: {
-          myPosts.push({
-            content: null,
-            hierarchy: {
-              lvl0: 'Post',
-              lvl1: slug,
-              lvl2: head,
-            },
-            type: `lvl${level}`,
-            objectID: `${nanoid()}-https://rua.plus/p/${slug}`,
-            url: `https://rua.plus/p/${slug}#${head
-              .toLocaleLowerCase()
-              .replace(/ /g, '-')}`,
-          });
+          myPosts.push(record);
           lastH2 = head;
           break;
         }
         case 3: {
           myPosts.push({
-            content: null,
+            ...record,
             hierarchy: {
-              lvl0: 'Post',
-              lvl1: slug,
-              lvl2: lastH2,
+              ...record.hierarchy,
               lvl3: h.substring(level + 1),
             },
-            type: `lvl${level}`,
-            objectID: `${nanoid()}-https://rua.plus/p/${slug}`,
-            url: `https://rua.plus/p/${slug}#${head
-              .toLocaleLowerCase()
-              .replace(/ /g, '-')}`,
           });
           break;
         }
@@ -73,8 +69,8 @@ const postLists = () => {
         lvl1: slug,
       },
       type: 'lvl1',
-      objectID: `${nanoid()}-https://rua.plus/p/${slug}`,
-      url: `https://rua.plus/p/${slug}`,
+      objectID: url,
+      url,
     });
   });
   return myPosts;
