@@ -1,12 +1,13 @@
 import Anchor from 'components/mdx/Anchor';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { getSignalGist, SingalGist } from 'lib/fetcher';
+import { getGists, getSignalGist, SingalGist } from 'lib/fetcher';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import avatar from 'public/images/img/avatar.svg';
+import { ParsedUrlQuery } from 'querystring';
 import { ReactElement } from 'react';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
@@ -58,8 +59,22 @@ const Gist = ({ gist }: InferGetStaticPropsType<typeof getStaticProps>) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const result = await getGists();
+  const last = Number(result?.pageSize.last);
+  const paths: (
+    | string
+    | {
+        params: ParsedUrlQuery;
+        locale?: string | undefined;
+      }
+  )[] = [];
+  for (let i = 1; i <= last; i++) {
+    const result = await getGists(i);
+    paths.push(...(result?.gists.map((g) => ({ params: { id: g.id } })) ?? []));
+  }
+
   return {
-    paths: [],
+    paths,
     fallback: 'blocking',
   };
 };
@@ -73,19 +88,24 @@ export const getStaticProps: GetStaticProps<{
       notFound: true,
     };
 
-  const gist = await getSignalGist(params.id);
-  if (!gist || !gist.files)
+  try {
+    const gist = await getSignalGist(params.id);
+    if (!gist || !gist.files)
+      return {
+        notFound: true,
+      };
+    return {
+      props: {
+        id: params?.id?.toString(),
+        gist,
+      },
+      revalidate: 600,
+    };
+  } catch (err) {
     return {
       notFound: true,
     };
-
-  return {
-    props: {
-      id: params?.id?.toString(),
-      gist,
-    },
-    revalidate: 600,
-  };
+  }
 };
 
 Gist.getLayout = function getLayout(page: ReactElement) {
