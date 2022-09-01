@@ -1,85 +1,19 @@
+/**
+ * Generate algolia records.
+ * @params -t for test.
+ * @params -g add gitsts to records.
+ */
 /* @ts-check */
 import { config } from 'dotenv';
 import algoliasearch from 'algoliasearch/lite.js';
-import fs from 'fs';
-import path from 'path';
+import generateGists from './gists/index.mjs';
+import postLists from './posts/index.mjs';
 
-const dataPath = 'data/posts';
-
-/**
- * Build post information for Algolia search.
- * @param filename
- * @returns
- */
-const postLists = () => {
-  const files = fs.readdirSync(path.join(dataPath));
-
-  const myPosts = [];
-  files.map((f) => {
-    const content = fs.readFileSync(path.join(dataPath, f), 'utf-8');
-    // const { data: meta, content } = matter(markdownWithMeta);
-
-    const slug = f.replace(/\.mdx$/, '');
-    const regex = /^#{2,3}(?!#)(.*)/gm;
-
-    let lastH2 = '';
-    const url = `https://rua.plus/p/${slug}#${head
-      .toLocaleLowerCase()
-      .replace(/ /g, '-')}`;
-
-    content.match(regex)?.map((h) => {
-      const heading = h.split(' ');
-      const level = heading[0].length;
-      const head = h.substring(level + 1);
-      const record = {
-        content: null,
-        hierarchy: {
-          lvl0: 'Post',
-          lvl1: slug,
-          lvl2: head,
-        },
-        type: `lvl${level}`,
-        objectID: url,
-        url,
-      };
-
-      switch (level) {
-        case 2: {
-          myPosts.push(record);
-          lastH2 = head;
-          break;
-        }
-        case 3: {
-          myPosts.push({
-            ...record,
-            hierarchy: {
-              ...record.hierarchy,
-              lvl3: h.substring(level + 1),
-            },
-          });
-          break;
-        }
-      }
-    });
-
-    myPosts.push({
-      content: null,
-      hierarchy: {
-        lvl0: 'Post',
-        lvl1: slug,
-      },
-      type: 'lvl1',
-      objectID: url,
-      url,
-    });
-  });
-  return myPosts;
-};
-
-async function main() {
-  // initialize environment variables
-  config();
-
+async function generateRecords(gists) {
+  const records = await postLists();
+  return gists ? records.concat(await generateGists()) : records;
+}
+async function pushAlgolia(gists) {
   if (
     !process.env.NEXT_PUBLIC_ALGOLIA_APP_ID &&
     !process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ADMIN_KEY
@@ -88,7 +22,7 @@ async function main() {
   }
 
   try {
-    const posts = postLists();
+    const records = await generateRecords(gists);
 
     // initialize the client with your environment variables
     const client = algoliasearch(
@@ -100,7 +34,7 @@ async function main() {
     const index = client.initIndex('RUA');
 
     // save the objects!
-    const algoliaResponse = await index.replaceAllObjects(posts);
+    const algoliaResponse = await index.replaceAllObjects(records);
 
     // check the output of the response in the console
     console.log(
@@ -115,10 +49,20 @@ async function main() {
   }
 }
 
-function test() {
-  const posts = postLists();
-  posts.map((p) => console.log(p));
+async function test(gists) {
+  const records = await generateRecords(gists);
+  console.log(records);
 }
 
-// test();
+function main() {
+  // initialize environment variables
+  config();
+
+  const args = process.argv.slice(2);
+  const isTest = args.some((arg) => arg === '-t');
+  const gists = args.some((arg) => arg === '-g');
+
+  isTest ? test(gists) : pushAlgolia(gists);
+}
+
 main();
