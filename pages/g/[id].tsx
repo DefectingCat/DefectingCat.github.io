@@ -60,7 +60,6 @@ const Gist = ({ gist }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const result = await getGists();
-  const next = Number(result?.pageSize.next);
   const last = Number(result?.pageSize.last);
   const paths: (
     | string
