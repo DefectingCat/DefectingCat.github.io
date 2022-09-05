@@ -2,10 +2,10 @@ import { Octokit } from 'octokit';
 import { GistsFile } from 'types';
 
 const password = process.env.NEXT_PUBLIC_GITHUB_API;
+const host = process.env.NEXT_PUBLIC_GISTS_HOST ?? 'http://api.github.com';
 const octokit = new Octokit({
   auth: password,
-  // @TODO reverse proxy
-  baseUrl: 'http://api.github.com',
+  baseUrl: host,
 });
 
 const linkMatch = /<(.*?)>/;

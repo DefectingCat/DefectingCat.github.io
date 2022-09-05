@@ -9,10 +9,10 @@ import { Octokit } from 'octokit';
  */
 async function getGists(page, perPage) {
   const password = process.env.NEXT_PUBLIC_GITHUB_API;
+  const host = process.env.NEXT_PUBLIC_GISTS_HOST ?? 'http://api.github.com';
   const octokit = new Octokit({
     auth: password,
-    // @TODO reverse proxy
-    baseUrl: 'http://api.github.com',
+    baseUrl: host,
   });
   return await octokit.rest.gists.list({
     page,
