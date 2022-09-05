@@ -30,7 +30,7 @@ const nextConfig = {
       ? { allowFutureImage: true, unoptimized: true }
       : { allowFutureImage: true },
   },
-  assetPrefix: isExport ? './' : undefined,
+  // assetPrefix: isExport ? './' : undefined,
   // images:
   //   process.env.NEXT_BUILD === 'export'
   //     ? {
