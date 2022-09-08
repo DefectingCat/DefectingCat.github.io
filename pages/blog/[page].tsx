@@ -64,7 +64,7 @@ export const getStaticProps: GetStaticProps<{
 
   return {
     props: {
-      posts: posts.slice((page - 1) * PostPerPage, PostPerPage + 1),
+      posts: posts.slice((page - 1) * PostPerPage, PostPerPage * page),
       prev: page - 1,
       next: page + 1,
       total: Math.ceil(posts.length / PostPerPage),

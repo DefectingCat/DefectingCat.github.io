@@ -4,6 +4,12 @@ date: '2022-09-02'
 tags: [Three.js, React]
 ---
 
+<Image
+  src="/images/p/object-around-in-threejs/around-cover.jpg"
+  width="1800"
+  height="1201"
+/>
+
 使一个物体围绕另一个物体运动，主要是保证围绕物体的运动轨迹。在 three.js 中，一个 Mesh 实例可以通过其自身的 `add()` 方法，去添加另一个实例。
 
 通过此方法就可以达成添加一个实例成为另一个实例的子节点。当父节点进行运动时（例如自身旋转），子节点也会跟随运动。
@@ -22,7 +28,7 @@ const target = new THREE.Object3D();
 
 ```tsx
 const target = new THREE.Object3D();
-      
+
 const material = new THREE.MeshPhongMaterial({
   color: '#4d4d4d',
   specular: '#fdfdfd',
@@ -47,9 +53,9 @@ target.add(sphere);
 three.scene.add(target);
 ```
 
-<Image 
+<Image
   src="/images/p/object-around-in-threejs/around.svg"
-  alt="类型推断"
+  alt="围绕运动"
   width="664"
   height="404"
 />
