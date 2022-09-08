@@ -1,0 +1,84 @@
+---
+title: Three.js 中的物体围绕运动
+date: '2022-09-02'
+tags: [Three.js, React]
+---
+
+使一个物体围绕另一个物体运动，主要是保证围绕物体的运动轨迹。在 three.js 中，一个 Mesh 实例可以通过其自身的 `add()` 方法，去添加另一个实例。
+
+通过此方法就可以达成添加一个实例成为另一个实例的子节点。当父节点进行运动时（例如自身旋转），子节点也会跟随运动。
+
+在物体围绕运动中，我们可以把围绕物体添加到被围绕物体中。当父节点绕自身旋转时，离父节点有一定距离的围绕物体就会随着父节点的旋转而旋转。但这样做就会导致本不需要运动的父节点自身进行运动。
+
+## Object3D
+
+three.js 提供了一个可以在场景中添加的“点”。它与 Mesh 等物体不同，它相当于在场景中添加一个不可见的点。并且它也拥有 `add()` 方法，也就可以添加其他物体到这个点中。
+
+```tsx
+const target = new THREE.Object3D();
+```
+
+当这个点进行旋转时，被添加的物体也就可以按照预想的方式进行运动。同时它也可以被添加到一个物体中，其位置就会与添加的物体相同，就不用手动为其设置相同的位置了。
+
+```tsx
+const target = new THREE.Object3D();
+      
+const material = new THREE.MeshPhongMaterial({
+  color: '#4d4d4d',
+  specular: '#fdfdfd',
+  emissive: 'rgb(0,0,0)',
+});
+const boxGeo = new THREE.BoxGeometry(2, 2, 2);
+const box = new THREE.Mesh(boxGeo, material);
+box.castShadow = true;
+box.receiveShadow = true;
+box.position.set(0, 2, 0);
+box.add(target);
+three.scene.add(box);
+
+const sphereGeo = new THREE.SphereGeometry(0.5, 32, 16);
+const sphere = new THREE.Mesh(sphereGeo, material);
+sphere.castShadow = true;
+sphere.receiveShadow = true;
+sphere.position.set(-2, 2, 0);
+
+// target.position.set(0, 2, 0);
+target.add(sphere);
+three.scene.add(target);
+```
+
+<Image 
+  src="/images/p/object-around-in-threejs/around.svg"
+  alt="类型推断"
+  width="664"
+  height="404"
+/>
+
+### 相对位置
+
+如果被围绕的物体没有通过 `add()` 方法添加 Object3D，那么就需要手动添加 Object3D 到场景中，并设置到特定的位置。可以通过其 `position.set()` 方法设置。这对于 Object3D 本身来说是相对于世界坐标位置的。
+
+如果被围绕物体已经添加到场景中，通过 `add()` 方法添加 Object3D 也会被添加到场景中。且它的位置与父节点相同。
+
+对于围绕物体来说，其自身被 Object3D 通过 `add()` 方法添加到 Object3D 中。而它通过 `position.set()` 进行设置时，就是相对与 Object3D 已经设置过的位置进行设置。
+
+```tsx
+box.position.set(0, 2, 0);
+box.add(target);
+target.add(sphere);
+sphere.position.set(-2, 0, 0);
+// sphere position in world is (-2, 2, 0);
+```
+
+### 获取世界位置
+
+默认情况下 `Mesh.position` 得到是其自身的相对位置。获取世界全局位置需要一个 Vector3 来保存，再使用 `Mesh.getWorldPosition` 来获取。
+
+```tsx
+const position = new THREE.Vector3();
+earth.getWorldPosition(position);
+```
+
+## Demo
+
+<RUACodeSandbox url="https://codesandbox.io/embed/arounding-box-b1g4qq?fontsize=14&hidenavigation=1&theme=light&view=preview" />
