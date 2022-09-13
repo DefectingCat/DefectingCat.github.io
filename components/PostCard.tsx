@@ -17,15 +17,20 @@ const PostCard = ({ post }: Props) => {
               'hover:bg-sky-100 hover:bg-opacity-50',
               // 'hover:bg-rua-gray-100 hover:bg-opacity-10',
               'dark:hover:bg-rua-gray-800 dark:hover:bg-opacity-100',
-              'flex items-center justify-between text-gray-800 ',
-              'mb-4 dark:text-gray-200'
+              'flex justify-between text-gray-800 ',
+              'mb-4 dark:text-gray-200',
+              'flex-col'
             )}
           >
-            <div className="flex-1">
+            <div className="flex justify-between">
               <h2 className="mb-4 text-3xl font-semibold font-Barlow">
                 {post.title}
               </h2>
 
+              <div className="hidden lg:block">{post.date}</div>
+            </div>
+
+            <div className="flex justify-between">
               <div className="flex items-center text-sm">
                 {post.tags.map((tag) => (
                   <div key={tag} className="mr-4 last:mr-0">
@@ -33,9 +38,9 @@ const PostCard = ({ post }: Props) => {
                   </div>
                 ))}
               </div>
-            </div>
 
-            <div>{post.date}</div>
+              <div className="lg:hidden">{post.date}</div>
+            </div>
           </article>
         </a>
       </Link>
