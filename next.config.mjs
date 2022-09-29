@@ -23,12 +23,10 @@ const nextConfig = {
   /* config options here */
   reactStrictMode: true,
   output: 'standalone',
+  images: isExport ? { unoptimized: true } : {},
   experimental: {
     // runtime: 'nodejs',
     // outputStandalone: true,
-    images: isExport
-      ? { allowFutureImage: true, unoptimized: true }
-      : { allowFutureImage: true },
   },
   // assetPrefix: isExport ? './' : undefined,
   // images:
