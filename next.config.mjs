@@ -28,7 +28,6 @@ const nextConfig = {
   experimental: {
     // runtime: 'nodejs',
     // outputStandalone: true,
-    esmExternals: true,
   },
   // assetPrefix: isExport ? './' : undefined,
   // images:
