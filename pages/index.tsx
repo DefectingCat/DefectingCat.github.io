@@ -4,13 +4,15 @@ import Image from 'next/future/image';
 import Head from 'next/head';
 import { useEffect, useRef, useState } from 'react';
 import { InitFn, THREE, useThree } from 'rua-three';
-import style from 'styles/index/index.module.css';
+import styles from 'styles/index/index.module.css';
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import type { NextPageWithLayout } from 'types';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
+const Loading = dynamic(() => import('components/RUA/loading/RUALoading'));
 
-const gltfLoader = new GLTFLoader();
+const manager = new THREE.LoadingManager();
+const gltfLoader = new GLTFLoader(manager);
 
 const Home: NextPageWithLayout = () => {
   const wrapper = useRef<HTMLDivElement>(null);
@@ -18,6 +20,15 @@ const Home: NextPageWithLayout = () => {
     width: 500,
     height: 300,
   });
+
+  const [loading, setLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
+  manager.onLoad = () => {
+    setLoading(false);
+    setTimeout(() => {
+      setShowLoading(false);
+    }, 300);
+  };
 
   const setCanvasSize = () => {
     if (!wrapper.current) return;
@@ -87,7 +98,7 @@ const Home: NextPageWithLayout = () => {
         <div className="z-0 flex flex-col w-full h-full max-w-4xl px-4 py-32 text-2xl">
           {/* <h1 className="pb-4 text-4xl">Hi there 👋, I&apos;m Arthur. </h1> */}
           <h1 className="flex pb-4 text-5xl">
-            <span className={cn('font-Aleo font-semibold', style.gradient)}>
+            <span className={cn('font-Aleo font-semibold', styles.gradient)}>
               Hi there
             </span>
             <span className="ml-3">
@@ -100,8 +111,24 @@ const Home: NextPageWithLayout = () => {
             </span>
           </h1>
 
-          <div className="relative flex-1" ref={wrapper}>
+          <div
+            className="relative flex-1 overflow-hidden rounded-xl"
+            ref={wrapper}
+          >
             <canvas ref={ref} className="absolute top-0 left-0"></canvas>
+            {showLoading && (
+              <div
+                className={cn(
+                  'absolute top-0 left-0 z-10 ',
+                  'items-center flex justify-center',
+                  'w-full h-full transition-all duration-500',
+                  'bg-white',
+                  loading ? 'opacity-1' : 'opacity-0'
+                )}
+              >
+                <Loading />
+              </div>
+            )}
           </div>
           {/* <p>I&apos;m a Front-end developer. Yes, that&apos;s mean</p>
             <p
