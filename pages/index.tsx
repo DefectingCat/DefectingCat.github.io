@@ -2,13 +2,23 @@ import cn from 'classnames';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useState } from 'react';
+import { InitFn, useThree } from 'rua-three';
 import style from 'styles/index/index.module.css';
 import type { NextPageWithLayout } from 'types';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 
+const init: InitFn = ({ scene, camera }) => {
+  camera.position.set(0, 5, 5);
+};
+
+console.log(OrbitControls);
 const Home: NextPageWithLayout = () => {
   const [showLang, setShowLang] = useState(false);
+  const { ref } = useThree({
+    init,
+  });
 
   return (
     <>
@@ -20,7 +30,9 @@ const Home: NextPageWithLayout = () => {
         <div className="z-0 w-full max-w-3xl px-4 my-4 text-2xl">
           <div className="max-w-xl leading-10">
             <h1 className="pb-4 text-4xl">Hi there 👋, I&apos;m Arthur. </h1>
-            <p>I&apos;m a Front-end developer. Yes, that&apos;s mean</p>
+
+            {/* <canvas ref={ref}></canvas> */}
+            {/* <p>I&apos;m a Front-end developer. Yes, that&apos;s mean</p>
             <p
               onMouseOver={() => setShowLang(true)}
               onMouseLeave={() => setShowLang(false)}
@@ -51,7 +63,7 @@ const Home: NextPageWithLayout = () => {
             </p>
             <p>
               Open source is my passion. It&apos;s making everything be great.{' '}
-            </p>
+            </p> */}
           </div>
         </div>
       </main>

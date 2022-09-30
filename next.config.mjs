@@ -22,11 +22,13 @@ const isExport = process.env.NEXT_BUILD === 'export';
 const nextConfig = {
   /* config options here */
   reactStrictMode: true,
+  swcMinify: true,
   output: 'standalone',
   images: isExport ? { unoptimized: true } : {},
   experimental: {
     // runtime: 'nodejs',
     // outputStandalone: true,
+    esmExternals: true,
   },
   // assetPrefix: isExport ? './' : undefined,
   // images:
