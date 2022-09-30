@@ -4,17 +4,6 @@ date: '2022-08-12'
 tags: [TypeScript, React]
 ---
 
-import app from 'assets/sandpack/generic-component-encapsulate-reusable-component/hook-form-basic/App.ts';
-import app2 from 'assets/sandpack/generic-component-encapsulate-reusable-component/react-generic/App.ts';
-import child from 'assets/sandpack/generic-component-encapsulate-reusable-component/react-generic/Child.ts';
-
-export const RUASandpack = dynamic(() => import('components/RUA/RUASandpack'));
-export const RUACodeSandbox = dynamic(() =>
-  import('components/RUA/RUACodeSandbox')
-);
-
-export default ({ children }) => <Layout {...meta}>{children}</Layout>;
-
 当前很多 UI 库都会为我们集成可复用的 Form 组件，并且是开箱即用。但有时候我们往往可能需要为自己的组件集成 Form。单纯的手动管理所有的状态可能不是件理想的活，尤其是表单验证。
 
 [React Hook Forms](https://react-hook-form.com/) 为我们提供了完善的状态管理，并且可以集成到任何组件中去。

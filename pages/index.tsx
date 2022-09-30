@@ -74,7 +74,7 @@ const Home: NextPageWithLayout = () => {
     init,
     ...size,
     alpha: true,
-    // renderOnDemand: true,
+    renderOnDemand: true,
   });
 
   return (
