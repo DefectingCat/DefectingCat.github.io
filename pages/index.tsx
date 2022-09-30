@@ -1,21 +1,46 @@
 import cn from 'classnames';
 import dynamic from 'next/dynamic';
-import Head from 'next/head';
-import { useState } from 'react';
-import { InitFn, useThree } from 'rua-three';
-import style from 'styles/index/index.module.css';
-import type { NextPageWithLayout } from 'types';
 import Image from 'next/future/image';
+import Head from 'next/head';
 import { useRef } from 'react';
+import { InitFn, THREE, useThree } from 'rua-three';
+import style from 'styles/index/index.module.css';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import type { NextPageWithLayout } from 'types';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 
+const gltfLoader = new GLTFLoader();
+
 const Home: NextPageWithLayout = () => {
-  const [showLang, setShowLang] = useState(false);
+  // const [showLang, setShowLang] = useState(false);
   const wrapper = useRef<HTMLDivElement>(null);
 
-  const init: InitFn = ({ scene, camera, renderer }) => {
+  const init: InitFn = ({ scene, camera, controls, renderer, frameArea }) => {
     camera.position.set(0, 5, 5);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+
+    const light = new THREE.SpotLight(0xffffff);
+    camera.add(light);
+    // scene.add(light);
+
+    gltfLoader.load('/models/just_a_hungry_cat/scene.gltf', (gltf) => {
+      const root = gltf.scene;
+      scene.add(root);
+
+      const box = new THREE.Box3().setFromObject(root);
+
+      const boxSize = box.getSize(new THREE.Vector3()).length();
+      const boxCenter = box.getCenter(new THREE.Vector3());
+
+      light.target = root;
+      frameArea(boxSize * 0.8, boxSize, boxCenter, camera);
+
+      controls.maxDistance = boxSize * 10;
+      controls.target.copy(boxCenter);
+      controls.update();
+    });
 
     if (wrapper.current) {
       renderer.setSize(

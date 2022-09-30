@@ -1,0 +1,11 @@
+Model Information:
+* title:	Just a Hungry Cat
+* source:	https://sketchfab.com/3d-models/just-a-hungry-cat-97913cc5c44e4e6793385b988aac97c1
+* author:	Coco Jinjo (https://sketchfab.com/CocoJinjo)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Just a Hungry Cat" (https://sketchfab.com/3d-models/just-a-hungry-cat-97913cc5c44e4e6793385b988aac97c1) by Coco Jinjo (https://sketchfab.com/CocoJinjo) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
