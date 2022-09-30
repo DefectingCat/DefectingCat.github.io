@@ -2,10 +2,10 @@ import cn from 'classnames';
 import dynamic from 'next/dynamic';
 import Image from 'next/future/image';
 import Head from 'next/head';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { InitFn, THREE, useThree } from 'rua-three';
 import style from 'styles/index/index.module.css';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import type { NextPageWithLayout } from 'types';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
@@ -13,10 +13,31 @@ const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const gltfLoader = new GLTFLoader();
 
 const Home: NextPageWithLayout = () => {
-  // const [showLang, setShowLang] = useState(false);
   const wrapper = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState({
+    width: 500,
+    height: 300,
+  });
 
-  const init: InitFn = ({ scene, camera, controls, renderer, frameArea }) => {
+  const setCanvasSize = () => {
+    if (!wrapper.current) return;
+    const width = wrapper.current.clientWidth;
+    const height = wrapper.current.clientHeight;
+    setSize({
+      width,
+      height,
+    });
+  };
+  useEffect(() => {
+    setCanvasSize();
+    window.addEventListener('resize', setCanvasSize);
+
+    return () => {
+      window.removeEventListener('resize', setCanvasSize);
+    };
+  }, []);
+
+  const init: InitFn = ({ scene, camera, controls, frameArea }) => {
     controls.enablePan = false;
     controls.minDistance = 1;
     controls.minPolarAngle = Math.PI * 0.2;
@@ -28,7 +49,7 @@ const Home: NextPageWithLayout = () => {
     scene.add(new THREE.AmbientLight(0xffffff, 0.8));
     scene.add(light);
 
-    gltfLoader.load('/models/just_a_hungry_cat/scene.gltf', (gltf) => {
+    const handleLoad = (gltf: GLTF) => {
       const root = gltf.scene;
       scene.add(root);
 
@@ -45,22 +66,15 @@ const Home: NextPageWithLayout = () => {
       controls.maxDistance = boxSize * 10;
       controls.target.copy(boxCenter);
       controls.update();
-    });
+    };
 
-    if (wrapper.current) {
-      const width = wrapper.current.clientWidth;
-      const height = wrapper.current.clientHeight;
-      renderer.setSize(width, height);
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-    }
+    gltfLoader.load('/models/just_a_hungry_cat/scene.gltf', handleLoad);
   };
   const { ref } = useThree({
     init,
-    width: 500,
-    height: 300,
+    ...size,
     alpha: true,
-    renderOnDemand: true,
+    // renderOnDemand: true,
   });
 
   return (
@@ -76,17 +90,18 @@ const Home: NextPageWithLayout = () => {
             <span className={cn('font-Aleo font-semibold', style.gradient)}>
               Hi there
             </span>
-            <Image
-              src="/images/img/hands.svg"
-              alt="hands"
-              width={36}
-              height={36}
-              className="ml-3"
-            />
+            <span className="ml-3">
+              <Image
+                src="/images/img/hands.svg"
+                alt="hands"
+                width={36}
+                height={36}
+              />
+            </span>
           </h1>
 
-          <div className="flex-1" ref={wrapper}>
-            <canvas ref={ref}></canvas>
+          <div className="relative flex-1" ref={wrapper}>
+            <canvas ref={ref} className="absolute top-0 left-0"></canvas>
           </div>
           {/* <p>I&apos;m a Front-end developer. Yes, that&apos;s mean</p>
             <p

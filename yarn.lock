@@ -7761,10 +7761,10 @@ rimraf@^3.0.2:
   dependencies:
     glob "^7.1.3"
 
-rua-three@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.npmjs.org/rua-three/-/rua-three-1.0.7.tgz#85942c54b2dac4fceba0c51860f68d7db2f27f1f"
-  integrity sha512-7wBQwEonxjtce8cKznR286gRoBP/hF7/feQ9KeKw5i+fqcOSp8KpXtZhjPRcxEKqe0fjZDfHz/84ta3pOesWOA==
+rua-three@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.npmjs.org/rua-three/-/rua-three-1.0.8.tgz#f06ac60dd0e4c07a07263114ba5ea66b63ab850b"
+  integrity sha512-YPWVMRc9S+VXne6YNQuS+LZcbZqHjaOTCESRkLujYrBFUNzN4+9UccNtPr1qMW66KUznAC4r5c7qt6WbIgwIAQ==
 
 run-async@^2.4.0:
   version "2.4.1"
