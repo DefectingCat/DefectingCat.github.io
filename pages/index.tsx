@@ -17,13 +17,16 @@ const Home: NextPageWithLayout = () => {
   const wrapper = useRef<HTMLDivElement>(null);
 
   const init: InitFn = ({ scene, camera, controls, renderer, frameArea }) => {
+    controls.enablePan = false;
+    controls.minDistance = 1;
+    controls.minPolarAngle = Math.PI * 0.2;
+    controls.maxPolarAngle = Math.PI * 0.5;
+    controls.maxAzimuthAngle = Math.PI * 0.2;
     camera.position.set(0, 5, 5);
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-
-    const light = new THREE.SpotLight(0xffffff);
-    camera.add(light);
-    // scene.add(light);
+    const light = new THREE.SpotLight(0xffffff, 1.4, 100, 15);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+    scene.add(light);
 
     gltfLoader.load('/models/just_a_hungry_cat/scene.gltf', (gltf) => {
       const root = gltf.scene;
@@ -35,6 +38,8 @@ const Home: NextPageWithLayout = () => {
       const boxCenter = box.getCenter(new THREE.Vector3());
 
       light.target = root;
+      light.position.set(0, 2, 4);
+      light.rotateX(Math.PI * 0.4);
       frameArea(boxSize * 0.8, boxSize, boxCenter, camera);
 
       controls.maxDistance = boxSize * 10;
@@ -43,10 +48,11 @@ const Home: NextPageWithLayout = () => {
     });
 
     if (wrapper.current) {
-      renderer.setSize(
-        wrapper.current.clientWidth,
-        wrapper.current.clientHeight
-      );
+      const width = wrapper.current.clientWidth;
+      const height = wrapper.current.clientHeight;
+      renderer.setSize(width, height);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
     }
   };
   const { ref } = useThree({
@@ -54,6 +60,7 @@ const Home: NextPageWithLayout = () => {
     width: 500,
     height: 300,
     alpha: true,
+    renderOnDemand: true,
   });
 
   return (
@@ -65,7 +72,7 @@ const Home: NextPageWithLayout = () => {
       <main className="h-[calc(100vh-142px)] flex justify-center items-center text-xl">
         <div className="z-0 flex flex-col w-full h-full max-w-4xl px-4 py-32 text-2xl">
           {/* <h1 className="pb-4 text-4xl">Hi there 👋, I&apos;m Arthur. </h1> */}
-          <h1 className="flex pb-4 text-4xl">
+          <h1 className="flex pb-4 text-5xl">
             <span className={cn('font-Aleo font-semibold', style.gradient)}>
               Hi there
             </span>
