@@ -2,7 +2,7 @@ import cn from 'classnames';
 import dynamic from 'next/dynamic';
 import Image from 'next/future/image';
 import Head from 'next/head';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { InitFn, THREE, useThree } from 'rua-three';
 import styles from 'styles/index/index.module.css';
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -13,6 +13,9 @@ const Loading = dynamic(() => import('components/RUA/loading/RUALoading'));
 
 const manager = new THREE.LoadingManager();
 const gltfLoader = new GLTFLoader(manager);
+
+const rotationY = 0.4;
+const rotationX = 0.18;
 
 const Home: NextPageWithLayout = () => {
   const wrapper = useRef<HTMLDivElement>(null);
@@ -30,7 +33,7 @@ const Home: NextPageWithLayout = () => {
     }, 300);
   };
 
-  const setCanvasSize = () => {
+  const setCanvasSize = useCallback(() => {
     if (!wrapper.current) return;
     const width = wrapper.current.clientWidth;
     const height = wrapper.current.clientHeight;
@@ -38,7 +41,7 @@ const Home: NextPageWithLayout = () => {
       width,
       height,
     });
-  };
+  }, []);
   useEffect(() => {
     setCanvasSize();
     window.addEventListener('resize', setCanvasSize);
@@ -46,23 +49,44 @@ const Home: NextPageWithLayout = () => {
     return () => {
       window.removeEventListener('resize', setCanvasSize);
     };
-  }, []);
+  }, [setCanvasSize]);
 
-  const init: InitFn = ({ scene, camera, controls, frameArea }) => {
-    controls.enablePan = false;
-    controls.minDistance = 1;
-    controls.minPolarAngle = Math.PI * 0.2;
-    controls.maxPolarAngle = Math.PI * 0.5;
-    controls.maxAzimuthAngle = Math.PI * 0.2;
-    camera.position.set(0, 5, 5);
+  const init: InitFn = ({
+    scene,
+    camera,
+    controls,
+    frameArea,
+    isOrbitControls,
+    isPerspectiveCamera,
+    addWindowEvent,
+    addRenderCallback,
+  }) => {
+    if (isOrbitControls(controls)) {
+      controls.enableRotate = false;
+      controls.enablePan = false;
+      controls.enableZoom = false;
+      controls.minDistance = 1;
+      controls.minPolarAngle = Math.PI * 0.2;
+      controls.maxPolarAngle = Math.PI * 0.5;
+      controls.maxAzimuthAngle = Math.PI * 0.2;
+    }
 
-    const light = new THREE.SpotLight(0xffffff, 1.4, 100, 15);
-    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+    const light = new THREE.SpotLight(0xffffff, 2, 100, 15);
+    scene.add(new THREE.AmbientLight(0xffffff, 1));
     scene.add(light);
 
     const handleLoad = (gltf: GLTF) => {
       const root = gltf.scene;
       scene.add(root);
+
+      const clock = new THREE.Clock();
+      const mixer = new THREE.AnimationMixer(root);
+      gltf.animations.forEach((clip) => {
+        mixer.clipAction(clip).play();
+      });
+      addRenderCallback((time) => {
+        mixer.update(clock.getDelta());
+      });
 
       const box = new THREE.Box3().setFromObject(root);
 
@@ -70,22 +94,52 @@ const Home: NextPageWithLayout = () => {
       const boxCenter = box.getCenter(new THREE.Vector3());
 
       light.target = root;
-      light.position.set(0, 2, 4);
+      light.position.set(0, 2, 6);
       light.rotateX(Math.PI * 0.4);
-      frameArea(boxSize * 0.8, boxSize, boxCenter, camera);
+      isPerspectiveCamera(camera) &&
+        frameArea(boxSize * 0.8, boxSize, boxCenter, camera);
 
-      controls.maxDistance = boxSize * 10;
+      // controls.maxDistance = boxSize * 10;
       controls.target.copy(boxCenter);
       controls.update();
+
+      const halfWidth = Math.floor(window.innerWidth / 2);
+      const halfHeight = Math.floor(window.innerHeight / 2);
+
+      const updateMousePosition = (e: MouseEvent | globalThis.TouchEvent) => {
+        let x;
+        let y;
+        if (e instanceof MouseEvent) {
+          x = e.clientX;
+          y = e.clientY;
+        } else {
+          x = e.touches[0].clientX;
+          y = e.touches[0].clientY;
+        }
+
+        // > 0 is right, < 0 is left
+        const directionX = x - halfWidth;
+        const directionY = y - halfHeight;
+
+        // if (directionX > 0) root.rotation.y += 0.01;
+        root.rotation.y = rotationY * (directionX / halfWidth);
+        root.rotation.x = rotationX * (directionY / halfHeight);
+      };
+
+      addWindowEvent('mousemove', updateMousePosition, {
+        passive: true,
+      });
+      addWindowEvent('touchmove', updateMousePosition, {
+        passive: true,
+      });
     };
 
-    gltfLoader.load('/models/just_a_hungry_cat/scene.gltf', handleLoad);
+    gltfLoader.load('./models/just_a_hungry_cat/scene.gltf', handleLoad);
   };
   const { ref } = useThree({
     init,
     ...size,
     alpha: true,
-    renderOnDemand: true,
   });
 
   return (

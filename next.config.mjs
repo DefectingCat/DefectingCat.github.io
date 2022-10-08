@@ -2,6 +2,7 @@
  * @type {import('next').NextConfig}
  */
 const isExport = process.env.NEXT_BUILD === 'export';
+
 const nextConfig = {
   /* config options here */
   reactStrictMode: true,
@@ -10,10 +11,9 @@ const nextConfig = {
   images: isExport ? { unoptimized: true } : {},
   experimental: {
     // runtime: 'nodejs',
-    // outputStandalone: true,
   },
   compiler: {
-    removeConsole: true,
+    removeConsole: process.env.NODE_ENV === 'production',
   },
   // assetPrefix: isExport ? './' : undefined,
   // images:
