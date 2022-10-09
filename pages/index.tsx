@@ -84,12 +84,11 @@ const Home: NextPageWithLayout = () => {
       gltf.animations.forEach((clip) => {
         mixer.clipAction(clip).play();
       });
-      addRenderCallback((time) => {
+      addRenderCallback(() => {
         mixer.update(clock.getDelta());
       });
 
       const box = new THREE.Box3().setFromObject(root);
-
       const boxSize = box.getSize(new THREE.Vector3()).length();
       const boxCenter = box.getCenter(new THREE.Vector3());
 
@@ -99,9 +98,10 @@ const Home: NextPageWithLayout = () => {
       isPerspectiveCamera(camera) &&
         frameArea(boxSize * 0.8, boxSize, boxCenter, camera);
 
-      // controls.maxDistance = boxSize * 10;
       controls.target.copy(boxCenter);
       controls.update();
+      root.position.y += 0.1;
+      camera.position.z -= 0.2;
 
       const halfWidth = Math.floor(window.innerWidth / 2);
       const halfHeight = Math.floor(window.innerHeight / 2);
