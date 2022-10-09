@@ -1,12 +1,21 @@
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
+import { InitFn, useThree } from 'rua-three';
 import { NextPageWithLayout } from 'types';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 
 const About: NextPageWithLayout = () => {
+  const init: InitFn = () => {};
+
+  const { ref } = useThree({
+    init,
+  });
+
   return (
     <>
+      <canvas></canvas>
+
       <main className="h-[calc(100vh-142px)] flex flex-col">
         <div
           className={classNames(
@@ -35,8 +44,6 @@ const About: NextPageWithLayout = () => {
             </div>
           </div> */}
           <h1 className="text-5xl font-semibold font-Barlow">About</h1>
-
-          <p></p>
         </div>
       </main>
     </>
