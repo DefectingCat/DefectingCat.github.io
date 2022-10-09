@@ -59,24 +59,34 @@ const Home: NextPageWithLayout = () => {
     isOrbitControls,
     isPerspectiveCamera,
     addWindowEvent,
+    addRenderCallback,
   }) => {
     if (isOrbitControls(controls)) {
       controls.enableRotate = false;
       controls.enablePan = false;
+      controls.enableZoom = false;
       controls.minDistance = 1;
       controls.minPolarAngle = Math.PI * 0.2;
       controls.maxPolarAngle = Math.PI * 0.5;
       controls.maxAzimuthAngle = Math.PI * 0.2;
     }
-    camera.position.set(0, 5, 5);
 
-    const light = new THREE.SpotLight(0xffffff, 1.4, 100, 15);
-    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+    const light = new THREE.SpotLight(0xffffff, 2, 100, 15);
+    scene.add(new THREE.AmbientLight(0xffffff, 1));
     scene.add(light);
 
     const handleLoad = (gltf: GLTF) => {
       const root = gltf.scene;
       scene.add(root);
+
+      const clock = new THREE.Clock();
+      const mixer = new THREE.AnimationMixer(root);
+      gltf.animations.forEach((clip) => {
+        mixer.clipAction(clip).play();
+      });
+      addRenderCallback((time) => {
+        mixer.update(clock.getDelta());
+      });
 
       const box = new THREE.Box3().setFromObject(root);
 
@@ -84,12 +94,12 @@ const Home: NextPageWithLayout = () => {
       const boxCenter = box.getCenter(new THREE.Vector3());
 
       light.target = root;
-      light.position.set(0, 2, 4);
+      light.position.set(0, 2, 6);
       light.rotateX(Math.PI * 0.4);
       isPerspectiveCamera(camera) &&
         frameArea(boxSize * 0.8, boxSize, boxCenter, camera);
 
-      controls.maxDistance = boxSize * 10;
+      // controls.maxDistance = boxSize * 10;
       controls.target.copy(boxCenter);
       controls.update();
 
