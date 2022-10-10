@@ -1,18 +1,32 @@
 import TWEEN from '@tweenjs/tween.js';
+
 import classNames from 'classnames';
 import { getMousePosition } from 'lib/utils';
 import dynamic from 'next/dynamic';
+import { useState } from 'react';
 import { InitFn, THREE, useThree } from 'rua-three';
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { NextPageWithLayout } from 'types';
 
-const glftLoader = new GLTFLoader();
+const Loading = dynamic(() => import('components/RUA/loading/RUALoading'));
+
+const manager = new THREE.LoadingManager();
+const glftLoader = new GLTFLoader(manager);
 const rotationY = 0.4;
 const rotationX = 0.2;
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 
 const About: NextPageWithLayout = () => {
+  const [loading, setLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
+  manager.onLoad = () => {
+    setLoading(false);
+    setTimeout(() => {
+      setShowLoading(false);
+    }, 300);
+  };
+
   const init: InitFn = ({
     scene,
     controls,
@@ -97,8 +111,8 @@ const About: NextPageWithLayout = () => {
         const { x, y } = getMousePosition(e);
         // > 0 is right, < 0 is left
         // if (directionX > 0) root.rotation.y += 0.01;
-        root.rotation.y = rotationY * (x - halfWidth / halfWidth);
-        root.rotation.x = rotationX * (y - halfHeight / halfHeight);
+        root.rotation.y = rotationY * ((x - halfWidth) / halfWidth);
+        root.rotation.x = rotationX * ((y - halfHeight) / halfHeight);
       };
 
       addWindowEvent('mousemove', updateMousePosition, {
@@ -119,7 +133,22 @@ const About: NextPageWithLayout = () => {
 
   return (
     <>
-      <canvas ref={ref} className="fixed top-0 left-0 -z-10"></canvas>
+      <div className="fixed top-0 left-0 -z-10">
+        <canvas ref={ref} className="w-full h-full"></canvas>
+        {showLoading && (
+          <div
+            className={classNames(
+              'absolute top-0 left-0',
+              'items-center flex justify-center',
+              'w-full h-full transition-all duration-500',
+              'bg-white',
+              loading ? 'opacity-1' : 'opacity-0'
+            )}
+          >
+            <Loading />
+          </div>
+        )}
+      </div>
 
       <main className="h-[calc(100vh-142px)] flex flex-col">
         <div
