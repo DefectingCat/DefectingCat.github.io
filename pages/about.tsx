@@ -141,7 +141,7 @@ const About: NextPageWithLayout = () => {
     setTimeout(() => {
       setTheme('dark');
       restore.current = true;
-    }, 700);
+    }, 1300);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTheme, loading]);
   useEffect(
