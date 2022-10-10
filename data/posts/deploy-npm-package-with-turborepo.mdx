@@ -1,0 +1,149 @@
+---
+title: Deploy NPM package with turborepo and rollup
+date: '2022-10-10'
+tags: [JavaScript, NPM]
+---
+
+对于 monorepo 我使用的是 [turborepo](https://turborepo.org/)，创建一个新的项目非常简单：
+
+```tsx
+npx create-turbo@latest
+```
+
+对于包管理器，这次尝鲜使用了 [pnpm](https://pnpm.io/) 它在安装包到 workspace 中相对于其他两个来说要更加的方便。
+
+```tsx
+pnpm add --filter rua-three react react-dom three stats.js -D
+```
+
+## Turborepo
+
+对于 turborepo 来说没有什么需要过多配置的，比较需要注意的就是它的环境变量需要手动在 `turbo.json` 配置文件中声明一次：
+
+```tsx
+"globalEnv": [
+  "NODE_ENV"
+],
+```
+
+除此之外，在默认的 tsconfig 中， 其 `target` 是 `es5` 如果需要一些比较先进的语法，例如在类体中实例化另一个类，则就需要将 `target` 设置到 `es6` 及以上。
+
+```tsx
+"compilerOptions": {
+  "target": "es6",
+},
+```
+
+## rollup
+
+相比较与 turborepo 来说，rollup 需要注意的地方就多一些。对于 rollup 的安装来说，本身所需要的依赖不是很多，主要是部分插件。
+
+```tsx
+"@rollup/plugin-commonjs": "^22.0.2",
+"@rollup/plugin-node-resolve": "^14.1.0",
+"rollup": "^2.79.1",
+"rollup-plugin-typescript2": "^0.34.0",
+```
+
+对于一个小包来说，我的目录结构也非常的简单，核心部分就在 `rollup.config.js` 和 `package.json` 。
+
+```tsx
+.
+├── lib
+│   ├── cjs
+│   └── esm
+├── package.json
+├── README.md
+├── rollup.config.js
+├── src
+│   ├── hooks
+│   ├── index.ts
+│   └── three
+└── tsconfig.json
+```
+
+安装完了 rollup 之后，需要对其简单的进行一下配置。对于 input 和 output 是基本操作，没有什么值得注意的。而 external 字段决定了我们依赖是否是外部依赖，从而直接决定了 rollup 会不会将第三方的依赖打包到一起。
+
+```tsx
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import typescript from 'rollup-plugin-typescript2';
+
+import pkg from './package.json';
+
+export default {
+  input: 'src/index.ts',
+  output: [
+    {
+      file: pkg.main,
+      format: 'cjs',
+      sourcemap: true,
+    },
+    {
+      file: pkg.module,
+      format: 'es',
+      sourcemap: true,
+    },
+  ],
+  external: [
+    ...Object.keys(pkg.peerDependencies || {}),
+    'three/examples/jsm/controls/OrbitControls',
+  ],
+  plugins: [
+    nodeResolve(),
+    commonjs(),
+    typescript({
+      typescript: require('typescript'),
+    }),
+  ],
+};
+```
+
+通常来说，我们将所依赖的第三方依赖明确的生声明在 `peerDependencies` 中，在根据其 key 设置到 external 中，这样我们的 `peerDependencies` 就不会被一起打包了。
+
+```tsx
+"peerDependencies": {
+  "react": "^18.2.0",
+  "react-dom": "^18.2.0",
+  "stats.js": "^0.17.0",
+  "three": "^0.144.0"
+},
+```
+
+但在我的例子中，光添加了 `three` 还不够。如果还引入了 `three` 这个包下的其他文件夹内的文件，rollup 并没有非常智能的识别到 `three/examples/jsm/controls/OrbitControls` 也隶属于 `three` 。
+
+从而将 `OrbitControls` 也打包到一起了，所以在 external 中还需要手动添加。
+
+```tsx
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+```
+
+## package
+
+在 `package.json` 中除了 `peerDependencies` 比较重要外，入口文件和类型文件的位置声明也决定了我们的包能否被正常使用。
+
+```tsx
+"main": "./lib/cjs/index.js",
+"module": "./lib/esm/index.js",
+"types": "./lib/esm/index.d.ts",
+```
+
+而 `files` 字段则决定了当我们使用 `npm publish` 时所上传的文件：
+
+```tsx
+"files": [
+  "/lib"
+],
+```
+
+## NPM
+
+在做了适当的配置后，公开一个包到公共源非常简单，只需要两个命令，分别是登录和上传。
+
+```tsx
+npm adduser
+npm publish
+```
+
+需要注意的就是不能在镜像源上登陆，当然也不能上传。
