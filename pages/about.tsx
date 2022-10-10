@@ -1,9 +1,9 @@
 import TWEEN from '@tweenjs/tween.js';
-
 import classNames from 'classnames';
 import { getMousePosition } from 'lib/utils';
+import { useTheme } from 'next-themes';
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { InitFn, THREE, useThree } from 'rua-three';
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { NextPageWithLayout } from 'types';
@@ -130,6 +130,28 @@ const About: NextPageWithLayout = () => {
     init,
     alpha: true,
   });
+
+  // After model loading, set theme to dark mode.
+  const restore = useRef(false);
+  const { systemTheme, theme, setTheme } = useTheme();
+  const currentTheme = theme === 'system' ? systemTheme : theme;
+  useEffect(() => {
+    if (!loading) return;
+    if (currentTheme === 'dark') return;
+    setTimeout(() => {
+      setTheme('dark');
+      restore.current = true;
+    }, 700);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTheme, loading]);
+  useEffect(
+    () => () => {
+      if (!restore.current) return;
+      setTheme('light');
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <>

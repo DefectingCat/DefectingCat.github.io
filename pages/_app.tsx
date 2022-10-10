@@ -2,6 +2,7 @@ import useRouterLoading from 'lib/hooks/useRouterLoading';
 import { ThemeProvider } from 'next-themes';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import { useEffect } from 'react';
 import 'styles/globals.css';
 import 'styles/prism-one-dark.css';
 import 'styles/prism-one-light.css';
@@ -16,6 +17,10 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   const { loading } = useRouterLoading();
+
+  useEffect(() => {
+    document.body.style.transition = 'all 0.3s ease-out';
+  }, []);
 
   return (
     <>
