@@ -1,17 +1,32 @@
-import classNames from 'classnames';
-import dynamic from 'next/dynamic';
-import { InitFn, useThree, THREE } from 'rua-three';
-import { NextPageWithLayout } from 'types';
 import TWEEN from '@tweenjs/tween.js';
+import classNames from 'classnames';
+import { getMousePosition } from 'lib/utils';
+import { useTheme } from 'next-themes';
+import dynamic from 'next/dynamic';
+import { useEffect, useRef, useState } from 'react';
+import { InitFn, THREE, useThree } from 'rua-three';
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { NextPageWithLayout } from 'types';
 
-const glftLoader = new GLTFLoader();
+const Loading = dynamic(() => import('components/RUA/loading/RUALoading'));
+
+const manager = new THREE.LoadingManager();
+const glftLoader = new GLTFLoader(manager);
 const rotationY = 0.4;
 const rotationX = 0.2;
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 
 const About: NextPageWithLayout = () => {
+  const [loading, setLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
+  manager.onLoad = () => {
+    setLoading(false);
+    setTimeout(() => {
+      setShowLoading(false);
+    }, 300);
+  };
+
   const init: InitFn = ({
     scene,
     controls,
@@ -71,7 +86,7 @@ const About: NextPageWithLayout = () => {
             cameraY: entryValue.cameraY + 0.5,
             z: entryValue.z - 16,
           },
-          1000
+          1200
         )
         .onUpdate((obj) => {
           // root.rotation.y = obj.rotationY;
@@ -93,23 +108,11 @@ const About: NextPageWithLayout = () => {
       const halfHeight = Math.floor(window.innerHeight / 2);
 
       const updateMousePosition = (e: MouseEvent | globalThis.TouchEvent) => {
-        let x;
-        let y;
-        if (e instanceof MouseEvent) {
-          x = e.clientX;
-          y = e.clientY;
-        } else {
-          x = e.touches[0].clientX;
-          y = e.touches[0].clientY;
-        }
-
+        const { x, y } = getMousePosition(e);
         // > 0 is right, < 0 is left
-        const directionX = x - halfWidth;
-        const directionY = y - halfHeight;
-
         // if (directionX > 0) root.rotation.y += 0.01;
-        root.rotation.y = rotationY * (directionX / halfWidth);
-        root.rotation.x = rotationX * (directionY / halfHeight);
+        root.rotation.y = rotationY * ((x - halfWidth) / halfWidth);
+        root.rotation.x = rotationX * ((y - halfHeight) / halfHeight);
       };
 
       addWindowEvent('mousemove', updateMousePosition, {
@@ -128,9 +131,46 @@ const About: NextPageWithLayout = () => {
     alpha: true,
   });
 
+  // After model loading, set theme to dark mode.
+  const restore = useRef(false);
+  const { systemTheme, theme, setTheme } = useTheme();
+  const currentTheme = theme === 'system' ? systemTheme : theme;
+  useEffect(() => {
+    if (!loading) return;
+    if (currentTheme === 'dark') return;
+    setTimeout(() => {
+      setTheme('dark');
+      restore.current = true;
+    }, 700);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTheme, loading]);
+  useEffect(
+    () => () => {
+      if (!restore.current) return;
+      setTheme('light');
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
   return (
     <>
-      <canvas ref={ref} className="fixed top-0 left-0 -z-10"></canvas>
+      <div className="fixed top-0 left-0 -z-10">
+        <canvas ref={ref} className="w-full h-full"></canvas>
+        {showLoading && (
+          <div
+            className={classNames(
+              'absolute top-0 left-0',
+              'items-center flex justify-center',
+              'w-full h-full transition-all duration-500',
+              'bg-white',
+              loading ? 'opacity-1' : 'opacity-0'
+            )}
+          >
+            <Loading />
+          </div>
+        )}
+      </div>
 
       <main className="h-[calc(100vh-142px)] flex flex-col">
         <div

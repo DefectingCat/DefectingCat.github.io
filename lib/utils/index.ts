@@ -85,3 +85,20 @@ export const generateToc = (source: string) => {
 
   return toc;
 };
+
+/**
+ * Get mouse or touch position on screen.
+ * @param e Mouse or Touch event.
+ * @returns
+ */
+export const getMousePosition = (e: MouseEvent | globalThis.TouchEvent) => {
+  return e instanceof MouseEvent
+    ? {
+        x: e.clientX,
+        y: e.clientY,
+      }
+    : {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY,
+      };
+};

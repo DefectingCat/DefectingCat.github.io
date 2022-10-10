@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { getMousePosition } from 'lib/utils';
 import dynamic from 'next/dynamic';
 import Image from 'next/future/image';
 import Head from 'next/head';
@@ -13,7 +14,6 @@ const Loading = dynamic(() => import('components/RUA/loading/RUALoading'));
 
 const manager = new THREE.LoadingManager();
 const gltfLoader = new GLTFLoader(manager);
-
 const rotationY = 0.4;
 const rotationX = 0.18;
 
@@ -107,23 +107,11 @@ const Home: NextPageWithLayout = () => {
       const halfHeight = Math.floor(window.innerHeight / 2);
 
       const updateMousePosition = (e: MouseEvent | globalThis.TouchEvent) => {
-        let x;
-        let y;
-        if (e instanceof MouseEvent) {
-          x = e.clientX;
-          y = e.clientY;
-        } else {
-          x = e.touches[0].clientX;
-          y = e.touches[0].clientY;
-        }
-
+        const { x, y } = getMousePosition(e);
         // > 0 is right, < 0 is left
-        const directionX = x - halfWidth;
-        const directionY = y - halfHeight;
-
         // if (directionX > 0) root.rotation.y += 0.01;
-        root.rotation.y = rotationY * (directionX / halfWidth);
-        root.rotation.x = rotationX * (directionY / halfHeight);
+        root.rotation.y = rotationY * ((x - halfWidth) / halfWidth);
+        root.rotation.x = rotationX * ((y - halfHeight) / halfHeight);
       };
 
       addWindowEvent('mousemove', updateMousePosition, {
@@ -173,7 +161,7 @@ const Home: NextPageWithLayout = () => {
             {showLoading && (
               <div
                 className={cn(
-                  'absolute top-0 left-0 z-10 ',
+                  'absolute top-0 left-0 z-10',
                   'items-center flex justify-center',
                   'w-full h-full transition-all duration-500',
                   'bg-white',
