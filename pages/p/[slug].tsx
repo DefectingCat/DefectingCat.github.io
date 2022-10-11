@@ -53,10 +53,11 @@ export const getStaticProps: GetStaticProps<{
   tocLength: number;
 }> = async ({ params }) => {
   const slug = params?.slug?.toString();
-  if (!slug)
+  if (!slug) {
     return {
       notFound: true,
     };
+  }
 
   const post = await readSinglePost(slug);
   const toc = generateToc(post);
