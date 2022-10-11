@@ -11,6 +11,7 @@ const nextConfig = {
   images: isExport ? { unoptimized: true } : {},
   experimental: {
     // runtime: 'nodejs',
+    largePageDataBytes: 512 * 1000,
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
