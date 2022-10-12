@@ -48,11 +48,9 @@ Now, we can get a black canvas in our document.
 <RUASandpack
   template="react"
   files={{
-    '/App.js': sandpack['load-background-main'],
-    '/styles.css': sandpack['load-background-styles'],
-  }}
-  options={{
-    autorun: false,
+    '/App.js': sandpack['how-to-load-a-background-with-threejs'].firstScene,
+    '/styles.css':
+      sandpack['how-to-load-a-background-with-threejs'].resetStyles,
   }}
   customSetup={{
     dependencies: {
@@ -130,11 +128,9 @@ controls.update();
 <RUASandpack
   template="react"
   files={{
-    '/App.js': sandpack['load-background-main2'],
-    '/styles.css': sandpack['load-background-styles'],
-  }}
-  options={{
-    autorun: false,
+    '/App.js': sandpack['how-to-load-a-background-with-threejs'].loadBackground,
+    '/styles.css':
+      sandpack['how-to-load-a-background-with-threejs'].resetStyles,
   }}
   customSetup={{
     dependencies: {

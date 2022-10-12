@@ -1,15 +1,15 @@
 import { hello } from 'data/sandpack/hello-world';
 import {
-  main,
-  main2,
-  styles,
+  firstScene,
+  loadBackground,
+  resetStyles,
 } from 'data/sandpack/how-to-load-a-background-with-threejs';
+import { Button, Input } from './sandpack';
 import {
   genericApp,
   genericChild,
   hookApp,
 } from './sandpack/generic-component-encapsulate-reusable-component';
-import { Button, Input } from './sandpack';
 import {
   store,
   useDeferredValue,
@@ -21,16 +21,22 @@ import {
 
 const data = {
   sandpack: {
-    'hello-world': hello,
-    'load-background-main': main,
-    'load-background-main2': main2,
-    'load-background-styles': styles,
-    'generic-app': genericApp,
-    'generic-child': genericChild,
-    'generic-hookApp': hookApp,
     common: {
       Button,
       Input,
+    },
+    'hello-world': {
+      hello,
+    },
+    'how-to-load-a-background-with-threejs': {
+      firstScene,
+      loadBackground,
+      resetStyles,
+    },
+    'generic-component-encapsulate-reusable-component': {
+      genericApp,
+      genericChild,
+      hookApp,
     },
     'react18-new-hooks': {
       useTransition,

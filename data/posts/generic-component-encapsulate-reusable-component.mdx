@@ -25,7 +25,8 @@ React Hook Forms 对 TypeScript 支持良好，有了 TypeScript 我们就可以
 <RUASandpack
   template="react-ts"
   files={{
-    '/App.tsx': sandpack['generic-hookApp'],
+    '/App.tsx':
+      sandpack['generic-component-encapsulate-reusable-component'].hookApp,
   }}
   customSetup={{
     dependencies: {
@@ -209,8 +210,10 @@ const sayIt = <T extends number | string>(p: Person<T>) => {
 <RUASandpack
   template="react-ts"
   files={{
-    '/App.tsx': sandpack['generic-app'],
-    '/Child.tsx': sandpack['generic-child'],
+    '/App.tsx':
+      sandpack['generic-component-encapsulate-reusable-component'].genericApp,
+    '/Child.tsx':
+      sandpack['generic-component-encapsulate-reusable-component'].genericChild,
   }}
 />
 

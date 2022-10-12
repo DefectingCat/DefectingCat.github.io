@@ -1,4 +1,4 @@
-export const main = `import { useEffect, useRef } from 'react';
+export const firstScene = `import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 export default function App() {
@@ -10,6 +10,7 @@ export default function App() {
     0.1,
     1000
   );
+
   useEffect(() => {
     const renderer = new THREE.WebGLRenderer({
       canvas: ref.current,
@@ -32,6 +33,7 @@ export default function App() {
       window.removeEventListener('resize', onWindowResize);
     };
   }, []);
+
   return (
     <>
       <canvas ref={ref}></canvas>
@@ -39,9 +41,10 @@ export default function App() {
   )
 }`;
 
-export const main2 = `import { useEffect, useRef } from "react";
+export const loadBackground = `import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
 const manager = new THREE.LoadingManager();
 manager.onProgress = (item, loaded, total) => {
   console.log(loaded, total);
@@ -49,26 +52,29 @@ manager.onProgress = (item, loaded, total) => {
 
 export default function App() {
   const ref = useRef(null);
-  const scene = new THREE.Scene();
-  const sky = new THREE.CubeTextureLoader(manager).load([
-    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_ft.png",
-    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_bk.png",
-    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_up.png",
-    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_dn.png",
-    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_rt.png",
-    "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/first-project/skybox/corona_lf.png"
-  ]);
-  scene.background = sky;
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
-  camera.position.set(0, 1, 0);
-  camera.up.set(0, 0, 1);
-  scene.add(camera);
+
   useEffect(() => {
+    const scene = new THREE.Scene();
+    const sky = new THREE.CubeTextureLoader(manager).load([
+      "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/images/corona/corona_ft.png",
+      "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/images/corona/corona_bk.png",
+      "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/images/corona/corona_up.png",
+      "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/images/corona/corona_dn.png",
+      "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/images/corona/corona_rt.png",
+      "https://raw.githubusercontent.com/DefectingCat/three-playground/master/src/assets/images/corona/corona_lf.png"
+    ]);
+    scene.background = sky;
+
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+    camera.position.set(0, 1, 0);
+    camera.up.set(0, 0, 1);
+    scene.add(camera);
+
     const renderer = new THREE.WebGLRenderer({
       canvas: ref.current
     });
@@ -82,6 +88,7 @@ export default function App() {
       renderer.render(scene, camera);
       requestAnimationFrame(render);
     };
+
     requestAnimationFrame(render);
     function onWindowResize() {
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -90,6 +97,7 @@ export default function App() {
       render(0);
     }
     window.addEventListener("resize", onWindowResize);
+
     return () => {
       window.removeEventListener("resize", onWindowResize);
     };
@@ -102,7 +110,7 @@ export default function App() {
 }
 `;
 
-export const styles = `* {
+export const resetStyles = `* {
   padding: 0;
   margin: 0;
 }`;
