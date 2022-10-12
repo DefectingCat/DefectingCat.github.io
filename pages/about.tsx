@@ -27,6 +27,27 @@ const About: NextPageWithLayout = () => {
     }, 300);
   };
 
+  // After model loading, set theme to dark mode.
+  const restore = useRef(false);
+  const { systemTheme, theme, setTheme } = useTheme();
+  const currentTheme = theme === 'system' ? systemTheme : theme;
+  const setDarkMode = () => {
+    if (!showLoading) return;
+    if (currentTheme === 'dark') return;
+    document.body.style.transition = 'all 1.2s ease-out';
+    setTheme('dark');
+    restore.current = true;
+  };
+  useEffect(
+    () => () => {
+      if (!restore.current) return;
+      setTheme('light');
+      document.body.style.transition = 'all 0.3s ease-out';
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
   const init: InitFn = ({
     scene,
     controls,
@@ -97,6 +118,7 @@ const About: NextPageWithLayout = () => {
         .easing(TWEEN.Easing.Circular.Out);
       setTimeout(() => {
         enter.start();
+        setDarkMode();
       }, 1000);
 
       // Render animation
@@ -130,28 +152,6 @@ const About: NextPageWithLayout = () => {
     init,
     alpha: true,
   });
-
-  // After model loading, set theme to dark mode.
-  const restore = useRef(false);
-  const { systemTheme, theme, setTheme } = useTheme();
-  const currentTheme = theme === 'system' ? systemTheme : theme;
-  useEffect(() => {
-    if (!loading) return;
-    if (currentTheme === 'dark') return;
-    setTimeout(() => {
-      setTheme('dark');
-      restore.current = true;
-    }, 1300);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTheme, loading]);
-  useEffect(
-    () => () => {
-      if (!restore.current) return;
-      setTheme('light');
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
 
   return (
     <>
