@@ -31,6 +31,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: create env file
+        run: |
+          touch .env
+          echo NEXT_PUBLIC_GITHUB_API=${{ secrets.NEXT_PUBLIC_GITHUB_API }} >> .env
+          echo NEXT_PUBLIC_GISCUS_CATEGORY_ID=${{ secrets.NEXT_PUBLIC_GISCUS_CATEGORY_ID }} >> .env
+          echo NEXT_PUBLIC_GISCUS_REPO_ID=${{ secrets.NEXT_PUBLIC_GISCUS_REPO_ID }} >> .env
+          echo NEXT_PUBLIC_ALGOLIA_SEARCH_ADMIN_KEY=${{ secrets.NEXT_PUBLIC_ALGOLIA_SEARCH_ADMIN_KEY }} >> .env
+          echo NEXT_PUBLIC_ALGOLIA_APP_ID=${{ secrets.NEXT_PUBLIC_ALGOLIA_APP_ID }} >> .env
       - name: Detect package manager
         id: detect-package-manager
         run: |
