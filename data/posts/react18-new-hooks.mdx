@@ -8,7 +8,7 @@ tags: [React, TypeScript]
 
 返回一个状态值表示过渡任务的等待状态，以及一个启动该过渡任务的函数。它和 CSS 的过渡没有任何关系。useTransition 的主要目的是作用于在复杂的过渡任务时提供一个优先级较低的更新，过渡任务中触发的更新会让更紧急地更新先进行，比如点击。
 
-过渡任务中的更新将不会展示由于再次挂起而导致降级的内容。这个机制允许用户在 React 渲染更新的时候继续与当前内容进行交互。\*\*\*\*
+过渡任务中的更新将不会展示由于再次挂起而导致降级的内容。这个机制允许用户在 React 渲染更新的时候继续与当前内容进行交互。
 
 这里渲染一个长度为 10 万的列表和两个不同的按钮，第一个按钮会增加列表的长度并使第一个状态数值加一。第二个按钮只会增加自己的状态。
 
@@ -18,6 +18,17 @@ tags: [React, TypeScript]
 
 `useTransition` 返回的元组中包含两个值 `[pending, setTransiton]` ，分别是 `setTransiton` 方法和表示正在过渡的状态 `pending` 。如果需要在过渡时展示特定的 UI 就可以使用 `pending` 来控制状态。
 
+<RUASandpack
+  template="react-ts"
+  files={{
+    '/Button.tsx': {
+      code: sandpack.common.Button,
+      hidden: true,
+    },
+    '/App.tsx': sandpack['react18-new-hooks'].useTransition,
+  }}
+/>
+
 ## useDeferredValue
 
 `useDeferredValue` 接受一个状态值，并返回该的副本。返回的副本状态值将会在其他紧急更新后更新。它与 `useTransition` 比较类似，二者可以搭配使用。
@@ -25,6 +36,17 @@ tags: [React, TypeScript]
 因为函数的原子性，在整个组件更新（重新渲染）时，子组件也会随着一起更新。这里通过设置了状态 `value` 来对整个组件重新渲染，即使下方的列表没有任何变化也会一起重新渲染。而重新渲染 UI 界面对我们来说就是紧急更新。
 
 将原本的状态值 `value` 与 `useDeferredValue` 返回的副本相比较就会发现 `value` 会随着 UI 一起被更新，而被延迟的状态 `deferred` 会等待 UI 更新结束后再做更新。
+
+<RUASandpack
+  template="react-ts"
+  files={{
+    '/Button.tsx': {
+      code: sandpack.common.Button,
+      hidden: true,
+    },
+    '/App.tsx': sandpack['react18-new-hooks'].useDeferredValue,
+  }}
+/>
 
 ## useId
 
@@ -34,6 +56,17 @@ tags: [React, TypeScript]
 
 - 为页面中需要唯一 ID 元素提供 ID，例如 `<label for="ID">` 。
 - SSR 到客户端注入时需要 ID 避免错误。
+
+<RUASandpack
+  template="react-ts"
+  files={{
+    '/Input.tsx': {
+      code: sandpack.common.Input,
+      hidden: true,
+    },
+    '/App.tsx': sandpack['react18-new-hooks'].useId,
+  }}
+/>
 
 ## useSyncExternalStore
 
@@ -106,6 +139,22 @@ export default store;
 
 其中， `listeners` 用于存放 `subscribe` 的回调，在我们更新状态后需要通知 React 来更新组件。所以在 `setState` 中遍历执行。之所以使用 `Set()` 是因为 `subscribe` 还需要返回一个函数用于注销 `listener` 。
 
+<RUASandpack
+  template="react-ts"
+  files={{
+    '/Input.tsx': {
+      code: sandpack.common.Input,
+      hidden: true,
+    },
+    '/Button.tsx': {
+      code: sandpack.common.Button,
+      hidden: true,
+    },
+    '/store.ts': sandpack['react18-new-hooks'].store,
+    '/App.tsx': sandpack['react18-new-hooks'].useSyncExternalStore,
+  }}
+/>
+
 ## useInsertionEffect
 
 `useInsertionEffect` 在通常情况下都用不上，它的唯一目的是对 CSS-in-JS 库很重要。
@@ -113,3 +162,10 @@ export default store;
 CSS-in-JS 库通常需要在运行时插入或修改 `<style>`  标签等。当 CSS 规则被添加或删除时，浏览器必须检查这些规则是否适用于现有的 DOM 树。它必须重新计算所有的样式规则并重新应用它们--而不仅仅是改变了的那些。如果 React 发现另一个组件也产生了一个新的规则，同样的过程会再次发生。
 
 解决这个问题的最好办法就是所有东西呈现给浏览器绘制前就进行改变。没错 `useInsertionEffect` 与 `useEffect` 有着同样的签名，但它会同步的在所有 DOM 更改之前触发。比 `useLayoutEffect` 还要早触发，这样就可以用于在重绘之前注入样式。
+
+<RUASandpack
+  template="react-ts"
+  files={{
+    '/App.tsx': sandpack['react18-new-hooks'].useInsertionEffect,
+  }}
+/>

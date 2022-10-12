@@ -9,6 +9,15 @@ import {
   genericChild,
   hookApp,
 } from './sandpack/generic-component-encapsulate-reusable-component';
+import { Button, Input } from './sandpack';
+import {
+  store,
+  useDeferredValue,
+  useId,
+  useInsertionEffect,
+  useSyncExternalStore,
+  useTransition,
+} from './sandpack/react18-new-hooks';
 
 const data = {
   sandpack: {
@@ -19,6 +28,18 @@ const data = {
     'generic-app': genericApp,
     'generic-child': genericChild,
     'generic-hookApp': hookApp,
+    common: {
+      Button,
+      Input,
+    },
+    'react18-new-hooks': {
+      useTransition,
+      useDeferredValue,
+      useId,
+      store,
+      useSyncExternalStore,
+      useInsertionEffect,
+    },
   },
 };
 
