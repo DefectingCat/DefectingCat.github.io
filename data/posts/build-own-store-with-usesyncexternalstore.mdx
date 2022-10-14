@@ -1,0 +1,399 @@
+---
+title: Build own store with useSyncExternalStore
+date: '2022-10-14'
+tags: [TypeScript, React]
+---
+
+在 [React18 new hooks](https://rua.plus/p/react18-new-hooks) 中简单了解过并作过一个简单的全局状态，它的参数只有三个：
+
+- `subscribe`: 一个当状态更新后可执行的回调函数。该函数会收到一个回调函数，这个回调函数就是当状态后执行，React 用来对比是否需要重新渲染组件。
+- `getSnapshot`: 返回当前状态的函数。
+- `getServerSnapshot`: 在服务端渲染时返回当前状态的函数，可选。
+
+配合上 `useSyncExternalStore` 就可以非常方便的对接外部状态，了解了这个 hook 之后，对自定义的全局状态也有更深的了解。
+
+简单来说，JavaScript 的变量是没有任何相应式的。也就是说，通常情况下，当我们修改了一个变量，是无法被动的感知到它的变化的。但是也是有办法去实现这一功能的，例如 Vue 2 使用 `Object.defineProperty()` 和 Vue 3 使用的 `Proxy` 来实现的相应式。
+
+而 React 走了另一条道路，数据不可变。它通过 `setState` 来感知状态的变化，再利用 diff 等方法实现更新。这也就是为什么我们可以利用 `setState({})` 可以强制更新组件。
+
+正因如此，配合上 `useSyncExternalStore` 我们的外部状态也就可以是一个普通的变量（PlainObject）。在我们更新我们的状态时，利用 `subscribe` 参数接受到的回调（listener）来通知组件状态更新了。最后在使用 `getSnapshot` 来返回新的状态，这就是 `useSyncExternalStore` 大致的工作流程。
+
+<Image
+  src="/images/p/build-own-store-with-usesyncexternalstore/GlobalStore.png"
+  alt="Global Store"
+  width="1280"
+  height="866"
+/>
+
+## 实现一个全局状态
+
+先来一个最简单的，利用 `useSyncExternalStore` 实现一个全局状态。首先我们需要创建一个普通对象，它主要用于存储状态，并配合 `subscribe` 和 `getSnapshot` 等方法来实现状态的更新。
+
+```tsx
+const store: Store = {
+  // 全局状态
+  state: {
+    count: 0,
+    info: 'Hello',
+  },
+
+  /**
+   * 设置新的状态
+   * @param stateOrFn 新状态或设置状态的回调函数
+   */
+  setState(stateOrFn) {
+    const newState =
+      typeof stateOrFn === 'function' ? stateOrFn(store.state) : stateOrFn;
+    store.state = {
+      ...store.state,
+      ...newState,
+    };
+    store.listeners.forEach((listener) => listener());
+  },
+
+  /**
+   * 保存 useSyncExternalStore 回调的 listener
+   * 在 setState 中设置过状态后会进行调用
+   */
+  listeners: new Set(),
+
+  /**
+   * 传递给 useSyncExternalStore 的 subscriber
+   * 负责收集 listener 并返回注销 listener 的方法
+   * @param listener
+   * @returns
+   */
+  subscribe(listener) {
+    store.listeners.add(listener);
+    return () => {
+      store.listeners.delete(listener);
+    };
+  },
+
+  /**
+   * 返回当前的状态
+   * @returns
+   */
+  getSnapshot() {
+    return store.state;
+  },
+};
+```
+
+在我们的 store 中：
+
+- `state` ：一个普通的对象，它就是我们用于存储全局状态的地方。
+- `setState` ：提供一个类似于 `useState` 的设置状态的方法。
+- `listeners` ：保存 `useSyncExternalStore` 回调的 listener。
+- `subscribe` ：传递给 `useSyncExternalStore` 的 subscriber。
+- `getSnapshot` ：返回当前的状态。
+
+需要注意的是，`useSyncExternalStore` 会立即调用 `subscribe` 和 `getSnapshot` ，这就导致了我们不能在这些方法中使用 `[this.store](http://this.store)` ，此时的 `this` 还未准备好。
+
+最后的签名也是比较重要的，`setState` 就参照 `useState` 。接受完整的 state 为参数，并将其设置到我们的状态中。
+
+而 `useSyncExternalStore` 给我们的 listener 签名就简单多了 `() => void` 。
+
+```tsx
+export type State = {
+  count: number;
+  info: string;
+};
+export type Store = {
+  state: State;
+  setState: (stateOrFn: State | ((state: State) => State)) => void;
+  subscribe: (listener: () => void) => () => void;
+  listeners: Set<() => void>;
+  getSnapshot: () => State;
+};
+```
+
+### 使用全局状态
+
+到目前为止还只是创建了一个用于存储和更新状态的对象，在使用上我们直接在组件中配合 `useSyncExternalStore` 来创建我们的状态。这一步就非常的简单，后续的使用就和在使用其他的状态一样。
+
+```tsx
+const Couter = () => {
+  const { count, info } = useSyncExternalStore(
+    store.subscribe,
+    store.getSnapshot
+  );
+
+  return (
+    <>
+      <div>
+        <div>
+          Count: <span>{count}</span>
+        </div>
+        <div>
+          Info: <span>{info}</span>
+        </div>
+
+        <div>
+          <Button
+            onClick={() => store.setState((d) => ({ count: d.count + 1 }))}
+          >
+            Add
+          </Button>
+        </div>
+      </div>
+    </>
+  );
+};
+```
+
+<RUASandpack
+  template="react-ts"
+  files={{
+    '/Input.tsx': {
+      code: sandpack.common.Input,
+      hidden: true,
+    },
+    '/Button.tsx': {
+      code: sandpack.common.Button,
+      hidden: true,
+    },
+    '/store.ts': sandpack['react18-new-hooks'].store,
+    '/App.tsx': sandpack['react18-new-hooks'].useSyncExternalStore,
+  }}
+/>
+
+## 多个 Store
+
+上面的实现是直接针对单一的 store 来实现的，直接将 state 和其方法封装在一个对象中。日常的项目中通常会根据功能来创建多个全局状态，避免混乱。
+
+为了避免每创建一个 store 都要重新写一次同样的方法，我们可以将其封装为一个创建 store 的函数。整体实现都还是一样的，只不过后续我们可以利用这个方法来创建多个 store。
+
+```tsx
+export const createStore: CreateStore = <
+  T extends Record<string, unknown> | unknown[]
+>(
+  initialState: T
+) => {
+  let state = initialState;
+
+  const listeners = new Set<() => void>();
+  const getSnapshot = () => state;
+  const setState: SetState<T> = (stateOrFn) => {
+    state = typeof stateOrFn === 'function' ? stateOrFn(state) : stateOrFn;
+    listeners.forEach((listener) => listener());
+  };
+  const subscribe = (listener: () => void) => {
+    listeners.add(listener);
+
+    return () => {
+      listeners.delete(listener);
+    };
+  };
+
+  return {
+    getSnapshot,
+    setState,
+    subscribe,
+  };
+};
+```
+
+对于其方法的签名还是和之前一样，只不过函数还是需要显式注解，因为在创建时我们还需要访问其范型 `T` 。
+
+```tsx
+export type SetState<S> = (stateOrFn: S | ((state: S) => S)) => void;
+export type GetSnapshot<S> = () => S;
+export type Subscribe = (listener: () => void) => () => void;
+export type CreateStore = <T extends Record<string, unknown> | unknown[]>(
+  initialState: T
+) => {
+  getSnapshot: GetSnapshot<T>;
+  setState: SetState<T>;
+  subscribe: Subscribe;
+};
+```
+
+将对应需要的方法在函数中创建，并返回为一个对象。但这里没有将 state 直接返回出去，和上述不同，我们将不再直接访问原始 state，而是配合 `useSyncExternalStore` 封装一个自定义 hook 来返回我们的全局状态。
+
+```tsx
+export type Todo = {
+  id: number;
+  content: string;
+}[];
+const initialTodo: Todo = [
+  { id: 0, content: 'React' },
+  { id: 1, content: 'Vue' },
+];
+const todoStore = createStore(initialTodo);
+export const useTodoStore = (): [Todo, SetState<Todo>] => [
+  useSyncExternalStore(todoStore.subscribe, todoStore.getSnapshot),
+  todoStore.setState,
+];
+```
+
+这里的 `useTodoStore` 将其显式的注解了其返回值，因为返回的是和 `useState` 类似的元组，而默认 TypeScript 推断的类型比较宽松，会推断为 `(Todo | SetState<Todo>)[]` 的数组。
+
+由于封装了新的 hook，在组件中的使用也就更方便了。在需要不同 store 的组件中直接使用不同的 hook 就能访问到对应的全局状态了。
+
+```tsx
+const Todo = () => {
+  const [todos, setTodo] = useTodoStore();
+  const [value, setValue] = useState('');
+};
+
+const Count = () => {
+  const [{ count, info }, setState] = useCountStore();
+};
+```
+
+<RUASandpack
+  template="react-ts"
+  files={{
+    '/Input.tsx': {
+      code: sandpack.common.Input,
+      hidden: true,
+    },
+    '/Button.tsx': {
+      code: sandpack.common.Button,
+      hidden: true,
+    },
+    '/multi.ts': sandpack['build-own-store-with-usesyncexternalstore'].multi,
+    '/App.tsx':
+      sandpack['build-own-store-with-usesyncexternalstore'].MultiStore,
+  }}
+/>
+
+## Mini Redux
+
+在模仿 Reudx 之前，应该再熟悉一下 Redux 的工作流程。在 Redux 中，和我们上述的状态一样，状态都是普通对象，且是不可变的数据（只读）。此外，我们的 reducer 也应该保持是纯函数。
+
+Redux 通过我们创建的 Action 来决定如何更新状态，再通过 reducer 来实际更新状态。reducer 更新状态也非常简单，和 React 的状态类似，我们的状态也是保持不可变的。所以 reducer 会返回整个状态。
+
+也就是类似于：
+
+```tsx
+export type RUAReducer<S extends RUAState, A extends RUAAction> = (
+  state: S,
+  action: A
+) => S;
+```
+
+<Image
+  src="/images/p/build-own-store-with-usesyncexternalstore/ReduxDataFlowDiagram.gif"
+  alt="Redux Data Flow Diagram"
+  width="1440"
+  height="1080"
+/>
+
+上述的 `setState` 方法也需要简单调整一下，由于 reducer 是返回整个状态，所以可以直接将返回的新状态赋值给全局状态。
+
+```tsx
+const dispatch: RUADispatch<A> = (action) => {
+  state = reducer(state, action);
+  listeners.forEach((listener) => listener());
+};
+```
+
+除此之外，其他配合 `useSyncExternalStore` 的用法没有多大变化。
+
+```tsx
+export const createStore = <S extends RUAState, A extends RUAAction>(
+  reducer: RUAReducer<S, A>,
+  initialState: S
+) => {
+  let state = initialState;
+
+  const listeners = new Set<() => void>();
+  const getSnapshot = () => state;
+  const dispatch: RUADispatch<A> = (action) => {
+    state = reducer(state, action);
+    listeners.forEach((listener) => listener());
+  };
+  const subscribe = (listener: () => void) => {
+    listeners.add(listener);
+    return () => {
+      listeners.delete(listener);
+    };
+  };
+
+  return {
+    subscribe,
+    getSnapshot,
+    dispatch,
+  };
+};
+```
+
+在 reducer 方面，也没有什么黑魔法，设置状态后将其返回即可。剩下的就交给 React 了。
+
+```tsx
+const reducer: RUAReducer<Todo, TodoAction> = (state, action) => {
+  switch (action.type) {
+    case 'add': {
+      if (action.payload == null) throw new Error('Add todo without payload!');
+      return [
+        ...state,
+        {
+          id: state[state.length - 1].id + 1,
+          content: action.payload.toString(),
+        },
+      ];
+    }
+    case 'delete': {
+      if (action.payload == null)
+        throw new Error('Delete todo without payload!');
+      return state.filter((todo) => todo.id !== action.payload);
+    }
+    default:
+      throw new Error('Dispatch a reducer without action!');
+  }
+};
+```
+
+签名方面，主要针对 action 做了一些调整，以确保创建 reducer 和 dispatch 时 action 的类型正确。
+
+```tsx
+export type RUAState = Record<string, unknown> | unknown[];
+export type RUAAction<P = unknown, T extends string = string> = {
+  payload: P;
+  type: T;
+};
+export type RUAReducer<S extends RUAState, A extends RUAAction> = (
+  state: S,
+  action: A
+) => S;
+export type RUADispatch<A extends RUAAction> = (action: A) => void;
+export type GetSnapshot<S> = () => S;
+export type Subscribe = (listener: () => void) => () => void;
+```
+
+在封装 hook 上，和上述没有多少区别：
+
+```tsx
+const todoStore = createStore(reducer, initialTodo);
+export const useTodoStore = (): [Todo, RUADispatch<TodoAction>] => [
+  useSyncExternalStore(todoStore.subscribe, todoStore.getSnapshot),
+  todoStore.dispatch,
+];
+```
+
+<RUASandpack
+  template="react-ts"
+  files={{
+    '/Input.tsx': {
+      code: sandpack.common.Input,
+      hidden: true,
+    },
+    '/Button.tsx': {
+      code: sandpack.common.Button,
+      hidden: true,
+    },
+    '/store.ts':
+      sandpack['build-own-store-with-usesyncexternalstore'].miniRedux,
+    '/App.tsx': sandpack['build-own-store-with-usesyncexternalstore'].Reducer,
+  }}
+/>
+
+只是在 Redux 的三个原则中：
+
+- Single source of truth
+- State is read-only
+- Changes are made with pure functions
+
+其中的 Single source of truth 没有完全遵守，我们的全局状态可以使用 `createStore` 来创建多个 source，且多个 source 是完全分离的，无法一起访问到。

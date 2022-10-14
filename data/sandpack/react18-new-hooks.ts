@@ -113,7 +113,7 @@ export const store = `export type State = {
 export type Store = {
   state: State;
   setState: (
-    stateOrFn: Partial<State> | ((state: State) => Partial<State>)
+    stateOrFn: State | ((state: State) => State)
   ) => void;
   subscribe: (listener: () => void) => () => void;
   listeners: Set<() => void>;
@@ -170,7 +170,7 @@ const Couter = () => {
 
         <div>
           <Button
-            onClick={() => store.setState((d) => ({ count: d.count + 1 }))}
+            onClick={() => store.setState((d) => ({ ...d, count: d.count + 1 }))}
           >
             Add
           </Button>
@@ -199,7 +199,8 @@ const Infor = () => {
         <div>
           <Input
             type="text"
-            onChange={(e) => store.setState({ info: e.target.value })}
+            onChange={(e) => store.setState((d) => ({ ...d, info: e.target.value }))}
+            value={info}
           />
         </div>
       </div>
