@@ -142,6 +142,22 @@ const Couter = () => {
 };
 ```
 
+<RUASandpack
+  template="react-ts"
+  files={{
+    '/Input.tsx': {
+      code: sandpack.common.Input,
+      hidden: true,
+    },
+    '/Button.tsx': {
+      code: sandpack.common.Button,
+      hidden: true,
+    },
+    '/store.ts': sandpack['react18-new-hooks'].store,
+    '/App.tsx': sandpack['react18-new-hooks'].useSyncExternalStore,
+  }}
+/>
+
 ## 多个 Store
 
 上面的实现是直接针对单一的 store 来实现的，直接将 state 和其方法封装在一个对象中。日常的项目中通常会根据功能来创建多个全局状态，避免混乱。
@@ -211,7 +227,7 @@ export const useTodoStore = (): [Todo, SetState<Todo>] => [
 ];
 ```
 
-这里的 `useTodoStore` 将其显式的注解了其返回值，因为返回的是和 `useState` 类似的元组，而默认 TypeScript 推断的类型比较宽松，会推断为 `(*Todo* | *SetState*<*Todo*>)[]` 的数组。
+这里的 `useTodoStore` 将其显式的注解了其返回值，因为返回的是和 `useState` 类似的元组，而默认 TypeScript 推断的类型比较宽松，会推断为 `(Todo | SetState<Todo>)[]` 的数组。
 
 由于封装了新的 hook，在组件中的使用也就更方便了。在需要不同 store 的组件中直接使用不同的 hook 就能访问到对应的全局状态了。
 
@@ -225,6 +241,23 @@ const Count = () => {
   const [{ count, info }, setState] = useCountStore();
 };
 ```
+
+<RUASandpack
+  template="react-ts"
+  files={{
+    '/Input.tsx': {
+      code: sandpack.common.Input,
+      hidden: true,
+    },
+    '/Button.tsx': {
+      code: sandpack.common.Button,
+      hidden: true,
+    },
+    '/multi.ts': sandpack['build-own-store-with-usesyncexternalstore'].multi,
+    '/App.tsx':
+      sandpack['build-own-store-with-usesyncexternalstore'].MultiStore,
+  }}
+/>
 
 ## Mini Redux
 
@@ -339,6 +372,23 @@ export const useTodoStore = (): [Todo, RUADispatch<TodoAction>] => [
   todoStore.dispatch,
 ];
 ```
+
+<RUASandpack
+  template="react-ts"
+  files={{
+    '/Input.tsx': {
+      code: sandpack.common.Input,
+      hidden: true,
+    },
+    '/Button.tsx': {
+      code: sandpack.common.Button,
+      hidden: true,
+    },
+    '/store.ts':
+      sandpack['build-own-store-with-usesyncexternalstore'].miniRedux,
+    '/App.tsx': sandpack['build-own-store-with-usesyncexternalstore'].Reducer,
+  }}
+/>
 
 只是在 Redux 的三个原则中：
 

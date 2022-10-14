@@ -6,6 +6,12 @@ import {
 } from 'data/sandpack/how-to-load-a-background-with-threejs';
 import { Button, Input } from './sandpack';
 import {
+  miniRedux,
+  multi,
+  MultiStore,
+  Reducer,
+} from './sandpack/build-own-store-with-usesyncexternalstore';
+import {
   genericApp,
   genericChild,
   hookApp,
@@ -45,6 +51,12 @@ const data = {
       store,
       useSyncExternalStore,
       useInsertionEffect,
+    },
+    'build-own-store-with-usesyncexternalstore': {
+      multi,
+      miniRedux,
+      MultiStore,
+      Reducer,
     },
   },
 };
