@@ -29,20 +29,29 @@ const About: NextPageWithLayout = () => {
 
   // After model loading, set theme to dark mode.
   const restore = useRef(false);
+  const mounted = useRef(false);
   const { systemTheme, theme, setTheme } = useTheme();
   const currentTheme = theme === 'system' ? systemTheme : theme;
+  // setDarkMode is async called by setTimeout, when component is unmounted
+  // it should not be called.
   const setDarkMode = () => {
     if (!showLoading) return;
     if (currentTheme === 'dark') return;
+    if (!mounted.current) return;
+    restore.current = true;
     document.body.style.transition = 'all 1.2s ease-out';
     setTheme('dark');
-    restore.current = true;
   };
   useEffect(
-    () => () => {
-      if (!restore.current) return;
-      setTheme('light');
-      document.body.style.transition = 'all 0.3s ease-out';
+    () => {
+      mounted.current = true;
+
+      return () => {
+        mounted.current = false;
+        if (!restore.current) return;
+        setTheme('light');
+        document.body.style.transition = 'all 0.3s ease-out';
+      };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -115,7 +124,10 @@ const About: NextPageWithLayout = () => {
           camera.position.y = obj.cameraY;
           camera.position.z = obj.z;
         })
-        .easing(TWEEN.Easing.Circular.Out);
+        .easing(TWEEN.Easing.Circular.Out)
+        .onComplete(() => {
+          document.body.style.transition = 'all 0.3s ease-out';
+        });
       setTimeout(() => {
         enter.start();
         setDarkMode();
