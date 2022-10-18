@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { gltfLoader, manager } from 'lib/gltfLoader';
 import { getMousePosition } from 'lib/utils';
 import dynamic from 'next/dynamic';
 import Image from 'next/future/image';
@@ -6,19 +7,11 @@ import Head from 'next/head';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { InitFn, THREE, useThree } from 'rua-three';
 import styles from 'styles/index/index.module.css';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import type { NextPageWithLayout } from 'types';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const Loading = dynamic(() => import('components/RUA/loading/RUALoading'));
-
-const manager = new THREE.LoadingManager();
-const gltfLoader = new GLTFLoader(manager);
-const dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath('./libs/draco/');
-dracoLoader.setDecoderConfig({ type: 'wasm' });
-gltfLoader.setDRACOLoader(dracoLoader);
 
 const rotationY = 0.4;
 const rotationX = 0.18;

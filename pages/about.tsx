@@ -1,22 +1,15 @@
 import TWEEN from '@tweenjs/tween.js';
 import classNames from 'classnames';
+import { gltfLoader, manager } from 'lib/gltfLoader';
 import { getMousePosition } from 'lib/utils';
 import { useTheme } from 'next-themes';
 import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
 import { InitFn, THREE, useThree } from 'rua-three';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import { NextPageWithLayout } from 'types';
 
 const Loading = dynamic(() => import('components/RUA/loading/RUALoading'));
-
-const manager = new THREE.LoadingManager();
-const glftLoader = new GLTFLoader(manager);
-const dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath('./libs/draco/');
-dracoLoader.setDecoderConfig({ type: 'wasm' });
-glftLoader.setDRACOLoader(dracoLoader);
 
 const rotationY = 0.4;
 const rotationX = 0.2;
@@ -163,7 +156,7 @@ const About: NextPageWithLayout = () => {
       });
     };
 
-    glftLoader.load('./models/cloud_station/modelDraco.gltf', handleLoad);
+    gltfLoader.load('./models/cloud_station/modelDraco.gltf', handleLoad);
   };
 
   const { ref } = useThree({
