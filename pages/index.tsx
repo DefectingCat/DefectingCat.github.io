@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { gltfLoader, manager } from 'lib/gltfLoader';
 import { getMousePosition } from 'lib/utils';
 import dynamic from 'next/dynamic';
 import Image from 'next/future/image';
@@ -6,14 +7,12 @@ import Head from 'next/head';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { InitFn, THREE, useThree } from 'rua-three';
 import styles from 'styles/index/index.module.css';
-import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import type { NextPageWithLayout } from 'types';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const Loading = dynamic(() => import('components/RUA/loading/RUALoading'));
 
-const manager = new THREE.LoadingManager();
-const gltfLoader = new GLTFLoader(manager);
 const rotationY = 0.4;
 const rotationX = 0.18;
 
@@ -122,7 +121,7 @@ const Home: NextPageWithLayout = () => {
       });
     };
 
-    gltfLoader.load('./models/just_a_hungry_cat/scene.gltf', handleLoad);
+    gltfLoader.load('./models/just_a_hungry_cat/modelDraco.gltf', handleLoad);
   };
   const { ref } = useThree({
     init,
