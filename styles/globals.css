@@ -111,3 +111,7 @@ html {
   display: flex;
   justify-content: center;
 }
+
+.DocSearch-Button {
+  transition: all 0.3s ease-out;
+}
