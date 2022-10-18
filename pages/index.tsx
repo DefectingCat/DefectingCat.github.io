@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { InitFn, THREE, useThree } from 'rua-three';
 import styles from 'styles/index/index.module.css';
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import type { NextPageWithLayout } from 'types';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
@@ -14,6 +15,11 @@ const Loading = dynamic(() => import('components/RUA/loading/RUALoading'));
 
 const manager = new THREE.LoadingManager();
 const gltfLoader = new GLTFLoader(manager);
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('./libs/draco/');
+dracoLoader.setDecoderConfig({ type: 'wasm' });
+gltfLoader.setDRACOLoader(dracoLoader);
+
 const rotationY = 0.4;
 const rotationX = 0.18;
 
