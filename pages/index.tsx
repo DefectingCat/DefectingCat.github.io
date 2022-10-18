@@ -6,8 +6,8 @@ import Head from 'next/head';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { InitFn, THREE, useThree } from 'rua-three';
 import styles from 'styles/index/index.module.css';
-import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
+import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import type { NextPageWithLayout } from 'types';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
@@ -128,7 +128,7 @@ const Home: NextPageWithLayout = () => {
       });
     };
 
-    gltfLoader.load('./models/just_a_hungry_cat/scene.gltf', handleLoad);
+    gltfLoader.load('./models/just_a_hungry_cat/modelDraco.gltf', handleLoad);
   };
   const { ref } = useThree({
     init,
