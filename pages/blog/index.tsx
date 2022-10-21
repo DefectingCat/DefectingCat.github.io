@@ -29,7 +29,7 @@ const Blog = ({
         <Pagination
           className="py-6 mt-4 px-7 lg:px-5"
           hasPrev={false}
-          hasNext={next === total}
+          hasNext={next <= total}
           prevLink={''}
           nextLink={`/blog/${next}`}
           current={1}
