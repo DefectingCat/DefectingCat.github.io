@@ -1,0 +1,12 @@
+.btn:hover .child {
+  @apply text-gray-600;
+}
+
+.on_copy {
+  transform: scale(0.33);
+  @apply opacity-0;
+}
+.on_ok {
+  transform: scale(1);
+  @apply opacity-100;
+}
