@@ -32,11 +32,15 @@ const PostCard = ({ post }: Props) => {
 
             <div className="flex justify-between">
               <div className="flex items-center text-sm">
-                {post.tags.map((tag) => (
-                  <div key={tag} className="mr-4 last:mr-0">
-                    {tag}
-                  </div>
-                ))}
+                {Array.isArray(post.tags) ? (
+                  post.tags.map((tag) => (
+                    <div key={tag} className="mr-4 last:mr-0">
+                      {tag}
+                    </div>
+                  ))
+                ) : (
+                  <div className="mr-4 last:mr-0">{post.tags}</div>
+                )}
               </div>
 
               <div className="lg:hidden">{post.date}</div>
