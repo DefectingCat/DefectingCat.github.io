@@ -22,9 +22,9 @@ const CopyButton = ({ onClick }: CopyButtonProps) => {
         className={classNames(
           'flex items-center justify-center',
           'border rounded-md absolute',
-          'top-4 right-4 p-2 opacity-0',
+          'top-4 right-4 p-[6px] opacity-0',
           'group-hover:opacity-100',
-          'transition-opacity',
+          'transition-opacity dark:border-gray-700',
           'duration-300',
           styles.btn
         )}
