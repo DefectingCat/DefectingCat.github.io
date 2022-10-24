@@ -21,11 +21,16 @@ const txtMenu = [
   },
   {
     id: 2,
+    name: 'Projects',
+    path: '/projects',
+  },
+  {
+    id: 3,
     name: 'Gists',
     path: '/gists',
   },
   {
-    id: 3,
+    id: 4,
     name: 'About',
     path: '/about',
   },
