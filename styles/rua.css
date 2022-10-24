@@ -108,6 +108,7 @@
 #article h1 {
   font-weight: bold;
   text-align: center;
+  word-break: break-word;
   @apply text-gray-800 dark:text-gray-200;
   @apply mt-8 text-5xl font-Barlow;
 }
@@ -276,8 +277,8 @@ h6:hover::before {
 #article kbd,
 #article pre,
 #article samp {
-  /* font-family: monospace, monospace; */
   font-size: 16px;
+  word-break: break-word;
 }
 
 #article mark {
