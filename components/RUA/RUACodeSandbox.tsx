@@ -6,7 +6,7 @@ import RUALoading from './loading/RUALoading';
 
 const partten =
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
-const commonClass = classNames(
+export const commonClass = classNames(
   'rounded-lg h-[500px] border-0',
   'overflow-hidden w-full'
 );
