@@ -3,10 +3,10 @@ import { useState } from 'react';
 import styles from './CopytButton.module.css';
 
 export type CopyButtonProps = {
-  onClick?: () => void;
+  onCopy?: () => void;
 };
 
-const CopyButton = ({ onClick }: CopyButtonProps) => {
+const CopyButton = ({ onCopy: onClick }: CopyButtonProps) => {
   const [copied, setCopied] = useState(false);
   const handleClick = () => {
     onClick?.();
