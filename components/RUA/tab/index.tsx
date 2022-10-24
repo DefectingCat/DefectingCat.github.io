@@ -15,12 +15,10 @@ const Tab = ({ defaultValue, children }: Props) => {
 
   // Pass current selected state to child
   const childrenWithProps = React.Children.map(children, (child) => {
-    if (React.isValidElement(child)) {
-      return React.cloneElement(child, {
-        showContent: child.props.value === currentValue,
-      });
-    }
-    return child;
+    if (!React.isValidElement(child)) return child;
+    return React.cloneElement(child, {
+      showContent: child.props.value === currentValue,
+    });
   });
 
   return (

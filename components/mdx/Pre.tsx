@@ -1,12 +1,6 @@
 import classNames from 'classnames';
 import useCopyToClipboard from 'lib/hooks/useCopyToClipboard';
-import {
-  DetailedHTMLProps,
-  HTMLAttributes,
-  lazy,
-  Suspense,
-  useRef,
-} from 'react';
+import { DetailedHTMLProps, HTMLAttributes, lazy, useRef } from 'react';
 
 const CopyButton = lazy(() => import('components/post/CopyButton'));
 
@@ -34,9 +28,7 @@ const Pre = ({ ...rest }: Props) => {
         {...props}
       >
         {children}
-        <Suspense fallback>
-          <CopyButton onCopy={handleCopy} />
-        </Suspense>
+        <CopyButton onCopy={handleCopy} />
       </pre>
     </>
   );
