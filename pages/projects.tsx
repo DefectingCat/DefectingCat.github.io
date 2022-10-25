@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
 import { ReactElement } from 'react';
@@ -10,19 +11,29 @@ const Projects = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
-      <main className="max-w-4xl py-8 mx-auto">
+      <main className="max-w-4xl px-8 lg:px-0 py-8 mx-auto">
         <div>
           {/* Git projects */}
           <div>
             <h1 className="text-2xl mb-4">Projects</h1>
           </div>
-          <div className="grid grid-cols-3 gap-5 justify-between">
+          <div
+            className={classNames(
+              'grid grid-cols-1 lg:grid-cols-3',
+              'md:grid-cols-2 gap-5'
+            )}
+          >
             {projects.map((item) => (
               <ProjectCard key={item.id} project={item} />
             ))}
           </div>
         </div>
-        <div></div>
+
+        <div className="mt-6">
+          <div>
+            <h1 className="text-2xl mb-4">Seft Hosts</h1>
+          </div>
+        </div>
       </main>
     </>
   );
