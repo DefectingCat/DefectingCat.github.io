@@ -1,15 +1,15 @@
-import { allPostsPath, readSinglePost } from 'lib/posts';
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
-import { serialize } from 'next-mdx-remote/serialize';
-import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
-import components from 'components/mdx/components';
-import data from 'data/mdxData';
 import rehypePrism from '@mapbox/rehype-prism';
-import remarkGfm from 'remark-gfm';
-import rehypeSlug from 'rehype-slug';
-import dynamic from 'next/dynamic';
-import { generateToc, SingleToc } from 'lib/utils';
+import components from 'components/mdx/components';
 import PostToc from 'components/post/PostToc';
+import data from 'data/mdxData';
+import { allPostsPath, readSinglePost } from 'lib/posts';
+import { generateToc, SingleToc } from 'lib/utils';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
+import { serialize } from 'next-mdx-remote/serialize';
+import dynamic from 'next/dynamic';
+import rehypeSlug from 'rehype-slug';
+import remarkGfm from 'remark-gfm';
 
 const Footer = dynamic(() => import('components/Footer'));
 const HeadBar = dynamic(() => import('components/NavBar'));

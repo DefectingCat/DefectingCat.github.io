@@ -10,11 +10,10 @@ import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import { NextPageWithLayout } from 'types';
 
 const Loading = dynamic(() => import('components/RUA/loading/RUALoading'));
+const MainLayout = dynamic(() => import('layouts/MainLayout'));
 
 const rotationY = 0.4;
 const rotationX = 0.2;
-
-const MainLayout = dynamic(() => import('layouts/MainLayout'));
 
 const About: NextPageWithLayout = () => {
   const [loading, setLoading] = useState(true);
@@ -174,7 +173,7 @@ const About: NextPageWithLayout = () => {
               'absolute top-0 left-0',
               'items-center flex justify-center',
               'w-full h-full transition-all duration-500',
-              'bg-white',
+              'bg-white dark:bg-rua-gray-900',
               loading ? 'opacity-1' : 'opacity-0'
             )}
           >
