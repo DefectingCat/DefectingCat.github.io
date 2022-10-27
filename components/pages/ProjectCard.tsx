@@ -1,12 +1,21 @@
 import classNames from 'classnames';
 import { Project } from 'pages/projects';
+import { Children, cloneElement, isValidElement } from 'react';
 import { VscGithubInverted } from 'react-icons/vsc';
 
 type ProjectCardProps = {
   project: Project;
+  icon?: React.ReactElement<{ className?: string }>;
 };
 
-const ProjectCard = ({ project }: ProjectCardProps) => {
+const ProjectCard = ({ project, icon }: ProjectCardProps) => {
+  const Icon = Children.map(icon, (child) => {
+    if (!isValidElement(child)) return child;
+    return cloneElement(child, {
+      className: 'w-8 h-8',
+    });
+  });
+
   return (
     <>
       <div
@@ -18,7 +27,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           'justify-between'
         )}
       >
-        <VscGithubInverted className="w-8 h-8" />
+        {Icon ? Icon : <VscGithubInverted className="w-8 h-8" />}
 
         <a
           href={project.url}
