@@ -2,8 +2,8 @@ import cn from 'classnames';
 import { gltfLoader, manager } from 'lib/gltfLoader';
 import { getMousePosition } from 'lib/utils';
 import dynamic from 'next/dynamic';
-import Image from 'next/future/image';
 import Head from 'next/head';
+import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { InitFn, THREE, useThree } from 'rua-three';
 import styles from 'styles/index/index.module.css';
@@ -137,7 +137,6 @@ const Home: NextPageWithLayout = () => {
 
       <main className="h-[calc(100vh-142px)] flex justify-center items-center text-xl">
         <div className="z-0 flex flex-col w-full h-full max-w-4xl px-4 py-32 text-2xl">
-          {/* <h1 className="pb-4 text-4xl">Hi there 👋, I&apos;m Arthur. </h1> */}
           <h1 className="flex pb-4 text-5xl">
             <span className={cn('font-Aleo font-semibold', styles.gradient)}>
               Hi there
@@ -171,38 +170,6 @@ const Home: NextPageWithLayout = () => {
               </div>
             )}
           </div>
-          {/* <p>I&apos;m a Front-end developer. Yes, that&apos;s mean</p>
-            <p
-              onMouseOver={() => setShowLang(true)}
-              onMouseLeave={() => setShowLang(false)}
-            >
-              <span className={cn('font-Aleo font-semibold', style.gradient)}>
-                I make websites{' '}
-              </span>
-              <span className="text-xs text-gray-500 dark:text-gray-400">
-                (and web apps)
-              </span>
-              <span className="text-sky-500 dark:text-sky-600 font-Aleo">
-                .{' '}
-              </span>
-              The{' '}
-              <span className={cn('font-Aleo', showLang && 'hidden')}>
-                JavaScript
-              </span>
-              <span
-                className={cn('hidden font-Aleo', showLang && '!inline-block')}
-              >
-                TypeScript
-              </span>{' '}
-              is my favorite language.
-            </p>
-            <p>
-              I&apos;m not a creator. Just a little guy standing on the
-              shoulders of giants with a little imagination.
-            </p>
-            <p>
-              Open source is my passion. It&apos;s making everything be great.{' '}
-            </p> */}
         </div>
       </main>
     </>

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import NextImage, { ImageProps } from 'next/future/image';
+import NextImage, { ImageProps } from 'next/image';
 
 interface Props extends ImageProps {}
 
