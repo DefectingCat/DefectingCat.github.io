@@ -28,10 +28,8 @@ const RUAPagination = ({
         <ul className="flex items-center justify-between -space-x-px">
           <li>
             {hasPrev ? (
-              <Link href={prevLink} passHref>
-                <a>
-                  <Button>Prev</Button>
-                </a>
+              <Link href={prevLink}>
+                <Button>Prev</Button>
               </Link>
             ) : (
               <Button disabled>Prev</Button>
@@ -48,10 +46,8 @@ const RUAPagination = ({
 
           <li>
             {hasNext ? (
-              <Link href={nextLink} passHref>
-                <a>
-                  <Button>Next</Button>
-                </a>
+              <Link href={nextLink}>
+                <Button>Next</Button>
               </Link>
             ) : (
               <Button disabled>Next</Button>

@@ -1,4 +1,5 @@
 import Anchor from 'components/mdx/Anchor';
+import LinkAnchor from 'components/mdx/LinkAnchor';
 import Loading from 'components/RUA/loading/RUALoading';
 import dayjs from 'dayjs';
 import { GistData } from 'lib/fetcher';
@@ -24,8 +25,10 @@ const FileContent = ({ gists }: Props) => {
                 {/* Username and file name */}
                 <h1 className="md:text-lg">
                   {g.login} /
-                  <Link href={`/g/${g.id}`} passHref>
-                    <Anchor external={false}>{g.files[f].filename}</Anchor>
+                  <Link href={`/g/${g.id}`}>
+                    <LinkAnchor external={false}>
+                      {g.files[f].filename}
+                    </LinkAnchor>
                   </Link>
                 </h1>
                 {/* Time */}
