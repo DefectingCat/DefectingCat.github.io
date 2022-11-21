@@ -30,77 +30,77 @@
 
 .dark code,
 .dark pre {
-    background: hsl(220, 13%, 18%);
-    color: hsl(220, 14%, 71%);
-    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
-    /* font-family: 'Fira Code', 'Fira Mono', Menlo, Consolas, 'DejaVu Sans Mono',
+  background: hsl(220, 13%, 18%);
+  color: hsl(220, 14%, 71%);
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  /* font-family: 'Fira Code', 'Fira Mono', Menlo, Consolas, 'DejaVu Sans Mono',
       monospace; */
-    font-family: 'JetBrains Mono', -apple-system, 'DejaVu Sans Mono', monospace;
-    direction: ltr;
-    text-align: left;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    line-height: 1.5;
-    -moz-tab-size: 2;
-    -o-tab-size: 2;
-    tab-size: 2;
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
+  font-family: 'JetBrains Mono', -apple-system, 'DejaVu Sans Mono', monospace;
+  direction: ltr;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  line-height: 1.5;
+  -moz-tab-size: 2;
+  -o-tab-size: 2;
+  tab-size: 2;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
 }
 
 /* Selection */
 .dark code::-moz-selection,
 .dark code *::-moz-selection,
 .dark pre *::-moz-selection {
-    background: hsl(220, 13%, 28%);
-    color: inherit;
-    text-shadow: none;
+  background: hsl(220, 13%, 28%);
+  color: inherit;
+  text-shadow: none;
 }
 
 .dark code::selection,
 .dark code *::selection,
 .dark pre *::selection {
-    background: hsl(220, 13%, 28%);
-    color: inherit;
-    text-shadow: none;
+  background: hsl(220, 13%, 28%);
+  color: inherit;
+  text-shadow: none;
 }
 
 /* Code blocks */
 .dark pre {
-    padding: 1em;
-    margin: 0.5em 0;
-    overflow: auto;
-    border-radius: 0.3em;
+  padding: 1em;
+  margin: 0.5em 0;
+  overflow: auto;
+  border-radius: 0.3em;
 }
 
 /* Inline code */
 .dark :not(pre) > code {
-    padding: 0.2em 0.3em;
-    border-radius: 0.3em;
-    white-space: normal;
+  padding: 0.2em 0.3em;
+  border-radius: 0.3em;
+  white-space: normal;
 }
 
 /* Print */
 @media print {
-    .dark code,
-    .dark pre {
-        text-shadow: none;
-    }
+  .dark code,
+  .dark pre {
+    text-shadow: none;
+  }
 }
 
 .dark .token.comment,
 .dark .token.prolog,
 .dark .token.cdata {
-    color: hsl(220, 10%, 40%);
+  color: hsl(220, 10%, 40%);
 }
 
 .dark .token.doctype,
 .dark .token.punctuation,
 .dark .token.entity {
-    color: hsl(220, 14%, 71%);
+  color: hsl(220, 14%, 71%);
 }
 
 .dark .token.attr-name,
@@ -109,11 +109,11 @@
 .dark .token.constant,
 .dark .token.number,
 .dark .token.atrule {
-    color: hsl(29, 54%, 61%);
+  color: hsl(29, 54%, 61%);
 }
 
 .dark .token.keyword {
-    color: hsl(286, 60%, 67%);
+  color: hsl(286, 60%, 67%);
 }
 
 .dark .token.property,
@@ -121,7 +121,7 @@
 .dark .token.symbol,
 .dark .token.deleted,
 .dark .token.important {
-    color: hsl(355, 65%, 65%);
+  color: hsl(355, 65%, 65%);
 }
 
 .dark .token.selector,
@@ -132,129 +132,129 @@
 .dark .token.regex,
 .dark .token.attr-value,
 .dark .token.attr-value > .dark .token.punctuation {
-    color: hsl(95, 38%, 62%);
+  color: hsl(95, 38%, 62%);
 }
 
 .dark .token.variable,
 .dark .token.operator,
 .dark .token.function {
-    color: hsl(207, 82%, 66%);
+  color: hsl(207, 82%, 66%);
 }
 
 .dark .token.url {
-    color: hsl(187, 47%, 55%);
+  color: hsl(187, 47%, 55%);
 }
 
 /* HTML overrides */
 .dark .token.attr-value > .dark .token.punctuation.attr-equals,
 .dark .token.special-attr > .dark .token.attr-value > .dark .token.value.css {
-    color: hsl(220, 14%, 71%);
+  color: hsl(220, 14%, 71%);
 }
 
 /* CSS overrides */
 .language-css .dark .token.selector {
-    color: hsl(355, 65%, 65%);
+  color: hsl(355, 65%, 65%);
 }
 
 .language-css .dark .token.property {
-    color: hsl(220, 14%, 71%);
+  color: hsl(220, 14%, 71%);
 }
 
 .language-css .dark .token.function,
 .language-css .dark .token.url > .dark .token.function {
-    color: hsl(187, 47%, 55%);
+  color: hsl(187, 47%, 55%);
 }
 
 .language-css .dark .token.url > .dark .token.string.url {
-    color: hsl(95, 38%, 62%);
+  color: hsl(95, 38%, 62%);
 }
 
 .language-css .dark .token.important,
 .language-css .dark .token.atrule .dark .token.rule {
-    color: hsl(286, 60%, 67%);
+  color: hsl(286, 60%, 67%);
 }
 
 /* JS overrides */
 .language-javascript .dark .token.operator {
-    color: hsl(286, 60%, 67%);
+  color: hsl(286, 60%, 67%);
 }
 
 .language-javascript
-.dark
-.token.template-string
-> .dark
-.token.interpolation
-> .dark
-.token.interpolation-punctuation.punctuation {
-    color: hsl(5, 48%, 51%);
+  .dark
+  .token.template-string
+  > .dark
+  .token.interpolation
+  > .dark
+  .token.interpolation-punctuation.punctuation {
+  color: hsl(5, 48%, 51%);
 }
 
 /* JSON overrides */
 .language-json .dark .token.operator {
-    color: hsl(220, 14%, 71%);
+  color: hsl(220, 14%, 71%);
 }
 
 .language-json .dark .token.null.keyword {
-    color: hsl(29, 54%, 61%);
+  color: hsl(29, 54%, 61%);
 }
 
 /* MD overrides */
 .language-markdown .dark .token.url,
 .language-markdown .dark .token.url > .dark .token.operator,
 .language-markdown .dark .token.url-reference.url > .dark .token.string {
-    color: hsl(220, 14%, 71%);
+  color: hsl(220, 14%, 71%);
 }
 
 .language-markdown .dark .token.url > .dark .token.content {
-    color: hsl(207, 82%, 66%);
+  color: hsl(207, 82%, 66%);
 }
 
 .language-markdown .dark .token.url > .dark .token.url,
 .language-markdown .dark .token.url-reference.url {
-    color: hsl(187, 47%, 55%);
+  color: hsl(187, 47%, 55%);
 }
 
 .language-markdown .dark .token.blockquote.punctuation,
 .language-markdown .dark .token.hr.punctuation {
-    color: hsl(220, 10%, 40%);
-    font-style: italic;
+  color: hsl(220, 10%, 40%);
+  font-style: italic;
 }
 
 .language-markdown .dark .token.code-snippet {
-    color: hsl(95, 38%, 62%);
+  color: hsl(95, 38%, 62%);
 }
 
 .language-markdown .dark .token.bold .dark .token.content {
-    color: hsl(29, 54%, 61%);
+  color: hsl(29, 54%, 61%);
 }
 
 .language-markdown .dark .token.italic .dark .token.content {
-    color: hsl(286, 60%, 67%);
+  color: hsl(286, 60%, 67%);
 }
 
 .language-markdown .dark .token.strike .dark .token.content,
 .language-markdown .dark .token.strike .dark .token.punctuation,
 .language-markdown .dark .token.list.punctuation,
 .language-markdown .dark .token.title.important > .dark .token.punctuation {
-    color: hsl(355, 65%, 65%);
+  color: hsl(355, 65%, 65%);
 }
 
 /* General */
 .dark .token.bold {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .dark .token.comment,
 .dark .token.italic {
-    font-style: italic;
+  font-style: italic;
 }
 
 .dark .token.entity {
-    cursor: help;
+  cursor: help;
 }
 
 .dark .token.namespace {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 /* Plugin overrides */
@@ -265,24 +265,24 @@
 .dark .token.dark .token.cr:before,
 .dark .token.dark .token.lf:before,
 .dark .token.dark .token.space:before {
-    color: hsla(220, 14%, 71%, 0.15);
-    text-shadow: none;
+  color: hsla(220, 14%, 71%, 0.15);
+  text-shadow: none;
 }
 
 /* Toolbar plugin overrides */
 /* Space out all buttons and move them away from the right edge of the code block */
 .dark div.code-toolbar > .toolbar.toolbar > .toolbar-item {
-    margin-right: 0.4em;
+  margin-right: 0.4em;
 }
 
 /* Styling the buttons */
 .dark div.code-toolbar > .toolbar.toolbar > .toolbar-item > button,
 .dark div.code-toolbar > .toolbar.toolbar > .toolbar-item > a,
 .dark div.code-toolbar > .toolbar.toolbar > .toolbar-item > span {
-    background: hsl(220, 13%, 26%);
-    color: hsl(220, 9%, 55%);
-    padding: 0.1em 0.4em;
-    border-radius: 0.3em;
+  background: hsl(220, 13%, 26%);
+  color: hsl(220, 9%, 55%);
+  padding: 0.1em 0.4em;
+  border-radius: 0.3em;
 }
 
 .dark div.code-toolbar > .toolbar.toolbar > .toolbar-item > button:hover,
@@ -291,46 +291,46 @@
 .dark div.code-toolbar > .toolbar.toolbar > .toolbar-item > a:focus,
 .dark div.code-toolbar > .toolbar.toolbar > .toolbar-item > span:hover,
 .dark div.code-toolbar > .toolbar.toolbar > .toolbar-item > span:focus {
-    background: hsl(220, 13%, 28%);
-    color: hsl(220, 14%, 71%);
+  background: hsl(220, 13%, 28%);
+  color: hsl(220, 14%, 71%);
 }
 
 /* Line Highlight plugin overrides */
 /* The highlighted line itself */
 .dark .line-highlight.line-highlight {
-    background: hsla(220, 100%, 80%, 0.04);
+  background: hsla(220, 100%, 80%, 0.04);
 }
 
 /* Default line numbers in Line Highlight plugin */
 .dark .line-highlight.line-highlight:before,
 .dark .line-highlight.line-highlight[data-end]:after {
-    background: hsl(220, 13%, 26%);
-    color: hsl(220, 14%, 71%);
-    padding: 0.1em 0.6em;
-    border-radius: 0.3em;
-    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.2); /* same as Toolbar plugin default */
+  background: hsl(220, 13%, 26%);
+  color: hsl(220, 14%, 71%);
+  padding: 0.1em 0.6em;
+  border-radius: 0.3em;
+  box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.2); /* same as Toolbar plugin default */
 }
 
 /* Hovering over a linkable line number (in the gutter area) */
 /* Requires Line Numbers plugin as well */
 .dark
-pre[id].linkable-line-numbers.linkable-line-numbers
-span.line-numbers-rows
-> span:hover:before {
-    background-color: hsla(220, 100%, 80%, 0.04);
+  pre[id].linkable-line-numbers.linkable-line-numbers
+  span.line-numbers-rows
+  > span:hover:before {
+  background-color: hsla(220, 100%, 80%, 0.04);
 }
 
 /* Line Numbers and Command Line plugins overrides */
 /* Line separating gutter from coding area */
 .dark .line-numbers.line-numbers .line-numbers-rows,
 .dark .command-line .command-line-prompt {
-    border-right-color: hsla(220, 14%, 71%, 0.15);
+  border-right-color: hsla(220, 14%, 71%, 0.15);
 }
 
 /* Stuff in the gutter */
 .dark .line-numbers .line-numbers-rows > span:before,
 .dark .command-line .command-line-prompt > span:before {
-    color: hsl(220, 14%, 45%);
+  color: hsl(220, 14%, 45%);
 }
 
 /* Match Braces plugin overrides */
@@ -338,137 +338,137 @@ span.line-numbers-rows
 .rainbow-braces .dark .token.dark .token.punctuation.brace-level-1,
 .rainbow-braces .dark .token.dark .token.punctuation.brace-level-5,
 .rainbow-braces .dark .token.dark .token.punctuation.brace-level-9 {
-    color: hsl(355, 65%, 65%);
+  color: hsl(355, 65%, 65%);
 }
 
 .rainbow-braces .dark .token.dark .token.punctuation.brace-level-2,
 .rainbow-braces .dark .token.dark .token.punctuation.brace-level-6,
 .rainbow-braces .dark .token.dark .token.punctuation.brace-level-10 {
-    color: hsl(95, 38%, 62%);
+  color: hsl(95, 38%, 62%);
 }
 
 .rainbow-braces .dark .token.dark .token.punctuation.brace-level-3,
 .rainbow-braces .dark .token.dark .token.punctuation.brace-level-7,
 .rainbow-braces .dark .token.dark .token.punctuation.brace-level-11 {
-    color: hsl(207, 82%, 66%);
+  color: hsl(207, 82%, 66%);
 }
 
 .rainbow-braces .dark .token.dark .token.punctuation.brace-level-4,
 .rainbow-braces .dark .token.dark .token.punctuation.brace-level-8,
 .rainbow-braces .dark .token.dark .token.punctuation.brace-level-12 {
-    color: hsl(286, 60%, 67%);
+  color: hsl(286, 60%, 67%);
 }
 
 /* Diff Highlight plugin overrides */
 /* Taken from https://github.com/atom/github/blob/master/styles/variables.less */
 pre.diff-highlight > code .dark .token.dark .token.deleted:not(.prefix),
 pre > code.diff-highlight .dark .token.dark .token.deleted:not(.prefix) {
-    background-color: hsla(353, 100%, 66%, 0.15);
+  background-color: hsla(353, 100%, 66%, 0.15);
 }
 
 pre.diff-highlight
-> code
-.dark
-.token.dark
-.token.deleted:not(.prefix)::-moz-selection,
+  > code
+  .dark
+  .token.dark
+  .token.deleted:not(.prefix)::-moz-selection,
 pre.diff-highlight
-> code
-.dark
-.token.dark
-.token.deleted:not(.prefix)
-*::-moz-selection,
+  > code
+  .dark
+  .token.dark
+  .token.deleted:not(.prefix)
+  *::-moz-selection,
 pre
-> code.diff-highlight
-.dark
-.token.dark
-.token.deleted:not(.prefix)::-moz-selection,
+  > code.diff-highlight
+  .dark
+  .token.dark
+  .token.deleted:not(.prefix)::-moz-selection,
 pre
-> code.diff-highlight
-.dark
-.token.dark
-.token.deleted:not(.prefix)
-*::-moz-selection {
-    background-color: hsla(353, 95%, 66%, 0.25);
+  > code.diff-highlight
+  .dark
+  .token.dark
+  .token.deleted:not(.prefix)
+  *::-moz-selection {
+  background-color: hsla(353, 95%, 66%, 0.25);
 }
 
 pre.diff-highlight
-> code
-.dark
-.token.dark
-.token.deleted:not(.prefix)::selection,
+  > code
+  .dark
+  .token.dark
+  .token.deleted:not(.prefix)::selection,
 pre.diff-highlight
-> code
-.dark
-.token.dark
-.token.deleted:not(.prefix)
-*::selection,
+  > code
+  .dark
+  .token.dark
+  .token.deleted:not(.prefix)
+  *::selection,
 pre
-> code.diff-highlight
-.dark
-.token.dark
-.token.deleted:not(.prefix)::selection,
+  > code.diff-highlight
+  .dark
+  .token.dark
+  .token.deleted:not(.prefix)::selection,
 pre
-> code.diff-highlight
-.dark
-.token.dark
-.token.deleted:not(.prefix)
-*::selection {
-    background-color: hsla(353, 95%, 66%, 0.25);
+  > code.diff-highlight
+  .dark
+  .token.dark
+  .token.deleted:not(.prefix)
+  *::selection {
+  background-color: hsla(353, 95%, 66%, 0.25);
 }
 
 pre.diff-highlight > code .dark .token.dark .token.inserted:not(.prefix),
 pre > code.diff-highlight .dark .token.dark .token.inserted:not(.prefix) {
-    background-color: hsla(137, 100%, 55%, 0.15);
+  background-color: hsla(137, 100%, 55%, 0.15);
 }
 
 pre.diff-highlight
-> code
-.dark
-.token.dark
-.token.inserted:not(.prefix)::-moz-selection,
+  > code
+  .dark
+  .token.dark
+  .token.inserted:not(.prefix)::-moz-selection,
 pre.diff-highlight
-> code
-.dark
-.token.dark
-.token.inserted:not(.prefix)
-*::-moz-selection,
+  > code
+  .dark
+  .token.dark
+  .token.inserted:not(.prefix)
+  *::-moz-selection,
 pre
-> code.diff-highlight
-.dark
-.token.dark
-.token.inserted:not(.prefix)::-moz-selection,
+  > code.diff-highlight
+  .dark
+  .token.dark
+  .token.inserted:not(.prefix)::-moz-selection,
 pre
-> code.diff-highlight
-.dark
-.token.dark
-.token.inserted:not(.prefix)
-*::-moz-selection {
-    background-color: hsla(135, 73%, 55%, 0.25);
+  > code.diff-highlight
+  .dark
+  .token.dark
+  .token.inserted:not(.prefix)
+  *::-moz-selection {
+  background-color: hsla(135, 73%, 55%, 0.25);
 }
 
 pre.diff-highlight
-> code
-.dark
-.token.dark
-.token.inserted:not(.prefix)::selection,
+  > code
+  .dark
+  .token.dark
+  .token.inserted:not(.prefix)::selection,
 pre.diff-highlight
-> code
-.dark
-.token.dark
-.token.inserted:not(.prefix)
-*::selection,
+  > code
+  .dark
+  .token.dark
+  .token.inserted:not(.prefix)
+  *::selection,
 pre
-> code.diff-highlight
-.dark
-.token.dark
-.token.inserted:not(.prefix)::selection,
+  > code.diff-highlight
+  .dark
+  .token.dark
+  .token.inserted:not(.prefix)::selection,
 pre
-> code.diff-highlight
-.dark
-.token.dark
-.token.inserted:not(.prefix)
-*::selection {
-    background-color: hsla(135, 73%, 55%, 0.25);
+  > code.diff-highlight
+  .dark
+  .token.dark
+  .token.inserted:not(.prefix)
+  *::selection {
+  background-color: hsla(135, 73%, 55%, 0.25);
 }
 
 /* Previewers plugin overrides */
@@ -476,48 +476,48 @@ pre
 /* Border around popup */
 .dark .prism-previewer.prism-previewer:before,
 .dark .prism-previewer-gradient.prism-previewer-gradient div {
-    border-color: hsl(224, 13%, 17%);
+  border-color: hsl(224, 13%, 17%);
 }
 
 /* Angle and time should remain as circles and are hence not included */
 .dark .prism-previewer-color.prism-previewer-color:before,
 .dark .prism-previewer-gradient.prism-previewer-gradient div,
 .dark .prism-previewer-easing.prism-previewer-easing:before {
-    border-radius: 0.3em;
+  border-radius: 0.3em;
 }
 
 /* Triangles pointing to the code */
 .dark .prism-previewer.prism-previewer:after {
-    border-top-color: hsl(224, 13%, 17%);
+  border-top-color: hsl(224, 13%, 17%);
 }
 
 .dark .prism-previewer-flipped.prism-previewer-flipped.after {
-    border-bottom-color: hsl(224, 13%, 17%);
+  border-bottom-color: hsl(224, 13%, 17%);
 }
 
 /* Background colour within the popup */
 .dark .prism-previewer-angle.prism-previewer-angle:before,
 .dark .prism-previewer-time.prism-previewer-time:before,
 .dark .prism-previewer-easing.prism-previewer-easing {
-    background: hsl(219, 13%, 22%);
+  background: hsl(219, 13%, 22%);
 }
 
 /* For angle, this is the positive area (eg. 90deg will display one quadrant in this colour) */
 /* For time, this is the alternate colour */
 .dark .prism-previewer-angle.prism-previewer-angle circle,
 .dark .prism-previewer-time.prism-previewer-time circle {
-    stroke: hsl(220, 14%, 71%);
-    stroke-opacity: 1;
+  stroke: hsl(220, 14%, 71%);
+  stroke-opacity: 1;
 }
 
 /* Stroke colours of the handle, direction point, and vector itself */
 .dark .prism-previewer-easing.prism-previewer-easing circle,
 .dark .prism-previewer-easing.prism-previewer-easing path,
 .dark .prism-previewer-easing.prism-previewer-easing line {
-    stroke: hsl(220, 14%, 71%);
+  stroke: hsl(220, 14%, 71%);
 }
 
 /* Fill colour of the handle */
 .dark .prism-previewer-easing.prism-previewer-easing circle {
-    fill: transparent;
+  fill: transparent;
 }

@@ -1,4 +1,4 @@
-import Anchor from 'components/mdx/Anchor';
+import LinkAnchor from 'components/mdx/LinkAnchor';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { getGists, getSignalGist, SingalGist } from 'lib/fetcher';
@@ -30,8 +30,8 @@ const Gist = ({ gist }: InferGetStaticPropsType<typeof getStaticProps>) => {
               className="rounded-full "
             />
             <h1 className="ml-2 overflow-hidden text-xl whitespace-nowrap overflow-ellipsis">
-              <Link href="/gists" passHref>
-                <Anchor external={false}>{gist.login}</Anchor>
+              <Link href="/gists">
+                <LinkAnchor external={false}>{gist.login}</LinkAnchor>
               </Link>
               /{Object.keys(gist.files)[0]}
             </h1>

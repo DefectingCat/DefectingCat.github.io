@@ -10,7 +10,7 @@ const nextConfig = {
   output: 'standalone',
   images: isExport ? { unoptimized: true } : {},
   experimental: {
-    // runtime: 'nodejs',
+    // runtime: 'experimental-edge',
     largePageDataBytes: 512 * 1000,
   },
   compiler: {

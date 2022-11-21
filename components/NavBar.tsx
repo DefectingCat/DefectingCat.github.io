@@ -81,9 +81,8 @@ const HeadBar = () => {
           'items-center relative'
         )}
       >
-        <Link href="/" passHref>
-          <a
-            href=""
+        <Link href="/">
+          <span
             className={cn(
               'font-semibold font-Aref-Ruqaa',
               'text-3xl tracking-widest',
@@ -91,7 +90,7 @@ const HeadBar = () => {
             )}
           >
             RUA!
-          </a>
+          </span>
         </Link>
 
         <FiMenu
