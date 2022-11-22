@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import clsx from 'clsx';
 import { ReactNode } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
 
@@ -11,7 +11,7 @@ const Anchor = ({ children, external = true }: Props) => {
   return (
     <>
       <span
-        className={cn(
+        className={clsx(
           'mx-[2px] text-teal-500 relative',
           'before:left-0 before:top-[1px] before:block before:absolute',
           'before:w-full before:h-full before:transition-all before:shadow-underline',

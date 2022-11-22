@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Post } from 'types';
-import cn from 'classnames';
+import clsx from 'clsx';
 
 interface Props {
   post: Post;
@@ -11,7 +11,7 @@ const PostCard = ({ post }: Props) => {
     <>
       <Link href={`/p/${post.slug}`} passHref>
         <article
-          className={cn(
+          className={clsx(
             'rounded-xl py-4 px-5 md:p-7 ',
             'hover:bg-sky-100 hover:bg-opacity-50',
             // 'hover:bg-rua-gray-100 hover:bg-opacity-10',

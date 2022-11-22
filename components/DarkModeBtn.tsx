@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import useMounted from 'lib/hooks/useMounted';
 import { useTheme } from 'next-themes';
 import { FiMoon, FiSun } from 'react-icons/fi';
@@ -12,7 +12,7 @@ const DarkModeBtn = () => {
     return (
       <button>
         <div
-          className={classNames(
+          className={clsx(
             'w-5 h-5 rounded-md animate-pulse',
             'bg-gray-300 dark:bg-gray-500'
           )}

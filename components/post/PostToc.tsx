@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import Anchor from 'components/mdx/Anchor';
 import { SingleToc } from 'lib/utils';
 import { Fragment, useState } from 'react';
@@ -27,7 +27,7 @@ const PostToc = ({ toc, tocLength }: Props) => {
   return (
     <>
       <div
-        className={classNames(
+        className={clsx(
           'rounded-lg transition-all',
           'duration-500 overflow-hidden',
           'my-4'
@@ -37,7 +37,7 @@ const PostToc = ({ toc, tocLength }: Props) => {
         }}
       >
         <h2
-          className={classNames(
+          className={clsx(
             styles.head,
             'bg-white !m-[unset] p-4',
             'rounded-lg border border-gray-300',
@@ -51,7 +51,7 @@ const PostToc = ({ toc, tocLength }: Props) => {
           <span>What&apos;s inside?</span>
 
           <FiChevronDown
-            className={classNames(
+            className={clsx(
               show && 'rotate-180',
               'transition-all duration-500'
             )}

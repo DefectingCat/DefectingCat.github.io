@@ -1,5 +1,5 @@
 import TWEEN from '@tweenjs/tween.js';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { gltfLoader, manager } from 'lib/gltfLoader';
 import { getMousePosition } from 'lib/utils';
 import { useTheme } from 'next-themes';
@@ -169,7 +169,7 @@ const About: NextPageWithLayout = () => {
         <canvas ref={ref} className="w-full h-full"></canvas>
         {showLoading && (
           <div
-            className={classNames(
+            className={clsx(
               'absolute top-0 left-0',
               'items-center flex justify-center',
               'w-full h-full transition-all duration-500',
@@ -184,7 +184,7 @@ const About: NextPageWithLayout = () => {
 
       <main className="h-[calc(100vh-142px)] flex flex-col">
         <div
-          className={classNames(
+          className={clsx(
             'flex max-w-3xl',
             'px-10 py-4 mx-auto lg:px-0 lg:py-10'
           )}

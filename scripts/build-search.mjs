@@ -38,11 +38,7 @@ async function pushAlgolia(gists) {
 
     // check the output of the response in the console
     console.log(
-      `🎉 Sucessfully added ${
-        algoliaResponse.objectIDs.length
-      } records to Algolia search. Object IDs:\n${algoliaResponse.objectIDs.join(
-        '\n'
-      )}`
+      `🎉 Sucessfully added ${algoliaResponse.objectIDs.length} records to Algolia search.`
     );
   } catch (e) {
     console.log(e);

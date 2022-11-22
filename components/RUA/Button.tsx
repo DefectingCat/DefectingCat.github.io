@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 
 export type ButtonProps = {
@@ -12,7 +12,7 @@ const Button = ({ children, ...rest }: ButtonProps) => {
   return (
     <>
       <button
-        className={classNames(
+        className={clsx(
           'bg-white border border-transparent hover:border-gray-200',
           'outline-none hover:bg-gray-50 focus:ring-4 dark:border-transparent',
           'focus:ring-cyan-200 font-medium rounded-lg text-sm',

@@ -1,5 +1,5 @@
 import { AnchorHTMLAttributes, forwardRef } from 'react';
-import cn from 'classnames';
+import clsx from 'clsx';
 import { FiExternalLink } from 'react-icons/fi';
 
 interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -17,7 +17,7 @@ const Anchor = forwardRef<HTMLAnchorElement, Props>(
           target={external ? '_blank' : undefined}
         >
           <span
-            className={cn(
+            className={clsx(
               'mx-[2px] text-teal-500 relative',
               'before:left-0 before:top-[1px] before:block before:absolute',
               'before:w-full before:h-full before:transition-all before:shadow-underline',

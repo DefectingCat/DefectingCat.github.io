@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import styles from './VercelLoading.module.css';
 
 const VercelLoading = () => {
@@ -7,11 +7,7 @@ const VercelLoading = () => {
       <div className="fixed bottom-[10px] right-[20px] z-[99999]">
         <div
           id="container"
-          className={classNames(
-            styles.container,
-            styles.visible,
-            styles.building
-          )}
+          className={clsx(styles.container, styles.visible, styles.building)}
         >
           <div id="icon-wrapper" className={styles['icon-wrapper']}>
             <svg viewBox="0 0 226 200">

@@ -1,10 +1,10 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import useInView from 'lib/hooks/useInView';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import RUALoading from './loading/RUALoading';
 
-export const commonClass = classNames(
+export const commonClass = clsx(
   'rounded-lg h-[400px] border-0',
   'overflow-hidden w-full'
 );
@@ -37,14 +37,14 @@ const RUACodepen = ({ defaultTab, url }: Props) => {
   return (
     <>
       <div
-        className={classNames(
+        className={clsx(
           commonClass,
           'relative',
           'flex items-center justify-center'
         )}
       >
         <div
-          className={classNames(
+          className={clsx(
             commonClass,
             'absolute flex items-center justify-center',
             load && 'hidden',
@@ -54,10 +54,10 @@ const RUACodepen = ({ defaultTab, url }: Props) => {
           <RUALoading />
         </div>
 
-        <div className={classNames('absolute top-0 left-0', commonClass)}>
+        <div className={clsx('absolute top-0 left-0', commonClass)}>
           <iframe
             ref={ref}
-            className={classNames(
+            className={clsx(
               commonClass,
               !load && 'blur-sm',
               'transition-all h-[402px]',

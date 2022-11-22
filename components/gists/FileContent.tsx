@@ -1,4 +1,3 @@
-import Anchor from 'components/mdx/Anchor';
 import LinkAnchor from 'components/mdx/LinkAnchor';
 import Loading from 'components/RUA/loading/RUALoading';
 import dayjs from 'dayjs';
@@ -7,7 +6,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 const GistsCode = dynamic(() => import('components/gists/GistsCode'), {
-  loading: () => <Loading classNames="h-[300px]" />,
+  loading: () => <Loading className="h-[300px]" />,
 });
 
 type Props = {

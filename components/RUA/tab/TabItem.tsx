@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import React from 'react';
 
 export type ItemProps = {
@@ -11,9 +11,7 @@ export type ItemProps = {
 const TabItem = ({ showContent, children }: ItemProps) => {
   return (
     <>
-      <div className={classNames('hidden', showContent && '!block')}>
-        {children}
-      </div>
+      <div className={clsx('hidden', showContent && '!block')}>{children}</div>
     </>
   );
 };
