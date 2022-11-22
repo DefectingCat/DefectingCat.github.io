@@ -5,11 +5,13 @@ import { ReactElement } from 'react';
 import {
   SiGitea,
   SiNextdotjs,
+  SiRedux,
   SiThreedotjs,
   SiTsnode,
   SiVim,
 } from 'react-icons/si';
 import { VscGithubInverted } from 'react-icons/vsc';
+import { HiPhoto } from 'react-icons/hi2';
 
 const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const ProjectCard = dynamic(() => import('components/pages/ProjectCard'));
@@ -21,6 +23,8 @@ const iconMap = {
   vim: <SiVim />,
   tsnode: <SiTsnode />,
   three: <SiThreedotjs />,
+  photos: <HiPhoto />,
+  redux: <SiRedux />,
 };
 
 const Projects = ({
@@ -123,6 +127,20 @@ export const getStaticProps: GetStaticProps<{
       description: 'Some dotfiles.',
       url: 'https://github.com/DefectingCat/dotfiles',
     },
+    {
+      id: 5,
+      icon: 'redux',
+      name: 'RUA-Context',
+      description: 'A global store for React.',
+      url: 'https://github.com/rua-plus/rua-context',
+    },
+    {
+      id: 6,
+      icon: 'three',
+      name: 'RUA-Three',
+      description: 'A three.js hooks for React.',
+      url: 'https://github.com/rua-plus/rua-three',
+    },
   ];
   const selfHosts: Project[] = [
     {
@@ -131,6 +149,13 @@ export const getStaticProps: GetStaticProps<{
       name: 'Gitea',
       description: 'Selfhost git.',
       url: 'https://git.rua.plus/',
+    },
+    {
+      id: 1,
+      icon: 'photos',
+      name: 'Photos',
+      description: 'Some photos.',
+      url: 'https://photos.rua.plus/browse',
     },
   ];
 
