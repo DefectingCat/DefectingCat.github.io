@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { GetUser } from 'lib/fetcher';
 import Image from 'next/image';
 import avatar from 'public/images/img/avatar.svg';
@@ -12,7 +12,7 @@ const UserInfo = ({ user }: Props) => {
   return (
     <>
       <div
-        className={classNames(
+        className={clsx(
           'flex md:items-center flex-1',
           'max-w-[280px] md:block',
           'mb-4 flex-col md:flex-row'
@@ -20,7 +20,7 @@ const UserInfo = ({ user }: Props) => {
       >
         <div className="flex md:flex-col">
           <div
-            className={classNames(
+            className={clsx(
               'w-16 h-16 mr-4 overflow-hidden',
               'md:w-auto h-auto'
             )}

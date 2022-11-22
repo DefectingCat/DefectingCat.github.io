@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import useCopyToClipboard from 'lib/hooks/useCopyToClipboard';
 import { DetailedHTMLProps, HTMLAttributes, lazy, useRef } from 'react';
 
@@ -24,7 +24,7 @@ const Pre = ({ ...rest }: Props) => {
     <>
       <pre
         ref={preRef}
-        className={classNames(className, 'relative group')}
+        className={clsx(className, 'relative group')}
         {...props}
       >
         {children}

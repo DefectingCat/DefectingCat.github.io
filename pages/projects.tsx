@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
 import { ReactElement } from 'react';
@@ -36,7 +36,7 @@ const Projects = ({
             <h1 className="mb-4 text-2xl">Projects</h1>
           </div>
           <div
-            className={classNames(
+            className={clsx(
               'grid grid-cols-1 lg:grid-cols-3',
               'md:grid-cols-2 gap-5'
             )}
@@ -56,7 +56,7 @@ const Projects = ({
             <h1 className="mb-4 text-2xl">Seft Hosts</h1>
           </div>
           <div
-            className={classNames(
+            className={clsx(
               'grid grid-cols-1 lg:grid-cols-3',
               'md:grid-cols-2 gap-5'
             )}

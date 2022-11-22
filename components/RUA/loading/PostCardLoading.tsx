@@ -1,10 +1,10 @@
 import React from 'react';
-import cn from 'classnames';
+import clsx from 'clsx';
 
 const PostCardLoading = () => {
   return (
     <article
-      className={cn(
+      className={clsx(
         'rounded-xl py-4 px-5 md:p-7 animate-pulse',
         'bg-sky-100 bg-opacity-50',
         'dark:bg-rua-gray-800 dark:bg-opacity-100',
@@ -13,7 +13,7 @@ const PostCardLoading = () => {
       )}
     >
       <div className="flex-1">
-        <h2 className="mb-4 bg-gray-300 rounded-lg w-full md:w-96 h-9 dark:bg-gray-500"></h2>
+        <h2 className="w-full mb-4 bg-gray-300 rounded-lg md:w-96 h-9 dark:bg-gray-500"></h2>
 
         <div className="flex items-center text-sm">
           <div className="w-16 h-5 mr-4 bg-gray-300 rounded-md last:mr-0 dark:bg-gray-500"></div>
@@ -21,7 +21,7 @@ const PostCardLoading = () => {
         </div>
       </div>
 
-      <div className="hidden md:block w-24 h-6 bg-gray-300 rounded-md dark:bg-gray-500"></div>
+      <div className="hidden w-24 h-6 bg-gray-300 rounded-md md:block dark:bg-gray-500"></div>
     </article>
   );
 };

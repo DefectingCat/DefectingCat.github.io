@@ -1,21 +1,21 @@
 import React from 'react';
-import cn from 'classnames';
+import clsx from 'clsx';
 import loadingImage from 'public/images/img/mona-loading-default.gif';
 import loadingImageDimmed from 'public/images/img/mona-loading-dimmed.gif';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
 
 type Props = {
-  classNames?: string;
+  className?: string;
 };
 
-const RUALoading = ({ classNames }: Props) => {
+const RUALoading = ({ className: classNames }: Props) => {
   const { systemTheme, theme } = useTheme();
   const currentTheme = theme === 'system' ? systemTheme : theme;
 
   return (
     <div
-      className={cn(
+      className={clsx(
         'flex loading',
         'flex-col items-center justify-center',
         classNames

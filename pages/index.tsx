@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import clsx from 'clsx';
 import { gltfLoader, manager } from 'lib/gltfLoader';
 import { getMousePosition } from 'lib/utils';
 import dynamic from 'next/dynamic';
@@ -138,7 +138,7 @@ const Home: NextPageWithLayout = () => {
       <main className="h-[calc(100vh-142px)] flex justify-center items-center text-xl">
         <div className="z-0 flex flex-col w-full h-full max-w-4xl px-4 py-32 text-2xl">
           <h1 className="flex pb-4 text-5xl">
-            <span className={cn('font-Aleo font-semibold', styles.gradient)}>
+            <span className={clsx('font-Aleo font-semibold', styles.gradient)}>
               Hi there
             </span>
             <span className="ml-3">
@@ -158,7 +158,7 @@ const Home: NextPageWithLayout = () => {
             <canvas ref={ref} className="absolute top-0 left-0"></canvas>
             {showLoading && (
               <div
-                className={cn(
+                className={clsx(
                   'absolute top-0 left-0 z-10',
                   'items-center flex justify-center',
                   'w-full h-full transition-all duration-500',

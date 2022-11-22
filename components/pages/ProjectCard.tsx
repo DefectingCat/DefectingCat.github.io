@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { Project } from 'pages/projects';
 import { Children, cloneElement, isValidElement } from 'react';
 import { VscGithubInverted } from 'react-icons/vsc';
@@ -19,7 +19,7 @@ const ProjectCard = ({ project, icon }: ProjectCardProps) => {
   return (
     <>
       <div
-        className={classNames(
+        className={clsx(
           'py-3 px-4 rounded-lg bg-slate-100',
           'hover:bg-slate-200',
           'transition-all duration-300',
@@ -37,7 +37,7 @@ const ProjectCard = ({ project, icon }: ProjectCardProps) => {
           rel="noreferrer"
         >
           <h2
-            className={classNames(
+            className={clsx(
               'text-xl overflow-hidden',
               'text-ellipsis whitespace-nowrap'
             )}
@@ -45,7 +45,7 @@ const ProjectCard = ({ project, icon }: ProjectCardProps) => {
             {project.name}
           </h2>
           <span
-            className={classNames(
+            className={clsx(
               'overflow-hidden break-keep text-ellipsis',
               'whitespace-nowrap inline-block',
               'w-[inherit]'

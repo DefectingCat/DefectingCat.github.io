@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import React, { useState } from 'react';
 import { ItemProps } from './TabItem';
 
@@ -35,7 +35,7 @@ const Tab = ({ defaultValue, children }: Props) => {
               aria-selected={currentValue === child.props.value}
               key={child.props.label}
               onClick={() => handleSwitch(child.props.value)}
-              className={classNames(
+              className={clsx(
                 'px-5 py-3 rounded-t-lg',
                 child.props.value === currentValue &&
                   'text-teal-500 border-b-[3px] border-teal-500',

@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import useInView from 'lib/hooks/useInView';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
@@ -6,7 +6,7 @@ import RUALoading from './loading/RUALoading';
 
 const partten =
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
-export const commonClass = classNames(
+export const commonClass = clsx(
   'rounded-lg h-[500px] border-0',
   'overflow-hidden w-full'
 );
@@ -39,9 +39,9 @@ const RUACodeSandbox = ({ url }: Props) => {
 
   return (
     <>
-      <div className={classNames(commonClass, 'relative')}>
+      <div className={clsx(commonClass, 'relative')}>
         <div
-          className={classNames(
+          className={clsx(
             commonClass,
             'absolute flex items-center justify-center',
             load && 'hidden',
@@ -54,11 +54,7 @@ const RUACodeSandbox = ({ url }: Props) => {
         <iframe
           ref={ref}
           src={src}
-          className={classNames(
-            commonClass,
-            !load && 'blur-sm',
-            'transition-all'
-          )}
+          className={clsx(commonClass, !load && 'blur-sm', 'transition-all')}
           allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
           sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
           onLoad={handleLoad}

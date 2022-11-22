@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { useState } from 'react';
 import styles from './CopytButton.module.css';
 
@@ -19,7 +19,7 @@ const CopyButton = ({ onCopy: onClick }: CopyButtonProps) => {
   return (
     <>
       <button
-        className={classNames(
+        className={clsx(
           'flex items-center justify-center',
           'border rounded-md absolute',
           'top-4 right-4 p-[6px] opacity-0',
@@ -31,14 +31,14 @@ const CopyButton = ({ onCopy: onClick }: CopyButtonProps) => {
         onClick={handleClick}
       >
         <span
-          className={classNames(
+          className={clsx(
             'relative w-5 h-5 text-gray-400 child',
             'transition-all duration-300',
             styles.child
           )}
         >
           <svg
-            className={classNames(
+            className={clsx(
               'absolute top-0 left-0 fill-current',
               'opacity-100 transition-all duration-300',
               copied && styles['on_copy']
@@ -48,7 +48,7 @@ const CopyButton = ({ onCopy: onClick }: CopyButtonProps) => {
             <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path>
           </svg>
           <svg
-            className={classNames(
+            className={clsx(
               'absolute top-0 left-0 fill-green-400',
               'scale-[0.33] transition-all duration-300',
               'opacity-0',

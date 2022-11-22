@@ -1,6 +1,6 @@
 import '@docsearch/css';
 import { DocSearch } from '@docsearch/react';
-import cn from 'classnames';
+import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -75,7 +75,7 @@ const HeadBar = () => {
   return (
     <>
       <header
-        className={cn(
+        className={clsx(
           'flex justify-between mx-auto',
           'max-w-6xl p-4 xl:px-0 h-[84px]',
           'items-center relative'
@@ -83,7 +83,7 @@ const HeadBar = () => {
       >
         <Link href="/">
           <span
-            className={cn(
+            className={clsx(
               'font-semibold font-Aref-Ruqaa',
               'text-3xl tracking-widest',
               'select-none'
@@ -100,7 +100,7 @@ const HeadBar = () => {
         />
 
         <nav
-          className={cn(
+          className={clsx(
             'text-lg md:block',
             'bg-white rounded-md',
             'dark:bg-rua-gray-800',
@@ -114,18 +114,21 @@ const HeadBar = () => {
           )}
           id="menu"
         >
-          <ul className={cn('flex flex-col ', 'md:flex-row md:items-center')}>
+          <ul className={clsx('flex flex-col ', 'md:flex-row md:items-center')}>
             {txtMenu.map((m) => (
               <li
                 key={m.id}
                 onClick={handleClick}
-                className={cn('mb-2 last:mb-0 md:mb-0', 'md:mr-4 md:last:mr-0')}
+                className={clsx(
+                  'mb-2 last:mb-0 md:mb-0',
+                  'md:mr-4 md:last:mr-0'
+                )}
               >
                 <Link href={m.path}>{m.name}</Link>
               </li>
             ))}
             <li
-              className={cn(
+              className={clsx(
                 'mb-2 last:mb-0 md:mb-0',
                 'md:mr-4 md:last:mr-0',
                 'flex items-center'
@@ -145,7 +148,7 @@ const HeadBar = () => {
                 />
               ) : (
                 <div
-                  className={cn(
+                  className={clsx(
                     'w-[164.453px] h-[30px]',
                     'bg-[#ebedf0] rounded-[40px] animate-pulse'
                   )}

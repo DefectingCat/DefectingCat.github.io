@@ -1,5 +1,5 @@
 import rehypePrism from '@mapbox/rehype-prism';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { createElement, Fragment } from 'react';
 import rehypeReact from 'rehype-react';
 import remarkGfm from 'remark-gfm';
@@ -33,21 +33,21 @@ const GistsCode = ({ file, showFileName = false }: Props) => {
           <div className="h-[30px] bg-[#f6f8fa] dark:bg-[hsl(220,13%,18%)] flex">
             <div className="flex items-center h-full mx-3">
               <div
-                className={classNames(
+                className={clsx(
                   'box-border inline-block',
                   'w-[13px] h-[13px] mr-2',
                   'rounded-full bg-[#ce5347]'
                 )}
               ></div>
               <div
-                className={classNames(
+                className={clsx(
                   'box-border inline-block',
                   'w-[13px] h-[13px] mr-2',
                   'rounded-full bg-[#d6a243]'
                 )}
               ></div>
               <div
-                className={classNames(
+                className={clsx(
                   'box-border inline-block',
                   'w-[13px] h-[13px]',
                   'rounded-full bg-[#58a942]'
@@ -56,7 +56,7 @@ const GistsCode = ({ file, showFileName = false }: Props) => {
             </div>
 
             <div
-              className={classNames(
+              className={clsx(
                 'px-4 bg-white',
                 'leading-[30px]',
                 'dark:bg-[hsl(220,13%,18%)] dark:border-b dark:border-b-[rgb(128,203,196)]',
