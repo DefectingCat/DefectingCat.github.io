@@ -61,10 +61,12 @@ export const getStaticProps: GetStaticProps<{
 
   const post = await readSinglePost(slug);
   const toc = generateToc(post);
-  let tocLength = toc.length;
-  toc.forEach(
-    (item) => item.children.length && (tocLength += item.children.length)
-  );
+
+  const calcLength = (prev: number, cur: SingleToc) => {
+    const childLen = cur.children.length;
+    return childLen ? prev + childLen + 1 : prev + 1;
+  };
+  const tocLength = toc.reduce(calcLength, 0);
 
   const mdxSource = await serialize(post, {
     mdxOptions: {
