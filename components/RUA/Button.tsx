@@ -9,6 +9,8 @@ export type ButtonProps = {
 >;
 
 const Button = ({ children, ...rest }: ButtonProps) => {
+  const { className, ...props } = rest;
+
   return (
     <>
       <button
@@ -23,9 +25,10 @@ const Button = ({ children, ...rest }: ButtonProps) => {
           'disabled:hover:border-transparent',
           'text-lg disabled:bg-gray-200 disabled:text-gray-500',
           'dark:disabled:bg-gray-700 dark:disabled:text-gray-300',
-          'disabled:dark:hover:border-transparent'
+          'disabled:dark:hover:border-transparent',
+          className
         )}
-        {...rest}
+        {...props}
       >
         {children}
       </button>

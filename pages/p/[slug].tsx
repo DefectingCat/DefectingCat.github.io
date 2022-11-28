@@ -8,11 +8,11 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
 import dynamic from 'next/dynamic';
+import { ReactElement } from 'react';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 
-const Footer = dynamic(() => import('components/Footer'));
-const HeadBar = dynamic(() => import('components/NavBar'));
+const MainLayout = dynamic(() => import('layouts/MainLayout'));
 const PostComment = dynamic(() => import('components/post/PostComment'));
 
 const Slug = ({
@@ -22,8 +22,6 @@ const Slug = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
-      <HeadBar />
-
       <main id="article" className="relative max-w-4xl px-4 mx-auto my-10">
         <h1>{mdxSource.frontmatter?.title}</h1>
         <time>{mdxSource.frontmatter?.date}</time>
@@ -34,8 +32,6 @@ const Slug = ({
           <PostComment />
         </article>
       </main>
-
-      <Footer />
     </>
   );
 };
@@ -87,6 +83,10 @@ export const getStaticProps: GetStaticProps<{
       tocLength,
     },
   };
+};
+
+Slug.getLayout = function getLayout(page: ReactElement) {
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export default Slug;
