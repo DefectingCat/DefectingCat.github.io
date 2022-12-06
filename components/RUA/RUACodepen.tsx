@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import useInView from 'lib/hooks/useInView';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import RUALoading from './loading/RUALoading';
 
 export const commonClass = clsx(
@@ -63,15 +63,14 @@ const RUACodepen = ({ defaultTab, url }: Props) => {
               'transition-all h-[402px]',
               'border-none',
               'absolute top-1/2 left-1/2',
-              '-translate-x-1/2 -translate-y-1/2'
+              '-translate-x-1/2 -translate-y-1/2',
+              'overflow-hidden'
             )}
             style={{
               width: 'calc(100% + 2px)',
             }}
             onLoad={handleLoad}
-            scrolling="no"
             src={src}
-            frameBorder="no"
             loading="lazy"
             allowFullScreen
           ></iframe>
@@ -81,4 +80,4 @@ const RUACodepen = ({ defaultTab, url }: Props) => {
   );
 };
 
-export default RUACodepen;
+export default memo(RUACodepen);

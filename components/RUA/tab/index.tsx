@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { ItemProps } from './TabItem';
 
 type Props = {
@@ -56,4 +56,4 @@ const Tab = ({ defaultValue, children }: Props) => {
   );
 };
 
-export default Tab;
+export default memo(Tab);

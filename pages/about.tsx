@@ -1,16 +1,18 @@
 import TWEEN from '@tweenjs/tween.js';
 import clsx from 'clsx';
+import MainLayout from 'layouts/MainLayout';
 import { gltfLoader, manager } from 'lib/gltfLoader';
 import { getMousePosition } from 'lib/utils';
 import { useTheme } from 'next-themes';
 import dynamic from 'next/dynamic';
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { InitFn, THREE, useThree } from 'rua-three';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import { NextPageWithLayout } from 'types';
 
-const Loading = dynamic(() => import('components/RUA/loading/RUALoading'));
-const MainLayout = dynamic(() => import('layouts/MainLayout'));
+const Loading = dynamic(() => import('components/RUA/loading/RUALoading'), {
+  suspense: true,
+});
 
 const rotationY = 0.4;
 const rotationX = 0.2;
@@ -167,19 +169,21 @@ const About: NextPageWithLayout = () => {
     <>
       <div className="fixed top-0 left-0 -z-10">
         <canvas ref={ref} className="w-full h-full"></canvas>
-        {showLoading && (
-          <div
-            className={clsx(
-              'absolute top-0 left-0',
-              'items-center flex justify-center',
-              'w-full h-full transition-all duration-500',
-              'bg-white dark:bg-rua-gray-900',
-              loading ? 'opacity-1' : 'opacity-0'
-            )}
-          >
-            <Loading />
-          </div>
-        )}
+        <Suspense fallback>
+          {showLoading && (
+            <div
+              className={clsx(
+                'absolute top-0 left-0',
+                'items-center flex justify-center',
+                'w-full h-full transition-all duration-500',
+                'bg-white dark:bg-rua-gray-900',
+                loading ? 'opacity-1' : 'opacity-0'
+              )}
+            >
+              <Loading />
+            </div>
+          )}
+        </Suspense>
       </div>
 
       <main className="h-[calc(100vh-142px)] flex flex-col">

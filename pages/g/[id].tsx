@@ -1,6 +1,7 @@
 import LinkAnchor from 'components/mdx/LinkAnchor';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import MainLayout from 'layouts/MainLayout';
 import { getGists, getSignalGist, SingalGist } from 'lib/fetcher';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
@@ -8,10 +9,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import avatar from 'public/images/img/avatar.svg';
 import { ParsedUrlQuery } from 'querystring';
-import { ReactElement } from 'react';
+import { Fragment, ReactElement, Suspense } from 'react';
 
-const MainLayout = dynamic(() => import('layouts/MainLayout'));
-const GistsCode = dynamic(() => import('components/gists/GistsCode'));
+const GistsCode = dynamic(() => import('components/gists/GistsCode'), {
+  suspense: true,
+});
 
 dayjs.extend(relativeTime);
 
@@ -45,11 +47,11 @@ const Gist = ({ gist }: InferGetStaticPropsType<typeof getStaticProps>) => {
             <p className="pb-2 text-lg text-gray-500">{gist.description}</p>
 
             {Object.keys(gist.files).map((f) => (
-              <GistsCode
-                key={gist.files[f].raw_url}
-                file={gist.files[f]}
-                showFileName
-              />
+              <Fragment key={gist.files[f].raw_url}>
+                <Suspense fallback>
+                  <GistsCode file={gist.files[f]} showFileName />
+                </Suspense>
+              </Fragment>
             ))}
           </div>
         </div>

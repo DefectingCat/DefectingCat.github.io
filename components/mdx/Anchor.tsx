@@ -1,4 +1,4 @@
-import { AnchorHTMLAttributes, forwardRef } from 'react';
+import { AnchorHTMLAttributes, forwardRef, memo } from 'react';
 import clsx from 'clsx';
 import { FiExternalLink } from 'react-icons/fi';
 
@@ -33,6 +33,7 @@ const Anchor = forwardRef<HTMLAnchorElement, Props>(
     );
   }
 );
+
 Anchor.displayName = 'Anchor';
 
-export default Anchor;
+export default memo(Anchor);

@@ -2,7 +2,7 @@ import useRouterLoading from 'lib/hooks/useRouterLoading';
 import { ThemeProvider } from 'next-themes';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import 'styles/globals.css';
 import 'styles/prism-one-dark.css';
 import 'styles/prism-one-light.css';
@@ -10,7 +10,10 @@ import 'styles/rua.css';
 import { AppPropsWithLayout } from 'types';
 
 const VercelLoading = dynamic(
-  () => import('components/RUA/loading/VercelLoading')
+  () => import('components/RUA/loading/VercelLoading'),
+  {
+    suspense: true,
+  }
 );
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
@@ -42,7 +45,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         {getLayout(<Component {...pageProps} />)}
       </ThemeProvider>
 
-      {loading && <VercelLoading />}
+      <Suspense fallback>{loading && <VercelLoading />}</Suspense>
     </>
   );
 }

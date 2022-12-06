@@ -1,16 +1,18 @@
 import PostCardLoading from 'components/RUA/loading/PostCardLoading';
+import MainLayout from 'layouts/MainLayout';
 import { postLists, PostPerPage } from 'lib/posts';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
-import { ReactElement } from 'react';
+import { Fragment, ReactElement, Suspense } from 'react';
 import { Post } from 'types';
 
 const PostCard = dynamic(() => import('components/PostCard'), {
-  loading: () => <PostCardLoading />,
+  suspense: true,
 });
-const MainLayout = dynamic(() => import('layouts/MainLayout'));
-const BlogList = dynamic(() => import('layouts/BlogList'));
-const Pagination = dynamic(() => import('components/RUA/RUAPagination'));
+const BlogList = dynamic(() => import('layouts/BlogList'), { suspense: true });
+const Pagination = dynamic(() => import('components/RUA/RUAPagination'), {
+  suspense: true,
+});
 
 const Blog = ({
   posts,
@@ -20,21 +22,29 @@ const Blog = ({
   return (
     <>
       <main className="max-w-4xl mx-auto">
-        <BlogList>
-          {posts.map((post) => (
-            <PostCard key={post.slug} post={post} />
-          ))}
-        </BlogList>
+        <Suspense fallback>
+          <BlogList>
+            {posts.map((post) => (
+              <Fragment key={post.slug}>
+                <Suspense fallback={<PostCardLoading />}>
+                  <PostCard post={post} />
+                </Suspense>
+              </Fragment>
+            ))}
+          </BlogList>
+        </Suspense>
 
-        <Pagination
-          className="py-6 mt-4 px-7 lg:px-5"
-          hasPrev={false}
-          hasNext={next <= total}
-          prevLink={''}
-          nextLink={`/blog/${next}`}
-          current={1}
-          total={total}
-        />
+        <Suspense fallback>
+          <Pagination
+            className="py-6 mt-4 px-7 lg:px-5"
+            hasPrev={false}
+            hasNext={next <= total}
+            prevLink={''}
+            nextLink={`/blog/${next}`}
+            current={1}
+            total={total}
+          />
+        </Suspense>
       </main>
     </>
   );

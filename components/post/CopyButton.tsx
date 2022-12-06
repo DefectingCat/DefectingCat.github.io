@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import styles from './CopytButton.module.css';
 
 export type CopyButtonProps = {
@@ -64,4 +64,4 @@ const CopyButton = ({ onCopy: onClick }: CopyButtonProps) => {
   );
 };
 
-export default CopyButton;
+export default memo(CopyButton);

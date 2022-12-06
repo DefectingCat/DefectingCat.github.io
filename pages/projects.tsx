@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
-import { ReactElement } from 'react';
+import { Fragment, ReactElement, Suspense } from 'react';
 import {
   SiGitea,
   SiNextdotjs,
@@ -12,9 +12,11 @@ import {
 } from 'react-icons/si';
 import { VscGithubInverted } from 'react-icons/vsc';
 import { HiPhoto } from 'react-icons/hi2';
+import MainLayout from 'layouts/MainLayout';
 
-const MainLayout = dynamic(() => import('layouts/MainLayout'));
-const ProjectCard = dynamic(() => import('components/pages/ProjectCard'));
+const ProjectCard = dynamic(() => import('components/pages/ProjectCard'), {
+  suspense: true,
+});
 
 const iconMap = {
   gitea: <SiGitea />,
@@ -46,11 +48,14 @@ const Projects = ({
             )}
           >
             {projects.map((item) => (
-              <ProjectCard
-                icon={iconMap[item.icon ?? 'github']}
-                key={item.id}
-                project={item}
-              />
+              <Fragment key={item.id}>
+                <Suspense fallback>
+                  <ProjectCard
+                    icon={iconMap[item.icon ?? 'github']}
+                    project={item}
+                  />
+                </Suspense>
+              </Fragment>
             ))}
           </div>
         </div>
@@ -66,11 +71,14 @@ const Projects = ({
             )}
           >
             {selfHosts.map((item) => (
-              <ProjectCard
-                icon={iconMap[item.icon ?? 'github']}
-                key={item.id}
-                project={item}
-              />
+              <Fragment key={item.id}>
+                <Suspense fallback>
+                  <ProjectCard
+                    icon={iconMap[item.icon ?? 'github']}
+                    project={item}
+                  />
+                </Suspense>
+              </Fragment>
             ))}
           </div>
         </div>

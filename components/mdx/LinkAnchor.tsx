@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { ReactNode } from 'react';
+import { memo, ReactNode } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
 
 interface Props {
@@ -26,4 +26,4 @@ const Anchor = ({ children, external = true }: Props) => {
   );
 };
 
-export default Anchor;
+export default memo(Anchor);

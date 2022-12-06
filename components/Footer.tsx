@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { FiGithub } from 'react-icons/fi';
 
 const nowDay = new Date().getFullYear();
@@ -25,4 +26,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default memo(Footer);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import clsx from 'clsx';
 import loadingImage from 'public/images/img/mona-loading-default.gif';
 import loadingImageDimmed from 'public/images/img/mona-loading-dimmed.gif';
@@ -34,4 +34,4 @@ const RUALoading = ({ className: classNames }: Props) => {
   );
 };
 
-export default RUALoading;
+export default memo(RUALoading);

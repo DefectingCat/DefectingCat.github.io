@@ -1,15 +1,21 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import MainLayout from 'layouts/MainLayout';
 import { GetGists, getGists, GetUser, getUser } from 'lib/fetcher';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
 import { ParsedUrlQuery } from 'querystring';
-import { ReactElement } from 'react';
+import { ReactElement, Suspense } from 'react';
 
-const MainLayout = dynamic(() => import('layouts/MainLayout'));
-const UserInfo = dynamic(() => import('components/gists/UserInfo'));
-const FileContent = dynamic(() => import('components/gists/FileContent'));
-const Pagination = dynamic(() => import('components/RUA/RUAPagination'));
+const UserInfo = dynamic(() => import('components/gists/UserInfo'), {
+  suspense: true,
+});
+const FileContent = dynamic(() => import('components/gists/FileContent'), {
+  suspense: true,
+});
+const Pagination = dynamic(() => import('components/RUA/RUAPagination'), {
+  suspense: true,
+});
 
 dayjs.extend(relativeTime);
 
@@ -24,19 +30,23 @@ const Gists = ({
     <>
       <main className="max-w-5xl px-4 mx-auto lg:px-0">
         <div className="md:flex">
-          <UserInfo user={user} />
+          <Suspense fallback>
+            <UserInfo user={user} />
+          </Suspense>
 
           <div className="flex-1 px-1 py-4 overflow-hidden md:pl-8">
-            <FileContent gists={gists.gists} />
-            <Pagination
-              className="mt-4"
-              hasPrev={!!prev}
-              hasNext={!!next}
-              prevLink={prev === 1 ? `/gists/` : `/gists/${prev}`}
-              nextLink={`/gists/${next}`}
-              current={prev == null ? next - 1 : prev + 1}
-              total={total}
-            />
+            <Suspense fallback>
+              <FileContent gists={gists.gists} />
+              <Pagination
+                className="mt-4"
+                hasPrev={!!prev}
+                hasNext={!!next}
+                prevLink={prev === 1 ? `/gists/` : `/gists/${prev}`}
+                nextLink={`/gists/${next}`}
+                current={prev == null ? next - 1 : prev + 1}
+                total={total}
+              />
+            </Suspense>
           </div>
         </div>
       </main>

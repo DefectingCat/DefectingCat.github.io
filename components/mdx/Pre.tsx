@@ -1,8 +1,13 @@
 import clsx from 'clsx';
+import CopyButton from 'components/post/CopyButton';
 import useCopyToClipboard from 'lib/hooks/useCopyToClipboard';
-import { DetailedHTMLProps, HTMLAttributes, lazy, useRef } from 'react';
-
-const CopyButton = lazy(() => import('components/post/CopyButton'));
+import {
+  DetailedHTMLProps,
+  HTMLAttributes,
+  memo,
+  useCallback,
+  useRef,
+} from 'react';
 
 type Props = {} & DetailedHTMLProps<
   HTMLAttributes<HTMLPreElement>,
@@ -14,11 +19,11 @@ const Pre = ({ ...rest }: Props) => {
 
   const preRef = useRef<HTMLPreElement>(null);
   const { copy } = useCopyToClipboard();
-  const handleCopy = () => {
+  const handleCopy = useCallback(() => {
     if (!preRef.current) throw new Error('Can not access pre element.');
     if (preRef.current.textContent == null) return;
     copy(preRef.current.textContent);
-  };
+  }, [copy]);
 
   return (
     <>
@@ -34,4 +39,4 @@ const Pre = ({ ...rest }: Props) => {
   );
 };
 
-export default Pre;
+export default memo(Pre);

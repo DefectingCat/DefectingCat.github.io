@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import useInView from 'lib/hooks/useInView';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import RUALoading from './loading/RUALoading';
 
 const partten =
@@ -64,4 +64,4 @@ const RUACodeSandbox = ({ url }: Props) => {
   );
 };
 
-export default RUACodeSandbox;
+export default memo(RUACodeSandbox);

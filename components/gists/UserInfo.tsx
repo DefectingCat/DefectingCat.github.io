@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { GetUser } from 'lib/fetcher';
 import Image from 'next/image';
 import avatar from 'public/images/img/avatar.svg';
+import { memo } from 'react';
 import { FiLink, FiMail, FiTwitter } from 'react-icons/fi';
 
 type Props = {
@@ -79,4 +80,4 @@ const UserInfo = ({ user }: Props) => {
   );
 };
 
-export default UserInfo;
+export default memo(UserInfo);

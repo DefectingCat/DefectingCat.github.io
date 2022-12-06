@@ -1,25 +1,31 @@
 import rehypePrism from '@mapbox/rehype-prism';
 import components from 'components/mdx/components';
+import PostCommnetLine from 'components/post/PostCommnetLine';
 import PostToc from 'components/post/PostToc';
 import data from 'data/mdxData';
+import MainLayout from 'layouts/MainLayout';
+import useInView from 'lib/hooks/useInView';
 import { allPostsPath, readSinglePost } from 'lib/posts';
 import { generateToc, SingleToc } from 'lib/utils';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
 import dynamic from 'next/dynamic';
-import { ReactElement } from 'react';
+import { ReactElement, Suspense } from 'react';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 
-const MainLayout = dynamic(() => import('layouts/MainLayout'));
-const PostComment = dynamic(() => import('components/post/PostComment'));
+const PostComment = dynamic(() => import('components/post/PostComment'), {
+  suspense: true,
+});
 
 const Slug = ({
   mdxSource,
   toc,
   tocLength,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { ref, inView } = useInView();
+
   return (
     <>
       <main id="article" className="relative max-w-4xl px-4 mx-auto my-10">
@@ -29,7 +35,11 @@ const Slug = ({
 
         <article id="post-content">
           <MDXRemote {...mdxSource} components={components as {}} />
-          <PostComment />
+
+          <PostCommnetLine />
+          <div ref={ref} className="mt-4">
+            <Suspense fallback>{inView && <PostComment />}</Suspense>
+          </div>
         </article>
       </main>
     </>

@@ -4,9 +4,10 @@ import dayjs from 'dayjs';
 import { GistData } from 'lib/fetcher';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { memo, Suspense } from 'react';
 
 const GistsCode = dynamic(() => import('components/gists/GistsCode'), {
-  loading: () => <Loading className="h-[300px]" />,
+  suspense: true,
 });
 
 type Props = {
@@ -37,7 +38,9 @@ const FileContent = ({ gists }: Props) => {
                 {/* Description */}
                 <p className="text-gray-500">{g.description}</p>
 
-                <GistsCode file={g.files[f]} />
+                <Suspense fallback={<Loading className="h-[300px]" />}>
+                  <GistsCode file={g.files[f]} />
+                </Suspense>
               </div>
             ))}
           </div>
@@ -47,4 +50,4 @@ const FileContent = ({ gists }: Props) => {
   );
 };
 
-export default FileContent;
+export default memo(FileContent);

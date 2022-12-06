@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { memo } from 'react';
 import styles from './VercelLoading.module.css';
 
 const VercelLoading = () => {
@@ -40,4 +41,4 @@ const VercelLoading = () => {
   );
 };
 
-export default VercelLoading;
+export default memo(VercelLoading);

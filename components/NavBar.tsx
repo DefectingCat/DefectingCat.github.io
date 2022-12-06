@@ -3,7 +3,7 @@ import { DocSearch } from '@docsearch/react';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
 
 const DarkModeBtn = dynamic(() => import('components/DarkModeBtn'));
@@ -162,4 +162,4 @@ const HeadBar = () => {
   );
 };
 
-export default HeadBar;
+export default memo(HeadBar);

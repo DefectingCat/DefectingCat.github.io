@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import useMounted from 'lib/hooks/useMounted';
 import { useTheme } from 'next-themes';
+import { memo } from 'react';
 import { FiMoon, FiSun } from 'react-icons/fi';
 
 const DarkModeBtn = () => {
@@ -35,4 +36,4 @@ const DarkModeBtn = () => {
   );
 };
 
-export default DarkModeBtn;
+export default memo(DarkModeBtn);

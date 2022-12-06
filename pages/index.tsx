@@ -1,17 +1,19 @@
 import clsx from 'clsx';
+import MainLayout from 'layouts/MainLayout';
 import { gltfLoader, manager } from 'lib/gltfLoader';
 import { getMousePosition } from 'lib/utils';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { InitFn, THREE, useThree } from 'rua-three';
 import styles from 'styles/index/index.module.css';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import type { NextPageWithLayout } from 'types';
 
-const MainLayout = dynamic(() => import('layouts/MainLayout'));
-const Loading = dynamic(() => import('components/RUA/loading/RUALoading'));
+const Loading = dynamic(() => import('components/RUA/loading/RUALoading'), {
+  suspense: true,
+});
 
 const rotationY = 0.4;
 const rotationX = 0.18;
@@ -156,19 +158,21 @@ const Home: NextPageWithLayout = () => {
             ref={wrapper}
           >
             <canvas ref={ref} className="absolute top-0 left-0"></canvas>
-            {showLoading && (
-              <div
-                className={clsx(
-                  'absolute top-0 left-0 z-10',
-                  'items-center flex justify-center',
-                  'w-full h-full transition-all duration-500',
-                  'bg-white',
-                  loading ? 'opacity-1' : 'opacity-0'
-                )}
-              >
-                <Loading />
-              </div>
-            )}
+            <Suspense fallback>
+              {showLoading && (
+                <div
+                  className={clsx(
+                    'absolute top-0 left-0 z-10',
+                    'items-center flex justify-center',
+                    'w-full h-full transition-all duration-500',
+                    'bg-white',
+                    loading ? 'opacity-1' : 'opacity-0'
+                  )}
+                >
+                  <Loading />
+                </div>
+              )}
+            </Suspense>
           </div>
         </div>
       </main>

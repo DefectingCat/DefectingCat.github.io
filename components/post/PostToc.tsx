@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import Anchor from 'components/mdx/Anchor';
 import { SingleToc } from 'lib/utils';
-import { Fragment, useState } from 'react';
+import { Fragment, memo, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import styles from './PostToc.module.css';
 
@@ -77,4 +77,4 @@ const PostToc = ({ toc, tocLength }: Props) => {
   );
 };
 
-export default PostToc;
+export default memo(PostToc);

@@ -1,6 +1,6 @@
 import rehypePrism from '@mapbox/rehype-prism';
 import clsx from 'clsx';
-import { createElement, Fragment } from 'react';
+import { createElement, Fragment, memo } from 'react';
 import rehypeReact from 'rehype-react';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
@@ -76,4 +76,4 @@ const GistsCode = ({ file, showFileName = false }: Props) => {
   );
 };
 
-export default GistsCode;
+export default memo(GistsCode);

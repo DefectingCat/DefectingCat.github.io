@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Post } from 'types';
 import clsx from 'clsx';
+import { memo } from 'react';
 
 interface Props {
   post: Post;
@@ -50,4 +51,4 @@ const PostCard = ({ post }: Props) => {
   );
 };
 
-export default PostCard;
+export default memo(PostCard);

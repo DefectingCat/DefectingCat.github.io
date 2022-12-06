@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import NextImage, { ImageProps } from 'next/image';
+import { memo } from 'react';
 
 interface Props extends ImageProps {}
 
@@ -18,4 +19,4 @@ const Image = ({ alt, ...rest }: Props) => {
   );
 };
 
-export default Image;
+export default memo(Image);

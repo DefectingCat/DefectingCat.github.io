@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
+import { ButtonHTMLAttributes, DetailedHTMLProps, memo } from 'react';
 
 export type ButtonProps = {
   children: React.ReactNode;
@@ -36,4 +36,4 @@ const Button = ({ children, ...rest }: ButtonProps) => {
   );
 };
 
-export default Button;
+export default memo(Button);

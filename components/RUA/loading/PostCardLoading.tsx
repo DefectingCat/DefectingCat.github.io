@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import clsx from 'clsx';
 
 const PostCardLoading = () => {
@@ -26,4 +26,4 @@ const PostCardLoading = () => {
   );
 };
 
-export default PostCardLoading;
+export default memo(PostCardLoading);

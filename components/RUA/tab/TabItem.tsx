@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React from 'react';
+import React, { memo } from 'react';
 
 export type ItemProps = {
   value: string | number;
@@ -16,4 +16,4 @@ const TabItem = ({ showContent, children }: ItemProps) => {
   );
 };
 
-export default TabItem;
+export default memo(TabItem);
