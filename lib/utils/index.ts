@@ -102,3 +102,19 @@ export const getMousePosition = (e: MouseEvent | globalThis.TouchEvent) => {
         y: e.touches[0].clientY,
       };
 };
+
+type Debounce = {
+  <T extends unknown[], R>(fn: (...arg: T) => R, ms: number): (
+    this: unknown,
+    ...arg: T
+  ) => void;
+};
+export const debounce: Debounce = (fn, ms) => {
+  let timer: NodeJS.Timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(this, args);
+    }, ms);
+  };
+};
