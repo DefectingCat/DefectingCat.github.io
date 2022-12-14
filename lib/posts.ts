@@ -36,7 +36,7 @@ export const postLists = async (): Promise<Post[]> => {
 /**
  * Get posts list page.
  */
-export const PostPerPage = 5;
+export const PostPerPage = 10;
 export type PostPath = { params: { page: string } };
 const postPathCallback = (prev: PostPath[], _: unknown, i: number) =>
   i + 1 > 2
