@@ -33,7 +33,10 @@ const Pre = ({ ...rest }: Props) => {
         {...props}
       >
         {children}
-        <CopyButton onCopy={handleCopy} />
+        <CopyButton
+          className={clsx('absolute top-4 right-4', 'translate-y-[-17%]')}
+          onCopy={handleCopy}
+        />
       </pre>
     </>
   );

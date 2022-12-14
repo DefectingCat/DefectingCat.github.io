@@ -3,10 +3,11 @@ import { memo, useState } from 'react';
 import styles from './CopytButton.module.css';
 
 export type CopyButtonProps = {
+  className?: string;
   onCopy?: () => void;
 };
 
-const CopyButton = ({ onCopy: onClick }: CopyButtonProps) => {
+const CopyButton = ({ onCopy: onClick, className }: CopyButtonProps) => {
   const [copied, setCopied] = useState(false);
   const handleClick = () => {
     onClick?.();
@@ -21,11 +22,12 @@ const CopyButton = ({ onCopy: onClick }: CopyButtonProps) => {
       <button
         className={clsx(
           'flex items-center justify-center',
-          'border rounded-md absolute',
-          'top-4 right-4 p-[6px] opacity-0',
-          'group-hover:opacity-100',
+          'border rounded-md',
+          'p-[6px] invisible',
+          'group-hover:visible',
           'transition-opacity dark:border-gray-700',
           'duration-300',
+          className,
           styles.btn
         )}
         onClick={handleClick}
