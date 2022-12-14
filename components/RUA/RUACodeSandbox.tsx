@@ -4,8 +4,8 @@ import { useTheme } from 'next-themes';
 import { memo, useEffect, useState } from 'react';
 import RUALoading from './loading/RUALoading';
 
-const partten =
-  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+const pattern =
+  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/;
 export const commonClass = clsx(
   'rounded-lg h-[500px] border-0',
   'overflow-hidden w-full'
@@ -16,7 +16,7 @@ type Props = {
 };
 
 const RUACodeSandbox = ({ url }: Props) => {
-  const isUrl = partten.test(url);
+  const isUrl = pattern.test(url);
   const { systemTheme, theme } = useTheme();
   const currentTheme = theme === 'system' ? systemTheme : theme ?? 'light';
 
