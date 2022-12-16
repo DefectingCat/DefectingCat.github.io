@@ -1,9 +1,9 @@
-import { hello } from 'data/sandpack/hello-world';
+import { hello } from 'content/sandpack/hello-world';
 import {
   firstScene,
   loadBackground,
   resetStyles,
-} from 'data/sandpack/how-to-load-a-background-with-threejs';
+} from 'content/sandpack/how-to-load-a-background-with-threejs';
 import { Button, Input } from './sandpack';
 import {
   miniRedux,

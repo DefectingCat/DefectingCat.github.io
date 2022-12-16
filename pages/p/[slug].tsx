@@ -2,7 +2,7 @@ import rehypePrism from '@mapbox/rehype-prism';
 import components from 'components/mdx/components';
 import PostCommnetLine from 'components/post/PostCommnetLine';
 import PostToc from 'components/post/PostToc';
-import data from 'data/mdxData';
+import data from 'content/mdxData';
 import MainLayout from 'layouts/MainLayout';
 import useInView from 'lib/hooks/useInView';
 import { allPostsPath, readSinglePost } from 'lib/posts';
