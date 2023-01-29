@@ -4,7 +4,7 @@ import { memo } from 'react';
 
 interface Props extends SandpackProps {}
 
-const RUASandpack = ({ ...rest }: Props) => {
+const RuaSandpack = ({ ...rest }: Props) => {
   const { systemTheme, theme } = useTheme();
   const currentTheme = theme === 'system' ? systemTheme : theme;
 
@@ -20,4 +20,4 @@ const RUASandpack = ({ ...rest }: Props) => {
   );
 };
 
-export default memo(RUASandpack);
+export default memo(RuaSandpack);

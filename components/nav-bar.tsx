@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { memo, useEffect, useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
 
-const DarkModeBtn = dynamic(() => import('components/DarkModeBtn'));
+const DarkModeBtn = dynamic(() => import('components/dark-mode-btn'));
 
 const txtMenu = [
   {

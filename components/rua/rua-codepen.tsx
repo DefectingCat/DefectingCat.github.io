@@ -1,8 +1,8 @@
 import clsx from 'clsx';
-import useInView from 'lib/hooks/useInView';
+import useInView from 'lib/hooks/use-in-view';
 import { useTheme } from 'next-themes';
 import { memo, useEffect, useState } from 'react';
-import RUALoading from './loading/RUALoading';
+import RUALoading from './loading/rua-loading';
 
 export const commonClass = clsx(
   'rounded-lg h-[400px] border-0',
@@ -14,7 +14,7 @@ type Props = {
   url: string;
 };
 
-const RUACodepen = ({ defaultTab, url }: Props) => {
+const RuaCodepen = ({ defaultTab, url }: Props) => {
   const urlArr = url.split('/');
   const { systemTheme, theme } = useTheme();
   const currentTheme = theme === 'system' ? systemTheme : theme ?? 'light';
@@ -80,4 +80,4 @@ const RUACodepen = ({ defaultTab, url }: Props) => {
   );
 };
 
-export default memo(RUACodepen);
+export default memo(RuaCodepen);

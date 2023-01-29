@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { DetailedHTMLProps, HTMLAttributes, memo } from 'react';
 
-const Button = dynamic(() => import('components/RUA/Button'));
+const Button = dynamic(() => import('components/rua/button'));
 
 type Props = {
   hasPrev: boolean;
@@ -13,7 +13,7 @@ type Props = {
   total?: number;
 } & DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
 
-const RUAPagination = ({
+const RuaPagination = ({
   hasPrev,
   hasNext,
   prevLink,
@@ -59,4 +59,4 @@ const RUAPagination = ({
   );
 };
 
-export default memo(RUAPagination);
+export default memo(RuaPagination);

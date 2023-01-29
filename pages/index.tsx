@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import MainLayout from 'layouts/MainLayout';
-import { gltfLoader, manager } from 'lib/gltfLoader';
+import MainLayout from 'layouts/main-layout';
+import { gltfLoader, manager } from 'lib/gltf-loader';
 import { getMousePosition } from 'lib/utils';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
@@ -11,7 +11,7 @@ import styles from 'styles/index/index.module.css';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import type { NextPageWithLayout } from 'types';
 
-const Loading = dynamic(() => import('components/RUA/loading/RUALoading'), {
+const Loading = dynamic(() => import('components/rua/loading/rua-loading'), {
   suspense: true,
 });
 

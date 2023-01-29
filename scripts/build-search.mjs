@@ -31,7 +31,7 @@ async function pushAlgolia(gists) {
     );
 
     // initialize the index with your index name
-    const index = client.initIndex('RUA');
+    const index = client.initIndex('rua');
 
     // save the objects!
     const algoliaResponse = await index.replaceAllObjects(records);

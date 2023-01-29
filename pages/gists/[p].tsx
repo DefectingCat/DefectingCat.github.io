@@ -1,19 +1,19 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import MainLayout from 'layouts/MainLayout';
+import MainLayout from 'layouts/main-layout';
 import { GetGists, getGists, GetUser, getUser } from 'lib/fetcher';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
 import { ParsedUrlQuery } from 'querystring';
 import { ReactElement, Suspense } from 'react';
 
-const UserInfo = dynamic(() => import('components/gists/UserInfo'), {
+const UserInfo = dynamic(() => import('components/gists/user-info'), {
   suspense: true,
 });
-const FileContent = dynamic(() => import('components/gists/FileContent'), {
+const FileContent = dynamic(() => import('components/gists/file-content'), {
   suspense: true,
 });
-const Pagination = dynamic(() => import('components/RUA/RUAPagination'), {
+const Pagination = dynamic(() => import('components/rua/rua-pagination'), {
   suspense: true,
 });
 

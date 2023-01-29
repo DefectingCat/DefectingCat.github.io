@@ -1,9 +1,9 @@
 import clsx from 'clsx';
-import Anchor from 'components/mdx/Anchor';
+import Anchor from 'components/mdx/anchor';
 import { SingleToc } from 'lib/utils';
 import { Fragment, memo, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
-import styles from './PostToc.module.css';
+import styles from './post-toc.module.css';
 
 interface Props {
   toc: SingleToc[];

@@ -1,7 +1,7 @@
-import LinkAnchor from 'components/mdx/LinkAnchor';
+import LinkAnchor from 'components/mdx/link-anchor';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import MainLayout from 'layouts/MainLayout';
+import MainLayout from 'layouts/main-layout';
 import { getGists, getSignalGist, SingalGist } from 'lib/fetcher';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
@@ -11,7 +11,7 @@ import avatar from 'public/images/img/avatar.svg';
 import { ParsedUrlQuery } from 'querystring';
 import { Fragment, ReactElement, Suspense } from 'react';
 
-const GistsCode = dynamic(() => import('components/gists/GistsCode'), {
+const GistsCode = dynamic(() => import('components/gists/gists-code'), {
   suspense: true,
 });
 

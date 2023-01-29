@@ -1,4 +1,4 @@
-import useRouterLoading from 'lib/hooks/useRouterLoading';
+import useRouterLoading from 'lib/hooks/use-router-loading';
 import { ThemeProvider } from 'next-themes';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
@@ -10,7 +10,7 @@ import 'styles/rua.css';
 import { AppPropsWithLayout } from 'types';
 
 const VercelLoading = dynamic(
-  () => import('components/RUA/loading/VercelLoading'),
+  () => import('components/rua/loading/vercel-loading'),
   {
     suspense: true,
   }

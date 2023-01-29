@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { memo } from 'react';
-import styles from './VercelLoading.module.css';
+import styles from './vercel-loading.module.css';
 
 const VercelLoading = () => {
   return (

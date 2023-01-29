@@ -9,7 +9,7 @@ type Props = {
   className?: string;
 };
 
-const RUALoading = ({ className: classNames }: Props) => {
+const RuaLoading = ({ className: classNames }: Props) => {
   const { systemTheme, theme } = useTheme();
   const currentTheme = theme === 'system' ? systemTheme : theme;
 
@@ -34,4 +34,4 @@ const RUALoading = ({ className: classNames }: Props) => {
   );
 };
 
-export default memo(RUALoading);
+export default memo(RuaLoading);

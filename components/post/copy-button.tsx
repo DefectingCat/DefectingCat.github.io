@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { memo, useState } from 'react';
-import styles from './CopytButton.module.css';
+import styles from './copyt-button.module.css';
 
 export type CopyButtonProps = {
   className?: string;
