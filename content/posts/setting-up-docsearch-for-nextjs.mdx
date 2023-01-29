@@ -118,7 +118,7 @@ Then, prepare a empty array to store post data. And traverse content to generate
 const myPosts = [];
 files.map((f) => {
   const content = fs.readFileSync(path.join('pages/p', f), 'utf-8');
-  // const { data: meta, content } = matter(markdownWithMeta);
+  // const { content: meta, content } = matter(markdownWithMeta);
 
   const slug = f.replace(/\.mdx$/, '');
   const regex = /^#{2}(?!#)(.*)/gm;
@@ -166,7 +166,7 @@ myPosts.push({
 Algolia API is easy to use. First we need specify the index name.
 
 ```js
-const index = client.initIndex('RUA');
+const index = client.initIndex('rua');
 ```
 
 And save the objects.

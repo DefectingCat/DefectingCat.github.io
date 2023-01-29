@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import React, { memo, useState } from 'react';
-import { ItemProps } from './TabItem';
+import { ItemProps } from './tab-item';
 
 type Props = {
   defaultValue: string | number;

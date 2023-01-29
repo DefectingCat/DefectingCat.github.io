@@ -1,11 +1,11 @@
-import Anchor from 'components/mdx/Anchor';
-import Image from 'components/mdx/Image';
-import Pre from 'components/mdx/Pre';
-import RUACodepen from 'components/RUA/RUACodepen';
-import RUACodeSandbox from 'components/RUA/RUACodeSandbox';
-import RUASandpack from 'components/RUA/RUASandpack';
-import Tab from 'components/RUA/tab';
-import TabItem from 'components/RUA/tab/TabItem';
+import Anchor from 'components/mdx/anchor';
+import Image from 'components/mdx/image';
+import Pre from 'components/mdx/pre';
+import RUACodepen from 'components/rua/rua-codepen';
+import RUACodeSandbox from 'components/rua/rua-code-sandbox';
+import RUASandpack from 'components/rua/rua-sandpack';
+import Tab from 'components/rua/tab';
+import TabItem from 'components/rua/tab/tab-item';
 
 const components = {
   RUASandpack,

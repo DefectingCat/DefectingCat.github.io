@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import Button from 'components/RUA/Button';
+import Button from 'components/rua/button';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { FiChevronUp } from 'react-icons/fi';
 

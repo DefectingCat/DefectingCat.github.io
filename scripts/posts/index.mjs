@@ -2,7 +2,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-const dataPath = 'data/posts';
+const dataPath = 'content/posts';
 
 /**
  * Build post information for Algolia search.
@@ -16,7 +16,7 @@ const postLists = async () => {
 
   const getFiles = async (f) => {
     const content = await fs.readFile(path.join(dataPath, f), 'utf-8');
-    // const { data: meta, content } = matter(markdownWithMeta);
+    // const { content: meta, content } = matter(markdownWithMeta);
 
     const slug = f.replace(/\.mdx$/, '');
     const regex = /^#{2,3}(?!#)(.*)/gm;

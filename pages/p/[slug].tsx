@@ -1,10 +1,10 @@
 import rehypePrism from '@mapbox/rehype-prism';
 import components from 'components/mdx/components';
-import PostCommnetLine from 'components/post/PostCommnetLine';
-import PostToc from 'components/post/PostToc';
-import data from 'data/mdxData';
-import MainLayout from 'layouts/MainLayout';
-import useInView from 'lib/hooks/useInView';
+import PostCommnetLine from 'components/post/post-commnet-line';
+import PostToc from 'components/post/post-toc';
+import data from 'content/mdx-data';
+import MainLayout from 'layouts/main-layout';
+import useInView from 'lib/hooks/use-in-view';
 import { allPostsPath, readSinglePost } from 'lib/posts';
 import { generateToc, SingleToc } from 'lib/utils';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
@@ -15,7 +15,7 @@ import { ReactElement, Suspense } from 'react';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 
-const PostComment = dynamic(() => import('components/post/PostComment'), {
+const PostComment = dynamic(() => import('components/post/post-comment'), {
   suspense: true,
 });
 

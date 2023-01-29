@@ -1,12 +1,12 @@
-import LinkAnchor from 'components/mdx/LinkAnchor';
-import Loading from 'components/RUA/loading/RUALoading';
+import LinkAnchor from 'components/mdx/link-anchor';
+import Loading from 'components/rua/loading/rua-loading';
 import dayjs from 'dayjs';
 import { GistData } from 'lib/fetcher';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { memo, Suspense } from 'react';
 
-const GistsCode = dynamic(() => import('components/gists/GistsCode'), {
+const GistsCode = dynamic(() => import('components/gists/gists-code'), {
   suspense: true,
 });
 

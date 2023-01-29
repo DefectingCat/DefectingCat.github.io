@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import useMounted from 'lib/hooks/useMounted';
+import useMounted from 'lib/hooks/use-mounted';
 import { useTheme } from 'next-themes';
 import { memo } from 'react';
 import { FiMoon, FiSun } from 'react-icons/fi';
@@ -9,7 +9,7 @@ const DarkModeBtn = () => {
   const { systemTheme, theme, setTheme } = useTheme();
   const currentTheme = theme === 'system' ? systemTheme : theme;
 
-  if (!mounted)
+  if (!mounted) {
     return (
       <button>
         <div
@@ -20,6 +20,7 @@ const DarkModeBtn = () => {
         ></div>
       </button>
     );
+  }
 
   return (
     <>

@@ -1,8 +1,8 @@
 import dynamic from 'next/dynamic';
 
-const Footer = dynamic(() => import('components/Footer'));
-const HeadBar = dynamic(() => import('components/NavBar'));
-const BackToTop = dynamic(() => import('components/common/BackToTop'));
+const Footer = dynamic(() => import('components/footer'));
+const HeadBar = dynamic(() => import('components/nav-bar'));
+const BackToTop = dynamic(() => import('components/common/back-to-top'));
 
 type Props = {
   children: React.ReactNode;

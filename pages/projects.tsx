@@ -12,9 +12,9 @@ import {
 } from 'react-icons/si';
 import { VscGithubInverted } from 'react-icons/vsc';
 import { HiPhoto } from 'react-icons/hi2';
-import MainLayout from 'layouts/MainLayout';
+import MainLayout from 'layouts/main-layout';
 
-const ProjectCard = dynamic(() => import('components/pages/ProjectCard'), {
+const ProjectCard = dynamic(() => import('components/pages/project-card'), {
   suspense: true,
 });
 

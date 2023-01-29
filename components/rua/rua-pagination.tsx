@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { DetailedHTMLProps, HTMLAttributes, memo } from 'react';
 
-const Button = dynamic(() => import('components/RUA/Button'));
+const Button = dynamic(() => import('components/rua/button'));
 
 type Props = {
   hasPrev: boolean;

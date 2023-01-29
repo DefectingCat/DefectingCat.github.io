@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import CopyButton from 'components/post/CopyButton';
-import useCopyToClipboard from 'lib/hooks/useCopyToClipboard';
+import CopyButton from 'components/post/copy-button';
+import useCopyToClipboard from 'lib/hooks/use-copy-to-clipboard';
 import {
   DetailedHTMLProps,
   HTMLAttributes,

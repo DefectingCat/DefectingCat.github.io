@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import PostCard from 'components/PostCard';
+import PostCard from 'components/post-card';
 
 const post = {
   slug: 'first-post',

@@ -1,8 +1,8 @@
 import clsx from 'clsx';
-import useInView from 'lib/hooks/useInView';
+import useInView from 'lib/hooks/use-in-view';
 import { useTheme } from 'next-themes';
 import { memo, useEffect, useState } from 'react';
-import RUALoading from './loading/RUALoading';
+import RUALoading from './loading/rua-loading';
 
 export const commonClass = clsx(
   'rounded-lg h-[400px] border-0',

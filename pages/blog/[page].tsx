@@ -1,16 +1,16 @@
-import PostCardLoading from 'components/RUA/loading/PostCardLoading';
-import MainLayout from 'layouts/MainLayout';
+import PostCardLoading from 'components/rua/loading/post-card-loading';
+import MainLayout from 'layouts/main-layout';
 import { getPostListPath, postLists, PostPerPage } from 'lib/posts';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
 import { Fragment, ReactElement, Suspense } from 'react';
 import { Post } from 'types';
 
-const PostCard = dynamic(() => import('components/PostCard'), {
+const PostCard = dynamic(() => import('components/post-card'), {
   suspense: true,
 });
-const BlogList = dynamic(() => import('layouts/BlogList'), { suspense: true });
-const Pagination = dynamic(() => import('components/RUA/RUAPagination'), {
+const BlogList = dynamic(() => import('layouts/blog-list'), { suspense: true });
+const Pagination = dynamic(() => import('components/rua/rua-pagination'), {
   suspense: true,
 });
 
