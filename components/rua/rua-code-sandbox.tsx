@@ -15,7 +15,7 @@ type Props = {
   url: string;
 };
 
-const RuaCodeSandbox = ({ url }: Props) => {
+const RUACodeSandbox = ({ url }: Props) => {
   const isUrl = pattern.test(url);
   const { systemTheme, theme } = useTheme();
   const currentTheme = theme === 'system' ? systemTheme : theme ?? 'light';
@@ -64,4 +64,4 @@ const RuaCodeSandbox = ({ url }: Props) => {
   );
 };
 
-export default memo(RuaCodeSandbox);
+export default memo(RUACodeSandbox);

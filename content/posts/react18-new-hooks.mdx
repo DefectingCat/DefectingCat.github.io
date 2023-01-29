@@ -26,7 +26,7 @@ tags: [React, TypeScript]
 
 `useTransition` 返回的元组中包含两个值 `[pending, setTransiton]` ，分别是 `setTransiton` 方法和表示正在过渡的状态 `pending` 。如果需要在过渡时展示特定的 UI 就可以使用 `pending` 来控制状态。
 
-<RuaSandpack
+<RUASandpack
   template="react-ts"
   files={{
     '/Button.tsx': {
@@ -45,7 +45,7 @@ tags: [React, TypeScript]
 
 将原本的状态值 `value` 与 `useDeferredValue` 返回的副本相比较就会发现 `value` 会随着 UI 一起被更新，而被延迟的状态 `deferred` 会等待 UI 更新结束后再做更新。
 
-<RuaSandpack
+<RUASandpack
   template="react-ts"
   files={{
     '/Button.tsx': {
@@ -65,7 +65,7 @@ tags: [React, TypeScript]
 - 为页面中需要唯一 ID 元素提供 ID，例如 `<label for="ID">` 。
 - SSR 到客户端注入时需要 ID 避免错误。
 
-<RuaSandpack
+<RUASandpack
   template="react-ts"
   files={{
     '/Input.tsx': {
@@ -147,7 +147,7 @@ export default store;
 
 其中， `listeners` 用于存放 `subscribe` 的回调，在我们更新状态后需要通知 React 来更新组件。所以在 `setState` 中遍历执行。之所以使用 `Set()` 是因为 `subscribe` 还需要返回一个函数用于注销 `listener` 。
 
-<RuaSandpack
+<RUASandpack
   template="react-ts"
   files={{
     '/Input.tsx': {
@@ -171,7 +171,7 @@ CSS-in-JS 库通常需要在运行时插入或修改 `<style>`  标签等。当
 
 解决这个问题的最好办法就是所有东西呈现给浏览器绘制前就进行改变。没错 `useInsertionEffect` 与 `useEffect` 有着同样的签名，但它会同步的在所有 DOM 更改之前触发。比 `useLayoutEffect` 还要早触发，这样就可以用于在重绘之前注入样式。
 
-<RuaSandpack
+<RUASandpack
   template="react-ts"
   files={{
     '/App.tsx': sandpack['react18-new-hooks'].useInsertionEffect,

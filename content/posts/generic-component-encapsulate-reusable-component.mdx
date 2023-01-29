@@ -22,7 +22,7 @@ tags: [TypeScript, React]
 
 React Hook Forms 对 TypeScript 支持良好，有了 TypeScript 我们就可以在开发时验证表单类型。而表单的数据类型也是后续封装通用组件较为繁琐的一个地方。
 
-<RuaSandpack
+<RUASandpack
   template="react-ts"
   files={{
     '/App.tsx':
@@ -207,7 +207,7 @@ const sayIt = <T extends number | string>(p: Person<T>) => {
 
 来看一个简单的小组件，该组件可以以一个常见的对象类型 `Record<string, unknown>` 来根据指定的 key 访问其值，并展示在 DOM 上。
 
-<RuaSandpack
+<RUASandpack
   template="react-ts"
   files={{
     '/App.tsx':
@@ -354,4 +354,4 @@ const Input = <T extends Record<string, unknown>>({
 />
 ```
 
-<RuaCodeSandbox url="https://codesandbox.io/s/reusable-input-o7e4jt?file=/src/App.tsx" />
+<RUACodeSandbox url="https://codesandbox.io/s/reusable-input-o7e4jt?file=/src/App.tsx" />

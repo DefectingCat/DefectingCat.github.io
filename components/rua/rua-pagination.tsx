@@ -13,7 +13,7 @@ type Props = {
   total?: number;
 } & DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
 
-const RuaPagination = ({
+const RUAPagination = ({
   hasPrev,
   hasNext,
   prevLink,
@@ -59,4 +59,4 @@ const RuaPagination = ({
   );
 };
 
-export default memo(RuaPagination);
+export default memo(RUAPagination);

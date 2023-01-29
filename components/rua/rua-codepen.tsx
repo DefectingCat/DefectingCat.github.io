@@ -14,7 +14,7 @@ type Props = {
   url: string;
 };
 
-const RuaCodepen = ({ defaultTab, url }: Props) => {
+const RUACodepen = ({ defaultTab, url }: Props) => {
   const urlArr = url.split('/');
   const { systemTheme, theme } = useTheme();
   const currentTheme = theme === 'system' ? systemTheme : theme ?? 'light';
@@ -80,4 +80,4 @@ const RuaCodepen = ({ defaultTab, url }: Props) => {
   );
 };
 
-export default memo(RuaCodepen);
+export default memo(RUACodepen);
