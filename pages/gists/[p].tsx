@@ -86,19 +86,20 @@ export const getStaticProps: GetStaticProps<{
   next: number;
   total: number;
 }> = async ({ params }) => {
-  if (typeof params?.p !== 'string')
+  if (typeof params?.p !== 'string') {
     return {
       notFound: true,
     };
+  }
 
   const result = await getGists(Number(params?.p));
-  if (!result)
+  if (!result) {
     return {
       notFound: true,
     };
+  }
 
   const user = await getUser();
-
   return {
     props: {
       gists: result,
