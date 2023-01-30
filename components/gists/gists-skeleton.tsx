@@ -12,9 +12,12 @@ import { Fragment, ReactElement, Suspense } from 'react';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
 
-const GistsCode = dynamic(() => import('components/gists/gists-code'), {
-  suspense: true,
-});
+const GistsCode = dynamic(
+  () => import('components/gists/gists-code-skeleton'),
+  {
+    suspense: true,
+  }
+);
 
 dayjs.extend(relativeTime);
 
@@ -54,7 +57,7 @@ const GistSkeleton = () => {
             </p>
 
             <Suspense fallback>
-              {/*<GistsCode file={gist.files[f]} showFileName />*/}
+              <GistsCode />
             </Suspense>
           </div>
         </div>

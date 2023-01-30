@@ -23,13 +23,13 @@ dayjs.extend(relativeTime);
 const Gist = ({ gist }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
 
-  // if (router.isFallback) {
-  return (
-    <Suspense fallback>
-      <GistsSkeleton />
-    </Suspense>
-  );
-  // }
+  if (router.isFallback) {
+    return (
+      <Suspense fallback>
+        <GistsSkeleton />
+      </Suspense>
+    );
+  }
 
   return (
     <>
