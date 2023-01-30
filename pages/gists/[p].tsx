@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import MainLayout from 'layouts/main-layout';
+import MainLayout from 'layouts/common/main-layout';
 import { GetGists, getGists, GetUser, getUser } from 'lib/fetcher';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
@@ -86,19 +86,20 @@ export const getStaticProps: GetStaticProps<{
   next: number;
   total: number;
 }> = async ({ params }) => {
-  if (typeof params?.p !== 'string')
+  if (typeof params?.p !== 'string') {
     return {
       notFound: true,
     };
+  }
 
   const result = await getGists(Number(params?.p));
-  if (!result)
+  if (!result) {
     return {
       notFound: true,
     };
+  }
 
   const user = await getUser();
-
   return {
     props: {
       gists: result,

@@ -3,7 +3,7 @@ import components from 'components/mdx/components';
 import PostCommnetLine from 'components/post/post-commnet-line';
 import PostToc from 'components/post/post-toc';
 import data from 'content/mdx-data';
-import MainLayout from 'layouts/main-layout';
+import MainLayout from 'layouts/common/main-layout';
 import useInView from 'lib/hooks/use-in-view';
 import { allPostsPath, readSinglePost } from 'lib/posts';
 import { generateToc, SingleToc } from 'lib/utils';

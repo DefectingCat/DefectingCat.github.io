@@ -1,5 +1,5 @@
 import PostCardLoading from 'components/rua/loading/post-card-loading';
-import MainLayout from 'layouts/main-layout';
+import MainLayout from 'layouts/common/main-layout';
 import { postLists, PostPerPage } from 'lib/posts';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
@@ -9,7 +9,9 @@ import { Post } from 'types';
 const PostCard = dynamic(() => import('components/post-card'), {
   suspense: true,
 });
-const BlogList = dynamic(() => import('layouts/blog-list'), { suspense: true });
+const BlogList = dynamic(() => import('layouts/common/blog-list'), {
+  suspense: true,
+});
 const Pagination = dynamic(() => import('components/rua/rua-pagination'), {
   suspense: true,
 });

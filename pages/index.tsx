@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import MainLayout from 'layouts/main-layout';
+import MainLayout from 'layouts/common/main-layout';
 import { gltfLoader, manager } from 'lib/gltf-loader';
 import { getMousePosition } from 'lib/utils';
 import dynamic from 'next/dynamic';

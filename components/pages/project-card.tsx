@@ -1,11 +1,11 @@
 import clsx from 'clsx';
 import { Project } from 'pages/projects';
-import { Children, cloneElement, isValidElement } from 'react';
+import { Children, cloneElement, isValidElement, ReactElement } from 'react';
 import { VscGithubInverted } from 'react-icons/vsc';
 
 type ProjectCardProps = {
   project: Project;
-  icon?: React.ReactElement<{ className?: string }>;
+  icon?: ReactElement<{ className?: string }>;
 };
 
 const ProjectCard = ({ project, icon }: ProjectCardProps) => {

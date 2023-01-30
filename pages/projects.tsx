@@ -12,7 +12,7 @@ import {
 } from 'react-icons/si';
 import { VscGithubInverted } from 'react-icons/vsc';
 import { HiPhoto } from 'react-icons/hi2';
-import MainLayout from 'layouts/main-layout';
+import MainLayout from 'layouts/common/main-layout';
 
 const ProjectCard = dynamic(() => import('components/pages/project-card'), {
   suspense: true,
