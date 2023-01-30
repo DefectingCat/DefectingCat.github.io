@@ -1,23 +1,36 @@
 import LinkAnchor from 'components/mdx/link-anchor';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import MainLayout from 'layouts/main-layout';
-import { getGists, getSignalGist, SingalGist } from 'lib/fetcher';
+import MainLayout from 'layouts/common/main-layout';
+import { getSignalGist, SingalGist } from 'lib/fetcher';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import avatar from 'public/images/img/avatar.svg';
-import { ParsedUrlQuery } from 'querystring';
 import { Fragment, ReactElement, Suspense } from 'react';
+import { useRouter } from 'next/router';
 
 const GistsCode = dynamic(() => import('components/gists/gists-code'), {
+  suspense: true,
+});
+const GistsSkeleton = dynamic(() => import('components/gists/gists-skeleton'), {
   suspense: true,
 });
 
 dayjs.extend(relativeTime);
 
 const Gist = ({ gist }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const router = useRouter();
+
+  // if (router.isFallback) {
+  return (
+    <Suspense fallback>
+      <GistsSkeleton />
+    </Suspense>
+  );
+  // }
+
   return (
     <>
       <main className="max-w-5xl px-4 mx-auto lg:px-0">
@@ -61,23 +74,23 @@ const Gist = ({ gist }: InferGetStaticPropsType<typeof getStaticProps>) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const result = await getGists();
-  const last = Number(result?.pageSize.last);
-  const paths: (
-    | string
-    | {
-        params: ParsedUrlQuery;
-        locale?: string | undefined;
-      }
-  )[] = [];
-  for (let i = 1; i <= last; i++) {
-    const result = await getGists(i);
-    paths.push(...(result?.gists.map((g) => ({ params: { id: g.id } })) ?? []));
-  }
+  // const result = await getGists();
+  // const last = Number(result?.pageSize.last);
+  // const paths: (
+  //   | string
+  //   | {
+  //       params: ParsedUrlQuery;
+  //       locale?: string | undefined;
+  //     }
+  // )[] = [];
+  // for (let i = 1; i <= last; i++) {
+  //   const result = await getGists(i);
+  //   paths.push(...(result?.gists.map((g) => ({ params: { id: g.id } })) ?? []));
+  // }
 
   return {
-    paths,
-    fallback: 'blocking',
+    paths: [],
+    fallback: true,
   };
 };
 
@@ -85,17 +98,19 @@ export const getStaticProps: GetStaticProps<{
   id: string | undefined;
   gist: SingalGist;
 }> = async ({ params }) => {
-  if (typeof params?.id !== 'string')
+  if (typeof params?.id !== 'string') {
     return {
       notFound: true,
     };
+  }
 
   try {
     const gist = await getSignalGist(params.id);
-    if (!gist || !gist.files)
+    if (!gist || !gist.files) {
       return {
         notFound: true,
       };
+    }
     return {
       props: {
         id: params?.id?.toString(),

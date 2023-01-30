@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import MainLayout from 'layouts/main-layout';
+import MainLayout from 'layouts/common/main-layout';
 import { GetGists, getGists, GetUser, getUser } from 'lib/fetcher';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
