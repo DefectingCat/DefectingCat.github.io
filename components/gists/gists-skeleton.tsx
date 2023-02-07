@@ -1,15 +1,7 @@
-import LinkAnchor from 'components/mdx/link-anchor';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import MainLayout from 'layouts/common/main-layout';
-import { getSignalGist, SingalGist } from 'lib/fetcher';
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
-import Link from 'next/link';
-import avatar from 'public/images/img/avatar.svg';
-import { Fragment, ReactElement, Suspense } from 'react';
-import { useRouter } from 'next/router';
+import { Suspense } from 'react';
 import clsx from 'clsx';
 
 const GistsCode = dynamic(

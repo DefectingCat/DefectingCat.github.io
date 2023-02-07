@@ -2,7 +2,7 @@ import { Octokit } from 'octokit';
 import { GistsFile } from 'types';
 
 const password = process.env.NEXT_PUBLIC_GITHUB_API;
-const host = process.env.NEXT_PUBLIC_GISTS_HOST ?? 'http://api.github.com';
+const host = process.env.NEXT_PUBLIC_GISTS_HOST ?? 'https://api.github.com';
 const octokit = new Octokit({
   auth: password,
   baseUrl: host,
@@ -76,7 +76,11 @@ export const getGists = async (page = 1, perPage = 10) => {
         Object.keys(g.files).map(async (f) => {
           const url = g.files[f].raw_url;
           if (!url) return;
-          g.files[f].content = await fetch(url).then((res) => res.text());
+          try {
+            g.files[f].content = await fetch(url).then((res) => res.text());
+          } catch (err) {
+            console.log(err);
+          }
         })
       );
     })

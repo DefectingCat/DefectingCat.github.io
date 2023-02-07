@@ -4,8 +4,8 @@ import MainLayout from 'layouts/common/main-layout';
 import { GetGists, getGists, GetUser, getUser } from 'lib/fetcher';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import dynamic from 'next/dynamic';
-import { ParsedUrlQuery } from 'querystring';
 import { ReactElement, Suspense } from 'react';
+import { useRouter } from 'next/router';
 
 const UserInfo = dynamic(() => import('components/gists/user-info'), {
   suspense: true,
@@ -26,6 +26,12 @@ const Gists = ({
   next,
   total,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <>Loading...</>;
+  }
+
   return (
     <>
       <main className="max-w-5xl px-4 mx-auto lg:px-0">
@@ -55,27 +61,27 @@ const Gists = ({
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const result = await getGists();
-  const next = Number(result?.pageSize.next);
-  const last = Number(result?.pageSize.last);
-  const paths: (
-    | string
-    | {
-        params: ParsedUrlQuery;
-        locale?: string | undefined;
-      }
-  )[] = [];
-  for (let i = next; i <= last; i++) {
-    paths.push({
-      params: {
-        p: i.toString(),
-      },
-    });
-  }
+  // const result = await getGists();
+  // const next = Number(result?.pageSize.next);
+  // const last = Number(result?.pageSize.last);
+  // const paths: (
+  //   | string
+  //   | {
+  //       params: ParsedUrlQuery;
+  //       locale?: string | undefined;
+  //     }
+  // )[] = [];
+  // for (let i = next; i <= last; i++) {
+  //   paths.push({
+  //     params: {
+  //       p: i.toString(),
+  //     },
+  //   });
+  // }
 
   return {
-    paths,
-    fallback: false,
+    paths: [],
+    fallback: true,
   };
 };
 
