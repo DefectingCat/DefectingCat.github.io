@@ -2,15 +2,13 @@
 FROM node:lts-alpine AS deps
 WORKDIR /app
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk update --no-cache \
-  && apk upgrade --no-cache \
-  && apk add --no-cache libc6-compat \
-  && yarn config set registry https://registry.npmmirror.com \
-  && yarn config set sharp_binary_host "https://npmmirror.com/mirrors/sharp" \
-  && yarn config set sharp_libvips_binary_host "https://npmmirror.com/mirrors/sharp-libvips"
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+  && apk add --no-cache libc6-compat python3 g++ make \
+  && yarn config set registry https://registry.npmmirror.com
 
 # Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc ./
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm ci; \
@@ -18,24 +16,18 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-# If using npm with a `package-lock.json` comment out above and use below instead
-# COPY package.json package-lock.json ./ 
-# RUN npm ci
-
 # Rebuild the source code only when needed
 FROM node:lts-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN apk update --no-cache \
-  && apk upgrade --no-cache \
-  && yarn config set registry https://registry.npmmirror.com 
-  # && yarn build && yarn install --production --ignore-scripts --prefer-offline
+#RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+#  && apk update --no-cache \
+#  && apk upgrade --no-cache
 
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 RUN yarn build
-
 
 # If using npm comment out above and use below instead
 # RUN npm run build
@@ -44,7 +36,8 @@ RUN yarn build
 FROM alpine AS runner
 WORKDIR /app
 
-RUN apk update --no-cache \
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+  && apk update --no-cache \
   && apk upgrade --no-cache \
   && apk add nodejs --no-cache
 
@@ -59,7 +52,7 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/.env ./
 COPY --from=builder /app/public ./public
 
-# Automatically leverage output traces to reduce image size 
+# Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
