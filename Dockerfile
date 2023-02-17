@@ -4,11 +4,11 @@ WORKDIR /app
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
-  && apk add --no-cache libc6-compat python3 g++ make \
-  && yarn config set registry https://registry.npmmirror.com
+  && apk add --no-cache libc6-compat
+    # python3 g++ make
 
 # Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc ./
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm ci; \
