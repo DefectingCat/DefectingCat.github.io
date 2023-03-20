@@ -22,7 +22,6 @@ export const aref_ruqaa = Aref_Ruqaa({
 
 export const barlow = Barlow({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  style: 'italic',
   variable: '--font-barlow',
   display: 'swap',
   subsets: ['latin'],
