@@ -2,12 +2,10 @@
 
 import { DocSearch } from '@docsearch/react';
 import clsx from 'clsx';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { memo, useEffect, useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
-
-const DarkModeBtn = dynamic(() => import('components/dark-mode-btn'));
+import DarkModeBtn from 'components/dark-mode-btn';
 
 const txtMenu = [
   {

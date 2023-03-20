@@ -16,7 +16,7 @@ export const metadata = {
 export default function Page() {
   return (
     <main className="h-[calc(100vh-142px)] flex justify-center items-center text-xl">
-      <div className="z-0 flex flex-col w-full h-full max-w-4xl px-4 py-32 text-2xl">
+      <div className="max-w-4xl flex flex-col w-full h-full  px-4 py-32 text-2xl">
         <h1 className="flex pb-4 text-5xl">
           <span className={clsx('font-Aleo font-semibold', styles.gradient)}>
             Hi there
