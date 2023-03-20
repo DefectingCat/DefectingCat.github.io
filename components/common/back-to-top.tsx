@@ -1,3 +1,5 @@
+'use client';
+
 import clsx from 'clsx';
 import Button from 'components/rua/button';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';

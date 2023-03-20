@@ -1,9 +1,9 @@
 import 'styles/globals.css';
+import '@docsearch/css/dist/style.css';
 import RUAThemeProvider from './theme-provider';
-
-export const metadata = {
-  title: 'RUA',
-};
+import HeadBar from 'components/nav-bar';
+import Footer from 'components/footer';
+import BackToTop from 'components/common/back-to-top';
 
 export default function RootLayout({
   children,
@@ -22,7 +22,10 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <HeadBar />
         <RUAThemeProvider>{children}</RUAThemeProvider>
+        <Footer />
+        <BackToTop />
       </body>
     </html>
   );

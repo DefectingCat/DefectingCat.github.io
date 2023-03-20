@@ -1,4 +1,5 @@
-import '@docsearch/css';
+'use client';
+
 import { DocSearch } from '@docsearch/react';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';

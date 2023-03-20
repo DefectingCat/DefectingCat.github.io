@@ -9,6 +9,10 @@ import { InitFn, THREE, useThree } from 'rua-three';
 import styles from 'styles/index/index.module.css';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 
+export const metadata = {
+  title: 'RUA - Home',
+};
+
 export default function Page() {
   return (
     <main className="h-[calc(100vh-142px)] flex justify-center items-center text-xl">

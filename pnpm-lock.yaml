@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@codesandbox/sandpack-react': ^2.1.9
+  '@docsearch/css': ^3.3.3
   '@docsearch/react': '3'
   '@giscus/react': ^2.2.8
   '@mapbox/rehype-prism': ^0.8.0
@@ -49,6 +50,7 @@ specifiers:
 
 dependencies:
   '@codesandbox/sandpack-react': 2.1.9_biqbaboplfbrettd7655fr4n2y
+  '@docsearch/css': 3.3.3
   '@docsearch/react': 3.3.2_zula6vjvt3wdocc4mwcxqa6nzi
   '@giscus/react': 2.2.8_biqbaboplfbrettd7655fr4n2y
   '@mapbox/rehype-prism': 0.8.0
@@ -699,6 +701,10 @@ packages:
 
   /@docsearch/css/3.3.2:
     resolution: {integrity: sha512-dctFYiwbvDZkksMlsmc7pj6W6By/EjnVXJq5TEPd05MwQe+dcdHJgaIn1c8wfsucxHpIsdrUcgSkACHCq6aIhw==}
+    dev: false
+
+  /@docsearch/css/3.3.3:
+    resolution: {integrity: sha512-6SCwI7P8ao+se1TUsdZ7B4XzL+gqeQZnBc+2EONZlcVa0dVrk0NjETxozFKgMv0eEGH8QzP1fkN+A1rH61l4eg==}
     dev: false
 
   /@docsearch/react/3.3.2_zula6vjvt3wdocc4mwcxqa6nzi:
