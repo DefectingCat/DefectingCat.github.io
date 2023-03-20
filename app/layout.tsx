@@ -1,8 +1,8 @@
 import 'styles/globals.css';
 import '@docsearch/css/dist/style.css';
 import RUAThemeProvider from './theme-provider';
-import HeadBar from 'components/nav-bar';
-import Footer from 'components/footer';
+import HeadBar from './nav-bar';
+import Footer from './footer';
 import BackToTop from 'components/common/back-to-top';
 import clsx from 'clsx';
 import fonts from './fonts';

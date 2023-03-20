@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { memo, useEffect, useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
-import DarkModeBtn from 'components/dark-mode-btn';
+import DarkModeBtn from './dark-mode-btn';
 
 const txtMenu = [
   {

@@ -1,5 +1,5 @@
-import PostCard from 'components/post-card';
-import PostCardLoading from 'components/rua/loading/post-card-loading';
+import PostCard from './post-card';
+import PostCardLoading from './post-card-loading';
 import { PostPerPage, postLists } from 'lib/posts';
 import { Fragment, Suspense } from 'react';
 import Pagination from 'components/rua/rua-pagination';
