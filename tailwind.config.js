@@ -9,11 +9,11 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        Aleo: ['Aleo', 'serif'],
-        'Aref-Ruqaa': ['Aref Ruqaa', 'serif'],
-        Barlow: ['Barlow', 'sans-serif'],
-        Poppins: ['Poppins', 'sans-serif'],
-        Mono: ['JetBrains Mono', '-apple-system', 'monospace'],
+        Aleo: ['--font-aleo'],
+        'Aref-Ruqaa': ['var(--font-aref-ruqaa)'],
+        Barlow: ['var(--font-barlow)'],
+        Poppins: ['var(--font-poppins)'],
+        Mono: ['var(--fonts-jetbrains-mono)', '-apple-system', 'monospace'],
       },
       colors: {
         bluish: {

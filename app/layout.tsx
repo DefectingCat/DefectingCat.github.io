@@ -4,6 +4,8 @@ import RUAThemeProvider from './theme-provider';
 import HeadBar from 'components/nav-bar';
 import Footer from 'components/footer';
 import BackToTop from 'components/common/back-to-top';
+import clsx from 'clsx';
+import fonts from './fonts';
 
 export default function RootLayout({
   children,
@@ -11,7 +13,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={clsx(Object.values(fonts).map((font) => font.variable))}
+    >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
