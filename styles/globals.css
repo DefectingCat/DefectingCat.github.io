@@ -88,6 +88,7 @@ html {
 
 .DocSearch-wrapper .DocSearch-Button {
   margin-left: unset;
+  background: var(--docsearch-searchbox-background);
 }
 
 @media (max-width: 640px) {
