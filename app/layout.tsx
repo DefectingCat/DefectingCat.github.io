@@ -5,7 +5,7 @@ import HeadBar from './nav-bar';
 import Footer from './footer';
 import BackToTop from 'components/common/back-to-top';
 import clsx from 'clsx';
-import fonts from './fonts';
+import fonts from 'lib/fonts';
 
 export default function RootLayout({
   children,
@@ -16,6 +16,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={clsx(Object.values(fonts).map((font) => font.variable))}
+      suppressHydrationWarning
     >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -27,10 +28,12 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <HeadBar />
-        <RUAThemeProvider>{children}</RUAThemeProvider>
-        <Footer />
-        <BackToTop />
+        <RUAThemeProvider>
+          <HeadBar />
+          {children}
+          <Footer />
+          <BackToTop />
+        </RUAThemeProvider>
       </body>
     </html>
   );
