@@ -1,17 +1,5 @@
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
 import clsx from 'clsx';
-
-const GistsCode = dynamic(
-  () => import('components/gists/gists-code-skeleton'),
-  {
-    suspense: true,
-  }
-);
-
-dayjs.extend(relativeTime);
+// import GistsCode from './gists-code';
 
 const GistSkeleton = () => {
   return (
@@ -48,9 +36,7 @@ const GistSkeleton = () => {
               <span className={'w-16 animate-pulse'}></span>
             </p>
 
-            <Suspense fallback>
-              <GistsCode />
-            </Suspense>
+            {/* <GistsCode /> */}
           </div>
         </div>
       </main>

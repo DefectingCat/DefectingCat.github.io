@@ -2,8 +2,8 @@ import { getGists } from 'lib/fetcher';
 import { notFound } from 'next/navigation';
 import UserInfo from './user-info';
 import { Suspense } from 'react';
-import FileContent from 'components/gists/file-content';
 import Pagination from 'components/rua/rua-pagination';
+import FileContent from './file-content';
 
 export default async function Page() {
   const gists = await getGists();

@@ -1,12 +1,10 @@
 import LinkAnchor from 'components/mdx/link-anchor';
-import Loading from 'components/rua/loading/rua-loading';
 import dayjs from 'dayjs';
-import { GistData } from 'lib/fetcher';
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
-import { memo, Suspense } from 'react';
-import GistsCode from './gists-code';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { GistData } from 'lib/fetcher';
+import Link from 'next/link';
+import { memo } from 'react';
+import GistsCode from './gists-code';
 
 dayjs.extend(relativeTime);
 
