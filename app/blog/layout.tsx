@@ -1,5 +1,10 @@
 import clsx from 'clsx';
+import { Metadata } from 'next';
 import { ReactNode } from 'react';
+
+export const metadata: Metadata = {
+  title: 'RUA - Blog',
+};
 
 export default function PageLayout({ children }: { children: ReactNode }) {
   return (

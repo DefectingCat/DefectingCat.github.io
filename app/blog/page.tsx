@@ -3,11 +3,6 @@ import PostCardLoading from './post-card-loading';
 import { PostPerPage, postLists } from 'lib/posts';
 import { Fragment, Suspense } from 'react';
 import Pagination from 'components/rua/rua-pagination';
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'RUA - Blog',
-};
 
 export default async function Page() {
   const allPosts = await postLists();
