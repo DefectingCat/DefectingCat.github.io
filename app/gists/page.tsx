@@ -6,6 +6,8 @@ import Pagination from 'components/rua/rua-pagination';
 import FileContent from './file-content';
 import UserInfoLoading from './user-info-skeleton';
 
+export const revalidate = 600;
+
 export default async function Page() {
   const gists = await getGists();
   if (!gists) notFound();

@@ -9,6 +9,17 @@ import Footer from './footer';
 import BackToTop from 'components/common/back-to-top';
 import clsx from 'clsx';
 import fonts from 'lib/fonts';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'RUA',
+  description: 'Personal blog.',
+  authors: {
+    name: 'xfy',
+    url: 'i@rua.plus',
+  },
+  icons: '/images/favicon.ico',
+};
 
 export default function RootLayout({
   children,
