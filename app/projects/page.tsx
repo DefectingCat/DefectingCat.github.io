@@ -10,6 +10,11 @@ import { VscGithubInverted } from 'react-icons/vsc';
 import { HiPhoto } from 'react-icons/hi2';
 import clsx from 'clsx';
 import ProjectCard from './project-card';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'RUA - Projects',
+};
 
 const iconMap = {
   gitea: <SiGitea />,

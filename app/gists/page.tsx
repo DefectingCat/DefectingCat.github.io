@@ -5,8 +5,12 @@ import { Suspense } from 'react';
 import Pagination from 'components/rua/rua-pagination';
 import FileContent from './file-content';
 import UserInfoLoading from './user-info-skeleton';
+import { Metadata } from 'next';
 
 export const revalidate = 600;
+export const metadata: Metadata = {
+  title: 'RUA - Gists',
+};
 
 export default async function Page() {
   const gists = await getGists();
