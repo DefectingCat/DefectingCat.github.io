@@ -1,5 +1,8 @@
 import 'styles/globals.css';
 import '@docsearch/css/dist/style.css';
+import 'styles/prism-one-dark.css';
+import 'styles/prism-one-light.css';
+import 'styles/rua.css';
 import RUAThemeProvider from './theme-provider';
 import HeadBar from './nav-bar';
 import Footer from './footer';

@@ -5,10 +5,10 @@ import { GistData } from 'lib/fetcher';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { memo, Suspense } from 'react';
+import GistsCode from './gists-code';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
-const GistsCode = dynamic(() => import('components/gists/gists-code'), {
-  suspense: true,
-});
+dayjs.extend(relativeTime);
 
 type Props = {
   gists: GistData[];
@@ -38,9 +38,7 @@ const FileContent = ({ gists }: Props) => {
                 {/* Description */}
                 <p className="text-gray-500">{g.description}</p>
 
-                <Suspense fallback={<Loading className="h-[300px]" />}>
-                  <GistsCode file={g.files[f]} />
-                </Suspense>
+                <GistsCode file={g.files[f]} />
               </div>
             ))}
           </div>

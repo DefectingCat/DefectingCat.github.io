@@ -1,15 +1,12 @@
 import clsx from 'clsx';
-import { GetUser } from 'lib/fetcher';
+import { getUser } from 'lib/fetcher';
 import Image from 'next/image';
 import avatar from 'public/images/img/avatar.svg';
-import { memo } from 'react';
 import { FiLink, FiMail, FiTwitter } from 'react-icons/fi';
 
-type Props = {
-  user: GetUser;
-};
+const UserInfo = async () => {
+  const user = await getUser();
 
-const UserInfo = ({ user }: Props) => {
   return (
     <>
       <div
@@ -80,4 +77,4 @@ const UserInfo = ({ user }: Props) => {
   );
 };
 
-export default memo(UserInfo);
+export default UserInfo;
