@@ -4,6 +4,7 @@ import UserInfo from './user-info';
 import { Suspense } from 'react';
 import Pagination from 'components/rua/rua-pagination';
 import FileContent from './file-content';
+import UserInfoLoading from './user-info-skeleton';
 
 export default async function Page() {
   const gists = await getGists();
@@ -17,7 +18,7 @@ export default async function Page() {
     <>
       <main className="max-w-5xl px-4 mx-auto lg:px-0">
         <div className="md:flex">
-          <Suspense fallback>
+          <Suspense fallback={<UserInfoLoading />}>
             {/* @ts-expect-error Async Server Component */}
             <UserInfo />
           </Suspense>
