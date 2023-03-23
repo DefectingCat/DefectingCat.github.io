@@ -3,6 +3,8 @@ import { GistsFile } from 'types';
 
 const password = process.env.NEXT_PUBLIC_GITHUB_API;
 const host = process.env.NEXT_PUBLIC_GISTS_HOST ?? 'https://api.github.com';
+
+if (!password) throw new Error('No GitHub token detected.')
 const octokit = new Octokit({
   auth: password,
   baseUrl: host,
