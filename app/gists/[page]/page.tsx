@@ -1,17 +1,19 @@
-import { getGists } from "lib/fetcher";
-import { notFound } from "next/navigation";
-import FileContent from "../file-content";
+import { getGists } from 'lib/fetcher';
+import { notFound } from 'next/navigation';
+import FileContent from '../file-content';
 import Pagination from 'components/rua/rua-pagination';
 
 export const revalidate = 600;
 
-export default async function Page({params}: {
+export default async function Page({
+  params,
+}: {
   params: {
-    page: string
-  }
+    page: string;
+  };
 }) {
-  const page = Number(params.page)
-  if (!page) notFound()
+  const page = Number(params.page);
+  if (!page) notFound();
   const gists = await getGists(page);
   if (!gists) notFound();
 
@@ -33,5 +35,4 @@ export default async function Page({params}: {
       />
     </>
   );
-
 }
