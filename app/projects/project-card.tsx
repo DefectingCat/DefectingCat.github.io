@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { Children, cloneElement, isValidElement, ReactElement } from 'react';
 import { VscGithubInverted } from 'react-icons/vsc';
-import { Project } from './page';
+import { Project } from './content';
 
 type ProjectCardProps = {
   project: Project;
