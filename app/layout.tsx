@@ -1,15 +1,15 @@
-import 'styles/globals.css';
 import '@docsearch/css/dist/style.css';
+import clsx from 'clsx';
+import BackToTop from 'components/common/back-to-top';
+import fonts from 'lib/fonts';
+import { Metadata } from 'next';
+import 'styles/globals.css';
 import 'styles/prism-one-dark.css';
 import 'styles/prism-one-light.css';
 import 'styles/rua.css';
-import RUAThemeProvider from './theme-provider';
-import HeadBar from './nav-bar';
 import Footer from './footer';
-import BackToTop from 'components/common/back-to-top';
-import clsx from 'clsx';
-import fonts from 'lib/fonts';
-import { Metadata } from 'next';
+import HeadBar from './nav-bar';
+import RUAThemeProvider from './theme-provider';
 
 export const metadata: Metadata = {
   title: 'RUA',

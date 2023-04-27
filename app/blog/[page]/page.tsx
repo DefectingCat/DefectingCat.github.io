@@ -1,9 +1,9 @@
 import PostCard from 'app/blog/post-card';
 import PostCardLoading from 'app/blog/post-card-loading';
-import { PostPerPage, postLists } from 'lib/posts';
-import { Fragment, Suspense } from 'react';
 import Pagination from 'components/rua/rua-pagination';
+import { postLists, PostPerPage } from 'lib/posts';
 import { notFound } from 'next/navigation';
+import { Fragment, Suspense } from 'react';
 
 export default async function Page({ params }: { params: { page: string } }) {
   const page = Number(params.page);

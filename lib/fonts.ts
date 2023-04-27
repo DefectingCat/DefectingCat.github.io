@@ -29,6 +29,7 @@ export const barlow = Barlow({
 
 export const jetbrains_mono = JetBrains_Mono({
   display: 'swap',
+  weight: ['300', '400', '700'],
   variable: '--font-jetbrains-mono',
   subsets: ['latin'],
 });
