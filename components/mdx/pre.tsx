@@ -1,3 +1,5 @@
+'use client';
+
 import clsx from 'clsx';
 import CopyButton from 'components/post/copy-button';
 import useCopyToClipboard from 'lib/hooks/use-copy-to-clipboard';

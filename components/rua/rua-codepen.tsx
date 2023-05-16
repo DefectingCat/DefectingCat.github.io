@@ -1,3 +1,5 @@
+'use client';
+
 import clsx from 'clsx';
 import useInView from 'lib/hooks/use-in-view';
 import { useTheme } from 'next-themes';

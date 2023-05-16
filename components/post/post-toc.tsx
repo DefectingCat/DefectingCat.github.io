@@ -1,3 +1,5 @@
+'use client';
+
 import clsx from 'clsx';
 import Anchor from 'components/mdx/anchor';
 import { SingleToc } from 'lib/utils';

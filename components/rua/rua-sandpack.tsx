@@ -1,3 +1,5 @@
+'use client';
+
 import { Sandpack, SandpackProps } from '@codesandbox/sandpack-react';
 import { useTheme } from 'next-themes';
 import { memo } from 'react';

@@ -1,3 +1,5 @@
+'use client';
+
 import clsx from 'clsx';
 import React, { memo, useState } from 'react';
 import { ItemProps } from './tab-item';
