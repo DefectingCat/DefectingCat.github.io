@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/build-search.mjs -g",
+    "build": "next build && node scripts/build-search.mjs",
     "build:export": "cross-env NEXT_BUILD=export next build && cross-env NEXT_BUILD=export next export",
-    "build:search": "node scripts/build-search.mjs -g",
+    "build:search": "node scripts/build-search.mjs",
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watch",
