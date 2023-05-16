@@ -8,6 +8,10 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import Loading from 'components/rua/loading/rua-loading';
 import clsx from 'clsx';
+import { getMousePosition } from 'lib/utils';
+
+const rotationY = 0.4;
+const rotationX = 0.18;
 
 const Model = () => {
   const mixer = useRef<THREE.AnimationMixer | null>(null);
@@ -33,6 +37,25 @@ const Model = () => {
     camera.position.y = 0.3;
     camera.position.z = 1.3;
     toggleLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    const halfWidth = Math.floor(window.innerWidth / 2);
+    const halfHeight = Math.floor(window.innerHeight / 2);
+
+    const moveHandler = (e: MouseEvent | globalThis.TouchEvent) => {
+      const { x, y } = getMousePosition(e);
+      // > 0 is right, < 0 is left
+      // if (directionX > 0) root.rotation.y += 0.01;
+      gltf.scene.rotation.x = rotationX * ((y - halfHeight) / halfHeight);
+      gltf.scene.rotation.y = rotationY * ((x - halfWidth) / halfWidth);
+    };
+    window.addEventListener('mousemove', moveHandler);
+    window.addEventListener('touchmove', moveHandler);
+
+    return () => {
+      window.removeEventListener('mousemove', moveHandler);
+      window.removeEventListener('touchmove', moveHandler);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
