@@ -40,7 +40,8 @@
     "sharp": "^0.32.1",
     "stats.js": "^0.17.0",
     "three": "^0.152.2",
-    "unified": "^10.1.2"
+    "unified": "^10.1.2",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",

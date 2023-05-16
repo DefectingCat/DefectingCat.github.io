@@ -25,7 +25,7 @@ export default function Page() {
           </span>
         </h1>
 
-        <div className="w-full h-full">
+        <div className="w-full h-full relative">
           <HomeModel />
         </div>
       </div>
