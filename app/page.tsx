@@ -5,9 +5,9 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Image from 'next/image';
 import { Suspense, useCallback } from 'react';
-import { InitFn, THREE, useThree } from 'rua-three';
 import styles from 'styles/index/index.module.css';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
+import HomeModle from './home-modle';
 
 export const metadata = {
   title: 'RUA - Home',
@@ -30,6 +30,10 @@ export default function Page() {
             />
           </span>
         </h1>
+
+        <div>
+          <HomeModle />
+        </div>
       </div>
     </main>
   );
