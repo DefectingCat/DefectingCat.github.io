@@ -1,11 +1,14 @@
 'use client';
 
-import { Canvas, useLoader } from '@react-three/fiber';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import { Environment, OrbitControls } from '@react-three/drei';
+import { Environment, OrbitControls, useProgress } from '@react-three/drei';
+import { useRef, useState } from 'react';
+import * as THREE from 'three';
 
 const Model = () => {
+  const mixer = useRef<THREE.AnimationMixer | null>(null);
   const gltf = useLoader(
     GLTFLoader,
     './models/just_a_hungry_cat/modelDraco.gltf',
@@ -15,6 +18,23 @@ const Model = () => {
       loader.setDRACOLoader(dracoLoader);
     }
   );
+
+  const [loading, setLoading] = useState(true);
+  useProgress((state) => {
+    if (state.progress >= 100) {
+      mixer.current = new THREE.AnimationMixer(gltf.scene);
+      gltf.animations.forEach((clip) => {
+        mixer.current?.clipAction(clip).play();
+      });
+      setLoading(false);
+    }
+
+    return state.progress;
+  });
+
+  useFrame((_, delta) => {
+    mixer.current?.update(delta);
+  });
 
   return (
     <>
