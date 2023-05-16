@@ -1,12 +1,6 @@
 import clsx from 'clsx';
-import { gltfLoader, manager } from 'lib/gltf-loader';
-import { getMousePosition } from 'lib/utils';
-import dynamic from 'next/dynamic';
-import Head from 'next/head';
 import Image from 'next/image';
-import { Suspense, useCallback } from 'react';
 import styles from 'styles/index/index.module.css';
-import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import HomeModel from './home-modle';
 
 export const metadata = {
