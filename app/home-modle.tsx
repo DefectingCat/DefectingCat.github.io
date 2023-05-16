@@ -21,8 +21,6 @@ const Model = () => {
       const dracoLoader = new DRACOLoader();
       dracoLoader.setDecoderPath('./libs/draco/');
       loader.setDRACOLoader(dracoLoader);
-
-      loader.manager.onLoad = () => {};
     }
   );
   useEffect(() => {
@@ -31,9 +29,9 @@ const Model = () => {
     gltf.animations.forEach((clip) => {
       mixer.current?.clipAction(clip).play();
     });
-    camera.position.x = -5.966648088408735e-8;
-    camera.position.y = 0.2734955480754394;
-    camera.position.z = 1.2001055939769085;
+    camera.position.x = -5.66648088408735e-8;
+    camera.position.y = 0.3;
+    camera.position.z = 1.3;
     toggleLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -44,6 +42,14 @@ const Model = () => {
 
   return (
     <>
+      <spotLight
+        color={0xffffff}
+        intensity={0.6}
+        distance={100}
+        angle={15}
+        target={gltf.scene}
+        position={[0, 2, 6]}
+      />
       <primitive object={gltf.scene} />
     </>
   );
@@ -54,8 +60,7 @@ const HomeModel = () => {
 
   return (
     <>
-      <Canvas>
-        <spotLight color={0xffffff} intensity={1} distance={100} angle={15} />
+      <Canvas camera={{ fov: 55 }}>
         <ambientLight color={0xffffff} intensity={0.5} />
         <Model />
       </Canvas>
