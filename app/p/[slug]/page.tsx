@@ -1,4 +1,5 @@
 import rehypePrism from '@mapbox/rehype-prism';
+import Image from 'components/mdx/image';
 import components from 'components/mdx/components';
 import PostCommnetLine from 'components/post/post-commnet-line';
 import PostToc from 'components/post/post-toc';
@@ -46,7 +47,7 @@ const Page = async ({
       },
       scope: data,
     },
-    // components: components as {},
+    components: { ...(components as {}) },
   });
 
   return (
