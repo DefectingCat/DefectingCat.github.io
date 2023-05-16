@@ -10,10 +10,14 @@ module.exports = {
     extend: {
       fontFamily: {
         Aleo: ['--font-aleo'],
-        'Aref-Ruqaa': ['var(--font-aref-ruqaa)'],
         Barlow: ['var(--font-barlow)'],
         Poppins: ['var(--font-poppins)'],
-        Mono: ['var(--fonts-jetbrains-mono)', '-apple-system', 'monospace'],
+        Mono: [
+          'var(--fonts-jetbrains-mono)',
+          'DejaVu Sans Mono',
+          '-apple-system',
+          'monospace',
+        ],
       },
       colors: {
         bluish: {

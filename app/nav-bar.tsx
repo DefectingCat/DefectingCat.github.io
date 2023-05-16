@@ -83,7 +83,7 @@ const HeadBar = () => {
         <Link href="/">
           <span
             className={clsx(
-              'font-semibold font-Aref-Ruqaa',
+              'font-semibold',
               'text-3xl tracking-widest',
               'select-none'
             )}

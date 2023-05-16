@@ -371,5 +371,5 @@ h6:hover::before {
 
 #article .cm-editor .cm-line {
   font-size: 15px;
-  font-family: 'JetBrains Mono', -apple-system, monospace;
+  font-family: var(--font-jetbrains-mono), -apple-system, monospace;
 }

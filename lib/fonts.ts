@@ -1,21 +1,8 @@
-import {
-  Aleo,
-  Aref_Ruqaa,
-  Barlow,
-  JetBrains_Mono,
-  Poppins,
-} from 'next/font/google';
+import { Aleo, Barlow, JetBrains_Mono, Poppins } from 'next/font/google';
 
 export const aleo = Aleo({
   weight: ['300', '400', '700'],
   variable: '--font-aleo',
-  display: 'swap',
-  subsets: ['latin'],
-});
-
-export const aref_ruqaa = Aref_Ruqaa({
-  weight: ['400', '700'],
-  variable: '--font-aref-ruqaa',
   display: 'swap',
   subsets: ['latin'],
 });
@@ -29,7 +16,7 @@ export const barlow = Barlow({
 
 export const jetbrains_mono = JetBrains_Mono({
   display: 'swap',
-  weight: ['300', '400', '700'],
+  weight: ['200', '300', '400', '700'],
   variable: '--font-jetbrains-mono',
   subsets: ['latin'],
 });
@@ -42,7 +29,6 @@ export const poppins = Poppins({
 
 const fonts = {
   aleo,
-  aref_ruqaa,
   barlow,
   jetbrains_mono,
   poppins,
