@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { Suspense, useCallback } from 'react';
 import styles from 'styles/index/index.module.css';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
-import HomeModle from './home-modle';
+import HomeModel from './home-modle';
 
 export const metadata = {
   title: 'RUA - Home',
@@ -31,8 +31,8 @@ export default function Page() {
           </span>
         </h1>
 
-        <div>
-          <HomeModle />
+        <div className="w-full h-full">
+          <HomeModel />
         </div>
       </div>
     </main>

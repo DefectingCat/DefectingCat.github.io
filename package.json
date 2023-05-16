@@ -19,6 +19,7 @@
     "@docsearch/react": "3",
     "@giscus/react": "^2.2.8",
     "@mapbox/rehype-prism": "^0.8.0",
+    "@react-three/drei": "^9.68.3",
     "@react-three/fiber": "^8.13.0",
     "@tweenjs/tween.js": "^20.0.3",
     "algoliasearch": "^4.17.0",
