@@ -9,7 +9,6 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        Aleo: ['--font-aleo'],
         Barlow: ['var(--font-barlow)'],
         Poppins: ['var(--font-poppins)'],
         Mono: [
@@ -18,6 +17,7 @@ module.exports = {
           '-apple-system',
           'monospace',
         ],
+        Lobster: ['var(--font-lobster)'],
       },
       colors: {
         bluish: {

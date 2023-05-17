@@ -1,34 +1,31 @@
-import { Aleo, Barlow, JetBrains_Mono, Poppins } from 'next/font/google';
+import { Lobster, Barlow, JetBrains_Mono, Poppins } from 'next/font/google';
 
-export const aleo = Aleo({
-  weight: ['300', '400', '700'],
-  variable: '--font-aleo',
-  display: 'swap',
+export const lobster = Lobster({
+  weight: ['400'],
+  variable: '--font-lobster',
   subsets: ['latin'],
 });
 
 export const barlow = Barlow({
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  weight: ['400', '500', '600'],
   variable: '--font-barlow',
-  display: 'swap',
   subsets: ['latin'],
 });
 
 export const jetbrains_mono = JetBrains_Mono({
-  display: 'swap',
-  weight: ['200', '300', '400', '700'],
+  weight: ['400', '500', '600'],
   variable: '--font-jetbrains-mono',
   subsets: ['latin'],
 });
 
 export const poppins = Poppins({
-  weight: ['300', '400', '700', '100', '200', '500', '600', '800', '900'],
+  weight: ['400', '500', '600'],
   variable: '--font-poppins',
   subsets: ['latin'],
 });
 
 const fonts = {
-  aleo,
+  lobster,
   barlow,
   jetbrains_mono,
   poppins,
