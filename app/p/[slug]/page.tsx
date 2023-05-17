@@ -12,6 +12,7 @@ import { notFound } from 'next/navigation';
 import { Suspense, lazy } from 'react';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
+import { Post } from 'types';
 
 const PostComment = lazy(() => import('components/post/post-comment'));
 
@@ -34,7 +35,7 @@ const Page = async ({
     return childLen ? prev + childLen + 1 : prev + 1;
   };
   const tocLength = toc.reduce(calcLength, 0);
-  const mdxSource = await compileMDX({
+  const mdxSource = await compileMDX<Post>({
     source: post,
     options: {
       parseFrontmatter: true,
@@ -53,9 +54,7 @@ const Page = async ({
   return (
     <>
       <main id="article" className="relative max-w-4xl px-4 mx-auto my-10">
-        {/* @ts-expect-error Async Server Component */}
         <h1>{mdxSource.frontmatter?.title}</h1>
-        {/* @ts-expect-error Async Server Component */}
         <time>{mdxSource.frontmatter?.date}</time>
         <PostToc toc={toc} tocLength={tocLength} />
 
