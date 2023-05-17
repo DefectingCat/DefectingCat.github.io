@@ -3,6 +3,7 @@ import PostCardLoading from './post-card-loading';
 import { PostPerPage, postLists } from 'lib/posts';
 import { Fragment, Suspense } from 'react';
 import Pagination from 'components/rua/rua-pagination';
+import clsx from 'clsx';
 
 export default async function Page() {
   const allPosts = await postLists();

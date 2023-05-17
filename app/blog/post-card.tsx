@@ -23,7 +23,7 @@ const PostCard = ({ post }: Props) => {
           )}
         >
           <div className="flex justify-between">
-            <h2 className="mb-4 text-3xl font-semibold font-Barlow">
+            <h2 className="mb-4  text-3xl font-semibold font-Barlow">
               {post.title}
             </h2>
 
