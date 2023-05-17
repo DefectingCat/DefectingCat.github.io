@@ -1,20 +1,20 @@
 import rehypePrism from '@mapbox/rehype-prism';
-import Image from 'components/mdx/image';
 import components from 'components/mdx/components';
-import PostCommnetLine from 'components/post/post-commnet-line';
 import PostToc from 'components/post/post-toc';
 import data from 'content/mdx-data';
 import { readSinglePost } from 'lib/posts';
 import { SingleToc, generateToc } from 'lib/utils';
-import { MDXRemote, compileMDX } from 'next-mdx-remote/rsc';
-import { serialize } from 'next-mdx-remote/serialize';
+import { compileMDX } from 'next-mdx-remote/rsc';
 import { notFound } from 'next/navigation';
-import { Suspense, lazy } from 'react';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import { Post } from 'types';
+import dynamic from 'next/dynamic';
 
-const PostComment = lazy(() => import('components/post/post-comment'));
+const PostCommnetLine = dynamic(
+  () => import('components/post/post-commnet-line')
+);
+const PostComment = dynamic(() => import('components/post/post-comment'));
 
 const Page = async ({
   params,
@@ -28,7 +28,6 @@ const Page = async ({
 
   const post = await readSinglePost(slug);
   const toc = generateToc(post);
-  // const { ref, inView } = useInView();
 
   const calcLength = (prev: number, cur: SingleToc) => {
     const childLen = cur.children.length;
