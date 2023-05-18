@@ -7,7 +7,7 @@ const nextConfig = {
   /* config options here */
   reactStrictMode: true,
   swcMinify: true,
-  // output: 'standalone',
+  output: 'standalone',
   images: isExport ? { unoptimized: true } : {},
   experimental: {
     // runtime: 'experimental-edge',
