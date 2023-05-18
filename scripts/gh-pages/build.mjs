@@ -32,7 +32,6 @@ async function main() {
     return fs.copyFile(`${contentPath}/${post}`, `${buildPath}/${post}`);
   });
   await Promise.all(builds);
-
   log('Build done');
 }
 
