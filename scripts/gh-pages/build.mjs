@@ -10,13 +10,32 @@ const __dirname = path.dirname(__filename);
 const contentPath = path.resolve(__dirname, '../../content/posts');
 const buildPath = path.resolve(__dirname, '../../build');
 
+const PostPerPage = 10;
+
+/**
+ * Read post folder, list all posts
+ */
 async function allPosts() {
   const content = await fs.readdir(contentPath);
   return content;
 }
 
+/**
+ * Copy all posts to build folder
+ */
+async function copyPosts(posts) {
+  const builds = posts.map((post) => {
+    log(`Copy file ${post}`);
+    return fs.copyFile(`${contentPath}/${post}`, `${buildPath}/${post}`);
+  });
+  await Promise.all(builds);
+}
+
+async function buildJson(posts) {}
+
 async function main() {
   const posts = await allPosts();
+  log(posts);
 
   log('Clean build path');
   try {
@@ -27,11 +46,8 @@ async function main() {
   await fs.mkdir(buildPath);
 
   log('Start build');
-  const builds = posts.map((post) => {
-    log(`Copy file ${post}`);
-    return fs.copyFile(`${contentPath}/${post}`, `${buildPath}/${post}`);
-  });
-  await Promise.all(builds);
+  await copyPosts(posts);
+
   log('Build done');
 }
 
