@@ -15,6 +15,9 @@ interface Props {
 }
 
 const GistsCode = ({ file, showFileName = false }: Props) => {
+  const fileContent = showFileName
+    ? file.content
+    : file.content?.split('\n').slice(0, 20).join('\n');
   const code = unified()
     .use(remarkParse)
     .use(remarkRehype)
@@ -24,7 +27,7 @@ const GistsCode = ({ file, showFileName = false }: Props) => {
       createElement,
       Fragment,
     })
-    .processSync(`\`\`\`${file.language ?? ''}\n${file.content}`).result;
+    .processSync(`\`\`\`${file.language ?? ''}\n${fileContent}`).result;
 
   return (
     <>
