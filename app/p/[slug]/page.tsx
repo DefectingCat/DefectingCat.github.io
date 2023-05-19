@@ -2,19 +2,23 @@ import rehypePrism from '@mapbox/rehype-prism';
 import components from 'components/mdx/components';
 import PostToc from 'components/post/post-toc';
 import data from 'content/mdx-data';
-import { readSinglePost } from 'lib/posts';
+import { readSinglePost, allPostsPath } from 'lib/posts';
 import { SingleToc, generateToc } from 'lib/utils';
 import { compileMDX } from 'next-mdx-remote/rsc';
+import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import { Post } from 'types';
-import dynamic from 'next/dynamic';
 
 const PostCommnetLine = dynamic(
   () => import('components/post/post-commnet-line')
 );
 const PostComment = dynamic(() => import('components/post/post-comment'));
+
+export async function generateStaticParams() {
+  return await allPostsPath();
+}
 
 const Page = async ({
   params,

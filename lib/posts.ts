@@ -37,18 +37,14 @@ export const postLists = async (): Promise<Post[]> => {
  * Get posts list page.
  */
 export const PostPerPage = 10;
-export type PostPath = { params: { page: string } };
+export type PostPath = { page: string };
 const postPathCallback = (prev: PostPath[], _: unknown, i: number) =>
-  i + 1 > 2
-    ? prev.concat({
-        params: { page: (i + 1).toString() },
-      })
-    : prev;
+  i + 1 > 2 ? prev.concat({ page: (i + 1).toString() }) : prev;
 export const getPostListPath = async () => {
   const length = (await fs.readdir(path.join(dataPath))).length;
   const pages = Math.ceil(length / PostPerPage);
   return Array.from({ length: pages }).reduce<PostPath[]>(postPathCallback, [
-    { params: { page: '2' } },
+    { page: '2' },
   ]);
 };
 
@@ -60,9 +56,7 @@ export const getPostListPath = async () => {
 const readFilePath = async (filename: string) => {
   const slug = filename.replace(/\.mdx$/, '');
   return {
-    params: {
-      slug,
-    },
+    slug,
   };
 };
 
