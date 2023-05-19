@@ -1,4 +1,5 @@
 import { Octokit } from 'octokit';
+import { cache } from 'react';
 import { GistsFile } from 'types';
 
 const password = process.env.NEXT_PUBLIC_GITHUB_API;
@@ -34,7 +35,7 @@ export type PageKeys = 'prev' | 'next' | 'last' | 'first';
  * Get all gists.
  * @returns
  */
-export const getGists = async (page = 1, perPage = 10) => {
+export const getGists = cache(async (page = 1, perPage = 10) => {
   const result = await octokit.rest.gists.list({
     page,
     per_page: perPage,
@@ -92,16 +93,16 @@ export const getGists = async (page = 1, perPage = 10) => {
     pageSize,
     gists: data,
   };
-};
+});
 
 export type GetUser = Awaited<ReturnType<typeof getUser>>;
 /**
  * Get user information.
  * @returns
  */
-export const getUser = async () => {
+export const getUser = cache(async () => {
   return (await octokit.rest.users.getAuthenticated()).data;
-};
+});
 
 export type GetSignalGist = Awaited<ReturnType<typeof getSignalGist>>;
 export type SingalGist = {
@@ -115,7 +116,7 @@ export type SingalGist = {
  * @param id
  * @returns
  */
-export const getSignalGist = async (id: string) => {
+export const getSignalGist = cache(async (id: string) => {
   const result = (
     await octokit.rest.gists.get({
       gist_id: id,
@@ -146,4 +147,4 @@ export const getSignalGist = async (id: string) => {
   );
 
   return data;
-};
+});
