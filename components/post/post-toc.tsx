@@ -31,20 +31,20 @@ const PostToc = ({ toc, tocLength }: Props) => {
       <div
         className={clsx(
           styles.head,
-          'bg-white pt-4 px-6',
-          'rounded-lg border border-gray-200',
+          'bg-white pt-4 px-4 md:px-6',
+          'rounded-lg',
           'dark:bg-rua-gray-800 dark:border-rua-gray-600',
           'select-none cursor-pointer',
           'rounded-lg transition-all',
           'duration-500 overflow-hidden',
-          'my-4 text-2xl'
+          'my-4 text-xl'
         )}
         style={{
-          maxHeight: show ? (tocLength ?? 0) * 50 + 70 : 70,
+          maxHeight: show ? (tocLength ?? 0) * 50 + 60 : 60,
         }}
       >
         <div
-          className={clsx('flex justify-between items-center')}
+          className={clsx('flex justify-between items-center h-full')}
           onClick={handleClick}
         >
           <span className="text-gray-500">TABLE OF CONTENTS</span>

@@ -1,8 +1,7 @@
 import rehypePrism from '@mapbox/rehype-prism';
 import components from 'components/mdx/components';
-import PostToc from 'components/post/post-toc';
 import data from 'content/mdx-data';
-import { readSinglePost, allPostsPath } from 'lib/posts';
+import { allPostsPath, readSinglePost } from 'lib/posts';
 import { SingleToc, generateToc } from 'lib/utils';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import dynamic from 'next/dynamic';
@@ -11,6 +10,7 @@ import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import { Post } from 'types';
 
+const PostToc = dynamic(() => import('components/post/post-toc'));
 const PostCommnetLine = dynamic(
   () => import('components/post/post-commnet-line')
 );
