@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
-import useMainStore from 'store';
+import useStore from 'store';
 import * as THREE from 'three';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -15,7 +15,7 @@ const rotationX = 0.18;
 
 const Model = () => {
   const mixer = useRef<THREE.AnimationMixer | null>(null);
-  const toggleLoading = useMainStore((state) => state.toggleLoading);
+  const toggleLoading = useStore((state) => state.toggleLoading);
 
   const camera = useThree((state) => state.camera);
   const gltf = useLoader(
@@ -79,7 +79,7 @@ const Model = () => {
 };
 
 const HomeModel = () => {
-  const modelLoading = useMainStore((state) => state.modelLoading);
+  const modelLoading = useStore((state) => state.modelLoading);
 
   return (
     <>

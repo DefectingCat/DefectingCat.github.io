@@ -5,7 +5,7 @@ interface MainStore {
   toggleLoading: (loaded: boolean) => void;
 }
 
-const useMainStore = create<MainStore>()((set) => ({
+const useStore = create<MainStore>()((set) => ({
   modelLoading: true,
   toggleLoading: (loaded) =>
     set(() => ({
@@ -13,4 +13,4 @@ const useMainStore = create<MainStore>()((set) => ({
     })),
 }));
 
-export default useMainStore;
+export default useStore;
