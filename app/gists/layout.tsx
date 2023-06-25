@@ -18,7 +18,6 @@ export default async function PageLayout({
       <main className="max-w-5xl px-4 mx-auto lg:px-0">
         <div className="md:flex">
           <Suspense fallback={<UserInfoLoading />}>
-            {/* @ts-expect-error Async Server Component */}
             <UserInfo />
           </Suspense>
 

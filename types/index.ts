@@ -1,16 +1,3 @@
-import { GistData } from 'lib/fetcher';
-import { NextPage } from 'next';
-import { AppProps } from 'next/app';
-import { ReactElement } from 'react';
-
-export type NextPageWithLayout = {
-  getLayout(page: ReactElement): JSX.Element;
-} & NextPage;
-
-export type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
-};
-
 export interface MyMatters {
   title: string;
   date: string;
@@ -56,3 +43,20 @@ export interface SignalGist extends GistData {
   forks: any[];
   history: History[];
 }
+
+export type GistData = {
+  id: string;
+  files: { [key: string]: GistsFile | undefined };
+  login: string;
+  updated_at: string;
+  description: string | null;
+};
+export type GetGists = {
+  /**
+   * { prev: null, next: '2', last: '5', first: null }
+   */
+  pageSize: PageSize;
+  gists: GistData[];
+};
+export type PageSize = { [key in PageKeys]: string | null };
+export type PageKeys = 'prev' | 'next' | 'last' | 'first';

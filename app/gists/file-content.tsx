@@ -1,10 +1,10 @@
 import LinkAnchor from 'components/mdx/link-anchor';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { GistData } from 'lib/fetcher';
 import Link from 'next/link';
 import { memo } from 'react';
 import GistsCode from './gists-code';
+import { GistData } from 'types';
 
 dayjs.extend(relativeTime);
 
@@ -19,13 +19,13 @@ const FileContent = ({ gists }: Props) => {
         {gists.map((g) => (
           <div key={g.id}>
             {Object.keys(g.files).map((f) => (
-              <div key={g.files[f].raw_url} className="pb-4 ">
+              <div key={g.files[f]?.raw_url} className="pb-4 ">
                 {/* Username and file name */}
                 <h1 className="md:text-lg">
                   {g.login} /
                   <Link href={`/g/${g.id}`}>
                     <LinkAnchor external={false}>
-                      {g.files[f].filename}
+                      {g.files[f]?.filename}
                     </LinkAnchor>
                   </Link>
                 </h1>
@@ -36,7 +36,7 @@ const FileContent = ({ gists }: Props) => {
                 {/* Description */}
                 <p className="text-gray-500">{g.description}</p>
 
-                <GistsCode file={g.files[f]} />
+                {g.files[f] && <GistsCode file={g!.files[f]!} />}
               </div>
             ))}
           </div>

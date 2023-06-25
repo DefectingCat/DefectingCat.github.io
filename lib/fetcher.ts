@@ -1,6 +1,7 @@
 import { Octokit } from 'octokit';
 import { cache } from 'react';
-import { GistsFile } from 'types';
+import { GistData, GistsFile, PageKeys, PageSize } from 'types';
+import {} from 'octokit/';
 
 const password = process.env.NEXT_PUBLIC_GITHUB_API;
 const host = process.env.NEXT_PUBLIC_GISTS_HOST ?? 'https://api.github.com';
@@ -13,23 +14,6 @@ const octokit = new Octokit({
 
 const linkMatch = /<(.*?)>/;
 const relMatch = /"(.*?)"/;
-
-export type GistData = {
-  id: string;
-  files: { [key: string]: GistsFile };
-  login: string;
-  updated_at: string;
-  description: string | null;
-};
-export type GetGists = {
-  /**
-   * { prev: null, next: '2', last: '5', first: null }
-   */
-  pageSize: pageSize;
-  gists: GistData[];
-};
-export type pageSize = { [key in PageKeys]: string | null };
-export type PageKeys = 'prev' | 'next' | 'last' | 'first';
 
 /**
  * Get all gists.
@@ -51,7 +35,7 @@ export const getGists = cache(async (page = 1, perPage = 10) => {
 
   if (!link) return null;
 
-  const pageSize: pageSize = {
+  const pageSize: PageSize = {
     prev: null,
     next: null,
     last: null,
@@ -77,10 +61,10 @@ export const getGists = cache(async (page = 1, perPage = 10) => {
     data.map(async (g) => {
       await Promise.all(
         Object.keys(g.files).map(async (f) => {
-          const url = g.files[f].raw_url;
+          const url = g.files[f]?.raw_url;
           if (!url) return;
           try {
-            g.files[f].content = await fetch(url).then((res) => res.text());
+            g.files[f]!.content = await fetch(url).then((res) => res.text());
           } catch (err) {
             console.log(err);
           }
