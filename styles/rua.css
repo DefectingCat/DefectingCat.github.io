@@ -93,7 +93,6 @@
 }
 
 #article .toc {
-  padding-left: 0.8em;
   @apply my-4;
 }
 

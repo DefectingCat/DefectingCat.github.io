@@ -14,7 +14,7 @@ interface Props {
 
 const TocItem = ({ item }: { item: SingleToc }) => {
   return (
-    <li key={item.head}>
+    <li key={item.head} className="mb-4">
       <Anchor href={item.link} external={false}>
         {item.head}
       </Anchor>
@@ -30,27 +30,24 @@ const PostToc = ({ toc, tocLength }: Props) => {
     <>
       <div
         className={clsx(
+          styles.head,
+          'bg-white pt-4 px-6',
+          'rounded-lg border border-gray-200',
+          'dark:bg-rua-gray-800 dark:border-rua-gray-600',
+          'select-none cursor-pointer',
           'rounded-lg transition-all',
           'duration-500 overflow-hidden',
-          'my-4'
+          'my-4 text-2xl'
         )}
         style={{
           maxHeight: show ? (tocLength ?? 0) * 50 + 70 : 70,
         }}
       >
-        <h2
-          className={clsx(
-            styles.head,
-            'bg-white !m-[unset] p-4',
-            'rounded-lg border border-gray-300',
-            'dark:bg-rua-gray-800 dark:border-rua-gray-600',
-            'select-none cursor-pointer',
-            'flex justify-between items-center',
-            '!text-2xl'
-          )}
+        <div
+          className={clsx('flex justify-between items-center')}
           onClick={handleClick}
         >
-          <span>What&apos;s inside?</span>
+          <span className="text-gray-500">TABLE OF CONTENTS</span>
 
           <FiChevronDown
             className={clsx(
@@ -58,9 +55,9 @@ const PostToc = ({ toc, tocLength }: Props) => {
               'transition-all duration-500'
             )}
           />
-        </h2>
+        </div>
 
-        <div className="pl-4 border-l-4 border-gray-300 toc">
+        <div className="toc text-lg">
           <ul className="!pl-[unset]">
             {toc?.map((h) => (
               <Fragment key={h.link}>
