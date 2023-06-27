@@ -22,8 +22,8 @@ const Loading = () => {
               'md:grid-cols-2 gap-5'
             )}
           >
-            {projects.map((item) => (
-              <PojectCardSkeleton key={item.id} />
+            {projects.map((_, i) => (
+              <PojectCardSkeleton key={i} />
             ))}
           </div>
         </div>
@@ -38,8 +38,8 @@ const Loading = () => {
               'md:grid-cols-2 gap-5'
             )}
           >
-            {selfHosts.map((item) => (
-              <PojectCardSkeleton key={item.id} />
+            {selfHosts.map((_, i) => (
+              <PojectCardSkeleton key={i} />
             ))}
           </div>
         </div>
