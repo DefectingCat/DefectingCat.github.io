@@ -22,9 +22,9 @@ export default function Page() {
               'md:grid-cols-2 gap-5'
             )}
           >
-            {projects.map((item) => (
+            {projects.map((item, i) => (
               <ProjectCard
-                key={item.id}
+                key={i}
                 icon={iconMap[item.icon ?? 'github']}
                 project={item}
               />
@@ -42,9 +42,9 @@ export default function Page() {
               'md:grid-cols-2 gap-5'
             )}
           >
-            {selfHosts.map((item) => (
+            {selfHosts.map((item, i) => (
               <ProjectCard
-                key={item.id}
+                key={i}
                 icon={iconMap[item.icon ?? 'github']}
                 project={item}
               />
