@@ -20,6 +20,15 @@ const Footer = () => {
               <FiGithub />
             </a>
           </div>
+          <div>
+            <a
+              href="https://beian.miit.gov.cn/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              皖ICP备17017808号-2
+            </a>
+          </div>
         </div>
       </footer>
     </>
