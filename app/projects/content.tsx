@@ -1,6 +1,10 @@
+import { BiPlanet } from 'react-icons/bi';
 import { HiPhoto } from 'react-icons/hi2';
-import { PiGitlabLogoSimpleDuotone } from 'react-icons/pi';
-import { RiCoreosFill } from 'react-icons/ri';
+import {
+  PiGitlabLogoSimpleDuotone,
+  PiPlanetDuotone,
+  PiPlanetLight,
+} from 'react-icons/pi';
 import {
   SiNextdotjs,
   SiRedux,
@@ -20,7 +24,9 @@ export const iconMap = {
   three: <SiThreedotjs />,
   photos: <HiPhoto />,
   redux: <SiRedux />,
-  core: <RiCoreosFill />,
+  venus: <BiPlanet />,
+  pluto: <PiPlanetDuotone />,
+  mercury: <PiPlanetLight />,
   rust: <TbBrandRust />,
 };
 
@@ -33,10 +39,22 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    icon: 'core',
-    name: 'Netool UI',
+    icon: 'venus',
+    name: 'Venus',
     description: 'A tiny GUI for network tool.',
-    url: 'https://github.com/DefectingCat/v2ray-r',
+    url: 'https://github.com/DefectingCat/venus',
+  },
+  {
+    icon: 'pluto',
+    name: 'Pluto',
+    description: 'Tcping tool',
+    url: 'https://github.com/DefectingCat/pluto',
+  },
+  {
+    icon: 'mercury',
+    name: 'Mercury',
+    description: 'A network tool backend',
+    url: 'https://github.com/DefectingCat/mercury',
   },
   {
     icon: 'three',
