@@ -122,6 +122,6 @@ export const selfHosts: Project[] = [
     icon: 'photos',
     name: 'Photos',
     description: 'Some photos.',
-    url: 'https://photos.rua.plus/browse',
+    url: 'https://photos.rua.plus/',
   },
 ];
