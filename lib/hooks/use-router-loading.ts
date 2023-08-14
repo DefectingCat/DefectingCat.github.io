@@ -13,7 +13,7 @@ const useRouterLoading = () => {
     (url: string) => {
       url !== router.pathname ? setLoading(true) : setLoading(false);
     },
-    [router.pathname]
+    [router.pathname],
   );
   const handleComplete = useCallback(() => {
     setLoading(false);

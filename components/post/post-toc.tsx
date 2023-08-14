@@ -37,7 +37,7 @@ const PostToc = ({ toc, tocLength }: Props) => {
           'select-none cursor-pointer',
           'rounded-lg transition-all',
           'duration-500 overflow-hidden',
-          'my-4 text-xl'
+          'my-4 text-xl',
         )}
         style={{
           maxHeight: show ? (tocLength ?? 0) * 50 + 60 : 60,
@@ -52,7 +52,7 @@ const PostToc = ({ toc, tocLength }: Props) => {
           <FiChevronDown
             className={clsx(
               show && 'rotate-180',
-              'transition-all duration-500'
+              'transition-all duration-500',
             )}
           />
         </div>

@@ -9,7 +9,7 @@ export default function FileContentLoading() {
           'md:text-lg h-7 bg-gray-200',
           'animate-pulse w-48 rounded-lg',
           'dark:bg-rua-gray-700',
-          'mb-2'
+          'mb-2',
         )}
       ></h1>
       {/* last active */}
@@ -17,7 +17,7 @@ export default function FileContentLoading() {
         className={clsx(
           'h-4 w-72 bg-gray-200',
           'animate-pulse rounded-lg',
-          'dark:bg-rua-gray-700'
+          'dark:bg-rua-gray-700',
         )}
       ></div>
       {/* code block */}
@@ -25,7 +25,7 @@ export default function FileContentLoading() {
         className={clsx(
           'w-full h-[488px] rounded-lg',
           'animate-pulse dark:bg-rua-gray-700',
-          'mt-3 bg-gray-200'
+          'mt-3 bg-gray-200',
         )}
       ></div>
     </div>

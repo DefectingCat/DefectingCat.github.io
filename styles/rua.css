@@ -219,8 +219,14 @@ h6:hover::before {
 #article kbd {
   display: inline-block;
   padding: 3px 5px;
-  font: 11px ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
-    Liberation Mono, monospace;
+  font:
+    11px ui-monospace,
+    SFMono-Regular,
+    SF Mono,
+    Menlo,
+    Consolas,
+    Liberation Mono,
+    monospace;
   line-height: 10px;
   color: var(--color-fg-default);
   vertical-align: middle;
@@ -370,5 +376,8 @@ h6:hover::before {
 
 #article .cm-editor .cm-line {
   font-size: 15px;
-  font-family: var(--font-jetbrains-mono), -apple-system, monospace;
+  font-family:
+    var(--font-jetbrains-mono),
+    -apple-system,
+    monospace;
 }

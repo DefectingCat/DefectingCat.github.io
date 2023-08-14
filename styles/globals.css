@@ -28,9 +28,20 @@ font-family: 'Poppins', sans-serif;
 @layer base {
   body {
     @apply text-gray-600 bg-bluish-gray dark:bg-rua-gray-900 dark:text-gray-200;
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Helvetica Neue',
-      Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', miui,
-      'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
+    font-family:
+      'Poppins',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Helvetica Neue',
+      Helvetica,
+      Segoe UI,
+      Arial,
+      Roboto,
+      'PingFang SC',
+      miui,
+      'Hiragino Sans GB',
+      'Microsoft Yahei',
+      sans-serif;
   }
 
   img,

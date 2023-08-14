@@ -13,14 +13,14 @@ const UserInfo = async () => {
         className={clsx(
           'flex md:items-center flex-1',
           'max-w-[280px] md:block',
-          'mb-4 flex-col md:flex-row'
+          'mb-4 flex-col md:flex-row',
         )}
       >
         <div className="flex md:flex-col">
           <div
             className={clsx(
               'w-16 h-16 mr-4 overflow-hidden',
-              'md:w-auto h-auto'
+              'md:w-auto h-auto',
             )}
           >
             <Image

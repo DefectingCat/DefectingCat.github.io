@@ -11,7 +11,7 @@ const GistSkeleton = () => {
               className={clsx(
                 'w-8 h-8 rounded-full',
                 'animate-pulse bg-gray-300',
-                'dark:bg-gray-400 '
+                'dark:bg-gray-400 ',
               )}
             ></div>
             <h1
@@ -20,7 +20,7 @@ const GistSkeleton = () => {
                 'whitespace-nowrap overflow-ellipsis',
                 'w-[234px] animate-pulse bg-gray-300',
                 'h-6 rounded-lg',
-                'dark:bg-gray-400'
+                'dark:bg-gray-400',
               )}
             ></h1>
           </div>
@@ -30,7 +30,7 @@ const GistSkeleton = () => {
               'ml-10 text-gray-400',
               'w-48 h-4 animate-pulse bg-gray-300',
               'rounded-lg',
-              'dark:bg-gray-400'
+              'dark:bg-gray-400',
             )}
           ></p>
 

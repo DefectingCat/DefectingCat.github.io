@@ -12,7 +12,7 @@ import { Post } from 'types';
 
 const PostToc = dynamic(() => import('components/post/post-toc'));
 const PostCommnetLine = dynamic(
-  () => import('components/post/post-commnet-line')
+  () => import('components/post/post-commnet-line'),
 );
 const PostComment = dynamic(() => import('components/post/post-comment'));
 

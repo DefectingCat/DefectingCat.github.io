@@ -44,7 +44,7 @@ const Tab = ({ defaultValue, children }: Props) => {
                 'select-none cursor-pointer',
                 'min-w-[76px] text-center',
                 'hover:bg-gray-200 dark:hover:bg-rua-gray-800',
-                '!list-none'
+                '!list-none',
               )}
             >
               {child.props.label}

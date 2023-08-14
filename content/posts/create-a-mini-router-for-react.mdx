@@ -164,7 +164,7 @@ const RouterLink: React.FC<Props> = ({ to, children }: Props) => {
     document.dispatchEvent(
       new CustomEvent<string>('route', {
         detail: to,
-      })
+      }),
     );
   };
 
@@ -194,7 +194,7 @@ HTML 自定义事件也很简单，我们在对应的 DOM 上 `dispatchEvent` �
 document.dispatchEvent(
   new CustomEvent<string>('route', {
     detail: to,
-  })
+  }),
 );
 ```
 
@@ -277,7 +277,7 @@ export default defineComponent({
     let currentPath = window.location.pathname;
     const component = shallowRef(
       routes.find((item) => item.path === currentPath)?.component ??
-        'Note found'
+        'Note found',
     );
 
     const handleEvent = (e: CustomEvent<string>) => {
@@ -308,7 +308,7 @@ import routes from './routes';
 
 let currentPath = window.location.pathname;
 const component = shallowRef(
-  routes.find((item) => item.path === currentPath)?.component
+  routes.find((item) => item.path === currentPath)?.component,
 );
 
 const handleEvent = (e: CustomEvent<string>) => {

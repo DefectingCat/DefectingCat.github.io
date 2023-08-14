@@ -116,7 +116,7 @@ export type Store = {
 const Couter = () => {
   const { count, info } = useSyncExternalStore(
     store.subscribe,
-    store.getSnapshot
+    store.getSnapshot,
   );
 
   return (
@@ -166,9 +166,9 @@ const Couter = () => {
 
 ```tsx
 export const createStore: CreateStore = <
-  T extends Record<string, unknown> | unknown[]
+  T extends Record<string, unknown> | unknown[],
 >(
-  initialState: T
+  initialState: T,
 ) => {
   let state = initialState;
 
@@ -201,7 +201,7 @@ export type SetState<S> = (stateOrFn: S | ((state: S) => S)) => void;
 export type GetSnapshot<S> = () => S;
 export type Subscribe = (listener: () => void) => () => void;
 export type CreateStore = <T extends Record<string, unknown> | unknown[]>(
-  initialState: T
+  initialState: T,
 ) => {
   getSnapshot: GetSnapshot<T>;
   setState: SetState<T>;
@@ -270,7 +270,7 @@ Redux 通过我们创建的 Action 来决定如何更新状态，再通过 reduc
 ```tsx
 export type RUAReducer<S extends RUAState, A extends RUAAction> = (
   state: S,
-  action: A
+  action: A,
 ) => S;
 ```
 
@@ -295,7 +295,7 @@ const dispatch: RUADispatch<A> = (action) => {
 ```tsx
 export const createStore = <S extends RUAState, A extends RUAAction>(
   reducer: RUAReducer<S, A>,
-  initialState: S
+  initialState: S,
 ) => {
   let state = initialState;
 
@@ -356,7 +356,7 @@ export type RUAAction<P = unknown, T extends string = string> = {
 };
 export type RUAReducer<S extends RUAState, A extends RUAAction> = (
   state: S,
-  action: A
+  action: A,
 ) => S;
 export type RUADispatch<A extends RUAAction> = (action: A) => void;
 export type GetSnapshot<S> = () => S;

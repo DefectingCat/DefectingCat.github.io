@@ -14,7 +14,7 @@ const Footer = () => {
           className={clsx(
             'flex items-center flex-col',
             'justify-between py-4',
-            'lg:flex-row'
+            'lg:flex-row',
           )}
         >
           <div className="mb-1">&copy; {nowDay} Powered by Next.js 💙 xfy</div>

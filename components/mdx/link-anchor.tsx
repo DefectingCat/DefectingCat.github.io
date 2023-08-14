@@ -18,7 +18,7 @@ const Anchor = ({ children, external = true, className }: Props) => {
           'before:w-full before:h-full before:transition-all before:shadow-underline',
           'hover:before:shadow-throughline',
           'dark:text-teal-600',
-          className
+          className,
         )}
       >
         {children}

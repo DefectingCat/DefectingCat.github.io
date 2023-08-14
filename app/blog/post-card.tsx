@@ -19,7 +19,7 @@ const PostCard = ({ post }: Props) => {
             'dark:hover:bg-rua-gray-800 dark:hover:bg-opacity-100',
             'flex justify-between text-gray-800 ',
             'mb-4 dark:text-gray-200',
-            'flex-col'
+            'flex-col',
           )}
         >
           <div className="flex justify-between">

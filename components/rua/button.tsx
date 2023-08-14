@@ -26,7 +26,7 @@ const Button = ({ children, ...rest }: ButtonProps) => {
           'text-lg disabled:bg-gray-200 disabled:text-gray-500',
           'dark:disabled:bg-gray-700 dark:disabled:text-gray-300',
           'disabled:dark:hover:border-transparent',
-          className
+          className,
         )}
         {...props}
       >

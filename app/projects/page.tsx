@@ -19,7 +19,7 @@ export default function Page() {
           <div
             className={clsx(
               'grid grid-cols-1 lg:grid-cols-3',
-              'md:grid-cols-2 gap-5'
+              'md:grid-cols-2 gap-5',
             )}
           >
             {projects.map((item, i) => (
@@ -39,7 +39,7 @@ export default function Page() {
           <div
             className={clsx(
               'grid grid-cols-1 lg:grid-cols-3',
-              'md:grid-cols-2 gap-5'
+              'md:grid-cols-2 gap-5',
             )}
           >
             {selfHosts.map((item, i) => (

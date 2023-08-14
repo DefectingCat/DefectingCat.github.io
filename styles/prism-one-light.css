@@ -34,7 +34,10 @@ pre {
   color: hsl(230, 8%, 24%);
   /* font-family: 'Fira Code', 'Fira Mono', Menlo, Consolas, 'DejaVu Sans Mono',
       monospace; */
-  font-family: var(--font-jetbrains-mono), -apple-system, 'DejaVu Sans Mono',
+  font-family:
+    var(--font-jetbrains-mono),
+    -apple-system,
+    'DejaVu Sans Mono',
     monospace;
   direction: ltr;
   text-align: left;

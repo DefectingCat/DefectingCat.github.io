@@ -25,7 +25,7 @@ const Model = () => {
       const dracoLoader = new DRACOLoader();
       dracoLoader.setDecoderPath('./libs/draco/');
       loader.setDRACOLoader(dracoLoader);
-    }
+    },
   );
   useEffect(() => {
     // After model loaded.
@@ -94,7 +94,7 @@ const HomeModel = () => {
           'justify-center items-center',
           'bg-bluish-gray dark:bg-rua-gray-900',
           'transition-all duration-300',
-          !modelLoading && 'opacity-0'
+          !modelLoading && 'opacity-0',
         )}
       >
         <Loading />

@@ -95,7 +95,7 @@ useSyncExternalStore<State>(subscribe: (onStoreChange: () => void) => () => void
 ```tsx
 const { count, info } = useSyncExternalStore(
   store.subscribe,
-  store.getSnapshot
+  store.getSnapshot,
 );
 ```
 
@@ -109,7 +109,7 @@ export type State = {
 export type Store = {
   state: State;
   setState: (
-    stateOrFn: Partial<State> | ((state: State) => Partial<State>)
+    stateOrFn: Partial<State> | ((state: State) => Partial<State>),
   ) => void;
   subscribe: (listener: () => void) => () => void;
   listeners: Set<() => void>;

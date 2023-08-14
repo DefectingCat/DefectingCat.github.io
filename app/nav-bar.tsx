@@ -77,7 +77,7 @@ const HeadBar = () => {
         className={clsx(
           'flex justify-between mx-auto',
           'max-w-6xl p-4 xl:px-0 h-[84px]',
-          'items-center relative'
+          'items-center relative',
         )}
       >
         <Link href="/">
@@ -85,7 +85,7 @@ const HeadBar = () => {
             className={clsx(
               'font-semibold',
               'text-3xl tracking-widest',
-              'select-none'
+              'select-none',
             )}
           >
             RUA!
@@ -109,7 +109,7 @@ const HeadBar = () => {
             'md:right-[unset] md:top-[unset]',
             'w-1/3 md:w-auto z-20',
             'md:dark:bg-transparent',
-            showMenu || 'hidden'
+            showMenu || 'hidden',
           )}
           id="menu"
         >
@@ -120,7 +120,7 @@ const HeadBar = () => {
                 onClick={handleClick}
                 className={clsx(
                   'mb-2 last:mb-0 md:mb-0',
-                  'md:mr-4 md:last:mr-0'
+                  'md:mr-4 md:last:mr-0',
                 )}
               >
                 <Link href={m.path}>{m.name}</Link>
@@ -130,7 +130,7 @@ const HeadBar = () => {
               className={clsx(
                 'mb-2 last:mb-0 md:mb-0',
                 'md:mr-4 md:last:mr-0',
-                'flex items-center'
+                'flex items-center',
               )}
             >
               <DarkModeBtn />
@@ -149,7 +149,7 @@ const HeadBar = () => {
                 <div
                   className={clsx(
                     'w-[164.453px] h-[30px]',
-                    'bg-[#ebedf0] rounded-[40px] animate-pulse'
+                    'bg-[#ebedf0] rounded-[40px] animate-pulse',
                   )}
                 ></div>
               )}

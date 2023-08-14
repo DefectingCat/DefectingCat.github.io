@@ -28,7 +28,7 @@ const CopyButton = ({ onCopy: onClick, className }: CopyButtonProps) => {
           'transition-opacity dark:border-gray-700',
           'duration-300',
           className,
-          styles.btn
+          styles.btn,
         )}
         onClick={handleClick}
       >
@@ -36,14 +36,14 @@ const CopyButton = ({ onCopy: onClick, className }: CopyButtonProps) => {
           className={clsx(
             'relative w-5 h-5 text-gray-400 child',
             'transition-all duration-300',
-            styles.child
+            styles.child,
           )}
         >
           <svg
             className={clsx(
               'absolute top-0 left-0 fill-current',
               'opacity-100 transition-all duration-300',
-              copied && styles['on_copy']
+              copied && styles['on_copy'],
             )}
             viewBox="0 0 24 24"
           >
@@ -54,7 +54,7 @@ const CopyButton = ({ onCopy: onClick, className }: CopyButtonProps) => {
               'absolute top-0 left-0 fill-green-400',
               'scale-[0.33] transition-all duration-300',
               'opacity-0',
-              copied && styles['on_ok']
+              copied && styles['on_ok'],
             )}
             viewBox="0 0 24 24"
           >

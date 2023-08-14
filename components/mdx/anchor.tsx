@@ -22,7 +22,7 @@ const Anchor = forwardRef<HTMLAnchorElement, Props>(
               'before:left-0 before:top-[1px] before:block before:absolute',
               'before:w-full before:h-full before:transition-all before:shadow-underline',
               'hover:before:shadow-throughline',
-              'dark:text-teal-600'
+              'dark:text-teal-600',
             )}
           >
             {children}
@@ -31,7 +31,7 @@ const Anchor = forwardRef<HTMLAnchorElement, Props>(
         </a>
       </>
     );
-  }
+  },
 );
 
 Anchor.displayName = 'Anchor';

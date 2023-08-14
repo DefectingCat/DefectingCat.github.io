@@ -45,7 +45,7 @@ export const getGists = cache(async (page = 1, perPage = 10) => {
     const text = l.match(relMatch)?.[1] as PageKeys;
     if (!text) return;
     pageSize[text] = new URLSearchParams(
-      l.match(linkMatch)?.[1].split('?')[1]
+      l.match(linkMatch)?.[1].split('?')[1],
     ).get('page');
   });
 
@@ -68,9 +68,9 @@ export const getGists = cache(async (page = 1, perPage = 10) => {
           } catch (err) {
             console.log(err);
           }
-        })
+        }),
       );
-    })
+    }),
   );
 
   return {
@@ -127,7 +127,7 @@ export const getSignalGist = cache(async (id: string) => {
           content: '',
         };
       target.content = await fetch(url).then((res) => res.text());
-    })
+    }),
   );
 
   return data;

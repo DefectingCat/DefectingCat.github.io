@@ -8,7 +8,7 @@ import RUALoading from './loading/rua-loading';
 
 export const commonClass = clsx(
   'rounded-lg h-[400px] border-0',
-  'overflow-hidden w-full'
+  'overflow-hidden w-full',
 );
 
 type Props = {
@@ -27,7 +27,7 @@ const RUACodepen = ({ defaultTab, url }: Props) => {
   useEffect(() => {
     inView &&
       setSrc(
-        `https://codepen.io/${urlArr[3]}/embed/${urlArr[5]}?default-tab=${defaultTab}%2Cresult&theme-id=${currentTheme}`
+        `https://codepen.io/${urlArr[3]}/embed/${urlArr[5]}?default-tab=${defaultTab}%2Cresult&theme-id=${currentTheme}`,
       );
   }, [currentTheme, defaultTab, inView, urlArr]);
 
@@ -42,7 +42,7 @@ const RUACodepen = ({ defaultTab, url }: Props) => {
         className={clsx(
           commonClass,
           'relative',
-          'flex items-center justify-center'
+          'flex items-center justify-center',
         )}
       >
         <div
@@ -50,7 +50,7 @@ const RUACodepen = ({ defaultTab, url }: Props) => {
             commonClass,
             'absolute flex items-center justify-center',
             load && 'hidden',
-            'transition-all z-10'
+            'transition-all z-10',
           )}
         >
           <RUALoading />
@@ -66,7 +66,7 @@ const RUACodepen = ({ defaultTab, url }: Props) => {
               'border-none',
               'absolute top-1/2 left-1/2',
               '-translate-x-1/2 -translate-y-1/2',
-              'overflow-hidden'
+              'overflow-hidden',
             )}
             style={{
               width: 'calc(100% + 2px)',

@@ -25,7 +25,7 @@ const ProjectCard = ({ project, icon }: ProjectCardProps) => {
           'transition-all duration-300',
           'flex items-center cursor-pointer',
           'justify-between dark:bg-rua-gray-800',
-          'hover:dark:bg-rua-gray-700'
+          'hover:dark:bg-rua-gray-700',
         )}
       >
         {Icon ? Icon : <VscGithubInverted className="w-8 h-8" />}
@@ -39,7 +39,7 @@ const ProjectCard = ({ project, icon }: ProjectCardProps) => {
           <h2
             className={clsx(
               'text-xl overflow-hidden',
-              'text-ellipsis whitespace-nowrap'
+              'text-ellipsis whitespace-nowrap',
             )}
           >
             {project.name}
@@ -48,7 +48,7 @@ const ProjectCard = ({ project, icon }: ProjectCardProps) => {
             className={clsx(
               'overflow-hidden break-keep text-ellipsis',
               'whitespace-nowrap inline-block',
-              'w-[inherit]'
+              'w-[inherit]',
             )}
           >
             {project.description}

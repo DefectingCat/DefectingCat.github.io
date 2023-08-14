@@ -13,7 +13,7 @@ const useInView = () => {
         observer.unobserve(ref.current);
       });
     },
-    []
+    [],
   );
 
   useEffect(() => {

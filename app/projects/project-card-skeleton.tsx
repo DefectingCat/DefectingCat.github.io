@@ -11,7 +11,7 @@ const PojectCardSkeleton = () => {
           'transition-all duration-300',
           'flex items-center cursor-pointer',
           'justify-between dark:bg-rua-gray-800',
-          'hover:dark:bg-rua-gray-700'
+          'hover:dark:bg-rua-gray-700',
         )}
       >
         <VscGithubInverted className="w-8 h-8" />
@@ -22,7 +22,7 @@ const PojectCardSkeleton = () => {
               'text-xl overflow-hidden',
               'text-ellipsis whitespace-nowrap',
               'h-6 w-[100px] animate-pulse',
-              'bg-gray-300 rounded-lg'
+              'bg-gray-300 rounded-lg',
             )}
           ></h2>
           <span
@@ -31,7 +31,7 @@ const PojectCardSkeleton = () => {
               'whitespace-nowrap inline-block',
               'w-[inherit] mt-1',
               'h-5 w-[300px] animate-pulse',
-              'bg-gray-300 rounded-lg'
+              'bg-gray-300 rounded-lg',
             )}
           ></span>
         </a>

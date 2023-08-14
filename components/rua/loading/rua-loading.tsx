@@ -18,7 +18,7 @@ const RUALoading = ({ className: classNames }: Props) => {
       className={clsx(
         'flex loading',
         'flex-col items-center justify-center',
-        classNames
+        classNames,
       )}
     >
       <Image

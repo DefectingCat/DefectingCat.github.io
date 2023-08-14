@@ -14,7 +14,7 @@ export const dataPath = 'content/posts';
 const readFileMeta = async (filename: string) => {
   const markdownWithMeta = await fs.readFile(
     path.join(dataPath, filename),
-    'utf-8'
+    'utf-8',
   );
   const slug = filename.replace(/\.mdx$/, '');
   const { data: meta } = matter(markdownWithMeta);

@@ -12,7 +12,7 @@ export default function PageLayout({ children }: { children: ReactNode }) {
       <h1
         className={clsx(
           'text-5xl font-bold text-center font-Barlow',
-          'mt-8 mb-20 text-gray-800 dark:text-gray-200'
+          'mt-8 mb-20 text-gray-800 dark:text-gray-200',
         )}
       >
         Blog posts

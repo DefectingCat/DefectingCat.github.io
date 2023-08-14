@@ -39,21 +39,21 @@ const GistsCode = ({ file, showFileName = false }: Props) => {
                 className={clsx(
                   'box-border inline-block',
                   'w-[13px] h-[13px] mr-2',
-                  'rounded-full bg-[#ce5347]'
+                  'rounded-full bg-[#ce5347]',
                 )}
               ></div>
               <div
                 className={clsx(
                   'box-border inline-block',
                   'w-[13px] h-[13px] mr-2',
-                  'rounded-full bg-[#d6a243]'
+                  'rounded-full bg-[#d6a243]',
                 )}
               ></div>
               <div
                 className={clsx(
                   'box-border inline-block',
                   'w-[13px] h-[13px]',
-                  'rounded-full bg-[#58a942]'
+                  'rounded-full bg-[#58a942]',
                 )}
               ></div>
             </div>
@@ -63,7 +63,7 @@ const GistsCode = ({ file, showFileName = false }: Props) => {
                 'px-4 bg-white',
                 'leading-[30px]',
                 'dark:bg-[hsl(220,13%,18%)] dark:border-b dark:border-b-[rgb(128,203,196)]',
-                'overflow-hidden whitespace-nowrap overflow-ellipsis'
+                'overflow-hidden whitespace-nowrap overflow-ellipsis',
               )}
             >
               {file.filename}

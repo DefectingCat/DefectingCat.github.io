@@ -8,7 +8,7 @@ const UserInfoLoading = () => {
         className={clsx(
           'flex md:items-center flex-1',
           'max-w-[280px] md:block',
-          'mb-4 flex-col md:flex-row'
+          'mb-4 flex-col md:flex-row',
         )}
       >
         <div className="flex md:flex-col">
@@ -16,7 +16,7 @@ const UserInfoLoading = () => {
             className={clsx(
               'w-16 h-16 mr-4 overflow-hidden',
               'md:w-72 md:h-72 bg-gray-200 rounded-full',
-              'animate-pulse dark:bg-rua-gray-800'
+              'animate-pulse dark:bg-rua-gray-800',
             )}
           ></div>
 
@@ -26,7 +26,7 @@ const UserInfoLoading = () => {
                 'text-xl font-bold font-Barlow md:text-2xl w-44',
                 'animate-pulse h-6 rounded-lg',
                 'bg-gray-200 dark:bg-rua-gray-800',
-                'my-2'
+                'my-2',
               )}
             ></h1>
 
@@ -34,7 +34,7 @@ const UserInfoLoading = () => {
               className={clsx(
                 'text-xl text-gray-400 font-Barlow md:text-2xl',
                 'animate-pulse h-5 rounded-lg w-32',
-                'bg-gray-200 dark:bg-rua-gray-800'
+                'bg-gray-200 dark:bg-rua-gray-800',
               )}
             ></h2>
           </div>
@@ -43,7 +43,7 @@ const UserInfoLoading = () => {
         <div
           className={clsx(
             'my-4 w-44 h-4 rounded-lg animate-pulse',
-            'bg-gray-200 dark:bg-rua-gray-800'
+            'bg-gray-200 dark:bg-rua-gray-800',
           )}
         ></div>
 

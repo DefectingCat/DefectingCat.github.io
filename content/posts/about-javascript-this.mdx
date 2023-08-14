@@ -355,7 +355,7 @@ if (!Function.prototype.bind)
         // closest thing possible to the ECMAScript 5
         // internal IsCallable function
         throw new TypeError(
-          'Function.prototype.bind - what is trying to be bound is not callable'
+          'Function.prototype.bind - what is trying to be bound is not callable',
         );
       }
 
@@ -368,7 +368,7 @@ if (!Function.prototype.bind)
           baseArgs.push.apply(baseArgs, arguments);
           return fToBind.apply(
             fNOP.prototype.isPrototypeOf(this) ? this : otherThis,
-            baseArgs
+            baseArgs,
           );
         };
 
