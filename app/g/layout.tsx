@@ -7,5 +7,11 @@ export default async function PageLayout({
 }: {
   children: ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      <main className="max-w-5xl px-4 mx-auto lg:px-0">
+        <div className="pb-4 text-sm">{children}</div>
+      </main>
+    </>
+  );
 }

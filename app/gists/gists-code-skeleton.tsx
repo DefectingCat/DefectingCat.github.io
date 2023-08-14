@@ -6,6 +6,7 @@ const bodyClass = clsx(
   'rounded-lg',
   'h-4 bg-gray-300',
   'mb-2 last:mb-0 animate-pulse',
+  'dark:bg-rua-gray-600',
 );
 const allLength = [
   500, 400, 300, 200, 332, 402, 105, 399, 501, 285, 378, 123, 325, 456,
@@ -53,6 +54,7 @@ const GistsCode = () => {
               className={clsx(
                 'bg-gray-300 animate-pulse',
                 'w-20 h-4 block rounded',
+                'dark:bg-rua-gray-600',
               )}
             ></span>
           </div>
