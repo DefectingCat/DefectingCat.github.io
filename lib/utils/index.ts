@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 export const sortByDate = (
   { date: a }: { date: string },
-  { date: b }: { date: string }
+  { date: b }: { date: string },
 ) => {
   if (a < b) {
     return 1;
@@ -106,13 +106,13 @@ export const getMousePosition = (e: MouseEvent | globalThis.TouchEvent) => {
 };
 
 type Debounce = {
-  <T extends unknown[], R>(fn: (...arg: T) => R, ms: number): (
-    this: unknown,
-    ...arg: T
-  ) => void;
+  <T extends unknown[], R>(
+    fn: (...arg: T) => R,
+    ms: number,
+  ): (this: unknown, ...arg: T) => void;
 };
 export const debounce: Debounce = (fn, ms) => {
-  let timer: NodeJS.Timer;
+  let timer: NodeJS.Timeout;
   return function (...args) {
     clearTimeout(timer);
     timer = setTimeout(() => {
@@ -125,7 +125,7 @@ export const frameArea = (
   sizeToFitOnScreen: number,
   boxSize: number,
   boxCenter: THREE.Vector3,
-  camera: THREE.PerspectiveCamera
+  camera: THREE.PerspectiveCamera,
 ) => {
   const halfSizeToFitOnScreen = sizeToFitOnScreen * 0.5;
   const halfFovY = THREE.MathUtils.degToRad(camera.fov * 0.5);
