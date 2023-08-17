@@ -1,18 +1,13 @@
-'use client';
-
-import { Stats } from '@react-three/drei';
-import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
+import { useThree, useLoader, useFrame } from '@react-three/fiber';
 import { getMousePosition } from 'lib/utils';
-import { useEffect, useRef } from 'react';
-import useStore from 'store';
+import { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import useStore from 'store';
+import { rotationX, rotationY } from './home-model';
 
-const rotationY = 0.4;
-const rotationX = 0.18;
-
-const Model = () => {
+const CatModel = () => {
   const mixer = useRef<THREE.AnimationMixer | null>(null);
   const toggleLoading = useStore((state) => state.toggleLoading);
 
@@ -34,7 +29,7 @@ const Model = () => {
     });
     camera.position.x = -5.66648088408735e-8;
     camera.position.y = 0.3;
-    camera.position.z = 1.3;
+    camera.position.z = 1.5;
     toggleLoading(false);
 
     const halfWidth = Math.floor(window.innerWidth / 2);
@@ -84,30 +79,4 @@ const Model = () => {
   );
 };
 
-const HomeModel = () => {
-  const modelLoading = useStore((state) => state.modelLoading);
-
-  return (
-    <>
-      <Canvas camera={{ fov: 55 }}>
-        <ambientLight color={0xffffff} intensity={0.5} />
-        <Model />
-        <Stats />
-      </Canvas>
-      {/* <div
-        className={clsx(
-          'h-full w-full absolute',
-          'top-0 left-0 flex',
-          'justify-center items-center',
-          'bg-bluish-gray dark:bg-rua-gray-900',
-          'transition-all duration-300',
-          !modelLoading && 'opacity-0',
-        )}
-      >
-        <Loading />
-      </div> */}
-    </>
-  );
-};
-
-export default HomeModel;
+export default CatModel;
