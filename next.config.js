@@ -15,8 +15,6 @@ const nextConfig = {
   // images: isExport ? { unoptimized: true } : {},
   experimental: {
     // runtime: 'experimental-edge',
-    // reactRoot: 'concurrent',
-    reactMode: 'concurrent',
     appDir: true,
   },
   compiler: {

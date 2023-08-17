@@ -1,6 +1,5 @@
 'use client';
 
-import { Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import clsx from 'clsx';
 import Loading from 'components/rua/loading/rua-loading';
@@ -18,11 +17,11 @@ const HomeModel = () => {
   return (
     <>
       <Canvas camera={{ fov: 55 }}>
-        <ambientLight color={0xffffff} intensity={0.5} />
+        <ambientLight color={0xffffff} intensity={0.6} />
         <Suspense fallback={<></>}>
           <CatModel />
         </Suspense>
-        <Stats />
+        {/* <Stats /> */}
       </Canvas>
       <div
         className={clsx(
