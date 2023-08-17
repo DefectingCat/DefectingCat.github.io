@@ -1,8 +1,7 @@
 'use client';
 
+import { Stats } from '@react-three/drei';
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
-import clsx from 'clsx';
-import Loading from 'components/rua/loading/rua-loading';
 import { getMousePosition } from 'lib/utils';
 import { useEffect, useRef } from 'react';
 import useStore from 'store';
@@ -62,17 +61,25 @@ const Model = () => {
     mixer.current?.update(delta);
   });
 
+  // const spotRef = useRef<THREE.SpotLight>(null);
+  // useHelper(spotRef as any, THREE.SpotLightHelper, 'red');
+
+  const objectRef = useRef<THREE.Object3D>(null);
+
   return (
     <>
+      {/* spot light target */}
+      <object3D position={[0, 0.5, -0.5]} ref={objectRef} />
       <spotLight
         color={0xffffff}
-        intensity={0.6}
-        distance={100}
+        intensity={5}
+        // distance={1000}
         angle={15}
-        target={gltf.scene}
-        position={[0, 2, 6]}
+        target={objectRef.current ?? undefined}
+        position={[0, 0.5, 1.5]}
       />
       <primitive object={gltf.scene} />
+      {/* <OrbitControls camera={camera} /> */}
     </>
   );
 };
@@ -85,8 +92,9 @@ const HomeModel = () => {
       <Canvas camera={{ fov: 55 }}>
         <ambientLight color={0xffffff} intensity={0.5} />
         <Model />
+        <Stats />
       </Canvas>
-      <div
+      {/* <div
         className={clsx(
           'h-full w-full absolute',
           'top-0 left-0 flex',
@@ -97,7 +105,7 @@ const HomeModel = () => {
         )}
       >
         <Loading />
-      </div>
+      </div> */}
     </>
   );
 };
