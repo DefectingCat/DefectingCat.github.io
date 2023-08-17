@@ -1,14 +1,14 @@
 'use client';
 
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
+import clsx from 'clsx';
+import Loading from 'components/rua/loading/rua-loading';
+import { getMousePosition } from 'lib/utils';
 import { useEffect, useRef } from 'react';
 import useStore from 'store';
 import * as THREE from 'three';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import Loading from 'components/rua/loading/rua-loading';
-import clsx from 'clsx';
-import { getMousePosition } from 'lib/utils';
 
 const rotationY = 0.4;
 const rotationX = 0.18;
@@ -37,7 +37,6 @@ const Model = () => {
     camera.position.y = 0.3;
     camera.position.z = 1.3;
     toggleLoading(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
 
     const halfWidth = Math.floor(window.innerWidth / 2);
     const halfHeight = Math.floor(window.innerHeight / 2);
