@@ -1,7 +1,7 @@
 import clsx from 'clsx';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import styles from 'styles/index/index.module.css';
-import dynamic from 'next/dynamic';
 
 const HomeModel = dynamic(() => import('../components/models/home-model'));
 

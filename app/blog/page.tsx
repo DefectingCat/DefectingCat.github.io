@@ -1,8 +1,8 @@
-import PostCard from './post-card';
-import PostCardLoading from './post-card-loading';
+import PostCard from 'components/pages/blog/post-card';
+import PostCardLoading from 'components/pages/blog/post-card-loading';
+import Pagination from 'components/rua/rua-pagination';
 import { PostPerPage, postLists } from 'lib/posts';
 import { Fragment, Suspense } from 'react';
-import Pagination from 'components/rua/rua-pagination';
 
 export default async function Page() {
   const allPosts = await postLists();

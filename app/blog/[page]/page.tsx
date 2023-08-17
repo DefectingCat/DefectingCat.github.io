@@ -1,5 +1,5 @@
-import PostCard from 'app/blog/post-card';
-import PostCardLoading from 'app/blog/post-card-loading';
+import PostCard from 'components/pages/blog/post-card';
+import PostCardLoading from 'components/pages/blog/post-card-loading';
 import Pagination from 'components/rua/rua-pagination';
 import { getPostListPath, postLists, PostPerPage } from 'lib/posts';
 import { notFound } from 'next/navigation';

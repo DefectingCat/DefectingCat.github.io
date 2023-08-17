@@ -1,10 +1,10 @@
-import { useThree, useLoader, useFrame } from '@react-three/fiber';
+import { useFrame, useLoader, useThree } from '@react-three/fiber';
 import { getMousePosition } from 'lib/utils';
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import useStore from 'store';
 import * as THREE from 'three';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import useStore from 'store';
 import { rotationX, rotationY } from './home-model';
 
 const CatModel = () => {

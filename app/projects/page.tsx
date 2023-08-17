@@ -1,7 +1,11 @@
 import clsx from 'clsx';
-import ProjectCard from './project-card';
+import {
+  iconMap,
+  projects,
+  selfHosts,
+} from 'components/pages/projects/content';
+import ProjectCard from 'components/pages/projects/project-card';
 import { Metadata } from 'next';
-import { projects, iconMap, selfHosts } from './content';
 
 export const metadata: Metadata = {
   title: 'RUA - Projects',

@@ -1,7 +1,7 @@
+import UserInfo from 'components/pages/gists/user-info';
+import UserInfoLoading from 'components/pages/gists/user-info-skeleton';
 import { Metadata } from 'next';
 import { ReactNode, Suspense } from 'react';
-import UserInfo from './user-info';
-import UserInfoLoading from './user-info-skeleton';
 
 export const revalidate = 600;
 export const metadata: Metadata = {

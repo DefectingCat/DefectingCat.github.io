@@ -1,4 +1,4 @@
-import GistsCodeSkeleton from 'app/gists/gists-code-skeleton';
+import GistsCodeSkeleton from 'components/pages/gists/gists-code-skeleton';
 import clsx from 'clsx';
 
 const loading = () => {

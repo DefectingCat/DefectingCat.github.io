@@ -1,6 +1,5 @@
-import GistsCode from 'app/gists/gists-code';
-import clsx from 'clsx';
 import LinkAnchor from 'components/mdx/link-anchor';
+import GistsCode from 'components/pages/gists/gists-code';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { getSignalGist } from 'lib/fetcher';
@@ -8,7 +7,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import avatar from 'public/images/img/avatar.svg';
-import GistsCodeSkeleton from 'app/gists/gists-code-skeleton';
 
 export const revalidate = 600;
 

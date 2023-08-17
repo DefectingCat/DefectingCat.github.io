@@ -1,7 +1,7 @@
 import clsx from 'clsx';
+import { projects, selfHosts } from 'components/pages/projects/content';
+import PojectCardSkeleton from 'components/pages/projects/project-card-skeleton';
 import { Metadata } from 'next';
-import { projects, selfHosts } from './content';
-import PojectCardSkeleton from './project-card-skeleton';
 
 export const metadata: Metadata = {
   title: 'RUA - Projects',

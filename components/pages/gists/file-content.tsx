@@ -3,8 +3,8 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import Link from 'next/link';
 import { memo } from 'react';
-import GistsCode from './gists-code';
 import { GistData } from 'types';
+import GistsCode from './gists-code';
 
 dayjs.extend(relativeTime);
 

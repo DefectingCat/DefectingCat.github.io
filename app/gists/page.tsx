@@ -1,7 +1,7 @@
+import FileContent from 'components/pages/gists/file-content';
+import Pagination from 'components/rua/rua-pagination';
 import { getGists } from 'lib/fetcher';
 import { notFound } from 'next/navigation';
-import Pagination from 'components/rua/rua-pagination';
-import FileContent from './file-content';
 
 export const revalidate = 600;
 
