@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import styles from 'styles/index/index.module.css';
 
-const HomeModel = dynamic(() => import('../components/models/home-model'));
+const HomeModel = dynamic(() => import('components/models/home-model'));
 
 export const metadata = {
   title: 'RUA - Home',
