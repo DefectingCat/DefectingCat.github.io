@@ -16,6 +16,7 @@ const CatModel = () => {
     GLTFLoader,
     './models/just_a_hungry_cat/modelDraco.gltf',
     (loader) => {
+      toggleLoading(true);
       const dracoLoader = new DRACOLoader();
       dracoLoader.setDecoderPath('./libs/draco/');
       loader.setDRACOLoader(dracoLoader);

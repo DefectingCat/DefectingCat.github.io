@@ -7,10 +7,11 @@ import * as THREE from 'three';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { rotationX, rotationY } from './home-model';
+import useStore from 'store';
 
 const CloudModel = () => {
   const mixer = useRef<THREE.AnimationMixer | null>(null);
-
+  const toggleLoading = useStore((state) => state.toggleLoading);
   const camera = useThree((state) => state.camera);
 
   // After model loading, set theme to dark mode.
@@ -49,6 +50,7 @@ const CloudModel = () => {
     GLTFLoader,
     './models/cloud_station/modelDraco.gltf',
     (loader) => {
+      toggleLoading(true);
       const dracoLoader = new DRACOLoader();
       dracoLoader.setDecoderPath('./libs/draco/');
       loader.setDRACOLoader(dracoLoader);
@@ -61,6 +63,7 @@ const CloudModel = () => {
     });
     gltf.scene.position.set(0, 0, 0);
     camera.lookAt(0, 1, 0);
+    toggleLoading(false);
 
     const halfWidth = Math.floor(window.innerWidth / 2);
     const halfHeight = Math.floor(window.innerHeight / 2);
