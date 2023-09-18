@@ -3,6 +3,10 @@ import dynamic from 'next/dynamic';
 
 const AboutModel = dynamic(() => import('components/models/about-model'));
 
+export const metadata = {
+  title: 'RUA - About',
+};
+
 const page = () => {
   return (
     <>
