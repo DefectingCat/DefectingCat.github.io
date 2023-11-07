@@ -14,8 +14,7 @@ const nextConfig = {
   output: 'standalone',
   // images: isExport ? { unoptimized: true } : {},
   experimental: {
-    // runtime: 'experimental-edge',
-    appDir: true,
+    webpackBuildWorker: true,
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
