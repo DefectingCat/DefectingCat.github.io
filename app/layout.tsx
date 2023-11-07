@@ -43,10 +43,12 @@ export default function RootLayout({
       </head>
       <body>
         <RUAThemeProvider>
-          <HeadBar />
-          {children}
-          <Footer />
-          <BackToTop />
+          <div className="flex flex-col min-h-[100vh]">
+            <HeadBar />
+            {children}
+            <Footer />
+            <BackToTop />
+          </div>
         </RUAThemeProvider>
       </body>
     </html>

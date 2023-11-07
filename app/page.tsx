@@ -11,8 +11,8 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <main className="h-[calc(100vh-142px)] flex justify-center items-center text-xl">
-      <div className="flex flex-col w-full h-full max-w-4xl px-4 py-24 text-2xl">
+    <main className="flex items-stretch justify-center flex-1 text-xl">
+      <div className="flex flex-col w-full max-w-4xl px-4 py-24 text-2xl">
         <h1 className="flex pb-4 text-5xl">
           <span className={clsx('font-semibold font-Lobster', styles.gradient)}>
             Hi there
@@ -27,7 +27,7 @@ export default function Page() {
           </span>
         </h1>
 
-        <div className="relative w-full h-full">
+        <div className="relative flex flex-1 w-full h-full">
           <HomeModel />
         </div>
       </div>

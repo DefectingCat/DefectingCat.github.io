@@ -76,7 +76,7 @@ const HeadBar = () => {
       <header
         className={clsx(
           'flex justify-between mx-auto',
-          'max-w-6xl p-4 xl:px-0 h-[84px]',
+          'max-w-6xl p-4 xl:px-0 w-full',
           'items-center relative',
         )}
       >
