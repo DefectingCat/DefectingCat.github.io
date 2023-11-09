@@ -1,0 +1,261 @@
+---
+title: 细颗粒度更新与自动依赖收集
+date: '2023-11-09'
+tags: [TypeScript, React]
+---
+
+众所周知，React 并没有实现细颗粒度的状态更新。同时在副作用中也需要我们手动去管理对应依赖。如常见的 `useEffect` 和 `useMemo` 等：
+
+```ts
+const [count, setCount] = useState(0);
+useEffect(() => {
+  console.log('count updated ', count);
+}, [count]);
+```
+
+这里就需要我们手动的去管理 `useEffect` 的依赖，否则 `useEffect` 则只会执行一次。而在 Vue 等框架中，则可以自动追踪其依赖：
+
+```ts
+const y = coumputed(() => x.value * 2 + 1);
+```
+
+在 Vue 和 Mobx 等框架中使用的“能自动追踪依赖的技术”被称为“细颗粒度更新”（Fine-Grained Reactivity），这也是许多前端框架响应式的原理。
+
+## 实现一个细颗粒度更新
+
+我们希望为 React 实现一个简易的细颗粒度更新的状态，使我们在使用副作用时不需要手动管理其依赖的 hooks。
+
+其设想的效果应如下：
+
+```ts
+const [count, setCount] = useState(0);
+useEffect(() => {
+  console.log('count is ', count());
+});
+useEffect(() => {
+  console.log('only print once');
+});
+
+// Trigger effect
+setCount(1);
+```
+
+`useEffect` 不再需要为其手动管理状态，而是自动追踪依赖。当我们更新状态 `count` 时，自动触发 `useEffect` 的回调。
+
+### useState
+
+第一步就是现实一个简易的状态，这里模仿 React 官方 `useState` 的签名，我们也返回一个元组，分别是状态和更新其方法。
+
+```ts
+export type Getter<T> = () => T;
+export type Setter<T> = (newValue: T | ((oldValue: T) => T)) => void;
+export type UseState = <T>(value: T) => [Getter<T>, Setter<T>];
+
+const useState: UseState = (value) => {
+  const getter: Getter<typeof value> = () => {
+    return value;
+  };
+
+  const setter: Setter<typeof value> = (updater) => {
+    const newState = updater instanceof Function ? updater(value) : updater;
+    if (value === newState) return;
+    value = newState;
+  };
+
+  return [getter, setter];
+};
+
+export { useState };
+```
+
+这样看似很美好，我们利用函数的参数和闭包实现了一个状态，并在调用设置状态函数时，更新该状态。在调用 `getter()` 时返回该状态。但是它无法和 React 一起使用，因为 React 的 `useState` 重点不仅仅是对一个值的设置，而是在状态更新时更新 React 组件。我们的 `useState` 只实现了一个功能，对状态的管理，我们还需要实现更新 React 组件才能和 React 一起使用。
+
+我们的重点不是在如何实现一个 React，所以更新组件就交给真正的 `useState` 来做。我们通过在我们自己状态更新时，调用 React 的 `useState` 来更新组件。这样就通过借用官方的 `useState` 来帮助我们更新组件，从而实现一个简易的状态。
+
+```ts
+const useState: UseState = (value) => {
+  const state = useRef(value);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, update] = useUpdate({});
+
+  const getter: Getter<typeof value> = () => {
+    return state.current;
+  };
+
+  const setter: Setter<typeof value> = (updater) => {
+    const newState =
+      updater instanceof Function ? updater(state.current) : updater;
+    if (state.current === newState) return;
+    state.current = newState;
+    update({});
+  };
+
+  return [getter, setter];
+};
+```
+
+使用它的方式和官方 hooks 没有区别：
+
+```tsx
+function App() {
+  console.log('App updated');
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+      <button
+        onClick={() => {
+          setCount((d) => d + 1);
+        }}
+      >
+        Update {count()}
+      </button>
+    </>
+  );
+}
+```
+
+### useEffect
+
+有了状态之后，接下来就是副作用了。Effect 主要需要解决的问题就是如何自动收集依赖，例如：
+
+```ts
+useEffect(() => {
+  console.log('count is ', count());
+});
+```
+
+在用户提供的回调函数中，我们无法直接了当的去知道其中是否有状态需要的依赖，也无法知道有哪些状态在其中。这就是为什么我们将获取状态的 `getter` 设计成了一个函数，通过在 effect 中调用的 `getter` ，我们就能为 `setter` 和 effect 之间建立一个订阅关系，从而实现调用 `setter` 时调用 effect 的回调方法。
+
+首要方法就是订阅发布模型，首先我们需要为 effect 创建一个用于回调调用栈，当 `useEffect` 第一次调用时，我们将该 effect 对应的信息保存到栈中。随后如果在回调函数中有状态的 `getter` 该 `getter` 则会收集栈中的 effect 并创建对应的订阅。
+
+第一步就是创建保存到栈中的数据结构与一个全局的用于保存 effect 的栈：
+
+```ts
+export type Effect = {
+  // 用于执行 useEffect 回调函数
+  execute: () => void;
+  // 保存该 useEffect 依赖的 state 对应的 subs 集合
+  deps: Set<unknown>;
+};
+const effectStack: Effect[] = [];
+```
+
+随后来定义我们的 `useEffect`：
+
+```ts
+const useEffect = (callback: () => void) => {
+  const execute = () => {
+    effectStack.push(effect);
+    try {
+      callback();
+    } finally {
+      effectStack.pop();
+    }
+  };
+  const effect: Effect = {
+    execute,
+    deps: new Set(),
+  };
+
+  // 调用时执行
+  execute();
+};
+```
+
+`execute` 用于将当前的 effect 推入栈中保存，随后执行用户的回调函数。我们的依赖收集重点就是在这里，如果回调函数 `callback` 中有我们状态的 `getter`，那么 `getter` 将会收集刚刚推入栈中的 effect 并建立订阅管理，从而实现自动收集依赖。
+
+所以这里的 `getter` 需要小小的更新下：
+
+```ts
+const subscribe = (effect: Effect, subs: Subs) => {
+  // 建立订阅关系
+  subs.add(effect);
+  // 建立依赖关系
+  effect.deps.add(effect);
+};
+const useState: UseState = (value) => {
+  const state = useRef(value);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, update] = useUpdate({});
+
+  const subs = useRef(new Set<Effect>());
+
+  const getter: Getter<typeof value> = () => {
+    // 获取刚刚送入栈中的 effect
+    const effect = effectStack[effectStack.length - 1];
+    if (effect) {
+      // 建立订阅发布关系
+      subscribe(effect, subs.current);
+    }
+    return state.current;
+  };
+
+  const setter: Setter<typeof value> = (updater) => {
+    const newState =
+      updater instanceof Function ? updater(state.current) : updater;
+    if (state.current === newState) return;
+    state.current = newState;
+    update({});
+  };
+
+  return [getter, setter];
+};
+```
+
+这里通过给 `getter` 添加一个在执行时检查 `effectStack`，如果能够取到栈尾的 effect 则添加到 `useState` 的订阅列表 `subs` 中。
+
+接下来就是更新 `setter`，使其在更新状态时检查订阅列表 `subs` 并遍历执行列表中所有副状态：
+
+```ts
+const setter: Setter<typeof value> = (updater) => {
+  const newState =
+    updater instanceof Function ? updater(state.current) : updater;
+  if (state.current === newState) return;
+
+  state.current = newState;
+  update({});
+  for (const sub of [...subs.current]) {
+    sub.execute();
+  }
+};
+```
+
+除此之外，和 `useEffect` 同理，我们需要放到 React 组件中使用，而我们刚刚设计的状态也会真正的更新一个函数式组件。由于函数式组件的特殊性，每次组件更新时所有的 hook 都会执行，所以我们的 `useEffect` 还需要 React 的真正的 `useEffect` 一点小小的帮助。
+
+```ts
+const useEffect = (callback: () => void) => {
+  const execute = () => {
+    // 重制依赖
+    cleanup(effect);
+    // 添加到副作用列表
+    effectStack.push(effect);
+    try {
+      callback();
+    } finally {
+      effectStack.pop();
+    }
+  };
+  const effect: Effect = {
+    execute,
+    deps: new Set(),
+  };
+
+  useMounted(() => {
+    // 调用时执行
+    execute();
+  }, []);
+};
+```
+
+### useMemo
+
+通过 `useEffect` 实现的自动依赖追踪，我们就可以轻松的实现一个自动追踪依赖的 `useMemo`：
+
+```ts
+const useMemo = <T>(callback: () => T) => {
+  const [s, set] = useState(callback());
+  useEffect(() => set(callback()));
+  return s;
+};
+```

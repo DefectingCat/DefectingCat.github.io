@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import PostCardLoading from 'components/pages/blog/post-card-loading';
 import { Metadata } from 'next';
 import { ReactNode } from 'react';
 
