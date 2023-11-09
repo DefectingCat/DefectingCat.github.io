@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function PageLayout({ children }: { children: ReactNode }) {
   return (
-    <main className="max-w-4xl mx-auto lg:w-[56rem]">
+    <main className="w-full max-w-4xl mx-auto">
       <h1
         className={clsx(
           'text-5xl font-bold text-center font-Barlow',

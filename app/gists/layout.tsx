@@ -15,7 +15,7 @@ export default async function PageLayout({
 }) {
   return (
     <>
-      <main className="max-w-5xl px-4 mx-auto lg:px-0">
+      <main className="w-full max-w-5xl px-4 mx-auto lg:px-0">
         <div className="md:flex">
           <Suspense fallback={<UserInfoLoading />}>
             <UserInfo />

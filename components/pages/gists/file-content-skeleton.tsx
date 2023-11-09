@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 export default function FileContentLoading() {
   return (
-    <div className={clsx('pb-4')}>
+    <div className={clsx('pb-4 w-full')}>
       {/* Username */}
       <h1
         className={clsx(

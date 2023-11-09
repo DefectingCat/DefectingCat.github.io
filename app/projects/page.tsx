@@ -14,7 +14,9 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <main className="flex-1 max-w-4xl px-8 py-8 mx-auto lg:px-0">
+      <main
+        className={clsx('flex-1 max-w-4xl px-8 py-8 mx-auto', 'lg:px-0 w-full')}
+      >
         <div>
           {/* Git projects */}
           <div>
