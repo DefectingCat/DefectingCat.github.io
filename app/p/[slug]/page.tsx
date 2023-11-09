@@ -1,4 +1,5 @@
 import rehypePrism from '@mapbox/rehype-prism';
+import clsx from 'clsx';
 import components from 'components/mdx/components';
 import data from 'content/mdx-data';
 import { allPostsPath, readSinglePost } from 'lib/posts';
@@ -56,7 +57,13 @@ const Page = async ({
 
   return (
     <>
-      <main id="article" className="relative max-w-4xl px-4 mx-auto my-10">
+      <main
+        id="article"
+        className={clsx(
+          'relative max-w-4xl px-4 mx-auto my-10',
+          'lg:w-[56rem] w-full',
+        )}
+      >
         <h1>{mdxSource.frontmatter?.title}</h1>
         <time>{mdxSource.frontmatter?.date}</time>
         <PostToc toc={toc} tocLength={tocLength} />

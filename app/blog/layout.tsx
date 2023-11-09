@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import PostCardLoading from 'components/pages/blog/post-card-loading';
 import { Metadata } from 'next';
 import { ReactNode } from 'react';
 
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function PageLayout({ children }: { children: ReactNode }) {
   return (
-    <main className="max-w-4xl mx-auto">
+    <main className="max-w-4xl mx-auto lg:w-[56rem]">
       <h1
         className={clsx(
           'text-5xl font-bold text-center font-Barlow',
