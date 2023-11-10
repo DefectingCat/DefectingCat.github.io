@@ -27,7 +27,8 @@ font-family: 'Poppins', sans-serif;
 
 @layer base {
   body {
-    @apply text-gray-600 bg-bluish-gray dark:bg-rua-gray-900 dark:text-gray-200;
+    /* @apply text-gray-600 bg-bluish-gray dark:bg-rua-gray-900 dark:text-gray-200; */
+    @apply text-subtext0 bg-gradient-to-b from-base to-crust;
     font-family:
       'Poppins',
       -apple-system,

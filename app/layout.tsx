@@ -8,7 +8,6 @@ import fonts from 'lib/fonts';
 import { Metadata } from 'next';
 import 'styles/globals.css';
 import 'styles/rua.css';
-import '@catppuccin/highlightjs/sass/catppuccin.variables.scss';
 
 export const metadata: Metadata = {
   title: 'RUA',

@@ -10,6 +10,7 @@ import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import { Post } from 'types';
+import '@catppuccin/highlightjs/sass/catppuccin.variables.scss';
 
 const PostToc = dynamic(() => import('components/post/post-toc'));
 const PostCommnetLine = dynamic(
