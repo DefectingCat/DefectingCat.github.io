@@ -13,8 +13,8 @@ export default function RUAThemeProvider({
       attribute="class"
       storageKey="rua-theme"
       themes={['latte', 'mocha']}
-      enableSystem
-      defaultTheme="system"
+      enableSystem={false}
+      defaultTheme="latte"
     >
       {children}
     </ThemeProvider>
