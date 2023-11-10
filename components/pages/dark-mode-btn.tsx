@@ -8,12 +8,12 @@ const DarkModeBtn = () => {
   const { mounted } = useMounted();
   const { systemTheme, theme, setTheme } = useTheme();
   const currentTheme = theme === 'system' ? systemTheme : theme;
-  const handleTheme = (type: 'light' | 'dark') => () => {
-    const map = {
-      light: 'latte',
-      dark: 'mocha',
-    };
-    document.body.className = map[type];
+  const handleTheme = (type: 'latte' | 'mocha') => () => {
+    // const map = {
+    //   light: 'latte',
+    //   dark: 'mocha',
+    // };
+    // document.body.className = map[type];
     setTheme(type);
   };
 
@@ -32,13 +32,13 @@ const DarkModeBtn = () => {
 
   return (
     <>
-      {currentTheme === 'dark' ? (
+      {currentTheme === 'mocha' ? (
         <button>
-          <FiSun className="w-5 h-5" onClick={handleTheme('light')} />
+          <FiSun className="w-5 h-5" onClick={handleTheme('latte')} />
         </button>
       ) : (
         <button>
-          <FiMoon className="w-5 h-5" onClick={handleTheme('dark')} />
+          <FiMoon className="w-5 h-5" onClick={handleTheme('mocha')} />
         </button>
       )}
     </>

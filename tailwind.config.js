@@ -1,5 +1,5 @@
 module.exports = {
-  darkMode: 'class',
+  darkMode: ['class', '.mocha'],
   plugins: [require('@catppuccin/tailwindcss')],
   content: [
     './app/**/*.{js,ts,jsx,tsx,md,mdx}',

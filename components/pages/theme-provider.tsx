@@ -12,7 +12,7 @@ export default function RUAThemeProvider({
     <ThemeProvider
       attribute="class"
       storageKey="rua-theme"
-      themes={['light', 'dark']}
+      themes={['latte', 'mocha']}
       enableSystem
       defaultTheme="system"
     >

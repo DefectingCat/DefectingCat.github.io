@@ -39,7 +39,7 @@ export default function RootLayout({
           crossOrigin=""
         />
       </head>
-      <body className="latte">
+      <body>
         <RUAThemeProvider>
           <div className="flex flex-col min-h-[100vh]">
             <HeadBar />
