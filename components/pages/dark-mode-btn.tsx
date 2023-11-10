@@ -10,17 +10,33 @@ const DarkModeBtn = () => {
   const { mounted } = useMounted();
   const { theme, setTheme } = useTheme();
   const handleTheme = (type: 'latte' | 'mocha') => () => {
+    const media = window.matchMedia(MEDIA);
+    const map = {
+      light: 'latte',
+      dark: 'mocha',
+    };
+    const system = media.matches ? 'dark' : 'light';
     setTheme(type);
+    if (map[system] === type) {
+      try {
+        window.localStorage.removeItem('rua-theme');
+      } catch (err) {}
+    }
   };
 
   const handleMediaQuery = useCallback(
     (e: MediaQueryListEvent | MediaQueryList) => {
       const isDark = e.matches;
-      if (isDark) {
-        setTheme('mocha');
-      } else {
-        setTheme('latte');
-      }
+      try {
+        const localTheme = window.localStorage.getItem('rua-theme');
+        if (localTheme) return;
+        if (isDark) {
+          setTheme('mocha');
+        } else {
+          setTheme('latte');
+        }
+        window.localStorage.removeItem('rua-theme');
+      } catch (err) {}
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
