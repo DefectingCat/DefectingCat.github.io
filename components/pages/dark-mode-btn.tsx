@@ -1,23 +1,18 @@
 import clsx from 'clsx';
+import { MEDIA, THEME_MAP } from 'lib/consts';
 import useMounted from 'lib/hooks/use-mounted';
 import { useTheme } from 'next-themes';
 import { memo, useCallback, useEffect } from 'react';
 import { FiMoon, FiSun } from 'react-icons/fi';
-
-const MEDIA = '(prefers-color-scheme: dark)';
 
 const DarkModeBtn = () => {
   const { mounted } = useMounted();
   const { theme, setTheme } = useTheme();
   const handleTheme = (type: 'latte' | 'mocha') => () => {
     const media = window.matchMedia(MEDIA);
-    const map = {
-      light: 'latte',
-      dark: 'mocha',
-    };
     const system = media.matches ? 'dark' : 'light';
     setTheme(type);
-    if (map[system] === type) {
+    if (THEME_MAP[system] === type) {
       try {
         window.localStorage.removeItem('rua-theme');
       } catch (err) {}
