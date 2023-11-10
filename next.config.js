@@ -15,6 +15,7 @@ const nextConfig = {
   // images: isExport ? { unoptimized: true } : {},
   experimental: {
     webpackBuildWorker: true,
+    mdxRs: true,
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
