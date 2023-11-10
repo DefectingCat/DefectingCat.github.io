@@ -1,13 +1,13 @@
 import { easings, useSpring } from '@react-spring/three';
 import { useFrame, useLoader, useThree } from '@react-three/fiber';
+import useRuaTheme from 'lib/hooks/use-rua-theme';
 import { getMousePosition } from 'lib/utils';
-import { useTheme } from 'next-themes';
 import { useEffect, useRef } from 'react';
+import useStore from 'store';
 import * as THREE from 'three';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { rotationX, rotationY } from './home-model';
-import useStore from 'store';
 
 const CloudModel = () => {
   const mixer = useRef<THREE.AnimationMixer | null>(null);
@@ -16,14 +16,14 @@ const CloudModel = () => {
 
   // After model loading, set theme to dark mode.
   const restore = useRef(false);
-  const { theme, setTheme } = useTheme();
+  const { theme, handleTheme } = useRuaTheme();
   // setDarkMode is async called by setTimeout, when component is unmounted
   // it should not be called.
   const setDarkMode = () => {
     if (theme === 'mocha') return;
     restore.current = true;
     document.body.style.transition = 'all 1.2s ease-out';
-    setTheme('mocha');
+    handleTheme('mocha');
   };
   const [_, api] = useSpring(
     {
@@ -87,7 +87,7 @@ const CloudModel = () => {
       window.removeEventListener('touchmove', moveHandler);
 
       if (!restore.current) return;
-      setTheme('latte');
+      handleTheme('latte');
       document.body.style.transition = 'all 0.3s ease-out';
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

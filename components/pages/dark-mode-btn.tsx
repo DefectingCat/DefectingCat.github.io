@@ -1,23 +1,13 @@
 import clsx from 'clsx';
-import { MEDIA, THEME_MAP } from 'lib/consts';
+import { MEDIA } from 'lib/consts';
 import useMounted from 'lib/hooks/use-mounted';
-import { useTheme } from 'next-themes';
+import useRuaTheme from 'lib/hooks/use-rua-theme';
 import { memo, useCallback, useEffect } from 'react';
 import { FiMoon, FiSun } from 'react-icons/fi';
 
 const DarkModeBtn = () => {
   const { mounted } = useMounted();
-  const { theme, setTheme } = useTheme();
-  const handleTheme = (type: 'latte' | 'mocha') => () => {
-    const media = window.matchMedia(MEDIA);
-    const system = media.matches ? 'dark' : 'light';
-    setTheme(type);
-    if (THEME_MAP[system] === type) {
-      try {
-        window.localStorage.removeItem('rua-theme');
-      } catch (err) {}
-    }
-  };
+  const { theme, setTheme, handleTheme } = useRuaTheme();
 
   const handleMediaQuery = useCallback(
     (e: MediaQueryListEvent | MediaQueryList) => {
@@ -64,11 +54,11 @@ const DarkModeBtn = () => {
     <>
       {theme === 'mocha' ? (
         <button>
-          <FiSun className="w-5 h-5" onClick={handleTheme('latte')} />
+          <FiSun className="w-5 h-5" onClick={() => handleTheme('latte')} />
         </button>
       ) : (
         <button>
-          <FiMoon className="w-5 h-5" onClick={handleTheme('mocha')} />
+          <FiMoon className="w-5 h-5" onClick={() => handleTheme('mocha')} />
         </button>
       )}
     </>
