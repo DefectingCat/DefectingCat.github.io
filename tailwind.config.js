@@ -1,5 +1,6 @@
 module.exports = {
   darkMode: 'class',
+  plugins: [require('@catppuccin/tailwindcss')],
   content: [
     './app/**/*.{js,ts,jsx,tsx,md,mdx}',
     './pages/**/*.{js,ts,jsx,tsx,md,mdx}',
@@ -44,5 +45,4 @@ module.exports = {
       },
     },
   },
-  plugins: [],
 };

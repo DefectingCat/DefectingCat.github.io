@@ -7,9 +7,8 @@ import RUAThemeProvider from 'components/pages/theme-provider';
 import fonts from 'lib/fonts';
 import { Metadata } from 'next';
 import 'styles/globals.css';
-import 'styles/prism-one-dark.css';
-import 'styles/prism-one-light.css';
 import 'styles/rua.css';
+import '@catppuccin/highlightjs/sass/catppuccin.variables.scss';
 
 export const metadata: Metadata = {
   title: 'RUA',
@@ -41,7 +40,7 @@ export default function RootLayout({
           crossOrigin=""
         />
       </head>
-      <body>
+      <body className="latte">
         <RUAThemeProvider>
           <div className="flex flex-col min-h-[100vh]">
             <HeadBar />

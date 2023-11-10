@@ -1,4 +1,3 @@
-import rehypePrism from '@mapbox/rehype-prism';
 import clsx from 'clsx';
 import components from 'components/mdx/components';
 import data from 'content/mdx-data';
@@ -9,6 +8,7 @@ import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
 import { Post } from 'types';
 
 const PostToc = dynamic(() => import('components/post/post-toc'));
@@ -46,7 +46,7 @@ const Page = async ({
       mdxOptions: {
         remarkPlugins: [remarkGfm],
         rehypePlugins: [
-          [rehypePrism, { alias: { vue: 'xml' }, ignoreMissing: true }],
+          [rehypeHighlight, { alias: { vue: 'xml' }, ignoreMissing: true }],
           rehypeSlug,
         ],
       },
@@ -70,7 +70,6 @@ const Page = async ({
 
         <article id="post-content">
           {mdxSource.content}
-
           <PostCommnetLine />
           <div className="mt-4">
             <PostComment />
