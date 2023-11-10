@@ -143,10 +143,9 @@ code {
 }
 
 pre {
-  padding: 1em;
+  @apply p-4 rounded-lg;
   margin: 0.5em 0;
   overflow: auto;
-  border-radius: 0.3em;
   @apply bg-white dark:bg-rua-gray-800;
   /* font-family: 'Fira Code', 'Fira Mono', Menlo, Consolas, 'DejaVu Sans Mono',
       monospace; */

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function PageLayout({ children }: { children: ReactNode }) {
   return (
-    <main className="w-full max-w-4xl mx-auto">
+    <main className="flex-1 w-full max-w-4xl mx-auto">
       <h1
         className={clsx(
           'text-5xl font-bold text-center font-Barlow',
@@ -17,7 +17,6 @@ export default function PageLayout({ children }: { children: ReactNode }) {
       >
         Blog posts
       </h1>
-
       <div className="px-4 lg:px-0">{children}</div>
     </main>
   );

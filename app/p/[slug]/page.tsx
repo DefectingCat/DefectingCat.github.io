@@ -62,7 +62,7 @@ const Page = async ({
         id="article"
         className={clsx(
           'relative max-w-4xl px-4 mx-auto my-10',
-          'lg:w-[56rem] w-full',
+          'lg:w-[56rem] w-full flex-1',
         )}
       >
         <h1>{mdxSource.frontmatter?.title}</h1>

@@ -30,6 +30,11 @@ const txtMenu = [
   },
   {
     id: 4,
+    name: 'Friends',
+    path: '/friends',
+  },
+  {
+    id: 5,
     name: 'About',
     path: '/about',
   },
