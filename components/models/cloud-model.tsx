@@ -16,15 +16,14 @@ const CloudModel = () => {
 
   // After model loading, set theme to dark mode.
   const restore = useRef(false);
-  const { systemTheme, theme, setTheme } = useTheme();
-  const currentTheme = theme === 'system' ? systemTheme : theme;
+  const { theme, setTheme } = useTheme();
   // setDarkMode is async called by setTimeout, when component is unmounted
   // it should not be called.
   const setDarkMode = () => {
-    if (currentTheme === 'dark') return;
+    if (theme === 'mocha') return;
     restore.current = true;
     document.body.style.transition = 'all 1.2s ease-out';
-    setTheme('dark');
+    setTheme('mocha');
   };
   const [_, api] = useSpring(
     {
@@ -88,7 +87,7 @@ const CloudModel = () => {
       window.removeEventListener('touchmove', moveHandler);
 
       if (!restore.current) return;
-      setTheme('light');
+      setTheme('latte');
       document.body.style.transition = 'all 0.3s ease-out';
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
