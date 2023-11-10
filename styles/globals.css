@@ -146,7 +146,7 @@ pre {
   @apply p-4 rounded-lg;
   margin: 0.5em 0;
   overflow: auto;
-  @apply bg-white dark:bg-rua-gray-800;
+  @apply bg-white dark:bg-rua-gray-700;
   /* font-family: 'Fira Code', 'Fira Mono', Menlo, Consolas, 'DejaVu Sans Mono',
       monospace; */
   direction: ltr;

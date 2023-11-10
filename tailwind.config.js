@@ -38,6 +38,9 @@ module.exports = {
         outline: '0 0 0 3px rgba(83, 220, 246, 0.6)',
         underline: 'inset 0px -2px 0px 0px rgb(85 200 188 / 70%)',
         throughline: 'inset 0px -0.5em 0px 0px rgb(85 200 188 / 70%)',
+        // card
+        // l2
+        card: '0px 10px 20px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04)',
       },
       backgroundImage: {
         underline: 'linear-gradient(rgb(240 240 240),rgb(240 240 240))',

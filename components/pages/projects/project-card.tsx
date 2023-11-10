@@ -26,6 +26,7 @@ const ProjectCard = ({ project, icon }: ProjectCardProps) => {
           'flex items-center cursor-pointer',
           'justify-between dark:bg-rua-gray-800',
           'hover:dark:bg-rua-gray-700',
+          'shadow-card',
         )}
       >
         {Icon ? Icon : <VscGithubInverted className="w-8 h-8" />}
