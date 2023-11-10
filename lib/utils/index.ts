@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import * as THREE from 'three';
 
 export const sortByDate = (
@@ -47,7 +48,7 @@ export type SingleToc = {
  * @param source
  * @returns
  */
-export const generateToc = (source: string) => {
+export const generateToc = cache((source: string) => {
   const regex = /^#{2,3}(?!#)(.*)/gm;
 
   let lastH2: SingleToc | null = null;
@@ -86,7 +87,7 @@ export const generateToc = (source: string) => {
   });
 
   return toc;
-};
+});
 
 /**
  * Get mouse or touch position on screen.

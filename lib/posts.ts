@@ -3,6 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { MyMatters, Post } from 'types';
 import { sortByDate } from 'lib/utils';
+import { cache } from 'react';
 
 export const dataPath = 'content/posts';
 
@@ -74,7 +75,7 @@ export const allPostsPath = async () => {
  * @param slug
  * @returns
  */
-export const readSinglePost = async (slug: string) => {
+export const readSinglePost = cache(async (slug: string) => {
   const filename = path.join(`${dataPath}/${slug}.mdx`);
   return await fs.readFile(filename, { encoding: 'utf-8' });
-};
+});
