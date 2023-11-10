@@ -8,6 +8,14 @@ const DarkModeBtn = () => {
   const { mounted } = useMounted();
   const { systemTheme, theme, setTheme } = useTheme();
   const currentTheme = theme === 'system' ? systemTheme : theme;
+  const handleTheme = (type: 'light' | 'dark') => () => {
+    const map = {
+      light: 'latte',
+      dark: 'mocha',
+    };
+    document.body.className = map[type];
+    setTheme(type);
+  };
 
   if (!mounted) {
     return (
@@ -26,11 +34,11 @@ const DarkModeBtn = () => {
     <>
       {currentTheme === 'dark' ? (
         <button>
-          <FiSun className="w-5 h-5" onClick={() => setTheme('light')} />
+          <FiSun className="w-5 h-5" onClick={handleTheme('light')} />
         </button>
       ) : (
         <button>
-          <FiMoon className="w-5 h-5" onClick={() => setTheme('dark')} />
+          <FiMoon className="w-5 h-5" onClick={handleTheme('dark')} />
         </button>
       )}
     </>
