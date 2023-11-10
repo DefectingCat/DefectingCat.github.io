@@ -11,7 +11,7 @@
   color: inherit;
 }
 
-.dark *::selection {
+.mocha *::selection {
   background: hsl(220, 13%, 28%);
   color: inherit;
   text-shadow: none;
@@ -74,7 +74,7 @@ font-family: 'Poppins', sans-serif;
 }
 
 /* DocSearch */
-html.dark {
+html.mocha {
   --docsearch-text-color: #f5f6f7;
   --docsearch-container-background: rgba(9, 10, 17, 0.8);
   --docsearch-modal-background: #15172a;
