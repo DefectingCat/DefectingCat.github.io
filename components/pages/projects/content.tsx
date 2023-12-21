@@ -12,7 +12,7 @@ import {
   SiTsnode,
   SiVim,
 } from 'react-icons/si';
-import { TbBrandRust } from 'react-icons/tb';
+import { TbBrandMastodon, TbBrandRust } from 'react-icons/tb';
 import { VscGithubInverted } from 'react-icons/vsc';
 
 export const iconMap = {
@@ -28,6 +28,7 @@ export const iconMap = {
   pluto: <PiPlanetDuotone />,
   mercury: <PiPlanetLight />,
   rust: <TbBrandRust />,
+  mastodon: <TbBrandMastodon />,
 };
 
 export type Project = {
@@ -123,5 +124,11 @@ export const selfHosts: Project[] = [
     name: 'Photos',
     description: 'Some photos.',
     url: 'https://photos.rua.plus/',
+  },
+  {
+    icon: 'mastodon',
+    name: 'Mastodon',
+    description: 'Mastodon!',
+    url: 'https://m.rua.plus/',
   },
 ];
