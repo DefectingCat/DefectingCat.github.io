@@ -3,10 +3,6 @@ import { projects, selfHosts } from 'components/pages/projects/content';
 import PojectCardSkeleton from 'components/pages/projects/project-card-skeleton';
 import { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'RUA - Projects',
-};
-
 const Loading = () => {
   return (
     <>
