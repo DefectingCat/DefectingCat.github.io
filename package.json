@@ -26,7 +26,6 @@
     "@react-spring/three": "^9.7.3",
     "@react-three/drei": "^9.92.5",
     "@react-three/fiber": "^8.15.12",
-    "@tweenjs/tween.js": "^21.0.0",
     "algoliasearch": "^4.22.0",
     "dayjs": "^1.11.10",
     "next": "14.0.4",
