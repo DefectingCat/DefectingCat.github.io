@@ -20,7 +20,7 @@ const Pre = ({ ...rest }: Props) => {
 
   return (
     <>
-      <pre className={clsx(className, 'relative group')} {...props}>
+      <pre className={clsx(className, 'relative group shadow-card')} {...props}>
         {children}
         <CopyCode />
       </pre>

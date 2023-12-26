@@ -78,13 +78,13 @@ const GistsCode = ({ file, showFileName = false }: Props) => {
             </div>
           </div>
 
-          <div className={'relative group'}>
+          <div className="relative group">
             {code}
             <CopyCode />
           </div>
         </div>
       ) : (
-        <div className={'relative group'}>
+        <div className="relative group">
           {code}
           <CopyCode />
         </div>
