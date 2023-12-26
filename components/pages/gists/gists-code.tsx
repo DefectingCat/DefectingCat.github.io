@@ -1,14 +1,15 @@
+import '@catppuccin/highlightjs/sass/catppuccin.variables.scss';
 import clsx from 'clsx';
+import CopyCode from 'components/post/copy-code';
 import { createElement, Fragment, memo } from 'react';
+import rehypeHighlight from 'rehype-highlight';
 import rehypeReact from 'rehype-react';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
-import rehypeHighlight from 'rehype-highlight';
 import { GistsFile } from 'types';
 import { unified } from 'unified';
 import styles from './gists-code.module.css';
-import '@catppuccin/highlightjs/sass/catppuccin.variables.scss';
 
 interface Props {
   file: GistsFile;
@@ -77,10 +78,16 @@ const GistsCode = ({ file, showFileName = false }: Props) => {
             </div>
           </div>
 
-          <div>{code}</div>
+          <div className={'relative group'}>
+            {code}
+            <CopyCode />
+          </div>
         </div>
       ) : (
-        <div>{code}</div>
+        <div className={'relative group'}>
+          {code}
+          <CopyCode />
+        </div>
       )}
     </>
   );

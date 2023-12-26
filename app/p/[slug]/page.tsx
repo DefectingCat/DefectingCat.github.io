@@ -1,3 +1,4 @@
+import '@catppuccin/highlightjs/sass/catppuccin.variables.scss';
 import clsx from 'clsx';
 import components from 'components/mdx/components';
 import data from 'content/mdx-data';
@@ -6,11 +7,10 @@ import { SingleToc, generateToc } from 'lib/utils';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
+import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight';
 import { Post } from 'types';
-import '@catppuccin/highlightjs/sass/catppuccin.variables.scss';
 
 const PostToc = dynamic(() => import('components/post/post-toc'));
 const PostCommnetLine = dynamic(
