@@ -1,0 +1,149 @@
+---
+title: 跨平台的静态链接构建
+date: '2023-12-26'
+tags: [Rust, Linux]
+---
+
+大多数 Linux 软件都是动态链接的，动态链接可以使我们的程序不需要将所有所需要的库都打包到自身当中去。不过这样也有弊处，当目标系统比较旧，或者压根就没有我们需要的库的时候，我们的二进制文件就无法在目标系统中运行。
+
+## 安装交叉编译工具
+
+不光光需要使用 `rustup` 来安装对应的 target，还需要 linker 来帮助构建到目标平台。
+
+macOS
+
+```
+brew tap SergioBenitez/osxct
+brew install FiloSottile/musl-cross/musl-cross
+brew install SergioBenitez/osxct/x86_64-unknown-linux-gnu
+brew install mingw-w64
+```
+
+```
+rustup target add x86_64-unknown-linux-musl
+rustup target add x86_64-unknown-linux-gnu
+rustup target add x86_64-pc-windows-gnu
+```
+
+Ubuntu
+
+```bash
+apt-get install -y musl-tools libssl-dev pkg-config libudev-dev
+```
+
+在安装好 target 与 linker 之后，则需要在项目目录下的 `.cargo/config` 中添加对应平台所需要使用的 linker。
+
+```toml
+[target.x86_64-unknown-linux-gnu]
+linker = "x86_64-unknown-linux-gnu-gcc"
+
+[target.x86_64-unknown-linux-musl]
+linker = "x86_64-linux-musl-gcc"
+
+[target.x86_64-pc-windows-gnu]
+linker = "x86_64-w64-mingw32-gcc"
+```
+
+## 动态链接
+
+```
+TARGET_CC=x86_64-unknown-linux-gnu \
+cargo build --release --target x86_64-unknown-linux-gnu
+```
+
+## 静态链接
+
+```
+TARGET_CC=x86_64-linux-musl-gcc \
+RUSTFLAGS="-C linker=x86_64-linux-musl-gcc" \
+cargo build --target=x86_64-unknown-linux-musl --release
+```
+
+```
+TARGET_CC=x86_64-linux-musl-gcc \
+cargo build --target=x86_64-unknown-linux-musl --release
+```
+
+## Windows
+
+```
+cargo build --target=x86_64-pc-windows-gnu --release
+```
+
+## Openssl
+
+在跨平台时，openssl 可能没有对应平台的链接库，而 openssl 提供了一个简单的解决方案：添加 `vendored` features。
+
+> If the `vendored` Cargo feature is enabled, the `openssl-src` crate will be used to compile and statically link to a copy of OpenSSL. The build process requires a C compiler, perl (and perl-core), and make. The OpenSSL version will generally track the newest OpenSSL release, and changes to the version are *not* considered breaking changes.
+> https://docs.rs/openssl/latest/openssl/#vendored
+
+```toml
+openssl = { version = "0.10.61", features = ["vendored"] }
+```
+
+如果没有直接直接使用openssl 作为依赖，可以单独为其指定 features 而不作为依赖，也不用指定版本。
+
+```toml
+[dependencies.openssl]
+features = ["vendored"]
+[dependencies.openssl-sys]
+features = ["vendored"]
+```
+
+需要注意的是，在某些镜像中（例如 `rust:latest`），还需要一些额外的依赖
+
+```bash
+apt-get install -y musl-tools libssl-dev pkg-config libudev-dev
+```
+
+## GitLab CI
+
+相对于其他提供 SaaS 的 CI 来说，Gitlab 最大的好处就是可以安装 gitlab-runner 来使用自己的机器作为 runner，从而不用再额外购买 CI 的执行时长。
+
+### Compose
+
+```yml
+version: '3.6'
+services:
+  runner:
+    container_name: gitlab-runner-1
+    image: 'gitlab/gitlab-runner:latest'
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./runner-1:/etc/gitlab
+
+  runner-2:
+    container_name: gitlab-runner-2
+    image: 'gitlab/gitlab-runner:latest'
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./runner-2:/etc/gitlab
+```
+
+使用 compose 来运行多个 runner 是最好不过的选择了。compose file 本身与运行其他服务没有什么区别，唯一需要注意的就是注册 runner 了。
+
+在 compose 启动所有的 runner 后，可以使用 `docker exec` 来为运行中的容器执行命令，从而执行 runner 中的 `gitlab-runner` 命令来注册 runner。其注册命令为 `gitlab-runner register`。
+
+```bash
+docker exec -it gitlab-runner-1 gitlab-runner register
+```
+
+这里是映射了容器中的 `/etc/gitlab` 目录到本地，runner 注册的配置文件就在该目录。所有除了直接执行容器命令，还可以单独运行一个实例，挂载 `./runner-1` 目录来注册。注册完成后配置文件就在该目录下，随后再启动 compose，新启动的 runner 就能读取到刚刚注册的配置文件，从而变成它了。
+
+## 静态链接的配置文件
+
+较为通用的只用到了 rust 官方镜像的跨平台配置。如果使用了 openssl，则需要添加 `vendored` features。
+
+<GistCode id="2480b0c232e1d235ce8b28b6a5f7540e" />
+
+### Locally test
+
+```bash
+docker run --entrypoint bash --rm -w $PWD -v $PWD:$PWD -v /var/run/docker.sock:/var/run/docker.sock gitlab/gitlab-runner:latest -c 'git config --global --add safe.directory "*";gitlab-runner exec docker build:linux-musl-amd64'
+```
+
+在本地运行并测试刚修改的 `.gitlab-ci.yml` 是必不可少的，不能每次的修改都需要 push 以后再交给 runner 运行。这样不仅麻烦，还会导致 commit 的杂乱无章。
+
+而通过启动一个新的 runner 实例，可以直接将项目挂载到 runner 的容器中来本地执行当前的 `.gitlab-ci.yml`。本地执行的 runner 是不需要注册的。
