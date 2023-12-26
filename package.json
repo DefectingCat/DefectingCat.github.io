@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && node scripts/build-search.mjs",
-    "build:export": "cross-env NEXT_BUILD=export next build && cross-env NEXT_BUILD=export next export",
-    "build:search": "node scripts/build-search.mjs",
+    "build-export": "cross-env NEXT_BUILD=export next build && cross-env NEXT_BUILD=export next export",
+    "build-search": "node scripts/build-search.mjs",
+    "build-local": "next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watch",
