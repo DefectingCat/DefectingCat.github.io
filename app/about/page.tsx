@@ -12,7 +12,7 @@ const page = () => {
     <>
       <AboutModel />
 
-      <main className="h-[calc(100vh-142px)] flex flex-col">
+      <main className="h-[calc(100dvh-142px)] flex flex-col">
         <div
           className={clsx(
             'flex max-w-3xl',

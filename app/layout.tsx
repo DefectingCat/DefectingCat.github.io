@@ -41,7 +41,7 @@ export default function RootLayout({
       </head>
       <body>
         <RUAThemeProvider>
-          <div className="flex flex-col min-h-[100vh]">
+          <div className="flex flex-col min-h-dvh">
             <HeadBar />
             {children}
             <Footer />
