@@ -6,6 +6,7 @@ import RUACodeSandbox from 'components/rua/rua-code-sandbox';
 import RUASandpack from 'components/rua/rua-sandpack';
 import Tab from 'components/rua/tab';
 import TabItem from 'components/rua/tab/tab-item';
+import GistCode from 'components/common/gist-code';
 
 const components = {
   RUASandpack,
@@ -16,6 +17,7 @@ const components = {
   TabItem,
   RUACodeSandbox,
   RUACodepen,
+  GistCode,
 };
 
 export default components;

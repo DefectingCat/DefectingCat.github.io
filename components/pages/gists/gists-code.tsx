@@ -15,6 +15,12 @@ interface Props {
   showFileName?: boolean;
 }
 
+/**
+ * Render GitHub gists code.
+ *
+ * @params file
+ * @params showaFileName determine show full content or not
+ */
 const GistsCode = ({ file, showFileName = false }: Props) => {
   const fileContent = showFileName
     ? file.content
@@ -33,7 +39,7 @@ const GistsCode = ({ file, showFileName = false }: Props) => {
   return (
     <>
       {showFileName ? (
-        <div className={styles.wrapper}>
+        <div className={clsx(styles.wrapper, 'relative group')}>
           <div className="h-[30px] bg-[#f6f8fa] dark:bg-[hsl(220,13%,18%)] flex">
             <div className="flex items-center h-full mx-3">
               <div
