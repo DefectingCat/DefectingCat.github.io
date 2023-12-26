@@ -35,9 +35,6 @@ dependencies:
   '@react-three/fiber':
     specifier: ^8.15.12
     version: 8.15.12(react-dom@18.2.0)(react@18.2.0)(three@0.159.0)
-  '@tweenjs/tween.js':
-    specifier: ^21.0.0
-    version: 21.0.0
   algoliasearch:
     specifier: ^4.22.0
     version: 4.22.0
@@ -2530,10 +2527,6 @@ packages:
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
     engines: {node: '>= 10'}
     dev: true
-
-  /@tweenjs/tween.js@21.0.0:
-    resolution: {integrity: sha512-qVfOiFh0U8ZSkLgA6tf7kj2MciqRbSCWaJZRwftVO7UbtVDNsZAXpWXqvCDtIefvjC83UJB+vHTDOGm5ibXjEA==}
-    dev: false
 
   /@types/acorn@4.0.6:
     resolution: {integrity: sha512-veQTnWP+1D/xbxVrPC3zHnCZRjSrKfhbMUlEA43iMZLu7EsnTtkJklIuwrCPbOi8YkvDQAiW05VQQFvvz9oieQ==}
