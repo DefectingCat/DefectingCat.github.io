@@ -132,3 +132,25 @@ export const getSignalGist = cache(async (id: string) => {
 
   return data;
 });
+
+export interface LinkResult {
+  meta: Meta;
+  links: Link[];
+  rel: [];
+}
+export interface Link {
+  href: string;
+  rel: string[];
+  type: string;
+}
+export interface Meta {
+  description: string;
+  title: string;
+  author: string;
+  canonical: string;
+}
+export const urlMeta = cache(async (url: string) => {
+  return (await (
+    await fetch(`http://iframely.server.crestify.com/iframely?url=${url}`)
+  ).json()) as LinkResult;
+});

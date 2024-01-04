@@ -12,7 +12,14 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   output: 'standalone',
-  // images: isExport ? { unoptimized: true } : {},
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
   experimental: {
     webpackBuildWorker: true,
     mdxRs: true,

@@ -1,5 +1,13 @@
-import React from 'react';
-import { HTMLAttributes } from 'react';
+import React, { HTMLAttributes } from 'react';
+import UrlPreviewer from './url-previewer';
+
+type ChildType = {
+  type: {
+    render: {
+      displayName: string;
+    };
+  };
+};
 
 const Paragraph = (props: HTMLAttributes<HTMLParagraphElement>) => {
   const { children, ...rest } = props;
@@ -8,7 +16,7 @@ const Paragraph = (props: HTMLAttributes<HTMLParagraphElement>) => {
   const links = React.Children.map(children, (child) => {
     if (!React.isValidElement(child)) return null;
     if (typeof child.type !== 'object') return null;
-    const childType = child.type as any;
+    const childType = child.type as ChildType;
     if (!childType?.type) return null;
     if (childType.type.render.displayName !== 'Anchor') return null;
     const props = child.props as { href: string };
@@ -18,7 +26,14 @@ const Paragraph = (props: HTMLAttributes<HTMLParagraphElement>) => {
   return (
     <>
       <p {...rest}>{children}</p>
-      {links?.map((url, i) => <div key={i}>{url}</div>)}
+
+      {!!links?.length && (
+        <div>
+          {links?.map((url, i) => (
+            <UrlPreviewer className="mb-4 last:mb-0" key={i} url={url} />
+          ))}
+        </div>
+      )}
     </>
   );
 };
