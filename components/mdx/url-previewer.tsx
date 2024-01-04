@@ -17,7 +17,7 @@ const UrlPreviewer = async ({
 
   const metadata = await urlMeta(url);
   const imageUrl =
-    metadata.links.find((v) => v.type.startsWith('image/'))?.href ?? '';
+    metadata?.links?.find((v) => v.type.startsWith('image/'))?.href ?? '';
 
   return (
     <a href={url} target="_blank" className={clsx(className, 'block')}>
@@ -37,7 +37,7 @@ const UrlPreviewer = async ({
         />
         <div className="py-4 px-5 md:p-7 overflow-hidden">
           <div className={clsx('text-xl mb-1 font-semibold')}>
-            {metadata.meta.title}
+            {metadata.meta?.title}
           </div>
           <div
             className={clsx(
@@ -45,7 +45,7 @@ const UrlPreviewer = async ({
               'mb-1',
             )}
           >
-            {metadata.meta.description}
+            {metadata.meta?.description}
           </div>
           <div
             className={clsx(
