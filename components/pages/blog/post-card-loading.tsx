@@ -1,5 +1,5 @@
-import React, { memo } from 'react';
 import clsx from 'clsx';
+import { memo } from 'react';
 
 const PostCardLoading = () => {
   return (

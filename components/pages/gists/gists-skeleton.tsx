@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-// import GistsCode from './gists-code';
 
 const GistSkeleton = () => {
   return (
@@ -38,8 +37,6 @@ const GistSkeleton = () => {
             <p className="pb-2 text-lg text-gray-500">
               <span className={'w-16 animate-pulse'}></span>
             </p>
-
-            {/* <GistsCode /> */}
           </div>
         </div>
       </main>
