@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && node scripts/build-search.mjs",
-    "build-export": "cross-env NEXT_BUILD=export next build && cross-env NEXT_BUILD=export next export",
     "build-search": "node scripts/build-search.mjs",
     "build-local": "next build",
     "start": "next start",
@@ -58,7 +57,6 @@
     "@types/three": "^0.160.0",
     "autoprefixer": "^10.4.16",
     "clsx": "^2.1.0",
-    "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "encoding": "^0.1.13",
     "eslint": "8.56.0",

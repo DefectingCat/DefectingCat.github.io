@@ -124,9 +124,6 @@ devDependencies:
   clsx:
     specifier: ^2.1.0
     version: 2.1.0
-  cross-env:
-    specifier: ^7.0.3
-    version: 7.0.3
   dotenv:
     specifier: ^16.3.1
     version: 16.3.1
@@ -3678,6 +3675,7 @@ packages:
     hasBin: true
     dependencies:
       cross-spawn: 7.0.3
+    dev: false
 
   /cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
