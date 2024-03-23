@@ -70,6 +70,26 @@ cargo build --target=x86_64-unknown-linux-musl --release
 cargo build --target=x86_64-pc-windows-gnu --release
 ```
 
+## Arm Linux
+
+手上的树莓派 3B+ 的 A53 其实是 64 位的，很久之前官方的系统就支持 64 位了。到现在一直都没有好好的发光发热过，如果使用 A53 来编译岂不是暴殄天物。
+
+和编译到 x86 的 linux 一样，只要安装好对应的 target 和设置好对应的 CC 即可。
+
+```bash
+TARGET_CC=aarch64-linux-musl-cc \
+RUSTFLAGS="-C linker=aarch64-linux-musl-cc" \
+cargo build --target=aarch64-unknown-linux-musl --release
+```
+
+## Should I rust or should I go?
+
+Golang 则更加的省心
+
+```bash
+GOOS=linux GOARCH=arm64 go build
+```
+
 ## Openssl
 
 在跨平台时，openssl 可能没有对应平台的链接库，而 openssl 提供了一个简单的解决方案：添加 `vendored` features。

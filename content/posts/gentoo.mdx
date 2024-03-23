@@ -1,0 +1,299 @@
+---
+title: Gentoo 指北
+date: '2024-03-23'
+tags: [Gentoo, Linux]
+---
+
+## Binary!
+
+[Gentoo gose Binary!](https://www.gentoo.org/news/2023/12/29/Gentoo-binary.html)
+在一月的倒数前两天，Gentoo 整了个新活。不再像以前只有过于复杂的软件提供了二进制文件（例如 linux 内核和 firefox），现在整个包管理器 Portage 都提供了二进制的选择。
+
+> You probably all know Gentoo Linux as your favourite source-based distribution. Did you know that our package manager, Portage, already for years also has support for binary packages
+
+终究还是变成了当初自己最讨厌的那个自己。
+
+要用上最新的二进制软件分发，第一步就是确认镜像源。
+
+```bash
+sudo vim /etc/portage/binrepos.conf/gentoobinhost.conf
+```
+
+在 `/etc/portage/` 中新增的 `binrepos.conf` 文件夹中就是新的二进制文件的镜像。
+
+```
+# These settings were set by the catalyst build script that automatically
+# built this stage.
+# Please consider using a local mirror.
+
+[gentoobinhost]
+priority = 1
+# sync-uri = https://gentoo.osuosl.org/releases/amd64/binpackages/17.1/x86-64
+sync-uri = https://mirrors.tuna.tsinghua.edu.cn/gentoo/releases/amd64/binpackages/17.1/x86-64/
+```
+
+在 `make.conf` 中，可以通过 `EMERGE_DEFAULT_OPTS` 为 emerge 设置新的默认使用二进制的选项。
+
+```
+# Binary packages
+BINPKG_FORMAT="gpkg"
+EMERGE_DEFAULT_OPTS="${EMERGE_DEFAULT_OPTS} --getbinpkg --binpkg-respect-use=n"
+FEATURES="getbinpkg"
+```
+
+`--binpkg-respect-use=n` 的设置会使得当 gentoo 分发的二进制软件不符合当前的 USE flags 时，仍然考虑安装。将其设置到 `make.conf` 中可能会出事。
+
+## 磁盘与分区
+
+根据手册中描述的对应磁盘类型的设备名称，可以更方便的找到对应的设备。
+
+| Type of device                     | Default device handle | Editorial notes and considerations                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ---------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IDE, SATA, SAS, SCSI, or USB flash | /dev/sda              | Found on hardware from roughly 2007 until the present, this device handle is perhaps the most commonly used in Linux. These types of devices can be connected via the [SATA bus](https://en.wikipedia.org/wiki/Serial_ATA 'wikipedia:Serial ATA'), [SCSI](https://en.wikipedia.org/wiki/SCSI 'wikipedia:SCSI'), [USB](https://en.wikipedia.org/wiki/USB 'wikipedia:USB') bus as block storage. As example, the first partition on the first SATA device is called /dev/sda1.                                              |
+| NVM Express (NVMe)                 | /dev/nvme0n1          | The latest in solid state technology, [NVMe](https://en.wikipedia.org/wiki/NVM_Express 'wikipedia:NVM Express') drives are connected to the PCI Express bus and have the fastest transfer block speeds on the market. Systems from around 2014 and newer may have support for NVMe hardware. The first partition on the first NVMe device is called /dev/nvme0n1p1.                                                                                                                                                       |
+| MMC, eMMC, and SD                  | /dev/mmcblk0          | [embedded MMC](https://en.wikipedia.org/wiki/MultiMediaCard#eMMC 'wikipedia:MultiMediaCard') devices, SD cards, and other types of memory cards can be useful for data storage. That said, many systems may not permit booting from these types of devices. It is suggested to **not** use these devices for active Linux installations; rather consider using them to transfer files, which is their typical design intention. Alternatively this storage type could be useful for short-term file backups or snapshots. |
+
+磁盘的分区是一个老生常谈的问题了，分区的主要痛点不是在于给哪个区分多大的空间，而是要注意对应当前设备的启动方式选择好合适的分区表以及分区格式。毕竟当所有东西都编译完成之后发现分区表错了才是最痛苦的。
+
+常见的分区表选择有：
+
+- GPT（GUID Partition Table）：GPT 是可以为传统 BIOS 启动做分区表的，但是就无法与 Windows 做多个系统了。
+- MBR（Master boot record）：传统的分区表，支持 BIOS，但对最大硬盘只能支持到 2 TiB。
+
+EFI 的配置会稍微多一点，BIOS 启动则会简单一点。SWAP 则看个人喜好。
+
+GPT for UEFI 的常见分区：
+
+| Device path (sysfs) | Mount point                                                    | File system | DPS UUID (PARTUUID)                  | Description                         |
+| ------------------- | -------------------------------------------------------------- | ----------- | ------------------------------------ | ----------------------------------- |
+| /dev/sda1           | /efi                                                           | vfat        | c12a7328-f81f-11d2-ba4b-00a0c93ec93b | EFI system partition (ESP) details. |
+| /dev/sda2           | N/A. Swap is not mounted to the filesystem like a device file. | swap        | 0657fd6d-a4ab-43c4-84e5-0933c84b4f4f | Swap partition details.             |
+| /dev/sda3           | /                                                              | xfs         | 4f68bce3-e8cd-4db1-96e7-fbcaf984b709 | Root partition details.             |
+
+MBR for BIOS 的常见分区
+
+| Device path (sysfs) | Mount point                                                    | File system | DPS UUID (PARTUUID)                  | Description                                   |
+| ------------------- | -------------------------------------------------------------- | ----------- | ------------------------------------ | --------------------------------------------- |
+| /dev/sda1           | /boot                                                          | xfs         | N/A                                  | MBR DOS / legacy BIOS boot partition details. |
+| /dev/sda2           | N/A. Swap is not mounted to the filesystem like a device file. | swap        | 0657fd6d-a4ab-43c4-84e5-0933c84b4f4f | Swap partition details.                       |
+| /dev/sda3           | /                                                              | xfs         | 4f68bce3-e8cd-4db1-96e7-fbcaf984b709 | Root partition details.                       |
+
+## 安装前的其他准备
+
+在分区完成，并挂载到 `/mnt/gentoo` 后，可以先做点准备工作。例如启动 `ssh` 实例，方便后续的一些复制粘贴操作。
+
+```bash
+rc-service start sshd
+```
+
+### 时间
+
+安装时的系统时间非常重要，C 的某些编译环节会需要正确的系统时间。如果在安装时没有设置好时间，则会导致进入系统后某些文件的创建时间不正确，可能会遇到例如：
+
+```
+ninja: error: manifest 'build.ninja' still dirty after 100 tries
+```
+
+## Kernel
+
+Gentoo 为我们提供了三种内核的选择：
+
+- Distribution Kernels：与其他多数发行版类似，Distribution Kernel 是已经配置过的，直接编译即可。除此之外还能够选择已经编译好的 `sys-kernel/gentoo-kernel-bin`。
+- Genkernel：Gentoo 提供的一种配置内核的方式，能够提供比完全手动配置更方便的选择。
+- Manual configuration：完全的手动配置。
+
+### Manual configuration
+
+整个 Linux 内核的可配置项目比较多，也不是一次性就能全部了解完的。当然也不用每个地方都需要修改。手动配置内核的主要目的还是在了解自身硬件的前提下，尽可能的调整到适合自己的硬件。同时也能关掉一些不用的功能，从而保证内核的精简。
+
+## 配置
+
+不同于其他的多数发型版，Gentoo 需要手动配置一些常见的项目。正因如此，Gentoo 给人一种仅次于 LFS 的感觉。
+
+### tmpfs
+
+`/tmp` 分区默认是一个普通的文件夹，我们可以手动的将其挂载为 [tmpfs](https://en.wikipedia.org/wiki/Tmpfs)。
+
+```
+tmpfs /tmp tmpfs rw,nosuid,nodev,size=4G,mode=1777 0 0
+```
+
+## Emerge
+
+Emerge 不同于其他发型版提供的包管理器，是 Gentoo 提供的一种从源码编译软件的主要方式之一。也是使用 Gentoo 的特性之一的最佳方式：`USE flags`。
+
+不同于二进制直接发行，emerge 从源码编译时支持使用 `USE flags` 来支持对软件的自定义。
+
+例如安装 kitty 时只需要支持 wayland，不需要传统的 X 的支持。直接将其使用 flags `-X` 标记为不需要即可，在编译时就不会编译对应的支持。
+
+```bash
+[ebuild   R    ] x11-terms/kitty-0.31.0::gentoo  USE="wayland -X -test -verify-sig" PYTHON_SINGLE_TARGET="python3_11 -python3_10 (-python3_12)" 0 KiB
+```
+
+对软件精细的控制是 Gentoo 的特点之一，同时代价就是安装软件时的编译时间。对于本地编译从而提升对本机 CPU 的优化在编译时间面前可能显得一文不值。
+
+### Portage
+
+说是 emerge 是类似包管理器，在官方 [wiki Portage 页面](https://wiki.gentoo.org/wiki/Portage) 中 Portage 才被称之为包管理器和分发系统，emerge 可以说是它的工具之一。
+出了包管理器之外，还有对整个系统的管理，例如设置 profile 等。
+
+对 Portage 对设置文件都保存在 `/etc/portage`，包括最熟悉的 `make.conf`。
+
+```bash
+# /etc/portage
+drwxr-xr-x 3 root root   31 Nov 27  2022 profile
+drwxr-xr-x 3 root root   24 Nov 26 08:53 savedconfig
+drwxr-xr-x 2 root root    6 Dec  2 03:49 package.mask
+drwxr-xr-x 2 root root   41 Dec  5 21:29 package.accept_keywords
+-rw-r--r-- 1 root root   77 Dec  6 06:14 package.license
+-rw-r--r-- 1 root root  865 Dec 12 05:41 make.conf.euse_backup
+lrwxrwxrwx 1 root root   67 Dec 12 06:33 make.profile -> ../../var/db/repos/gentoo/profiles/default/linux/amd64/17.1/desktop
+-rw-r--r-- 1 root root 1.1K Jan  4 09:05 make.conf
+drwxr-xr-x 2 root root   76 Jan  4 09:26 repos.conf
+drwxr-xr-x 2 root root   32 Jan  4 09:36 binrepos.conf
+drwxr-xr-x 5 root root  154 Jan  4 21:18 gnupg
+drwxr-xr-x 2 root root   38 Jan  9 11:44 package.use
+```
+
+常用的或者说后续在使用系统时大概率是需要了解的：
+
+- `packge.mask`:
+
+### Flags 的设置
+
+在 `/etc/portage/make.conf` 中设置的是全局生效的 flags，也就是安装任何软件软件时，只要有对应的 flags 就会应用。
+
+```c
+USE="wayland qsv jpegxl opengl vulkan drm icons pulseaudio videocodecs \
+     audiocodecs web alsa gles2 \
+     -gtk -plasma -gnome -kde -dvd -systemd -nvidia -bluetooth \
+     -qtwebengine -nouveau -thunderbolt -dri -accessibility -X"
+```
+
+如果要对单独某个软件设置 flags，则需要在 `/etc/portage/package.use` 中为指定的软件设置。`package.use` 可以是一个文件，也可以是一个文件夹。在新安装的系统中大概率是一个已经存在的文件夹，当是一个文件夹时，其下的所有文件中的 flags 都会被应用。
+
+其写法与 `make.conf` 中的 `USE` 字段略微有点不同。`/etc/portage/package.use/tmux`
+
+```
+# tmux vim syntax
+>=app-misc/tmux-3.3a-r1 vim-syntax
+```
+
+## Hyprland
+
+作为新时代的系统窗口协议，Wayland 是良好的 X11 替代品。
+
+> Wayland is a replacement for the X11 window system protocol and architecture with the aim to be easier to develop, extend, and maintain.
+
+不同于 Sway 的目标是代替在 X11 上的 i3，Hyprland 则完全是全新的体验。得益于 GPU 的渲染，使得其能够拥有流畅的动画。
+
+### OpenRC
+
+对于在 OpenRC 上运行，必不可少的：
+
+- dbus
+- seatd
+- hyrpland
+- waybar
+
+如果没有使用 `systemd` 可以使用 `seatd` 的 `server` flag 来以服务的方式运行 `seatd` 从而代替 `logind`。
+
+### Dbus
+
+如果是没有选择 `desktop` profile 安装的最小化环境，可能没有 XDG 的一些环境变量和需要的一些目录。
+
+## 为其他机器编译内核
+
+参考这个帖子：[Compiling kernel from another pc can I use it to my pc?](https://forums.gentoo.org/viewtopic-t-1056998-start-0.html#top)。在为其他硬件编译内核只需要选择好目标所需要的驱动，并且别一不小心安装到当前机器上就行了。
+
+配置完后，编译的步骤还是和以前一样：
+
+```bash
+sudo make -j16 -l16
+```
+
+不同的是，`modules_install` 可以通过指定环境变量来将所有的 modules 安装到指定位置，方便待会拷贝到指定的机器上。
+
+```bash
+sudo make modules_install INSTALL_MOD_PATH=/home/xfy/gentoo-mini
+```
+
+同理，整个内核也是可以通过环境变量来指定安装的位置。
+
+```bash
+sudo make install INSTALL_PATH=/home/xfy/gentoo-mini/
+```
+
+之后整个目录看起来就应该类似于
+
+```
+.
+|-- lib
+|-- config-6.1.57-gentoo-gentoo-xfy
+|-- System.map-6.1.57-gentoo-gentoo-xfy
+`-- vmlinuz-6.1.57-gentoo-gentoo-xfy
+```
+
+拷贝到目标机器之后，只需要删除旧的 modules（留着也可以），并将内核复制到 `/boot`。再更新下启动配置即可。
+
+```bash
+sudo cp -aR lib/modules/6.1.57-gentoo-gentoo-xfy/ /lib/modules/
+sudo cp config-6.1.57-gentoo-gentoo-xfy /boot/
+sudo cp System.map-6.1.57-gentoo-gentoo-xfy /boot/
+sudo cp vmlinuz-6.1.57-gentoo-gentoo-xfy /boot/
+```
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+## 系统的更新
+
+在合并整个系统的包之前，首先要做的就是先同步下镜像。
+
+```bash
+sudo emerge-webrsync
+```
+
+然后便是直接合并，并重新编译。
+
+```bash
+sudo emerge -avuDU @world
+```
+
+对于新活
+
+```bash
+sudo emerge -avuDUg @world
+```
+
+## 一些 emerge 的缩写
+
+### Auto mask
+
+```bash
+sudo emerge -av --autounmask=y --autounmask-write
+```
+
+### Update world
+
+```bash
+sudo emerge -avuDN @world
+sudo emerge --ask --verbose --update --deep --newuse @world
+```
+
+or
+
+```bash
+sudo emerge -avuDU @world
+sudo emerge --ask --verbose --update --deep --changed-use @world'
+```
+
+大写的 `N` 代表 `--newuse`，大写的 `U` 代表 `--changed-use`。当已经被禁用的 USE flags 被添加或移除时，使用 `--changed-use` 不会触发重新安装。
+
+### Deselect and clean dep
+
+```bash
+sudo emerge -av -W app-editors/nano
+sudo emerge -av --depclean app-editors/nano
+```
