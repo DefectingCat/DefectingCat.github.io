@@ -1,0 +1,449 @@
+---
+title: 疑难杂症
+date: '2024-03-23'
+tags: [Rust]
+---
+
+## 在 tauri 中为 command 使用自定义错误
+
+在 tauri 的 command 中返回的任何值都必须要是可以 `Serialize` 的，包括错误：Everything you return from commands must implement `Serialize`
+
+```rust
+use base64::DecodeError;
+use serde::{Serialize, Serializer};
+use thiserror::Error;
+
+#[derive(Error, Debug)]
+pub enum VError {
+    #[error("Request error: {0}")]
+    RequestFaild(#[from] reqwest::Error),
+
+    #[error("Decode error: {0}")]
+    DecodeError(#[from] DecodeError),
+}
+
+// https://github.com/tauri-apps/tauri/discussions/3913
+impl Serialize for VError {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_str(self.to_string().as_ref())
+    }
+}
+
+pub type VResult<T, E = VError> = anyhow::Result<T, E>;
+```
+
+## async 语句中使用 `?`
+
+async 语句块与 async fn 最大的不同就是前者无法显式的声明返回值，当配合 `?` 使用的时候编译器就无法得知 `Result<T, E>` 中 E 的类型。
+
+```rust
+async fn foo() -> Result<u8, String> {
+    Ok(1)
+}
+async fn bar() -> Result<u8, String> {
+    Ok(1)
+}
+pub fn main() {
+    let fut = async {
+        foo().await?;
+        bar().await?;
+        Ok(())
+    };
+}
+```
+
+这段代码会得到编译器 `cannot infer type for type parameter E declared on the enum Result` 的提示。原因在于编译器无法推断出 `Result<T, E>` 中的 `E` 的类型。
+
+目前的解决办法就是使用 `::<...>` 显式的添加类型注解，给予类型注释后此时编译器就知道 `Result<T, E>` 中的 `E` 的类型是 `String`，进而成功通过编译。
+
+```rust
+let fut = async {
+    foo().await?;
+    bar().await?;
+    Ok::<(), String>(()) // 在这一行进行显式的类型注释
+};
+```
+
+## 数组元素非基础类型
+
+Rust 的数组类型是存储在栈内存中的，但是它也是可以存储非基础类型的值。不过它不可以使用这样的数组初始化语法：
+
+```rust
+let a = [3; 5];
+```
+
+`let a = [3; 5];` 的本质是 Rust 不断的 Copy 出来的，而非基本类型是无法深拷贝的。
+
+正确的做法应该是使用 `std::array::from_fn` 。
+
+```rust
+fn main() {
+    let arr: [String; 6] = core::array::from_fn(|i| format!("Arr {}", i));
+    println!("{:?}", arr);
+}
+```
+
+## 在 map 方法中使用 `?`
+
+在 map 方法中使用 Question mark 需要在 `collect::<>()` 方法中显示注解 `Result<T, E>`
+
+```rust
+let subscripition = subscripition
+    .split('\n')
+    .filter(|line| !line.is_empty())
+    .map(|line| {
+        let line = line.replace("vmess://", "");
+        let line = general_purpose::STANDARD.decode(line)?;
+        let line = String::from_utf8_lossy(&line).to_string();
+        Ok(serde_json::from_str::<Node>(&line)?)
+    })
+    .collect::<VResult<Vec<_>>>()?;
+```
+
+## 优雅的修改 Option 的内容
+
+## 为 `enum` 实现静态字符串
+
+```rust
+#[derive(Debug, Serialize, Deserialize)]
+pub enum CoreStatus {
+    Started,
+    Restarting,
+    Stopped,
+}
+
+impl CoreStatus {
+    fn as_str(&self) -> &'static str {
+        match self {
+            CoreStatus::Started => "Started",
+            CoreStatus::Restarting => "Restarting",
+            CoreStatus::Stopped => "Stopped",
+        }
+    }
+}
+```
+
+## serde-rs deserialize string in json to number
+
+```rust
+use std::fmt::Display;
+use std::str::FromStr;
+
+use serde::de::{self, Deserialize, Deserializer};
+
+#[derive(Deserialize, Eq, PartialEq, Debug)]
+struct Test {
+    #[serde(deserialize_with = "from_str")]
+    test: u16
+}
+
+fn from_str<'de, T, D>(deserializer: D) -> Result<T, D::Error>
+    where T: FromStr,
+          T::Err: Display,
+          D: Deserializer<'de>
+{
+    let s = String::deserialize(deserializer)?;
+    T::from_str(&s).map_err(de::Error::custom)
+}
+```
+
+## serde deserialize multiple type
+
+https://www.reddit.com/r/rust/comments/fcz4yb/how_do_you_deserialize_strings_integers_to_float/
+
+```rust
+fn de_str<'de, D>(deserializer: D) -> Result<i64, D::Error>
+where
+    D: serde::de::Deserializer<'de>,
+{
+    Ok(match Value::deserialize(deserializer)? {
+        Value::String(s) => s.parse().map_err(de::Error::custom)?,
+        Value::Number(num) => num.as_i64().ok_or(de::Error::custom("Invalide number"))?,
+        _ => return Err(de::Error::custom("wrong type")),
+    })
+}
+fn de_str_option<'de, D>(deserializer: D) -> Result<Option<i64>, D::Error>
+where
+    D: serde::de::Deserializer<'de>,
+{
+    Ok(match Value::deserialize(deserializer)? {
+        Value::String(s) => s.parse().map(Some).map_err(de::Error::custom)?,
+        Value::Number(num) => num.as_i64(),
+        _ => return Err(de::Error::custom("wrong type")),
+    })
+}
+```
+
+## DerefMut 获取结构体多个字段 mut
+
+在使用诸如 `Arc<Mutex<T>>` 的数据时，当获取到了锁的引用后，实际修改数据时，修改的是通过锁的 `DerefMut` 来修改其数据的。
+
+```rust
+let mut config = config.lock().await;
+config.rua = "test";
+```
+
+而当数据中有多个字段需要分别获取为 `mut` 时，则编译器可能无法正确的认识到实际获取的是不同的字段，而非将目标数据获取了多次 `mut`。
+
+```rust
+let mut config = config.lock().await;
+
+let mut rua = &mut config.rua;
+let mut core = config.core.as_mut().unwrap();
+// cannot borrow `config` as mutable more than once at a time
+```
+
+这是因为 `DerefMut` 让编译器认为我们获取了两次 `config` 结构体为 `mut`，而非它的两个不同的字段。最佳解决办法就是通过手动解引用来获取到实际的结构体，从而使得编译器能够正确的认识到引用到字段。
+
+```rust
+let mut config = config.lock().await;
+let config = &mut *config;
+
+let mut rua = &mut config.rua;
+let mut core = config.core.as_mut().unwrap();
+```
+
+虽然自动解引用看上去获取的字段都是正确解引用的，但是编译器可能无法正确的识别到这两个字段是不同的。
+
+![[Pasted image 20230730004909.png]]
+
+这可能是因为 `Mutex` 使用的是 `UnsafeCell<T>` 来获取实际值的可修改引用。
+
+```rust
+pub struct Mutex<T: ?Sized> {
+    #[cfg(all(tokio_unstable, feature = "tracing"))]
+    resource_span: tracing::Span,
+    s: semaphore::Semaphore,
+    c: UnsafeCell<T>,
+}
+
+impl<T: ?Sized> DerefMut for MutexGuard<'_, T> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        unsafe { &mut *self.lock.c.get() }
+    }
+}
+```
+
+## 异步递归
+
+在内部，`async fn` 创建了一个包含了要 `.await` 的子 `Future` 的状态机。这样递归的 `async fn` 有点诡异，因为结果的状态机必须包含它自身：
+
+```rust
+#![allow(unused)]
+fn main() {
+    async fn step_one() { /* ... */ }
+    async fn step_two() { /* ... */ }
+
+    struct StepOne;
+    struct StepTwo;
+
+    // This function:
+    async fn foo() {
+        step_one().await;
+        step_two().await;
+    }
+    // Generates a type like this:
+    enum Foo {
+        First(StepOne),
+        Second(StepTwo),
+    }
+
+    // So this function:
+    async fn recursive() {
+        recursive().await;
+        recursive().await;
+    }
+
+    // Generates a type like this:
+    enum Recursive {
+        First(Recursive),
+        Second(Recursive),
+    }
+}
+```
+
+但是这将无法工作，因为我们创建了无限大小的类型
+
+```
+error[E0733]: recursion in an `async fn` requires boxing
+ --> src/lib.rs:1:22
+  |
+1 | async fn recursive() {
+  |                      ^ an `async fn` cannot invoke itself directly
+  |
+  = note: a recursive `async fn` must be rewritten to return a boxed future.
+```
+
+为了允许这种做法，我们需要用 `Box` 来间接调用。而不幸的是，编译器限制意味着把 `recursive()` 的调用包裹在 `Box::pin` 并不够。为了让递归调用工作，我们必须把 `recursive` 转换成非 `async` 函数，然后返回一个 `.boxed()` 的异步块
+
+```rust
+use futures::future::{BoxFuture, FutureExt};
+
+fn recursive() -> BoxFuture<'static, ()> {
+    async move {
+        recursive().await;
+        recursive().await;
+    }.boxed()
+}
+```
+
+## 消耗一个异步 map
+
+当一个迭代器中产出异步值的时候，除了使用 for 循环来在外部函数中 await 它，还可以使用 `futures` crate 中的 `try_join_all`。
+
+```rust
+use futures::future::try_join_all;
+
+#[tokio::main]
+async fn main() {
+    let urls = ["https://www.google.com", "https://rua.plus"];
+    let sites =
+        try_join_all(urls.map(|url| async move { reqwest::get(url).await.unwrap().text().await }))
+            .await
+            .unwrap();
+    sites.iter().for_each(|site| {
+        println!("{}", site.len());
+    });
+}
+```
+
+## 在 `fold` 方法中使用 `?`
+
+`fold` 方法本身无法使用 `?`，但是 `fold` 还有另一个变体，可以允许直接使用 `?`：`try_fold`。
+
+https://doc.rust-lang.org/std/ops/trait.Try.html
+
+The `?` operator and `try {}` blocks.
+
+`try_*` methods typically involve a type implementing this trait. For example, the closures passed to [`Iterator::try_fold`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.try_fold 'method std::iter::Iterator::try_fold') and [`Iterator::try_for_each`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.try_for_each 'method std::iter::Iterator::try_for_each') must return such a type.
+
+`Try` types are typically those containing two or more categories of values, some subset of which are so commonly handled via early returns that it’s worth providing a terse (but still visible) syntax to make that easy.
+
+This is most often seen for error handling with [`Result`](https://doc.rust-lang.org/std/result/enum.Result.html 'enum std::result::Result') and [`Option`](https://doc.rust-lang.org/std/option/enum.Option.html 'enum std::option::Option'). The quintessential implementation of this trait is on [`ControlFlow`](https://doc.rust-lang.org/std/ops/enum.ControlFlow.html 'enum std::ops::ControlFlow').
+
+```rust
+pub async fn regular_post() -> Result<BaiduZZ> {
+    let site = env::var("SPIO_SITE")?;
+    let token = env::var("SPIO_TOKEN")?;
+    let url = format!("{}?site={}&token={}", BAIDU_URL, site, token);
+
+    let now = Instant::now();
+    info!("starting get booths, request /admin/Apiview/sample_view");
+    let params = ExampleParam::default();
+    let examples = get_examples(&params).await?;
+    let urls = examples
+        .data
+        .list
+        .data
+        .iter()
+        .try_fold(vec![], build_booth_url)?
+        .join("\n");
+    info!("parse booth's url done {}ms", now.elapsed().as_millis());
+
+    let res: BaiduZZ = reqwest::Client::new()
+        .post(url)
+        .header(reqwest::header::CONTENT_TYPE, "text/plain")
+        .body(urls)
+        .send()
+        .await?
+        .json()
+        .await?;
+    Ok(res)
+}
+
+fn build_booth_url(prev: Vec<String>, cur: &BoothExamplesDatum) -> Result<Vec<String>> {
+    let url = Url::parse(cur.link.as_ref().unwrap_or(&PRODUCTION_URL.to_owned()));
+    let host = url?;
+    let host = host.host_str().ok_or(anyhow!("parse url failed"))?;
+    let booth_url = if host.contains("aiyunhuizhan") {
+        format!(
+            "https://{}/optimize/booth_id/{}",
+            host,
+            cur.booth_id
+                .as_ref()
+                .ok_or(anyhow!("cannot read booth id"))?
+        )
+    } else {
+        cur.link.to_owned().expect("")
+    };
+    anyhow::Ok([prev, vec![booth_url.to_string()]].concat())
+}
+```
+
+同理，返回 `std::ops::Try` 的方法都能过使用 `?`。
+
+```rust
+use anyhow::anyhow;
+
+fn main() -> anyhow::Result<()> {
+    let data = [Some(123), Some(444), None];
+
+    data.iter().try_for_each(|x| {
+        let real_x = x.ok_or(anyhow!(""))?;
+        dbg!(real_x);
+        anyhow::Ok(())
+    })?;
+
+    Ok(())
+}
+```
+
+## 传递 async funcation as paramters
+
+```rust
+use futures::Future;
+
+#[tokio::main]
+async fn main() {
+    let num = test(calc).await;
+    println!("{num}");
+}
+
+async fn calc() -> i32 {
+    40 + 2
+}
+
+async fn test<F, Fut>(f: F) -> i32
+where
+    F: FnOnce() -> Fut,
+    Fut: Future<Output = i32>,
+{
+    f().await
+}
+```
+
+## BoxedFuture
+
+```rust
+pub type Response = BoxFuture<'static, (Status, Bytes)>;
+type Job = fn(Request) -> Response;
+type Routes = Arc<RwLock<HashMap<&'static str, HashMap<&'static str, Job>>>>;
+```
+
+## Axum trailing slashes in route path
+
+https://github.com/tokio-rs/axum/discussions/2377
+
+```rust
+use axum::{extract::Request, Router, ServiceExt};
+use tower::Layer;
+use tower_http::normalize_path::NormalizePathLayer;
+
+#[tokio::main]
+async fn main() {
+    let app = Router::new();
+
+    let app = NormalizePathLayer::trim_trailing_slash().layer(app);
+
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
+        .await
+        .unwrap();
+
+    axum::serve(listener, ServiceExt::<Request>::into_make_service(app)) // <-- this
+        .await
+        .unwrap();
+}
+```

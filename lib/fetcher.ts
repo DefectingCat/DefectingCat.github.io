@@ -1,7 +1,6 @@
 import { Octokit } from 'octokit';
 import { cache } from 'react';
 import { GistData, GistsFile, PageKeys, PageSize } from 'types';
-import {} from 'octokit/';
 
 const password = process.env.NEXT_PUBLIC_GITHUB_API;
 const host = process.env.NEXT_PUBLIC_GISTS_HOST ?? 'https://api.github.com';
@@ -149,8 +148,24 @@ export interface Meta {
   author: string;
   canonical: string;
 }
+const defaultLinkResult: LinkResult = {
+  meta: {
+    description: '',
+    title: '',
+    author: '',
+    canonical: '',
+  },
+  links: [],
+  rel: [],
+};
 export const urlMeta = cache(async (url: string) => {
-  return (await (
-    await fetch(`http://iframely.server.crestify.com/iframely?url=${url}`)
-  ).json()) as LinkResult;
+  try {
+    const result: LinkResult = await (
+      await fetch(`http://iframely.server.crestify.com/iframely?url=${url}`)
+    ).json();
+    return result;
+  } catch (err) {
+    console.error(err);
+    return defaultLinkResult;
+  }
 });
