@@ -24,6 +24,14 @@ import {
   useSyncExternalStore,
   useTransition,
 } from './sandpack/react18-new-hooks';
+import {
+  app1,
+  app2,
+  app3,
+  signal1,
+  signal2,
+  signal3,
+} from './sandpack/automatic-dependency-collect';
 
 const data = {
   sandpack: {
@@ -57,6 +65,14 @@ const data = {
       miniRedux,
       MultiStore,
       Reducer,
+    },
+    'automatic-dependency-collect': {
+      signal1,
+      app1,
+      signal2,
+      app2,
+      signal3,
+      app3,
     },
   },
 };

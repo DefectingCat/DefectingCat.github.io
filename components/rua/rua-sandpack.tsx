@@ -14,15 +14,22 @@ const RUASandpack = ({ ...rest }: Props) => {
 
   if (!mounted) {
     return (
-      <div className="my-2 min-h-[402px]">
-        <Sandpack {...rest} />
+      <div className="my-2 rounded-[0.5em] overflow-hidden">
+        <Sandpack
+          {...rest}
+          options={{
+            showConsole: true,
+            showConsoleButton: true,
+            editorHeight: '512px',
+          }}
+        />
       </div>
     );
   }
 
   return (
     <>
-      <div className="my-2 min-h-[402px]">
+      <div className="my-2 rounded-[0.5em] overflow-hidden">
         <Sandpack
           {...rest}
           theme={
@@ -30,6 +37,12 @@ const RUASandpack = ({ ...rest }: Props) => {
               (theme ?? 'latte') as keyof typeof THEME_CATPUCCIN_MAP
             ]
           }
+          options={{
+            showConsole: true,
+            showConsoleButton: true,
+            editorHeight: '512px',
+            showRefreshButton: true,
+          }}
         />
       </div>
     </>

@@ -96,24 +96,17 @@ const useState: UseState = (value) => {
 
 使用它的方式和官方 hooks 没有区别：
 
-```tsx
-function App() {
-  console.log('App updated');
-  const [count, setCount] = useState(0);
-
-  return (
-    <>
-      <button
-        onClick={() => {
-          setCount((d) => d + 1);
-        }}
-      >
-        Update {count()}
-      </button>
-    </>
-  );
-}
-```
+<RUASandpack
+  template="react-ts"
+  files={{
+    '/Button.tsx': {
+      code: sandpack.common.Button,
+      hidden: true,
+    },
+    '/signal.ts': sandpack['automatic-dependency-collect'].signal1,
+    '/App.tsx': sandpack['automatic-dependency-collect'].app1,
+  }}
+/>
 
 ### useEffect
 
@@ -248,6 +241,18 @@ const useEffect = (callback: () => void) => {
 };
 ```
 
+<RUASandpack
+  template="react-ts"
+  files={{
+    '/Button.tsx': {
+      code: sandpack.common.Button,
+      hidden: true,
+    },
+    '/signal.ts': sandpack['automatic-dependency-collect'].signal2,
+    '/App.tsx': sandpack['automatic-dependency-collect'].app2,
+  }}
+/>
+
 ### useMemo
 
 通过 `useEffect` 实现的自动依赖追踪，我们就可以轻松的实现一个自动追踪依赖的 `useMemo`：
@@ -259,3 +264,15 @@ const useMemo = <T>(callback: () => T) => {
   return s;
 };
 ```
+
+<RUASandpack
+  template="react-ts"
+  files={{
+    '/Button.tsx': {
+      code: sandpack.common.Button,
+      hidden: true,
+    },
+    '/signal.ts': sandpack['automatic-dependency-collect'].signal3,
+    '/App.tsx': sandpack['automatic-dependency-collect'].app3,
+  }}
+/>
