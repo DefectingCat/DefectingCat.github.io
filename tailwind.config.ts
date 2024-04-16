@@ -1,4 +1,6 @@
-module.exports = {
+import type { Config } from 'tailwindcss';
+
+const config: Config = {
   darkMode: ['class', '.mocha'],
   plugins: [require('@catppuccin/tailwindcss')],
   content: [
@@ -49,3 +51,5 @@ module.exports = {
     },
   },
 };
+
+export default config;
