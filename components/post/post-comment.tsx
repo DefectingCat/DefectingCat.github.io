@@ -1,12 +1,13 @@
 'use client';
 
 import Giscus from '@giscus/react';
-import { useTheme } from 'next-themes';
+import { THEME_CATPUCCIN_MAP } from 'lib/consts';
+import useRuaTheme from 'lib/hooks/use-rua-theme';
 import { memo } from 'react';
 
 const PostComment = () => {
-  const { systemTheme, theme } = useTheme();
-  const currentTheme = theme === 'system' ? systemTheme : theme;
+  const { theme } = useRuaTheme();
+  console.log('PostComment', theme);
 
   return (
     <>
@@ -18,7 +19,13 @@ const PostComment = () => {
         mapping="pathname"
         reactionsEnabled="1"
         emitMetadata="0"
-        theme={currentTheme === 'dark' ? 'dark_dimmed' : 'light'}
+        theme={
+          THEME_CATPUCCIN_MAP[
+            (theme ?? 'latte') as keyof typeof THEME_CATPUCCIN_MAP
+          ] === 'dark'
+            ? 'noborder_gray'
+            : 'noborder_light'
+        }
         loading="lazy"
         inputPosition="top"
       />
