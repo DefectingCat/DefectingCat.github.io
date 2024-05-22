@@ -27,3 +27,9 @@ build:local:
   artifacts:
     paths:
       - .next/standalone.tar.gz
+
+build:lint:
+  stage: build
+  script:
+    - pnpm i
+    - pnpm lint
