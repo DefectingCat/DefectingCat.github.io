@@ -1,0 +1,234 @@
+---
+title: 第 4 章 所有权与移动
+date: '2024-05-22'
+tags: [Rust, Linux]
+---
+
+谈及内存管理，我们希望编程语言具备两个特点：
+
+- 希望能在我们选定的时机及时释放，这使我们能控制程序的内存消耗；
+- 在对象被释放后，我们绝不希望继续使用指向它的指针，这是未定义行为，会导致崩溃和安全漏洞。
+
+## 所有权
+
+在使用指向一个堆内存的指针时，人们普遍认为，虽然其他代码也可以创建指向拥有内存的临时指针，但是在拥有者决定销毁拥有对象之前，其他代码有责任确保其指针已消失。这便是所有权的示例，拥有者决定被拥有者的生命周期，其他所有人都必须尊重其决定。
+
+然而，在 Rust 中，所有权这个概念内置于语言本身，并通过编译期检查强制执行。每个值都有决定其生命周期的唯一拥有者。当游泳者被释放时，它拥有的值也会同时被释放，在 Rust 术语中，释放的行为被称为**丢弃**（drop）。
+
+Rust 的 Box 类型是所有权的另一个例子。`Box<T>` 是指向在堆上的 `T` 类型值的指针。因为 Box 拥有它所指向的空间，所以当丢弃 Box 时，也会释放此空间。
+
+```rust
+let point = Box::new((0.625, 0.5));
+let label = format!("{:?}", point);
+println!("Point {}", label);
+```
+
+就像变量拥有自己的值一样，结构体拥有自己的字段，元组、数组和向量拥有自己的元素。
+
+```rust
+struct Person {
+    name: String,
+    age: u32,
+}
+
+let composers = vec![
+    Person {
+        name: "xfy".to_string(),
+        age: 18,
+    },
+    Person {
+        name: "dfy".to_string(),
+        age: 18,
+    },
+    Person {
+        name: "Sonetto".to_string(),
+        age: 18,
+    },
+];
+
+composers.iter().for_each(|composer| {
+    println!("{}, age {}", composer.name, composer.age);
+});
+```
+
+这里有很多所有权关系，但每个都一目了然：`composers` 变量拥有一个向量，向量拥有自己的元素，每个元素都是一个 `Person` 结构体，每个结构体都拥有自己的字段，并且字符串拥有自己的文本。当控制流离开声明 `composers` 的作用域时，程序会丢弃自己的值并将整棵所有权树一起丢弃。
+
+所有权关系的重要性：每个值都有一个唯一的拥有者，因此很容易决定何时丢弃它。但是每个值可能会拥有许多其他值，这些值还可能拥有其他值。
+
+由此可见，拥有者及其拥有那些值形成了一棵树：值的拥有者时值的父节点，值拥有的值时值的字节点。每棵树的总根都是一个变量，当该变量超出作用域时，整棵树都将随之消失。
+
+从某种意义上来说，Rust 确实不如其他语言强大：其他所有使用的编程语言都允许你构建出任意复杂的对象图，这些对象可以以我们认为合适的方式相互引用。
+
+> 解决问题的方式通常时灵活多样的，因此总是会有一些完美的解决方案能同时满足它所施加的限制。
+
+单一所有权的概念仍然过于严格，还处理不了某些场景。Rust 从几个方面拓展了这种简单的思想。
+
+- 可以将值从一个拥有者转移给另一个拥有者。这允许我们构建、重新排列和拆除树形结构。
+- 像整数、浮点数和字符这样的非常简单的类型，不受所有权规则的约束。这些称之为 Copy 类型。（通常是存在栈上可复制的类型）
+- 标准库提供了引用计数指针类型 Rc 和 Arc，它们允许值在某些限制下有多个拥有者。
+- 可以对值进行”借用“（borrow），以获得值的引用。这种引用是非拥有型指针，有着受限的生命周期。
+
+## 移动
+
+在 Rust 中，对大多数类型来说（没有实现 Copy 的值），像为变量赋值、将其传递给函数或从函数返回这样的操作都不会复制，而是会**移动**值。源会把值的所有权转移给目标并变回未初始化状态，改由目标变量来控制值的生命周期。Rust 程序以每次指移动一个值的方式建立和拆除复杂的结构。
+
+历史发展到今天，赋值应该已经是含义最明确的操作了。但是，如果仔细观察不同的语言处理赋值的操作方式，你会发现不同的编程流派之间实际上存在着相当明显的差异。
+
+例如如下 Python 代码：
+
+```python
+arr = ['udon', 'ramen', 'soba']
+trr = arr
+urr = arr
+
+print("Address of arr", hex(id(arr)))
+print("Address of trr", hex(id(trr)))
+print("Address of urr", hex(id(urr)))
+```
+
+每个 Python 对象都有一个引用计数，以用于跟踪当前正引用着此值的数量。因此对于一个引用值数组来说，只有 `arr` 变量指向列表，当程序对 `trr` 和 `urr` 赋值时，Python 会直接让目标指向与源相同的对象，并增加引用计数来实现赋值。这和我们的老朋友 JavaScript 是类似的。
+
+而在 C++ 中：
+
+```c++
+// Include the necessary header files
+#include <iostream>
+#include <vector>
+#include <string>
+
+// Declare the namespace
+using namespace std;
+
+// Write a main function
+int main() {
+    // Create three vectors of strings
+    vector <string> arr = {"udon", "ramen", "soba"};
+    vector <string> trr = arr;
+    vector <string> urr = arr;
+
+    cout << &arr << endl;
+    cout << &trr << endl;
+    cout << &urr << endl;
+
+    // Return 0 to indicate success
+    return 0;
+}
+```
+
+赋值向量时则会深拷贝所有对象，从而选择让全部内存的所有权保持清晰。
+
+而在 Rust 中，同样的的代码在默认情况下则无法通过编译：
+
+```rust
+fn main() {
+    let arr = vec!["udon", "ramen", "soba"];
+    let trr = arr;
+    let urr = arr;
+
+    println!("Address of arr {:?}", &arr as *const Vec<&str>);
+    println!("Address of trr {:?}", &trr as *const Vec<&str>);
+    println!("Address of urr {:?}", &urr as *const Vec<&str>);
+}
+```
+
+这是因为 Rust 的赋值操作会**移动**而不是复制或共享值。当我们将 `arr` 赋给 `trr` 时，`arr` 的所有权被转移给了 `trr`，而 `arr` 变成了未初始化状态。这意味着我们不能再使用 `arr` 来访问或修改向量。同样地，当我们将 `trr` 赋给 `urr` 时，`trr` 的所有权也被转移给了 `urr`，而 `trr` 也变成了未初始化状态。因此，我们只能使用 `urr` 来操作向量。
+
+当然，如果我们需要达到与 C++ 同样的效果，则可以显式的深克隆目标对象：
+
+```rust
+fn main() {
+    let arr = vec!["udon", "ramen", "soba"];
+    let trr = arr.clone();
+    let urr = arr.clone();
+
+    println!("Address of arr {:?}", &arr as *const Vec<&str>);
+    println!("Address of trr {:?}", &trr as *const Vec<&str>);
+    println!("Address of urr {:?}", &urr as *const Vec<&str>);
+}
+```
+
+### 值的移动
+
+在一个常见的 Rust 赋值操作中，通常可能会涉及到很多移动操作（只要没有实现 Copy trait 的值，默认则都是移动）。像这样移动值乍一看可能效率低下，但有两点需要牢记。首先，移动的永远时值本身，而不是这些值拥有的堆存储。对象向量和字符串，**值本身**就是指单独的“三字标头”，幕后的大型元素数组和文本缓冲区仍然处于它们在堆中的位置。
+
+### 移动与控制流
+
+如果一个变量在执行了 `if` 表达式中的条件后仍然有值，那么就可以在这两个分支中使用它：
+
+```rust
+let x = vec![1, 2, 3];
+if c {
+    f(x);  // Using 'x' here is allowed
+} else {
+    g(x);  // Using 'x' here is allowed
+}
+h(x);  // Using 'x' here is not allowed, 'x' has been moved
+```
+
+出于类似的原因，禁止在循环中进行变量移动：
+
+```rust
+let x = vec![1, 2, 3];
+while f() {
+    g(x);  // Moving 'x' in a loop is not allowed
+}
+
+```
+
+同理，如果要从 Vec 中移动出一个元素，则会令其来源变为未初始化的状态，因为目标将获得该值的所有权，但并非值的每种拥有者都能变成未初始化的状态：
+
+```rust
+let v = vec!["Hello".to_string(), "World".to_string()];
+let second = v[1];  // 'second' takes ownership, leaving 'v' in an undefined state
+```
+
+所以要从 Vec 中移动出某个元素，需要使用一些特定的方法：
+
+```rust
+// Create a vector of strings
+let mut vec = vec!["apple", "banana", "cherry", "date", "elderberry"];
+
+// Remove and return the element at index 2
+let fruit = vec.remove(2);
+println!("Removed {}", fruit); // cherry
+println!("Vector is now {:?}", vec); // ["apple", "banana", "date", "elderberry"]
+
+// Remove and return the element at index 1, replacing it with the last element
+let fruit = vec.swap_remove(1);
+println!("Removed {}", fruit); // banana
+println!("Vector is now {:?}", vec); // ["apple", "elderberry", "date"]
+
+// Remove and return the last element
+let fruit = vec.pop();
+println!("Removed {:?}", fruit); // Some("date")
+println!("Vector is now {:?}", vec); // ["apple", "elderberry"]
+
+// Consume the vector and move its elements into a new vector
+let mut new_vec: Vec<String> = vec![];
+for fruit in vec.into_iter() {
+    new_vec.push(fruit);
+}
+println!("New vector is {:?}", new_vec); // ["apple", "elderberry"]
+
+// Create another vector of strings
+let mut vec = vec!["fig", "grape", "honeydew", "kiwi", "lime"];
+
+// Create a draining iterator that removes and yields elements from index 1 to 3 (exclusive)
+let mut iter = vec.drain(1..3);
+println!("Drained {:?}", iter.next()); // Some("grape")
+println!("Drained {:?}", iter.next()); // Some("honeydew")
+println!("Drained {:?}", iter.next()); // None
+println!("Vector is now {:?}", vec); // ["fig", "kiwi", "lime"]
+```
+
+## Copy 类型：关于移动的例外情况
+
+移动一个值会使移动的源变成未初始化的状态。大多数类型会被移动，而也是有例外的情况，即那些被 Rust 指定成 Copy 类型的类型。对 Copy 类型进行赋值会复制这个值，而不会移动它。赋值的源仍会保持已初始化和可用状态。
+
+标准的 Copy 类型包括所有机器整数类型和浮点数类型、char 类型和 bool 类型，以及某些其他类型。Copy 类型的元组或固定大小的数组本身也是 Copy 类型。
+
+根据经验，任何在丢弃值时需要做一些特殊操作的都不能是 Copy 类型：Vec 需要释放自身元素、File 需要关闭自身文件句柄、MutexGuard 需要解锁自身互斥锁，等等。对这些类型进行逐位复制会让我们无法弄清哪个值该对原始资源负责。
+
+结构体只是默认情况下不是 Copy 类型。如果一个结构体的所有字段都是 Copy 类型，那么也可以通过属性 `#[derive(Copy, Clone)]` 放置在此定义之上来创建 Copy 类型。
+
+Copy 类型更灵活，因为赋值和相关操作不会把原始值变成未初始化状态。但对类型实现者而言，情况恰恰相反：Copy 类型可以包含的类型非常有限，而非 Copy 类型可以在堆上分配内存并拥有其他种类的资源。
