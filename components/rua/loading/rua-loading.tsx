@@ -27,6 +27,7 @@ const RUALoading = ({ className: classNames }: Props) => {
         priority
         src={currentTheme === 'dark' ? loadingImageDimmed : loadingImage}
         alt="Loading"
+        unoptimized
       />
 
       <span className="my-4">rua rua rua...</span>
