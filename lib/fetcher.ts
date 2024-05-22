@@ -1,4 +1,6 @@
-import { Octokit } from 'octokit';
+/* import { Octokit } from 'octokit'; */
+import { Octokit } from '@octokit/core';
+import { restEndpointMethods } from '@octokit/plugin-rest-endpoint-methods';
 import { cache } from 'react';
 import { GistData, GistsFile, PageKeys, PageSize } from 'types';
 
@@ -6,7 +8,8 @@ const password = process.env.NEXT_PUBLIC_GITHUB_API;
 const host = process.env.NEXT_PUBLIC_GISTS_HOST ?? 'https://api.github.com';
 
 if (!password) throw new Error('No GitHub token detected.');
-const octokit = new Octokit({
+const MyOctokit = Octokit.plugin(restEndpointMethods);
+const octokit = new MyOctokit({
   auth: password,
   baseUrl: host,
 });
