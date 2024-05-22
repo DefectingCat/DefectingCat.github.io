@@ -5,7 +5,13 @@ image: 'node:latest'
 
 before_script:
   - apt update -y
+  - npm set registry "https://registry.npmmirror.com"
   - corepack enable pnpm
+  - echo "NEXT_PUBLIC_GITHUB_API"=$NEXT_PUBLIC_GITHUB_API >> ".env"
+  - echo "NEXT_PUBLIC_GISCUS_CATEGORY_ID"=$NEXT_PUBLIC_GISCUS_CATEGORY_ID >> ".env"
+  - echo "NEXT_PUBLIC_GISCUS_REPO_ID"=$NEXT_PUBLIC_GISCUS_REPO_ID >> ".env"
+  - echo "NEXT_PUBLIC_ALGOLIA_SEARCH_ADMIN_KEY"=$NEXT_PUBLIC_ALGOLIA_SEARCH_ADMIN_KEY >> ".env"
+  - echo "NEXT_PUBLIC_ALGOLIA_APP_ID"=$NEXT_PUBLIC_ALGOLIA_APP_ID >> ".env"
 
 build:pretty-check:
   stage: build
