@@ -23,7 +23,8 @@ build:local:
   stage: build
   script:
     - pnpm i
-    - ./scripts/standalone.sh
+    - chmod +x scripts/standalone.sh
+    - bash scripts/standalone.sh
   artifacts:
     paths:
       - .next/standalone.tar.gz
