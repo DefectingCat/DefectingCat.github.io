@@ -7,7 +7,6 @@ import { memo } from 'react';
 
 const PostComment = () => {
   const { theme } = useRuaTheme();
-  console.log('PostComment', theme);
 
   return (
     <>
