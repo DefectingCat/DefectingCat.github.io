@@ -11,7 +11,7 @@
     "lint": "next lint",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,tsx,json,md,mdx,css}\" --ignore-unknown --plugin=prettier-plugin-organize-imports",
     "pretty-check": "prettier \"./**/*.{js,jsx,ts,tsx,json,md,mdx,css}\" --ignore-unknown --check --plugin=prettier-plugin-organize-imports",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "dependencies": {
     "@catppuccin/highlightjs": "^0.1.4",
