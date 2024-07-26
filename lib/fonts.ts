@@ -1,4 +1,4 @@
-import { Lobster, Barlow, JetBrains_Mono, Poppins } from 'next/font/google';
+import { Barlow, JetBrains_Mono, Lobster, Poppins } from 'next/font/google';
 
 export const lobster = Lobster({
   weight: ['400'],

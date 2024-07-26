@@ -1,5 +1,5 @@
-import { AnchorHTMLAttributes, forwardRef, memo } from 'react';
 import clsx from 'clsx';
+import { AnchorHTMLAttributes, forwardRef, memo } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
 
 interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {

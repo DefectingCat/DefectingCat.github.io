@@ -1,9 +1,9 @@
 import fs from 'fs/promises';
-import path from 'path';
 import matter from 'gray-matter';
-import { MyMatters, Post } from 'types';
 import { sortByDate } from 'lib/utils';
+import path from 'path';
 import { cache } from 'react';
+import { MyMatters, Post } from 'types';
 
 export const dataPath = 'content/posts';
 

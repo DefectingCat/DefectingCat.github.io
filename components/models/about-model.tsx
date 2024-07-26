@@ -2,9 +2,9 @@
 
 import { Canvas } from '@react-three/fiber';
 import clsx from 'clsx';
+import Loading from 'components/rua/loading/rua-loading';
 import { Suspense, lazy } from 'react';
 import useStore from 'store';
-import Loading from 'components/rua/loading/rua-loading';
 
 const CloudModel = lazy(() => import('components/models/cloud-model'));
 

@@ -9,9 +9,9 @@
     "build-local": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pretty": "prettier --write \"./**/*.{js,jsx,ts,tsx,json,md,mdx,css}\" --ignore-unknown",
-    "pretty-check": "prettier \"./**/*.{js,jsx,ts,tsx,json,md,mdx,css}\" --ignore-unknown --check",
-    "prepare": "husky"
+    "pretty": "prettier --write \"./**/*.{js,jsx,ts,tsx,json,md,mdx,css}\" --ignore-unknown --plugin=prettier-plugin-organize-imports",
+    "pretty-check": "prettier \"./**/*.{js,jsx,ts,tsx,json,md,mdx,css}\" --ignore-unknown --check --plugin=prettier-plugin-organize-imports",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@catppuccin/highlightjs": "^0.1.4",
@@ -63,6 +63,7 @@
     "leva": "^0.9.35",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
+    "prettier-plugin-organize-imports": "^4.0.0",
     "raw-loader": "^4.0.2",
     "sass": "^1.77.2",
     "tailwindcss": "^3.4.3",

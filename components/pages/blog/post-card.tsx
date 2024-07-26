@@ -1,7 +1,7 @@
-import Link from 'next/link';
-import { Post } from 'types';
 import clsx from 'clsx';
+import Link from 'next/link';
 import { memo } from 'react';
+import { Post } from 'types';
 
 interface Props {
   post: Post;

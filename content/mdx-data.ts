@@ -6,10 +6,18 @@ import {
 } from 'content/sandpack/how-to-load-a-background-with-threejs';
 import { Button, Input } from './sandpack';
 import {
-  miniRedux,
-  multi,
+  app1,
+  app2,
+  app3,
+  signal1,
+  signal2,
+  signal3,
+} from './sandpack/automatic-dependency-collect';
+import {
   MultiStore,
   Reducer,
+  miniRedux,
+  multi,
 } from './sandpack/build-own-store-with-usesyncexternalstore';
 import {
   genericApp,
@@ -24,14 +32,6 @@ import {
   useSyncExternalStore,
   useTransition,
 } from './sandpack/react18-new-hooks';
-import {
-  app1,
-  app2,
-  app3,
-  signal1,
-  signal2,
-  signal3,
-} from './sandpack/automatic-dependency-collect';
 
 const data = {
   sandpack: {

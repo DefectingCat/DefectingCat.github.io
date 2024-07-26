@@ -1,14 +1,6 @@
 import clsx from 'clsx';
-import CopyButton from 'components/post/copy-button';
 import CopyCode from 'components/post/copy-code';
-import useCopyToClipboard from 'lib/hooks/use-copy-to-clipboard';
-import {
-  DetailedHTMLProps,
-  HTMLAttributes,
-  memo,
-  useCallback,
-  useRef,
-} from 'react';
+import { DetailedHTMLProps, HTMLAttributes, memo } from 'react';
 
 type Props = {} & DetailedHTMLProps<
   HTMLAttributes<HTMLPreElement>,

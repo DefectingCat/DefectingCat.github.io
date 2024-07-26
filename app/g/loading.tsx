@@ -1,5 +1,5 @@
-import GistsCodeSkeleton from 'components/pages/gists/gists-code-skeleton';
 import clsx from 'clsx';
+import GistsCodeSkeleton from 'components/pages/gists/gists-code-skeleton';
 
 const loading = () => {
   return (

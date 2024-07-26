@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import { projects, selfHosts } from 'components/pages/projects/content';
 import PojectCardSkeleton from 'components/pages/projects/project-card-skeleton';
-import { Metadata } from 'next';
 
 const Loading = () => {
   return (

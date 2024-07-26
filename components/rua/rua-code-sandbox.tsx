@@ -1,11 +1,11 @@
 'use client';
 
 import clsx from 'clsx';
+import { THEME_CATPUCCIN_MAP } from 'lib/consts';
 import useInView from 'lib/hooks/use-in-view';
 import { useTheme } from 'next-themes';
 import { memo, useEffect, useState } from 'react';
 import RUALoading from './loading/rua-loading';
-import { THEME_CATPUCCIN_MAP, THEME_MAP } from 'lib/consts';
 
 const pattern =
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/;
