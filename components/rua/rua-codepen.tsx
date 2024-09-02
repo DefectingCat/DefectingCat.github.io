@@ -19,7 +19,7 @@ type Props = {
 const RUACodepen = ({ defaultTab, url }: Props) => {
   const urlArr = url.split('/');
   const { systemTheme, theme } = useTheme();
-  const currentTheme = theme === 'system' ? systemTheme : theme ?? 'light';
+  const currentTheme = theme === 'system' ? systemTheme : (theme ?? 'light');
 
   const { ref, inView } = useInView();
 

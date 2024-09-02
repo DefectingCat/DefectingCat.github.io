@@ -47,7 +47,7 @@ const Page = async ({
       mdxOptions: {
         remarkPlugins: [remarkGfm],
         rehypePlugins: [
-          [rehypeHighlight, { alias: { vue: 'xml' }, ignoreMissing: true }],
+          [rehypeHighlight, { alias: { vue: 'xml' } }],
           rehypeSlug,
         ],
       },

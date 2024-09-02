@@ -30,7 +30,7 @@ const GistsCode = ({ file, showFileName = false }: Props) => {
     .use(remarkParse)
     .use(remarkRehype)
     .use(remarkGfm)
-    .use(rehypeHighlight, { ignoreMissing: true })
+    .use(rehypeHighlight)
     .use(rehypeReact, {
       createElement,
       Fragment,
