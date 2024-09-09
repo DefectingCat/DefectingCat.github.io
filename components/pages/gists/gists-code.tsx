@@ -1,7 +1,8 @@
 import '@catppuccin/highlightjs/sass/catppuccin.variables.scss';
 import clsx from 'clsx';
 import CopyCode from 'components/post/copy-code';
-import { createElement, Fragment, memo } from 'react';
+import { memo } from 'react';
+import * as prod from 'react/jsx-runtime';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeReact from 'rehype-react';
 import remarkGfm from 'remark-gfm';
@@ -15,6 +16,8 @@ interface Props {
   file: GistsFile;
   showFileName?: boolean;
 }
+
+const production = { Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs };
 
 /**
  * Render GitHub gists code.
@@ -31,10 +34,8 @@ const GistsCode = ({ file, showFileName = false }: Props) => {
     .use(remarkRehype)
     .use(remarkGfm)
     .use(rehypeHighlight)
-    .use(rehypeReact, {
-      createElement,
-      Fragment,
-    })
+    // @ts-expect-error: the react types are missing.
+    .use(rehypeReact, production)
     .processSync(`\`\`\`${file.language ?? ''}\n${fileContent}`).result;
 
   return (
