@@ -1,4 +1,4 @@
-import '@catppuccin/highlightjs/sass/catppuccin.variables.scss';
+import '@catppuccin/highlightjs/sass/catppuccin-variables.scss';
 import GistsCode from 'components/pages/gists/gists-code';
 import { getSignalGist } from 'lib/fetcher';
 

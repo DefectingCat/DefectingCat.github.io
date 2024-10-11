@@ -1,4 +1,4 @@
-import '@catppuccin/highlightjs/sass/catppuccin.variables.scss';
+import '@catppuccin/highlightjs/sass/catppuccin-variables.scss';
 import clsx from 'clsx';
 import components from 'components/mdx/components';
 import data from 'content/mdx-data';

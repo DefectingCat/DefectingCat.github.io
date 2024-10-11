@@ -1,4 +1,4 @@
-import '@catppuccin/highlightjs/sass/catppuccin.variables.scss';
+import '@catppuccin/highlightjs/sass/catppuccin-variables.scss';
 import clsx from 'clsx';
 import CopyCode from 'components/post/copy-code';
 import { memo } from 'react';
