@@ -6,7 +6,7 @@ const GistCode = async ({ id }: { id: string }) => {
   const gist = await getSignalGist(id);
 
   if (!gist?.files) {
-    return <div>Error</div>;
+    return <div>Error: gists {id} not found</div>;
   }
 
   return (
