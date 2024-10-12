@@ -4,6 +4,12 @@
 //   enabled: process.env.ANALYZE === 'true',
 // });
 
+const urlLoaderPath = 'url-loader';
+const urlLoaderPathUrl = new URL(urlLoaderPath, import.meta.url).href;
+
+const fileLoaderPath = 'file-loader';
+const fileLoaderPathUrl = new URL(fileLoaderPath, import.meta.url).href;
+
 /**
  * @type {import('next').NextConfig}
  */
@@ -38,10 +44,10 @@ const nextConfig = {
       exclude: config.exclude,
       use: [
         {
-          loader: require.resolve('url-loader'),
+          loader: urlLoaderPathUrl,
           options: {
             limit: config.inlineImageLimit,
-            fallback: require.resolve('file-loader'),
+            fallback: fileLoaderPathUrl,
             publicPath: `${config.assetPrefix}/_next/static/images/`,
             outputPath: `${isServer ? '../' : ''}static/images/`,
             name: '[name]-[hash].[ext]',
