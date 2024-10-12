@@ -5,7 +5,8 @@
  */
 /* @ts-check */
 import { config } from 'dotenv';
-import algoliasearch from 'algoliasearch/lite.js';
+import { algoliasearch } from 'algoliasearch';
+// import { liteClient } from 'algoliasearch/lite';
 import generateGists from './gists/index.mjs';
 import postLists from './posts/index.mjs';
 
@@ -24,21 +25,21 @@ async function pushAlgolia(gists) {
   try {
     const records = await generateRecords(gists);
 
-    // initialize the client with your environment variables
     const client = algoliasearch(
       process.env.NEXT_PUBLIC_ALGOLIA_APP_ID,
-      process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ADMIN_KEY
+      process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ADMIN_KEY,
     );
 
-    // initialize the index with your index name
-    const index = client.initIndex('rua');
+    const response = await client.clearObjects({ indexName: 'rua' });
+    console.log('Clean rua index success');
+    const algoliaResponse = await client.saveObjects({
+      indexName: 'rua',
+      objects: records,
+    });
 
-    // save the objects!
-    const algoliaResponse = await index.replaceAllObjects(records);
-
-    // check the output of the response in the console
+    console.log(algoliaResponse);
     console.log(
-      `🎉 Sucessfully added ${algoliaResponse.objectIDs.length} records to Algolia search.`
+      `🎉 Sucessfully added ${algoliaResponse[0].objectIDs.length} records to Algolia search.`,
     );
   } catch (e) {
     console.log(e);
