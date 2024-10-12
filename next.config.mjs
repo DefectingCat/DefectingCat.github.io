@@ -1,12 +1,13 @@
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-});
+// import NextBundleAnalyzer from '@next/bundle-analyzer';
+//
+// const withBundleAnalyzer = NextBundleAnalyzer({
+//   enabled: process.env.ANALYZE === 'true',
+// });
 
 /**
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  /* config options here */
   reactStrictMode: true,
   swcMinify: true,
   output: 'standalone',
@@ -71,8 +72,9 @@ const KEYS_TO_OMIT = [
   'assetPrefix',
 ];
 
-module.exports = (_phase, { defaultConfig }) => {
-  const plugins = [[withBundleAnalyzer, {}]];
+export default function finalConfig(_phase, { defaultConfig }) {
+  // const plugins = [[withBundleAnalyzer, {}]];
+  const plugins = [[(config) => config, {}]];
 
   const wConfig = plugins.reduce(
     (acc, [plugin, config]) => plugin({ ...acc, ...config }),
@@ -90,4 +92,4 @@ module.exports = (_phase, { defaultConfig }) => {
   });
 
   return finalConfig;
-};
+}
