@@ -11,8 +11,7 @@
     "start": "next start",
     "lint": "next lint",
     "pretty": "prettier --cache --write \"./**/*.{js,jsx,ts,tsx,json,md,mdx,css}\" --ignore-unknown --plugin=prettier-plugin-organize-imports",
-    "pretty-check": "prettier --cache \"./**/*.{js,jsx,ts,tsx,json,md,mdx,css}\" --ignore-unknown --check --plugin=prettier-plugin-organize-imports",
-    "prepare": "husky"
+    "pretty-check": "prettier --cache \"./**/*.{js,jsx,ts,tsx,json,md,mdx,css}\" --ignore-unknown --check --plugin=prettier-plugin-organize-imports"
   },
   "dependencies": {
     "@catppuccin/highlightjs": "^1.0.0",
