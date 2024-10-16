@@ -1,5 +1,6 @@
 PACKAGE_MANAGER = pnpm
 NVM = nvm
+DENO = deno
 
 all: build
 
@@ -7,9 +8,9 @@ nvm:
 	. ${NVM_DIR}/nvm.sh && nvm use && $(CMD)
 
 deps:
-	make nvm CMD="$(PACKAGE_MANAGER) i"
+	deno i
 
 build:
-	make nvm CMD="$(PACKAGE_MANAGER) i && $(PACKAGE_MANAGER) build-local"
+	deno i && deno task build-local
 
 .PHONY: all
