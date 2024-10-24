@@ -1,0 +1,263 @@
+---
+title: Rust Box 与对象
+date: '2023-02-09'
+tags: [Rust]
+---
+
+对于多数高级语言往往会弱化堆栈的概念，它们通常由 GC 等方式来管理内存。而对于像 Rust 这类的低级语言来说，则需要更深入的了解堆栈的概念。
+
+栈内存从高位地址向下增长，且栈内存是连续分配的，一般来说操作系统对栈内存的大小都有限制。这也是为什么 C 语言中无法创建任意长度的数组。在 Rust 中，`main` 线程的栈大小是 8MB，普通线程是 2MB。在函数调用时会在其中创建一个临时的栈空间，调用结束后 Rust 会让这个栈空间里的对象自动进入 Drop 流程，最后栈顶指针自动移动到上一个调用栈顶，无需程序员手动干预。因而栈内存申请和释放是非常高效的。
+
+与栈相反，堆上的内存是从低位地址向上增长，堆内存通常只受物理内存限制，而且通常不是连续的。因而从性能的角度看，栈内存往往更高。
+
+除此之外，Rust 堆上的对象还有一个特殊之处，它们都拥有一个所有者。因此受所有权规则的限制：当赋值时，发生的是所有权的转移（只需浅拷贝栈上的引用或智能指针即可）。
+
+```rust
+fn main() -> Result<()> {
+    let str = String::from("Hello world");
+    println!("{}", str);
+    let str2 = str;
+    //         --- value moved here
+    println!("{}", str);
+	//             ^^^ value borrowed here after move
+    println!("{}", str2);
+
+    Ok(())
+}
+```
+
+在所有权的规则中，堆内存上的对象默认会转移所有权，`str` 的指针引用转移给了 `str2`，所以无法再访问 `str`，它已经不再和指针绑定了。
+
+不同于我们熟悉的那个语言来，它默认会复制一份引用。由于它们都持有同一个引用，所以通过任何一个变量都可以修改引用的实际值。对于什么时候释放这个引用这种问题，就交给 GC 去思考吧。
+
+```ts
+const str = {
+  content: 'Hello world',
+};
+const str2 = str;
+console.log(str, str2);
+str2.content = 'world';
+console.log(str, str2);
+```
+
+## 堆栈的性能
+
+通常栈的性能会比堆高，但其实未必。对于不同类型的数据，它们的性能也是不同的：
+
+- 小型数据，在栈上的分配性能和读取性能都比堆上高；
+- 中型数据，栈上分配性能高，但是读取性能和堆上并无区别，因为无法利用寄存器或 CPU 高速缓存，最终还是要经过一次内存寻址；
+- 大型数据，只建议在堆上分配和使用；
+
+总之，栈的分配速度肯定比堆上快，但是读取速度往往取决于数据能不能放入寄存器或 CPU
+高速缓存。
+
+## Box 的使用场景
+
+`Box<T>` 只是对数据的简单封装，它除了将值存储在堆上之外，并没有其他性能上的损耗。因此 `Box` 相比较与其他智能指针，功能较为单一。
+
+- 特意将数据分配在堆上；
+- 数据较大时；又不想在转移所有权时拷贝数据；
+- 类型的大小在编译器无法确定，但是我们又需要固定大小的类型时；
+- 特征对象，用于说明对象实现了一个特征，而不是某个特定的类型；
+
+### 将数据存储在堆上
+
+如果将一个数值分配给一个变量，那么这个变量必然是存储在栈上的。如果我们想要它存储在堆上可以使用 `Box<T>`：
+
+```rust
+fn main() -> Result<()> {
+    let n = 3;
+    println!("{}", n);
+    println!("{}", n + 1);
+    let n = Box::new(3);
+    println!("{}", n);
+    println!("{}", *n + 1);
+
+    Ok(())
+}
+```
+
+这样就可以创建了一个智能指针指向存储在堆上的 3，并且变量 `n` 持有了该指针。大部分智能指针都实现了 `Deref` 和 `Drop` 指针，因此：
+
+- `println!` 可以正常打印出值，是因为它隐式地调用了 `Deref` 对智能指针进行了解引用；
+- 在表达式中，无法自动隐式地执行 `Deref` 解引用操作，需要手动使用 `*` 操作符来显式的解引用；
+- 变量 `n` 持有的智能指针将在作用域结束时，被释放掉，这是因为 `Box<T>` 实现了 `Drop` 特征；
+
+上述的例子在实际代码中会很少存在，因为将一个简单的值分配到堆上并没有太大的意义。将其分配在栈上，由于寄存器、CPU 缓存等原因，它的性能将更好，而且代码可读性也更好。
+
+### 避免栈上数据的拷贝
+
+当栈上数据转移所有权时，实际上是把数据拷贝了一份，最终新旧变量各自拥有不同的数据，因此所有权并未转移。
+
+而堆上则不然，底层数据并不会被拷贝，转移所有权仅仅只是赋值一份栈中的指针，再将新的指针赋予新的变量，然后让拥有旧指针的变量失效，最终完成了所有权的转移：
+
+```rust
+fn main() -> Result<()> {
+    let arr = [0; 1000];
+    let arr1 = arr;
+    println!("arr: {}", arr.len());
+    println!("arr1: {}", arr1.len());
+
+    let arr = Box::new([0; 1000]);
+    let arr1 = arr;
+    println!("arr: {}", arr.len());
+	//                  ^^^^^^^^^ value borrowed here after move
+    println!("arr1: {}", arr1.len());
+
+    Ok(())
+}
+```
+
+### 将动态大小类型变为固定大小类型
+
+Rust 需要在编译时就知道类型占用多少空间，无法在编译时知道具体大小的类型被称之为动态大小类型 DST。
+
+其中一种无法在编译时就知道大小的类型是递归类型：在类型定义时用到了自身，或者说该类型的值的一部分是相同类型的其他值，这种值的嵌套理论上可以无限的进行下午，所以 Rust 无法在编译时知道递归类型所需要的空间：
+
+```rust
+enum List {
+    Cons(i32, List),
+    Nil,
+}
+```
+
+以上就是函数式语言中常见的 `Cons List`，它的每个节点包含一个 `i32` 的值，还包含一个新的 `List`，因此这种嵌套可以无限进行下去，Rust 认为该类型是一个 DST 类型，并给予报错：
+
+```
+error[E0072]: recursive type `List` has infinite size
+ --> src\main.rs:3:1
+  |
+3 | enum List {
+  | ^^^^^^^^^
+4 |     Cons(i32, List),
+  |               ---- recursive without indirection
+  |
+help: insert some indirection (e.g., a `Box`, `Rc`, or `&`) to break the cycle
+  |
+4 |     Cons(i32, Box<List>),
+  |               ++++    +
+```
+
+编译器也贴心的给了我们一些解决方案，将其转换为一个指针。其中一个方法就是利用 `Box<T>`。
+
+```rust
+enum List {
+    Cons(i32, Box<List>),
+    Nil,
+}
+```
+
+只需要将 `List` 存储到堆上，然后是使用一个智能指针指向它，即可完成从 DST 到 Sized 类型的华丽转变。
+
+### 特征对象
+
+在 Rust 中，想实现不同类型组成的数组或接受实现了某种方法的不同类型的参数，只有两种办法：枚举和特征对象。枚举的限制较多，因此特征对象往往是最常用的解决办法。
+
+```rust
+use ::anyhow::Result;
+
+trait Draw {
+    fn darw(&self);
+}
+
+struct Button {}
+
+impl Draw for Button {
+    fn darw(&self) {
+        println!("Button");
+    }
+}
+
+struct Input {}
+
+impl Draw for Input {
+    fn darw(&self) {
+        println!("Input");
+    }
+}
+
+fn test<T>(component: &T)
+where
+    T: Draw,
+{
+    component.darw();
+}
+fn test2(component: &dyn Draw) {
+    component.darw();
+}
+
+fn main() -> Result<()> {
+    let components: Vec<Box<dyn Draw>> = vec![Box::new(Button {}), Box::new(Input {})];
+    components.iter().for_each(|c| test2(&**c));
+
+    Ok(())
+}
+```
+
+上述代码实现在一个数组中存储实现了 `Draw` 这个 Trait 但是类型却不同的数据，就是将 `Button` 和 `Input` 包装成 `Draw` 特征的特征对象，再放入到数组中。`Box<dyn Draw>` 就是特征对象。
+
+而在函数 `test2` 中，其参数可以写成 `&Box<dyn Draw>` 也可以写成 `&dyn Draw` 这两种都是特征对象作为参数的写法。但需要注意的是，如果写成 `&dyn Draw` 的格式，则不能直接将 `&Box<T>` 传入，或者说，编译器无法完全为我们隐式解引用。需要手动为其解引用 `&**c`。
+
+其实，特征也是 DST 类型，而特征对象在做的就是将 DST 类型转换为固定大小类型。
+
+## 内存布局
+
+这是一个标准的 `Vec<i32>` 的 Vec 内存布局：
+
+```rust
+let arr = vec![1, 2, 3, 4];
+```
+
+<Image
+  src="/images/p/rust-box-and-object/vec.svg"
+  alt=""
+  width="387"
+  height="278"
+/>
+
+与 Box 类似， Vec 和 String 都是智能指针，从上图可以看出，该智能指针存储在栈中，然后指向堆上的数组数据。
+
+那如果数组中每个元素都是一个 Box 对象呢？这就是 `Vec<Box<i32>>` 的内存布局：
+
+<Image
+  src="/images/p/rust-box-and-object/vec-box.svg"
+  alt=""
+  width="597"
+  height="418"
+/>
+
+可以看出智能指针 Vec 依然是存储在栈上，然后指针指向一个堆上的数组，该数组中每个元素都是一个 Box 智能指针，最终 Box 智能指针又指向存储堆上的实际值。
+
+所以当我们从数组中取出某个元素时，取到的时对应的智能指针 Box，需要对该智能指针进行解引用才能取出该值。
+
+```rust
+fn main() {
+    let arr = [Box::new(1), Box::new(2), Box::new(3), Box::new(4)];
+    let (first, second) = (&arr[0], &arr[1]);
+    let sum = **first + **second;
+    println!("{}", sum);
+}
+```
+
+以上代码有几个指的注意的点：
+
+- 使用 `&` 借用数组中的元素，否则会报所有权错误；
+- 表达式不能隐式解引用，因此必须使用 `**` 做两次解引用，第一次将 `&Box<i32>` 解引用为 `Box<i32>`，第二次将 `Box<i32>` 解引用成 `i32`；
+
+## Box::leak
+
+Box 中还提供了一个非常有用的关联函数：`Box::leak`，它可以消费掉 Box 并强制目标从内存中泄露。
+
+```rust
+fn main() {
+    let static_str = gen_static_str();
+    dbg!(&static_str.as_ptr());
+}
+
+fn gen_static_str() -> &'static str {
+    let mut str = String::from("Hello ");
+    str.push_str("world");
+    dbg!(&str.as_ptr());
+    Box::leak(str.into_boxed_str())
+}
+```
