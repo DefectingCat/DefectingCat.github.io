@@ -34,7 +34,6 @@ const GistsCode = ({ file, showFileName = false }: Props) => {
     .use(remarkRehype)
     .use(remarkGfm)
     .use(rehypeHighlight)
-    // @ts-expect-error: the react types are missing.
     .use(rehypeReact, production)
     .processSync(`\`\`\`${file.language ?? ''}\n${fileContent}`).result;
 
