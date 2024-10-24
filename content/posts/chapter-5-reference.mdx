@@ -1,0 +1,124 @@
+---
+title: 第 5 章 引用
+date: '2024-10-10'
+tags: [Rust]
+---
+
+Rust 中的指针分为拥有型指针和非拥有型指针。其中，拥有型指针意味着当拥有者被丢弃时，它的引用目标也会随之消失。引用（reference）的非拥有型指针，意味着对引用目标的生命周期毫无影响。
+
+事实上，引用的生命周期绝不能超过其引用目标。为了强调这一点，Rust 把创建对某个值的引用的操作称为借用（borrow）那个值：凡是借用，终须归还。
+
+为了在不影响其所有权的情况下访问值。引用分为一下两种。
+
+- 共享引用允许我们读取但不能修改其引用目标。但是，共享引用可以同时存在任意数量个。共享引用是 Copy 类型。
+- 可变引用允许我们读取和修改值。但是，一旦一个值拥有了比可变引用，就无法再对该值创建其他任何种类的引用了。可变引用同时只能存在一个。可变引用不是 Copy 类型。
+
+共享引用和可变引用之间的区别可以视为在编译器强制执行“多重读取”或“单一写入”规则的一种手段。
+
+当通过将值的所有权转移给函数的方式将这个值传递给函数时，就可以说按值传递了它。如果将值的引用传递给函数，就可以说按引用传递了它。
+
+如果需要用一个值来表示对某个“可能不存在”事物的引用，请使用类型 `Option<&T>`。在机器码级别，Rust 会将 None 表示为空指针，将 `Some(r)` 表示为非零地址（其中 `r` 是 `&T` 型的值），因此 `Option<&T>` 和 C 或 C++ 中的可空指针一样高效，但更安全：它的类型要求我们在使用之前必须检查它是否为 None。
+
+除了对简单地址的引用，Rust 还包括两种胖指针，即携带某个值地址的双字值，以及要正确使用该值所需的某些额外信息。
+
+对切片的引用就是一个胖指针，携带者此切片的起始地址及其长度。
+
+另一个胖指针是特型对象，即对实现了指定特型的值的引用。特型对象会携带一个值的地址和指向适用于该值的特型实现的指针。
+
+## 生命周期
+
+### 包含引用的结构体
+
+对于一个包含引用的结构体，Rust 要求我们必须要写出它的生命周期
+
+```rust
+struct Person {
+    name: &str,
+}
+```
+
+编译器会贴心的为我们提示需要修改的地方
+
+```bash
+error[E0106]: missing lifetime specifier
+ --> examples/reference.rs:2:11
+  |
+2 |     name: &str,
+  |           ^ expected named lifetime parameter
+  |
+help: consider introducing a named lifetime parameter
+  |
+1 ~ struct Person<'a> {
+2 ~     name: &'a str,
+  |
+```
+
+### 不同的生命周期参数
+
+当一个结构体只多个字段分别来自不同的生命周期的变量，而结构体本身只有一个生命周期时，编译器可能无法推断准确的引用。
+
+```rust
+struct Person<'a> {
+    pub name: &'a str,
+    pub age: &'a u32,
+}
+
+fn main() {
+    let name = String::from("xfy");
+    let n;
+    {
+        let age = 18u32;
+        let xfy = Person {
+            name: &name,
+            age: &age,
+        };
+        n = xfy.name;
+    }
+    println!("{}", n);
+}
+```
+
+```bash
+error[E0597]: `age` does not live long enough
+  --> examples/reference.rs:13:18
+   |
+10 |         let age = 18u32;
+   |             --- binding `age` declared here
+...
+13 |             age: &age,
+   |                  ^^^^ borrowed value does not live long enough
+...
+16 |     }
+   |     - `age` dropped here while still borrowed
+17 |     println!("{}", n);
+   |                    - borrow later used here
+```
+
+虽然代码本身不会创建任何悬空指针，但是编译器还是拒绝了这段代码。
+
+- `Person` 的两个字段在生命周期的生命上具有相同的生命周期 `'a` 的引用，因此 Rust 必须要找到一个同时适合 `xfy.name` 和 `xfy.age` 的生命周期。
+- 赋值 `n = xfy.name` 就要求 `'a` 涵盖到变量 `n` 到生命周期。
+- 使用 `&age` 初始化 `xfy.age`，这就要求 `'a` 不能长于 `age` 的生命周期。
+
+显然这些约束是不能同时满足的，所以就需要为结构体的不同字段声明使用不同的生命周期。
+
+```rust
+struct Person<'a, 'b> {
+    pub name: &'a str,
+    pub age: &'b u32,
+}
+
+fn main() {
+    let name = String::from("xfy");
+    let n;
+    {
+        let age = 18u32;
+        let xfy = Person {
+            name: &name,
+            age: &age,
+        };
+        n = xfy.name;
+    }
+    println!("{}", n);
+}
+```
