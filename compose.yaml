@@ -1,0 +1,23 @@
+services:
+  reverse-proxy:
+    image: traefik
+    command:
+      - --api.insecure=true
+      - --providers.docker
+      - --entrypoints.app.address=:80
+    ports:
+      - '8021:80'
+      # The Web UI (enabled by --api.insecure=true)
+      - '8022:8080'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  app:
+    build: .
+    labels:
+      - 'traefik.http.routers.app.rule=PathPrefix(`/`)'
+      - 'traefik.http.services.app.loadbalancer.server.port=3000'
+    deploy:
+      replicas: 3
+    ports:
+      - 3000
