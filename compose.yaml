@@ -5,6 +5,8 @@ services:
       - --api.insecure=true
       - --providers.docker
       - --entrypoints.app.address=:80
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.constraints=Label(`custom.label`,`blog`)
     ports:
       - '8021:80'
       # The Web UI (enabled by --api.insecure=true)
@@ -15,6 +17,8 @@ services:
   app:
     build: .
     labels:
+      - 'traefik.enable=true'
+      - 'custom.label=blog'
       - 'traefik.http.routers.app.rule=PathPrefix(`/`)'
       - 'traefik.http.services.app.loadbalancer.server.port=3000'
     deploy:
