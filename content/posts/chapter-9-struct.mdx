@@ -1,0 +1,137 @@
+---
+title: 第 9 章 结构体
+date: '2025-02-12'
+tags: [Rust]
+---
+
+Rust 有 3 种结构体类型：具名字段型结构体、元组结构体和单元型结构体。
+
+- 具名型结构体：为每个组件命名。
+- 元组型结构体：按组件出现的顺序标识他们。
+- 单元型结构体：没有组件。
+
+## 具名结构体
+
+```rust
+struct GrayscaleMap {
+    pixels: Vec<u8>,
+    size: (usize, usize),
+}
+```
+
+与其他所有语法项一样，结构体默认情况下是私有的，仅在声明它们的模块及其子模块种可见。可以通过在结构体的定义前加上 `pub` 来是结构体在其模块外部可见。结构体中的每个字段也是默认私有的。
+
+```rust
+pub struct GrayscaleMap {
+    pub pixels: Vec<u8>,
+    pub size: (usize, usize),
+}
+```
+
+其他模块不能按名称访问私有字段或使用结构体表达式来创建新的 `GrayscaleMap` 值。
+
+在结构体表达式中，如果具有名字的字段后面跟着 `.. EXPR`，则任何未提及的字段都会从 `EXPRE`（必须是相同结构体的另一个值）中获取它们的值。
+
+```rust
+struct Broom {
+    name: String,
+    height: u32,
+    health: u32,
+    position: (f32, f32, f32),
+    intent: BroomIntent,
+}
+
+#[derive(Copy, Clone)]
+enum BroomIntent {
+    FetchWater,
+    DumpWater,
+}
+
+fn chop(b: Broom) -> (Broom, Broom) {
+    let mut broom1 = Broom {
+        height: b.height / 2,
+        ..b
+    };
+
+    let mut broom2 = Broom {
+        name: broom1.name.clone(),
+        ..broom1
+    };
+
+    broom1.name.push_str(" I");
+    broom2.name.push_str(" II");
+
+    (broom1, broom2)
+}
+```
+
+## 元组型结构体
+
+元组型结构体顾名思义类似于元组：
+
+```rust
+struct Bounds(usize, usize);
+```
+
+表达式 `Bounds(1024, 768)` 看起来像一个函数调用，实际上它确实是，级定义这种类型时也隐式定义了一个函数：
+
+```rust
+fn Bounds(elem0: usize, elem1: uszie) -> Bounds { ... }
+```
+
+元组型结构体适用于创造**新类型**（newtype），即建立一个只包含单组件的结构体，以获得更严格的类型检查。
+
+## 单元型结构体
+
+单元型结构体声明了一个根本没有元素的结构体类型：
+
+```rust
+struct onesuch;
+```
+
+这种类型的值不占用内存，很像单元类型 `()`。Rust 既不会在内存中实际存储单元类型的值，也不会生成代码对它们进行操作，因为仅通过值的类型它就能知道关于值的所有信息
+
+## 结构体布局
+
+在内存中，具名字段结构体和元组型结构体是一样的：值的集合以特定的方式在内存中布局。
+
+```rust
+struct GrayscaleMap {
+    pixels: Vec<u8>,
+    size: (usize, usize),
+}
+```
+
+与 C 和 C++ 不同，Rust 没有具体承诺它将如何在内存中对结构体的字段或元素进行排序。然而，Rust 确实承诺会将字段的值直接存储在结构体本身的内存块中。JavaScript、Python 和 Java 会将 `pixels` 值和 `size` 值分别放在它们自己的分配的堆上的块中，并让 `GrayscaleMap` 的字段指向它们，而 Rust 会将 `pixel` 值和 `size` 值直接嵌入在 `GrayscaleMap` 值中。只有由 `pixels` 向量拥有的在堆上分配的缓冲区才会留在它自己的块中。
+
+可以使用 `#[repr(C)]` 属性要求 Rust 以兼容 C 和 C++ 的方式对结构体进行布局。
+
+## 方法
+
+在 `impl` 块中定义的函数被称为关联函数，因为它们是与特定类型相关联的。与关联函数相对应的是自由函数，它是未定义在 `impl` 块中的语法项。
+
+`impl` 块知识定义 `fn` 的集合，每个定义都会成为块顶部命名的结构体类型上的一个方法。
+
+当调用一个需要引用的方法时，我们不需要自己借用可变引用，常规的方法调用语法已经隐式的处理了这一点。
+
+```rust
+struct Queue<T> {
+    older: Vec<T>,
+    younger: Vec<T>,
+}
+
+impl<T> Queue<T> {
+    pub fn push(&mut self, item: T) {
+        self.younger.push(item);
+    }
+}
+
+let mut q = Queue {
+    older: vec![1],
+    younger: vec![],
+};
+
+q.push(2);
+```
+
+只需要编写 `q.push()` 就可以借入对 `q` 的可变引用，就好像写的是 `(&mut q).push()` 一样，因为这是 `push` 方法的 `self` 参数所要求的。

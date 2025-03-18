@@ -1,0 +1,70 @@
+---
+title: 第 7 章 错误处理
+date: '2024-12-12'
+tags: [Rust]
+---
+
+Rust 中有两类常见的错误处理：`panic` 和 `Result`。
+
+普通错误使用 `Result` 类型来处理。`Result` 通常用以表示由程序外部的事物引发的错误，比如错误的输入、网络的中断或权限问题。
+
+`panic` 针对的是另一种错误，即那种永远不应该发生的错误。
+
+> Rust 之所以会用一个新词（panic）而不是沿用“异常”来表达，是因为两者并不等价。
+
+## panic
+
+当程序遇到下列问题时，就可以断定程序自身存在 Bug，故而引发 panic：
+
+- 数组越界访问；
+- 整数除以 0；
+- 在恰好为 `Err` 的 `Result` 上调用 `.expect()`；
+- 断言失败；
+
+在 panic 时，Rust 为我们提供了一种选择，展开调用栈或者终止进程。展开调用栈是默认方案。
+
+### 展开调用栈
+
+如果在 Rust 中除以了 0，就会触发 panic，通常按如下方式处理：
+
+```rust
+#[allow(unconditional_panic)]
+fn main() {
+    let x = 37 / 0;
+}
+```
+
+- 把一条错误信息打印到终端。
+
+```shell
+thread 'main' panicked at main.rs:3:13:
+attempt to divide by zero
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+```
+
+如果设置了 `RUST_BACKTRACE=1` 环境变量，那么就像这条消息打印的一样，Rust 也会在这里转储当前调用栈。
+
+```shell
+❯ RUST_BACKTRACE=1 ./main
+thread 'main' panicked at main.rs:3:13:
+attempt to divide by zero
+stack backtrace:
+   0: rust_begin_unwind
+             at /rustc/9b00956e56009bab2aa15d7bff10916599e3d6d6/library/std/src/panicking.rs:645:5
+   1: core::panicking::panic_fmt
+             at /rustc/9b00956e56009bab2aa15d7bff10916599e3d6d6/library/core/src/panicking.rs:72:14
+   2: core::panicking::panic
+             at /rustc/9b00956e56009bab2aa15d7bff10916599e3d6d6/library/core/src/panicking.rs:145:5
+   3: main::main
+   4: core::ops::function::FnOnce::call_once
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+```
+
+- 展开调用栈。这很像 C++ 的异常处理。
+  当前函数使用的任何临时值、局部变量或参数都会按照与创建它们时相反的顺序被丢弃。丢弃一个值仅仅意味着随后会进行清理：程序正在使用的任何字符串或者向量都将被释放，所有打开的文件都将被关闭，等等。还会调用由用户定义的 `drop` 方法。
+
+清理了当前函数调用后，我们将继续执行到其调用者中，以相同的方式丢弃其变量和参数。然后再“走到”那个调用者的调用者中，在调用栈中逐级向上，以此类推。
+
+panic 是安全的，没有违反 Rust 的任何安全规则，即使你故意在标准库方法的中间引发 panic，它也永远不会在内存中留下悬空指针或半初始化的值。
+
+panic 是基于线程的，一个线程 panic 时，其他线程可以继续做自己的事。
