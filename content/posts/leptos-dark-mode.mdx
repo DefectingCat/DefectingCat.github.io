@@ -1,0 +1,133 @@
+---
+title: Leptos 中的暗色模式适配
+date: '2025-03-18'
+tags: [Rust, Leptos]
+---
+
+如今暗色模式已经是各个操作系统都实现的较为完善了，而浏览器也提供了一些方便适配的 API。
+
+实现一个简单的适配暗色模式只是第一步，既然浏览器已经提供好了较为完善的 API 那么就可以实现一个所谓的能用的暗色模式适配方案。
+
+1. 在第一次打开页面或从未进行过设置时，优先匹配系统的颜色模式;
+2. 在手动调整过颜色主题时，利用 `localStorage` 进行保存，以实现再次打开或刷新的持续生效;
+
+第一步的实现在 CSS 的 [mediaQuery](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia) API 中可以去查询 `'(prefers-color-scheme: dark)'` 来检测当前系统是否偏好暗色模式。
+
+```js
+if (
+  window.matchMedia &&
+  window.matchMedia('(prefers-color-scheme: dark)').matches
+) {
+  // dark mode
+}
+```
+
+甚至还可以对其使用事件监听器来进行系统颜色模式的切换进行监听。
+
+```js
+window
+  .matchMedia('(prefers-color-scheme: dark)')
+  .addEventListener('change', (event) => {
+    const newColorScheme = event.matches ? 'dark' : 'light';
+  });
+```
+
+在第二步的实现中，主要是判断好当前的状态，如果 `localStorage` 中没有保存过的颜色主题，则使用第一步的系统匹配模式。
+
+整体的实现并不是多么的复杂，详细任何有经验的前端在任何环境下都能搓出来。但在 WebAssembly 中略有不同，尤其是在 Rust 中。对比 JavaScript 就会发现
+Rust 为内存安全做了多大的努力（~~Rust 的空值判断有多麻烦~~）。
+
+## WebAssembly
+
+在 Rust 的 WASM 中访问浏览器的 DOM API 几乎都是通过 [web_sys](https://rustwasm.github.io/wasm-bindgen/api/web_sys/index.html) 这个 crate，例如访问 [window](https://rustwasm.github.io/wasm-bindgen/api/web_sys/struct.Window.html)。
+或者使用一些更为轻松的方法，例如使用 [`leptos_use`](https://leptos-use.rs/)
+
+```rs
+let window = use_window();
+let is_dark = window
+    .match_media("(prefers-color-scheme: dark)")
+    .map(|m| m.map(|mt| mt.matches()).unwrap_or(false))
+    .unwrap_or(false);
+logging::log!("{is_dark}");
+```
+
+## Context
+
+Leptos 中的 `provide_context` API 与 React 的 Context 十分类似，作用当然也是一样。使用 `leptos_use` 中 `use_color_mode_with_options` hooks 不仅仅可以实现主题的切换，更方便的还是它可以一起实现保存到 `localStorage` 中。
+
+```rust
+// color mode global context
+let UseColorModeReturn { mode, set_mode, .. } = use_color_mode_with_options(
+    UseColorModeOptions::default()
+        .emit_auto(true)
+        .attribute("data-theme")
+        .custom_modes(COLOR_MODE.iter().map(|m| m.to_string()).collect::<_>()),
+);
+provide_context((mode, set_mode));
+```
+
+![](Pasted%20image%2020241011164933.png)
+
+## Library
+
+Leptos use 提供了一些开箱即用的方法，可以更加方便的实现上述操作。
+
+```rust
+use leptos_use::{use_color_mode_with_options, UseColorModeOptions, UseColorModeReturn};
+
+pub const COLOR_MODE: [&str; 3] = ["auto", "light", "dark"];
+
+// color mode global context
+let UseColorModeReturn { mode, set_mode, .. } = use_color_mode_with_options(
+    UseColorModeOptions::default()
+        .emit_auto(true)
+        .attribute("data-theme")
+        .custom_modes(COLOR_MODE.iter().map(|m| m.to_string()).collect::<_>()),
+);
+provide_context((mode, set_mode));
+```
+
+通过 leptos 的全局状态，可以直接设置对应的主题。
+
+```rust
+// components/dark_mode_btn.rs
+use std::borrow::Cow;
+
+use leptos::prelude::*;
+use leptos_use::ColorMode;
+
+use crate::{consts::COLOR_MODE, utils::capitalize_first};
+
+/// 颜色模式切换下拉框
+#[component]
+pub fn DarkMode(#[prop(optional)] class: Cow<'static, str>) -> impl IntoView {
+    let (mode, set_mode) = use_context::<(Signal<ColorMode>, WriteSignal<ColorMode>)>()
+        .expect("to have found the setter provided");
+
+    view! {
+        <div class=move || format!("dropdown {class}")>
+            <div tabindex="0" role="button" class="m-1 btn">
+                Themes
+            </div>
+            <ul
+                tabindex="0"
+                class="dropdown-content menu bg-base-100 rounded-box z-[1] w-32 p-2 shadow flex flex-col h-64 overflow-y-auto flex-nowrap"
+            >
+                <For
+                    each=move || COLOR_MODE
+                    key=|theme| theme.to_string()
+                    children=move |theme| {
+                        view! {
+                            <li class="w-full" on:click=move |_| set_mode.set(theme.into())>
+                                <a class:active=move || {
+                                    mode.get().to_string() == theme
+                                }>{capitalize_first(theme)}</a>
+                            </li>
+                        }
+                    }
+                />
+            </ul>
+        </div>
+    }
+}
+```
