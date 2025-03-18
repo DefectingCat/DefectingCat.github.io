@@ -28,7 +28,7 @@
     "@react-three/fiber": "^8.17.10",
     "algoliasearch": "^5.8.1",
     "dayjs": "^1.11.13",
-    "next": "14.2.15",
+    "next": "14.2.21",
     "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
