@@ -106,7 +106,7 @@ const HeadBar = () => {
         <nav
           className={clsx(
             'text-lg md:block',
-            'bg-white rounded-md',
+            'bg-white rounded-lg-md',
             'dark:bg-rua-gray-800',
             'absolute md:static',
             'p-5 right-6 top-14',
@@ -154,7 +154,7 @@ const HeadBar = () => {
                 <div
                   className={clsx(
                     'w-[164.453px] h-[30px]',
-                    'bg-[#ebedf0] rounded-[40px] animate-pulse',
+                    'bg-[#ebedf0] rounded-lg-[40px] animate-pulse',
                   )}
                 ></div>
               )}

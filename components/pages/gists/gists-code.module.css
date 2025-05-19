@@ -1,5 +1,5 @@
 .wrapper {
-  @apply overflow-hidden rounded-lg;
+  @apply overflow-hidden rounded;
   @apply mb-8 shadow-card;
   font-size: 16px;
 }

@@ -14,7 +14,7 @@ const RUASandpack = ({ ...rest }: Props) => {
 
   if (!mounted) {
     return (
-      <div className="my-2 rounded-[0.5em] overflow-hidden">
+      <div className="my-2 rounded-lg-[0.5em] overflow-hidden">
         <Sandpack
           {...rest}
           options={{
@@ -29,7 +29,7 @@ const RUASandpack = ({ ...rest }: Props) => {
 
   return (
     <>
-      <div className="my-2 rounded-[0.5em] overflow-hidden">
+      <div className="my-2 rounded-lg-[0.5em] overflow-hidden">
         <Sandpack
           {...rest}
           theme={

@@ -22,21 +22,21 @@ const GistsCode = () => {
               className={clsx(
                 'box-border inline-block',
                 'w-[13px] h-[13px] mr-2',
-                'rounded-full bg-[#ce5347]',
+                'rounded-lg-full bg-[#ce5347]',
               )}
             ></div>
             <div
               className={clsx(
                 'box-border inline-block',
                 'w-[13px] h-[13px] mr-2',
-                'rounded-full bg-[#d6a243]',
+                'rounded-lg-full bg-[#d6a243]',
               )}
             ></div>
             <div
               className={clsx(
                 'box-border inline-block',
                 'w-[13px] h-[13px]',
-                'rounded-full bg-[#58a942]',
+                'rounded-lg-full bg-[#58a942]',
               )}
             ></div>
           </div>
@@ -53,7 +53,7 @@ const GistsCode = () => {
             <span
               className={clsx(
                 'bg-gray-300 animate-pulse',
-                'w-20 h-4 block rounded',
+                'w-20 h-4 block rounded-lg',
                 'dark:bg-rua-gray-600',
               )}
             ></span>

@@ -8,7 +8,7 @@ const GistSkeleton = () => {
           <div className="flex items-center py-1 ">
             <div
               className={clsx(
-                'w-8 h-8 rounded-full',
+                'w-8 h-8 rounded-lg-full',
                 'animate-pulse bg-gray-300',
                 'dark:bg-gray-400 ',
               )}

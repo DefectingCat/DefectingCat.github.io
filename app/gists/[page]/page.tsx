@@ -8,11 +8,12 @@ export const revalidate = 600;
 export default async function Page({
   params,
 }: {
-  params: {
+  params: Promise<{
     page: string;
-  };
+  }>;
 }) {
-  const page = Number(params.page);
+  const { page: pageNumber } = await params;
+  const page = Number(pageNumber);
   if (!page) notFound();
   const gists = await getGists(page);
   if (!gists) notFound();

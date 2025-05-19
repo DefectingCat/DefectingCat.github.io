@@ -15,7 +15,7 @@ const fileLoaderPathUrl = new URL(fileLoaderPath, import.meta.url).href;
  */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
+  // swcMinify: true,
   output: 'standalone',
   images: {
     remotePatterns: [

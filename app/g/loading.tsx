@@ -7,7 +7,7 @@ const loading = () => {
       <div className="flex items-center py-1 ">
         <div
           className={clsx(
-            'w-8 h-8 rounded-full',
+            'w-8 h-8 rounded-lg-full',
             'bg-gray-200 animate-pulse dark:bg-rua-gray-600',
           )}
         ></div>
@@ -21,7 +21,7 @@ const loading = () => {
           <div
             className={clsx(
               'w-32 h-5 bg-gray-200',
-              'animate-pulse rounded-md',
+              'animate-pulse rounded-lg-md',
               'dark:bg-rua-gray-600',
             )}
           ></div>
@@ -29,7 +29,7 @@ const loading = () => {
           <div
             className={clsx(
               'w-32 h-5 bg-gray-200',
-              'animate-pulse rounded-md',
+              'animate-pulse rounded-lg-md',
               'dark:bg-rua-gray-600',
             )}
           ></div>
@@ -40,7 +40,7 @@ const loading = () => {
         <div
           className={clsx(
             'w-32 h-4 bg-gray-200',
-            'animate-pulse rounded-md',
+            'animate-pulse rounded-lg-md',
             'dark:bg-rua-gray-600',
           )}
         ></div>

@@ -1,34 +1,88 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-* {
-  scroll-behavior: smooth;
+@custom-variant dark (&:is(.mocha *));
+
+@theme {
+  --font-Barlow: var(--font-barlow);
+  --font-Poppins: var(--font-poppins);
+  --font-Mono:
+    var(--fonts-jetbrains-mono), DejaVu Sans Mono, -apple-system, monospace;
+  --font-Lobster: var(--font-lobster);
+
+  --color-bluish-gray: rgba(245, 247, 250);
+
+  --color-rua-gray-100: #aabfc5;
+  --color-rua-gray-600: rgb(66, 66, 66);
+  --color-rua-gray-700: hsl(220, 13%, 18%);
+  --color-rua-gray-800: rgb(35, 38, 38);
+  --color-rua-gray-900: rgb(24, 25, 26);
+
+  --shadow-outline: 0 0 0 3px rgba(83, 220, 246, 0.6);
+  --shadow-underline: inset 0px -2px 0px 0px rgb(85 200 188 / 70%);
+  --shadow-throughline: inset 0px -0.5em 0px 0px rgb(85 200 188 / 70%);
+  --shadow-card:
+    0px 10px 20px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04),
+    0px 0px 1px rgba(0, 0, 0, 0.04);
+
+  --background-image-underline: linear-gradient(
+    rgb(240 240 240),
+    rgb(240 240 240)
+  );
+  --background-image-underline-dark: linear-gradient(
+    rgb(110 110 110),
+    rgb(160 160 160)
+  );
 }
 
-*::selection {
-  background: hsl(230, 1%, 90%);
-  color: inherit;
-}
-
-.mocha *::selection {
-  background: hsl(220, 13%, 28%);
-  color: inherit;
-  text-shadow: none;
-}
+@config "../tailwind.config.js";
 
 /*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@layer utilities {
+  * {
+    scroll-behavior: smooth;
+  }
+
+  *::selection {
+    background: hsl(230, 1%, 90%);
+    color: inherit;
+  }
+
+  .mocha *::selection {
+    background: hsl(220, 13%, 28%);
+    color: inherit;
+    text-shadow: none;
+  }
+
+  /*
 font-family: 'Aleo', serif;
 font-family: 'Aref Ruqaa', serif;
 font-family: 'Barlow', sans-serif;
 font-family: 'JetBrains Mono', monospace;
 font-family: 'Poppins', sans-serif;
 */
+}
 
 @layer base {
   body {
     /* @apply text-gray-600 bg-bluish-gray dark:bg-rua-gray-900 dark:text-gray-200; */
-    @apply text-subtext0 bg-gradient-to-b from-base to-crust;
+    @apply text bg-linear-to-b from-base to-crust;
     font-family:
       'Poppins',
       -apple-system,
@@ -85,11 +139,12 @@ html.mocha {
   --docsearch-hit-shadow: none;
   --docsearch-hit-background: #090a11;
   --docsearch-key-gradient: linear-gradient(-26.5deg, #565872, #31355b);
-  --docsearch-key-shadow: inset 0 -2px 0 0 #282d55, inset 0 0 1px 1px #51577d,
+  --docsearch-key-shadow:
+    inset 0 -2px 0 0 #282d55, inset 0 0 1px 1px #51577d,
     0 2px 2px 0 rgba(3, 4, 9, 0.3);
   --docsearch-footer-background: #1e2136;
-  --docsearch-footer-shadow: inset 0 1px 0 0 rgba(73, 76, 106, 0.5),
-    0 -4px 8px 0 rgba(0, 0, 0, 0.2);
+  --docsearch-footer-shadow:
+    inset 0 1px 0 0 rgba(73, 76, 106, 0.5), 0 -4px 8px 0 rgba(0, 0, 0, 0.2);
   --docsearch-logo-color: #fff;
   --docsearch-muted-color: #7f8497;
 }
@@ -143,7 +198,7 @@ code {
 }
 
 pre {
-  @apply p-4 rounded-lg;
+  @apply p-4 rounded;
   margin: 0.5em 0;
   overflow: auto;
   @apply bg-white dark:bg-rua-gray-700;

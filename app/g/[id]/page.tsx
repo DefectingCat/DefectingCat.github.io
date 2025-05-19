@@ -15,12 +15,13 @@ dayjs.extend(relativeTime);
 export default async function Page({
   params,
 }: {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }) {
-  if (typeof params.id !== 'string') notFound();
-  const gist = await getSignalGist(params.id);
+  const { id } = await params;
+  if (typeof id !== 'string') notFound();
+  const gist = await getSignalGist(id);
   if (!gist || !gist.files) notFound();
 
   return (
@@ -32,7 +33,7 @@ export default async function Page({
           priority
           width={32}
           height={32}
-          className="rounded-full "
+          className="rounded-lg-full "
         />
         <h1 className="ml-2 overflow-hidden text-xl whitespace-nowrap overflow-ellipsis">
           <Link href="/gists">

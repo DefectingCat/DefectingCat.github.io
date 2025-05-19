@@ -18,7 +18,7 @@ const Paragraph = (props: HTMLAttributes<HTMLParagraphElement>) => {
     if (typeof child.type !== 'object') return null;
     const childType = child.type as ChildType;
     if (!childType?.type) return null;
-    if (!child.props?.href) return null;
+    // if (!child.props?.href) return null;
     const props = child.props as { href: string };
     return props.href;
   });

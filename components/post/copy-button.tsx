@@ -24,7 +24,7 @@ const CopyButton = forwardRef<HTMLButtonElement, CopyButtonProps>(
           ref={ref}
           className={clsx(
             'flex items-center justify-center',
-            'border rounded-md',
+            'border rounded-lg-md',
             'p-[6px] opacity-0',
             'group-hover:opacity-100',
             'transition-opacity dark:border-gray-700',

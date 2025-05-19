@@ -9,8 +9,13 @@ export async function generateStaticParams() {
   return await getPostListPath();
 }
 
-export default async function Page({ params }: { params: { page: string } }) {
-  const page = Number(params.page);
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ page: string }>;
+}) {
+  const { page: pageNumber } = await params;
+  const page = Number(pageNumber);
   if (!page) notFound();
 
   const allPosts = await postLists();

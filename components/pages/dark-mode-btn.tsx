@@ -42,7 +42,7 @@ const DarkModeBtn = () => {
       <button>
         <div
           className={clsx(
-            'w-5 h-5 rounded-md animate-pulse',
+            'w-5 h-5 rounded-lg-md animate-pulse',
             'bg-gray-300 dark:bg-gray-500',
           )}
         ></div>

@@ -25,11 +25,11 @@ export async function generateStaticParams() {
 const Page = async ({
   params,
 }: {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }) => {
-  const slug = params.slug;
+  const { slug } = await params;
   if (!slug) notFound();
 
   const post = await readSinglePost(slug);
