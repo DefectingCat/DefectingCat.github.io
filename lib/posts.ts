@@ -1,7 +1,7 @@
+import path from 'path';
 import fs from 'fs/promises';
 import matter from 'gray-matter';
 import { sortByDate } from 'lib/utils';
-import path from 'path';
 import { cache } from 'react';
 import { MyMatters, Post } from 'types';
 

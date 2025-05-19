@@ -11,7 +11,8 @@
     "start": "next start",
     "lint": "next lint",
     "check": "biome check",
-    "fix": "biome format"
+    "fix": "biome check --fix",
+    "format": "biome format --write"
   },
   "dependencies": {
     "@catppuccin/highlightjs": "^1.0.1",

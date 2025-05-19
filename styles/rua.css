@@ -132,7 +132,7 @@ h3:hover::before,
 h4:hover::before,
 h5:hover::before,
 h6:hover::before {
-  content: '#';
+  content: "#";
   left: -1.7rem;
   @apply absolute text-gray-400;
 }
@@ -219,14 +219,8 @@ h6:hover::before {
 #article kbd {
   display: inline-block;
   padding: 3px 5px;
-  font:
-    11px ui-monospace,
-    SFMono-Regular,
-    SF Mono,
-    Menlo,
-    Consolas,
-    Liberation Mono,
-    monospace;
+  font: 11px ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation
+    Mono, monospace;
   line-height: 10px;
   color: var(--color-fg-default);
   vertical-align: middle;
@@ -251,13 +245,13 @@ h6:hover::before {
 
 #article hr::before {
   display: table;
-  content: '';
+  content: "";
 }
 
 #article hr::after {
   display: table;
   clear: both;
-  content: '';
+  content: "";
 }
 
 #article code,
@@ -321,15 +315,15 @@ h6:hover::before {
   list-style-type: none;
 }
 
-#article ol[type='1'] {
+#article ol[type="1"] {
   list-style-type: decimal;
 }
 
-#article ol[type='a'] {
+#article ol[type="a"] {
   list-style-type: lower-alpha;
 }
 
-#article ol[type='i'] {
+#article ol[type="i"] {
   list-style-type: lower-roman;
 }
 
@@ -376,8 +370,5 @@ h6:hover::before {
 
 #article .cm-editor .cm-line {
   font-size: 15px;
-  font-family:
-    var(--font-jetbrains-mono),
-    -apple-system,
-    monospace;
+  font-family: var(--font-jetbrains-mono), -apple-system, monospace;
 }

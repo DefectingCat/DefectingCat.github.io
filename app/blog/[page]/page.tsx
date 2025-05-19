@@ -1,7 +1,7 @@
 import PostCard from 'components/pages/blog/post-card';
 import PostCardLoading from 'components/pages/blog/post-card-loading';
 import Pagination from 'components/rua/rua-pagination';
-import { getPostListPath, postLists, PostPerPage } from 'lib/posts';
+import { PostPerPage, getPostListPath, postLists } from 'lib/posts';
 import { notFound } from 'next/navigation';
 import { Fragment, Suspense } from 'react';
 

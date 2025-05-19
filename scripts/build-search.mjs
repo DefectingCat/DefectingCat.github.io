@@ -1,3 +1,4 @@
+import { algoliasearch } from 'algoliasearch';
 /**
  * Generate algolia records.
  * @params -t for test.
@@ -5,7 +6,6 @@
  */
 /* @ts-check */
 import { config } from 'dotenv';
-import { algoliasearch } from 'algoliasearch';
 // import { liteClient } from 'algoliasearch/lite';
 import generateGists from './gists/index.mjs';
 import postLists from './posts/index.mjs';

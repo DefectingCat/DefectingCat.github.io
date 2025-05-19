@@ -1,6 +1,6 @@
+import path from 'path';
 /* @ts-check */
 import fs from 'fs/promises';
-import path from 'path';
 
 const dataPath = 'content/posts';
 

@@ -1,13 +1,13 @@
-@import 'tailwindcss';
-@import './rua.css';
+@import "tailwindcss";
+@import "./rua.css";
 
 @custom-variant dark (&:is(.mocha *));
 
 @theme {
   --font-Barlow: var(--font-barlow);
   --font-Poppins: var(--font-poppins);
-  --font-Mono:
-    var(--fonts-jetbrains-mono), DejaVu Sans Mono, -apple-system, monospace;
+  --font-Mono: var(--fonts-jetbrains-mono), DejaVu Sans Mono, -apple-system,
+    monospace;
   --font-Lobster: var(--font-lobster);
 
   --color-bluish-gray: rgba(245, 247, 250);
@@ -21,9 +21,8 @@
   --shadow-outline: 0 0 0 3px rgba(83, 220, 246, 0.6);
   --shadow-underline: inset 0px -2px 0px 0px rgb(85 200 188 / 70%);
   --shadow-throughline: inset 0px -0.5em 0px 0px rgb(85 200 188 / 70%);
-  --shadow-card:
-    0px 10px 20px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04),
-    0px 0px 1px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0px 10px 20px rgba(0, 0, 0, 0.04), 0px 2px 6px
+    rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
 
   --background-image-underline: linear-gradient(
     rgb(240 240 240),
@@ -86,18 +85,18 @@ font-family: 'Poppins', sans-serif;
     @apply text-gray-600 bg-bluish-gray dark:bg-rua-gray-900 dark:text-gray-200;
     /* @apply text bg-linear-to-b from-base to-crust; */
     font-family:
-      'Poppins',
+      "Poppins",
       -apple-system,
       BlinkMacSystemFont,
-      'Helvetica Neue',
+      "Helvetica Neue",
       Helvetica,
       Segoe UI,
       Arial,
       Roboto,
-      'PingFang SC',
+      "PingFang SC",
       miui,
-      'Hiragino Sans GB',
-      'Microsoft Yahei',
+      "Hiragino Sans GB",
+      "Microsoft Yahei",
       sans-serif;
   }
 
@@ -141,12 +140,11 @@ html.mocha {
   --docsearch-hit-shadow: none;
   --docsearch-hit-background: #090a11;
   --docsearch-key-gradient: linear-gradient(-26.5deg, #565872, #31355b);
-  --docsearch-key-shadow:
-    inset 0 -2px 0 0 #282d55, inset 0 0 1px 1px #51577d,
-    0 2px 2px 0 rgba(3, 4, 9, 0.3);
+  --docsearch-key-shadow: inset 0 -2px 0 0 #282d55, inset 0 0 1px 1px #51577d, 0
+    2px 2px 0 rgba(3, 4, 9, 0.3);
   --docsearch-footer-background: #1e2136;
-  --docsearch-footer-shadow:
-    inset 0 1px 0 0 rgba(73, 76, 106, 0.5), 0 -4px 8px 0 rgba(0, 0, 0, 0.2);
+  --docsearch-footer-shadow: inset 0 1px 0 0 rgba(73, 76, 106, 0.5), 0 -4px 8px
+    0 rgba(0, 0, 0, 0.2);
   --docsearch-logo-color: #fff;
   --docsearch-muted-color: #7f8497;
 }
@@ -192,10 +190,7 @@ code.hljs {
 }
 pre,
 code {
-  font-family:
-    var(--font-jetbrains-mono),
-    -apple-system,
-    'DejaVu Sans Mono',
+  font-family: var(--font-jetbrains-mono), -apple-system, "DejaVu Sans Mono",
     monospace;
 }
 

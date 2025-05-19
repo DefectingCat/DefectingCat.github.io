@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Children, cloneElement, isValidElement, ReactElement } from 'react';
+import { Children, ReactElement, cloneElement, isValidElement } from 'react';
 import { VscGithubInverted } from 'react-icons/vsc';
 import { Project } from './content';
 
