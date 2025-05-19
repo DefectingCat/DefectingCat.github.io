@@ -2,19 +2,17 @@ import { algoliasearch } from 'algoliasearch';
 /**
  * Generate algolia records.
  * @params -t for test.
- * @params -g add gitsts to records.
  */
 /* @ts-check */
-import { config } from 'dotenv';
 // import { liteClient } from 'algoliasearch/lite';
-import generateGists from './gists/index.mjs';
+// import generateGists from './gists/index.mjs';
+import { config } from 'dotenv';
 import postLists from './posts/index.mjs';
 
-async function generateRecords(gists) {
-  const records = await postLists();
-  return gists ? records.concat(await generateGists()) : records;
+async function generateRecords() {
+  return postLists();
 }
-async function pushAlgolia(gists) {
+async function pushAlgolia() {
   if (
     !process.env.NEXT_PUBLIC_ALGOLIA_APP_ID &&
     !process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ADMIN_KEY
@@ -23,7 +21,7 @@ async function pushAlgolia(gists) {
   }
 
   try {
-    const records = await generateRecords(gists);
+    const records = await generateRecords();
 
     const client = algoliasearch(
       process.env.NEXT_PUBLIC_ALGOLIA_APP_ID,
@@ -31,7 +29,7 @@ async function pushAlgolia(gists) {
     );
 
     const response = await client.clearObjects({ indexName: 'rua' });
-    console.log('Clean rua index success');
+    console.log('Clean rua index success', response);
     const algoliaResponse = await client.saveObjects({
       indexName: 'rua',
       objects: records,
@@ -46,8 +44,8 @@ async function pushAlgolia(gists) {
   }
 }
 
-async function test(gists) {
-  const records = await generateRecords(gists);
+async function test() {
+  const records = await generateRecords();
   console.log(records);
 }
 
@@ -57,9 +55,8 @@ function main() {
 
   const args = process.argv.slice(2);
   const isTest = args.some((arg) => arg === '-t');
-  const gists = args.some((arg) => arg === '-g');
 
-  isTest ? test(gists) : pushAlgolia(gists);
+  isTest ? test() : pushAlgolia();
 }
 
 main();

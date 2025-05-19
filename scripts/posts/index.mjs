@@ -1,6 +1,7 @@
 import path from 'path';
 /* @ts-check */
 import fs from 'fs/promises';
+import matter from 'gray-matter';
 
 const dataPath = 'content/posts';
 
@@ -15,8 +16,9 @@ const postLists = async () => {
   const myPosts = [];
 
   const getFiles = async (f) => {
-    const content = await fs.readFile(path.join(dataPath, f), 'utf-8');
-    // const { content: meta, content } = matter(markdownWithMeta);
+    const markdownWithMeta = await fs.readFile(path.join(dataPath, f), 'utf-8');
+    const { content, data: meta } = matter(markdownWithMeta);
+    // console.log('meta', meta);
 
     const slug = f.replace(/\.mdx$/, '');
     const regex = /^#{2,3}(?!#)(.*)/gm;
@@ -40,6 +42,7 @@ const postLists = async () => {
         type: `lvl${level}`,
         objectID: url,
         url,
+        tag: meta.tags,
       };
 
       switch (level) {

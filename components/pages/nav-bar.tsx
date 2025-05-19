@@ -139,7 +139,7 @@ const HeadBar = () => {
               {mounted ? (
                 <DocSearch
                   appId={process.env.NEXT_PUBLIC_ALGOLIA_APP_ID ?? ''}
-                  indexName="RUA"
+                  indexName="rua"
                   apiKey={
                     process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ADMIN_KEY ?? ''
                   }
