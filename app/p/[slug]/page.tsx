@@ -72,9 +72,9 @@ const Page = async ({
         <article id="post-content">
           {mdxSource.content}
           <PostCommnetLine />
-          <div className="mt-4">
-            <PostComment />
-          </div>
+          {/* <div className="mt-4"> */}
+          {/*   <PostComment /> */}
+          {/* </div> */}
         </article>
       </main>
     </>

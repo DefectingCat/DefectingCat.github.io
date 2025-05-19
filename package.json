@@ -10,8 +10,8 @@
     "build-local": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pretty": "prettier --cache --write \"./**/*.{js,jsx,ts,tsx,json,md,mdx,css}\" --ignore-unknown --plugin=prettier-plugin-organize-imports",
-    "pretty-check": "prettier --cache \"./**/*.{js,jsx,ts,tsx,json,md,mdx,css}\" --ignore-unknown --check --plugin=prettier-plugin-organize-imports"
+    "check": "biome check",
+    "fix": "biome format"
   },
   "dependencies": {
     "@catppuccin/highlightjs": "^1.0.1",
@@ -48,6 +48,7 @@
     "zustand": "^5.0.4"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@next/bundle-analyzer": "^15.3.2",
     "@types/node": "22.15.18",
     "@types/react": "19.1.4",
@@ -62,8 +63,6 @@
     "gray-matter": "^4.0.3",
     "leva": "^0.10.0",
     "postcss": "^8.4.47",
-    "prettier": "^3.5.3",
-    "prettier-plugin-organize-imports": "^4.1.0",
     "raw-loader": "^4.0.2",
     "sass": "^1.89.0",
     "tailwindcss": "^4.1.7",

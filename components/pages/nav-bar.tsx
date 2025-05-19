@@ -9,11 +9,6 @@ import DarkModeBtn from './dark-mode-btn';
 
 const txtMenu = [
   {
-    id: 0,
-    name: 'Home',
-    path: '/',
-  },
-  {
     id: 1,
     name: 'Blog',
     path: '/blog',
