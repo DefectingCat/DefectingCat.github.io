@@ -7,7 +7,7 @@ const FriendCard = ({ friend }: { friend: Friend }) => {
     <a href={friend.link} target="_blank">
       <div
         className={clsx(
-          'py-3 px-4 rounded-lg-xl bg-slate-100',
+          'py-3 px-4 rounded-lg bg-slate-100',
           'hover:bg-slate-200',
           'transition-all duration-300',
           'flex items-center cursor-pointer',

@@ -15,7 +15,7 @@ const UserInfoLoading = () => {
           <div
             className={clsx(
               'w-16 h-16 mr-4 overflow-hidden',
-              'md:w-72 md:h-72 bg-gray-200 rounded-lg-full',
+              'md:w-72 md:h-72 bg-gray-200 rounded-lg',
               'animate-pulse dark:bg-rua-gray-800',
             )}
           ></div>

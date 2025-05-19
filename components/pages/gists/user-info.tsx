@@ -27,7 +27,7 @@ const UserInfo = async () => {
               src={avatar}
               alt="Avatar"
               priority
-              className="rounded-lg-full"
+              className="rounded-full"
             />
           </div>
 

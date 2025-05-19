@@ -33,7 +33,7 @@ export default async function Page({
           priority
           width={32}
           height={32}
-          className="rounded-lg-full "
+          className="rounded-full "
         />
         <h1 className="ml-2 overflow-hidden text-xl whitespace-nowrap text-ellipsis">
           <Link href="/gists">

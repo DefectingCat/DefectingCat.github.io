@@ -13,13 +13,13 @@ const PostCard = ({ post }: Props) => {
       <Link href={`/p/${post.slug}`} passHref>
         <article
           className={clsx(
-            'rounded-lg-xl py-4 px-5 md:p-7 ',
+            'rounded-lg py-4 px-5 md:p-7 ',
             'hover:bg-sky-100 hover:bg-opacity-50',
             // 'hover:bg-rua-gray-100 hover:bg-opacity-10',
             'dark:hover:bg-rua-gray-800 dark:hover:bg-opacity-100',
             'flex justify-between text-gray-800',
             'mb-4 dark:text-gray-200',
-            'flex-col',
+            'flex-col transition-all duration-300',
           )}
         >
           <div className="flex justify-between">

@@ -11,7 +11,6 @@ import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import { Post } from 'types';
-import 'styles/rua.css';
 
 const PostToc = dynamic(() => import('components/post/post-toc'));
 const PostCommnetLine = dynamic(

@@ -22,21 +22,21 @@ const GistsCode = () => {
               className={clsx(
                 'box-border inline-block',
                 'w-[13px] h-[13px] mr-2',
-                'rounded-lg-full bg-[#ce5347]',
+                'rounded-lg bg-[#ce5347]',
               )}
             ></div>
             <div
               className={clsx(
                 'box-border inline-block',
                 'w-[13px] h-[13px] mr-2',
-                'rounded-lg-full bg-[#d6a243]',
+                'rounded-lg bg-[#d6a243]',
               )}
             ></div>
             <div
               className={clsx(
                 'box-border inline-block',
                 'w-[13px] h-[13px]',
-                'rounded-lg-full bg-[#58a942]',
+                'rounded-lg bg-[#58a942]',
               )}
             ></div>
           </div>

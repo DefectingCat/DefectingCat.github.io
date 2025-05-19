@@ -12,24 +12,23 @@ export const metadata = {
 export default function Page() {
   return (
     <main className="flex items-stretch justify-center flex-1 text-xl">
-      <div className="flex flex-col w-full max-w-4xl px-4 py-24 text-2xl">
-        <h1 className="flex pb-4 text-5xl">
-          <span className={clsx('font-semibold font-Lobster', styles.gradient)}>
-            Hi there
-          </span>
-          <span className="ml-3">
-            <Image
-              src="/images/img/hands.svg"
-              alt="hands"
-              width={36}
-              height={36}
-            />
-          </span>
-        </h1>
-
-        <div className="relative flex flex-1 w-full h-full">
-          <HomeModel />
-        </div>
+      <div className="text-6xl flex items-center">
+        <span
+          className={clsx(
+            'font-semibold font-Lobster tracking-wide',
+            styles.gradient,
+          )}
+        >
+          Hello World!
+        </span>
+        <span className="ml-3">
+          <Image
+            src="/images/img/hands.svg"
+            alt="hands"
+            width={36}
+            height={36}
+          />
+        </span>
       </div>
     </main>
   );

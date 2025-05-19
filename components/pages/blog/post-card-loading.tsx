@@ -5,7 +5,7 @@ const PostCardLoading = () => {
   return (
     <article
       className={clsx(
-        'rounded-lg-xl py-4 px-5 md:p-7 ',
+        'rounded-lg py-4 px-5 md:p-7 ',
         'hover:bg-sky-100 hover:bg-opacity-50',
         'dark:hover:bg-rua-gray-800 dark:hover:bg-opacity-100',
         'flex justify-between text-gray-800 ',

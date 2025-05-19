@@ -47,21 +47,21 @@ const GistsCode = ({ file, showFileName = false }: Props) => {
                 className={clsx(
                   'box-border inline-block',
                   'w-[13px] h-[13px] mr-2',
-                  'rounded-lg-full bg-[#ce5347]',
+                  'rounded-full bg-[#ce5347]',
                 )}
               ></div>
               <div
                 className={clsx(
                   'box-border inline-block',
                   'w-[13px] h-[13px] mr-2',
-                  'rounded-lg-full bg-[#d6a243]',
+                  'rounded-full bg-[#d6a243]',
                 )}
               ></div>
               <div
                 className={clsx(
                   'box-border inline-block',
                   'w-[13px] h-[13px]',
-                  'rounded-lg-full bg-[#58a942]',
+                  'rounded-full bg-[#58a942]',
                 )}
               ></div>
             </div>

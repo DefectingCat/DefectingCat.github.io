@@ -27,17 +27,11 @@ const CloudModel = () => {
   };
   const [_, api] = useSpring(
     {
-      from: {
-        z: camera.position.z,
-      },
+      z: camera.position.z,
       config: {
         duration: 1200,
         easing: easings.easeOutCirc,
       },
-      to: {
-        z: camera.position.z - 5.2,
-      },
-      pause: true,
       onChange: (e) => {
         camera.position.z = Number(e.value.z);
       },
@@ -78,7 +72,9 @@ const CloudModel = () => {
     window.addEventListener('touchmove', moveHandler);
 
     setTimeout(() => {
-      api.resume();
+      api.start({
+        z: camera.position.z - 5.2,
+      });
       setDarkMode();
     }, 1000);
 
