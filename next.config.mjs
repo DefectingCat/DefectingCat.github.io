@@ -15,8 +15,9 @@ const fileLoaderPathUrl = new URL(fileLoaderPath, import.meta.url).href;
  */
 const nextConfig = {
   reactStrictMode: true,
-  // swcMinify: true,
-  output: 'standalone',
+  // output: 'standalone',
+  output: 'export',
+  trailingSlash: true,
   allowedDevOrigins: [
     'local-origin.dev',
     '*.local-origin.dev',
@@ -29,6 +30,9 @@ const nextConfig = {
         hostname: '**',
       },
     ],
+    unoptimized: true,
+    loader: 'custom',
+    loaderFile: './lib/image.ts',
   },
   experimental: {
     webpackBuildWorker: true,

@@ -41,11 +41,11 @@ const CloudModel = () => {
 
   const gltf = useLoader(
     GLTFLoader,
-    './models/cloud_station/modelDraco.gltf',
+    '/models/cloud_station/modelDraco.gltf',
     (loader) => {
       toggleLoading(true);
       const dracoLoader = new DRACOLoader();
-      dracoLoader.setDecoderPath('./libs/draco/');
+      dracoLoader.setDecoderPath('/libs/draco/');
       loader.setDRACOLoader(dracoLoader);
     },
   );

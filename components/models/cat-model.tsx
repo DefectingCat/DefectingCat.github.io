@@ -14,11 +14,11 @@ const CatModel = () => {
   const camera = useThree((state) => state.camera);
   const gltf = useLoader(
     GLTFLoader,
-    './models/just_a_hungry_cat/modelDraco.gltf',
+    '/models/just_a_hungry_cat/modelDraco.gltf',
     (loader) => {
       toggleLoading(true);
       const dracoLoader = new DRACOLoader();
-      dracoLoader.setDecoderPath('./libs/draco/');
+      dracoLoader.setDecoderPath('/libs/draco/');
       loader.setDRACOLoader(dracoLoader);
     },
   );

@@ -16,7 +16,6 @@ const PostToc = dynamic(() => import('components/post/post-toc'));
 const PostCommnetLine = dynamic(
   () => import('components/post/post-commnet-line'),
 );
-const PostComment = dynamic(() => import('components/post/post-comment'));
 
 export async function generateStaticParams() {
   return await allPostsPath();

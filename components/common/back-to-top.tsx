@@ -41,6 +41,7 @@ const BackToTop = () => {
           'lg:right-8 lg:bottom-8',
           'transition-all duration-300',
           showTop ? 'visible scale-100' : 'invisible scale-0',
+          'cursor-pointer',
         )}
       >
         <FiChevronUp className="w-6 h-6" />
