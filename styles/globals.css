@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './rua.css';
 
 @custom-variant dark (&:is(.mocha *));
 

@@ -7,7 +7,6 @@ import RUAThemeProvider from 'components/pages/theme-provider';
 import fonts from 'lib/fonts';
 import { Metadata } from 'next';
 import 'styles/globals.css';
-import 'styles/rua.css';
 
 export const metadata: Metadata = {
   title: 'RUA',
