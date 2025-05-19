@@ -25,8 +25,8 @@ const txtMenu = [
   },
   {
     id: 3,
-    name: 'Gists',
-    path: '/gists',
+    name: 'Tags',
+    path: '/tags',
   },
   {
     id: 4,
