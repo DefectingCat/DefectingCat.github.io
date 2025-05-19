@@ -16,7 +16,7 @@ const PojectCardSkeleton = () => {
       >
         <VscGithubInverted className="w-8 h-8" />
 
-        <a className="w-[calc(100%_-_40px)]" target="_blank" rel="noreferrer">
+        <a className="w-[calc(100%-40px)]" target="_blank" rel="noreferrer">
           <h2
             className={clsx(
               'text-xl overflow-hidden',

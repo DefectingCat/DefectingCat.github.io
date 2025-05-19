@@ -16,7 +16,7 @@ const GistsCode = () => {
   return (
     <>
       <div className={styles.wrapper}>
-        <div className="h-[30px] bg-[#f6f8fa] dark:bg-[hsl(220,13%,18%)] flex">
+        <div className="h-[30px] bg-[#f6f8fa] dark:bg-rua-gray-700 flex">
           <div className="flex items-center h-full mx-3">
             <div
               className={clsx(
@@ -45,8 +45,8 @@ const GistsCode = () => {
             className={clsx(
               'px-4 bg-white',
               'leading-[30px]',
-              'dark:bg-[hsl(220,13%,18%)] dark:border-b dark:border-b-[rgb(128,203,196)]',
-              'overflow-hidden whitespace-nowrap overflow-ellipsis',
+              'dark:bg-rua-gray-700 dark:border-b dark:border-b-[rgb(128,203,196)]',
+              'overflow-hidden whitespace-nowrap text-ellipsis',
               'flex items-center',
             )}
           >

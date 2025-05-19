@@ -11,7 +11,7 @@ const Page = async () => {
         id="article"
         className={clsx(
           'relative max-w-4xl px-4 mx-auto my-10',
-          'lg:w-[56rem] w-full flex-1',
+          'lg:w-4xl w-full flex-1',
           'mt-8',
         )}
       >

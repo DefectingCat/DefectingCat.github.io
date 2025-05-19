@@ -36,7 +36,7 @@ const BackToTop = () => {
       <Button
         onClick={handleBack}
         className={clsx(
-          '!p-3 fixed',
+          'p-3! fixed',
           'right-4 bottom-4',
           'lg:right-8 lg:bottom-8',
           'transition-all duration-300',

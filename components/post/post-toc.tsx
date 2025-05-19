@@ -58,12 +58,12 @@ const PostToc = ({ toc, tocLength }: Props) => {
         </div>
 
         <div className="toc text-lg">
-          <ul className="!pl-[unset]">
+          <ul className="pl-[unset]!">
             {toc?.map((h) => (
               <Fragment key={h.link}>
                 <TocItem item={h} />
                 {h.children.map((child) => (
-                  <ul className="!pl-4" key={child.link}>
+                  <ul className="pl-4!" key={child.link}>
                     <TocItem item={child} />
                   </ul>
                 ))}

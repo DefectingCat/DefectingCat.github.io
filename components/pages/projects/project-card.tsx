@@ -33,7 +33,7 @@ const ProjectCard = ({ project, icon }: ProjectCardProps) => {
 
         <a
           href={project.url}
-          className="w-[calc(100%_-_40px)]"
+          className="w-[calc(100%-40px)]"
           target="_blank"
           rel="noreferrer"
         >

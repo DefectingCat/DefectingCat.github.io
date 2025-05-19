@@ -16,9 +16,7 @@ const GlobalError = ({
         className={clsx('w-full h-dvh flex', 'justify-center items-center')}
       >
         <div>
-          <h2 className="text-xl text-subtext1">
-            Something went wrong! ノ( OωOノ)
-          </h2>
+          <h2 className="text-xl">Something went wrong! ノ( OωOノ)</h2>
           <Button onClick={() => reset()}>Try again</Button>
         </div>
       </body>

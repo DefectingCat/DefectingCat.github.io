@@ -17,6 +17,11 @@ const nextConfig = {
   reactStrictMode: true,
   // swcMinify: true,
   output: 'standalone',
+  allowedDevOrigins: [
+    'local-origin.dev',
+    '*.local-origin.dev',
+    '192.168.31.158',
+  ],
   images: {
     remotePatterns: [
       {

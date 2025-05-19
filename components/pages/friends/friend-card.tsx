@@ -18,7 +18,7 @@ const FriendCard = ({ friend }: { friend: Friend }) => {
       >
         <div>
           <h2 className={clsx('text-xl font-semibold')}>{friend.name}</h2>
-          <div className="text-sm text-subtext0">{friend.link}</div>
+          <div className="text-sm">{friend.link}</div>
         </div>
         <div className="overflow-hidden rounded-lg w-14 h-14">
           <Image

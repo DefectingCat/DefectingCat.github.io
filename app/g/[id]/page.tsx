@@ -35,7 +35,7 @@ export default async function Page({
           height={32}
           className="rounded-lg-full "
         />
-        <h1 className="ml-2 overflow-hidden text-xl whitespace-nowrap overflow-ellipsis">
+        <h1 className="ml-2 overflow-hidden text-xl whitespace-nowrap text-ellipsis">
           <Link href="/gists">
             <LinkAnchor external={false}>{gist.login}</LinkAnchor>
           </Link>

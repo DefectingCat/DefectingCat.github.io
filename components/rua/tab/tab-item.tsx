@@ -11,7 +11,7 @@ export type ItemProps = {
 const TabItem = ({ showContent, children }: ItemProps) => {
   return (
     <>
-      <div className={clsx('hidden', showContent && '!block')}>{children}</div>
+      <div className={clsx('hidden', showContent && 'block!')}>{children}</div>
     </>
   );
 };

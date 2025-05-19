@@ -30,7 +30,7 @@ const PostCard = ({ post }: Props) => {
             <div className="hidden lg:block">{post.date}</div>
           </div>
 
-          <div className="flex justify-between text-subtext0">
+          <div className="flex justify-between">
             <div className="flex items-center text-sm">
               {Array.isArray(post.tags) ? (
                 post.tags.map((tag) => (

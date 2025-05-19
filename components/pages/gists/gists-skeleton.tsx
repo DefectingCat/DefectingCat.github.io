@@ -16,7 +16,7 @@ const GistSkeleton = () => {
             <h1
               className={clsx(
                 'ml-2 overflow-hidden text-xl',
-                'whitespace-nowrap overflow-ellipsis',
+                'whitespace-nowrap text-ellipsis',
                 'w-[234px] animate-pulse bg-gray-300',
                 'h-6 rounded-lg',
                 'dark:bg-gray-400',

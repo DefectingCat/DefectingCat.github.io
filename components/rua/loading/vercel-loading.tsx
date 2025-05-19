@@ -5,7 +5,7 @@ import styles from './vercel-loading.module.css';
 const VercelLoading = () => {
   return (
     <>
-      <div className="fixed bottom-[10px] right-[20px] z-[99999]">
+      <div className="fixed bottom-[10px] right-[20px] z-99999">
         <div
           id="container"
           className={clsx(styles.container, styles.visible, styles.building)}

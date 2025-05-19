@@ -14,7 +14,7 @@ const loading = () => {
         <h1
           className={clsx(
             'ml-2 overflow-hidden text-xl',
-            'whitespace-nowrap overflow-ellipsis',
+            'whitespace-nowrap text-ellipsis',
             'flex items-center',
           )}
         >

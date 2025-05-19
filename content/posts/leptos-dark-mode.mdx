@@ -111,7 +111,7 @@ pub fn DarkMode(#[prop(optional)] class: Cow<'static, str>) -> impl IntoView {
             </div>
             <ul
                 tabindex="0"
-                class="dropdown-content menu bg-base-100 rounded-box z-[1] w-32 p-2 shadow flex flex-col h-64 overflow-y-auto flex-nowrap"
+                class="dropdown-content menu bg-base-100 rounded-box z-1 w-32 p-2 shadow flex flex-col h-64 overflow-y-auto flex-nowrap"
             >
                 <For
                     each=move || COLOR_MODE
