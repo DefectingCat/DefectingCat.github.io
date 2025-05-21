@@ -5,6 +5,7 @@ import { lazy, Suspense, useMemo } from 'react';
 import Loading from './loading';
 import { PerspectiveCamera } from '@react-three/drei/core/PerspectiveCamera';
 import { useMediaQuery } from 'react-responsive';
+import { useTexture } from '@react-three/drei';
 
 const ComputerModel = lazy(
   () => import('components/models/home/computer-model'),

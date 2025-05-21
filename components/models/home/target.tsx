@@ -51,7 +51,7 @@ export function Target(props: JSX.IntrinsicElements['group']) {
     if (isMobile) {
       return [-5, -5, 3] as const;
     }
-    return [-14, -8, 0] as const;
+    return [-12, -10, 0] as const;
   }, [isMobile]);
 
   return (

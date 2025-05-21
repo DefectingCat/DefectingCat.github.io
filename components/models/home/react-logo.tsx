@@ -30,7 +30,7 @@ export function ReactLogo(props: JSX.IntrinsicElements['group']) {
     if (isMobile) {
       return [5, 3, 0] as const;
     }
-    return [10, 3, 0] as const;
+    return [9, 1, 0] as const;
   }, [isMobile]);
 
   return (

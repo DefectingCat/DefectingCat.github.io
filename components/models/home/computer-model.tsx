@@ -7,7 +7,7 @@ License: CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
 Source: https://sketchfab.com/3d-models/hacker-room-stylized-a0cfe6edf2dd494c8a95addf6bb13a10
 Title: Hacker Room - Stylized
 */
-import { useGLTF } from '@react-three/drei';
+import { useGLTF, useTexture } from '@react-three/drei';
 import { useLoader } from '@react-three/fiber';
 import { JSX } from 'react';
 import * as THREE from 'three';
@@ -59,6 +59,9 @@ export function Model(props: JSX.IntrinsicElements['group']) {
     },
   ) as unknown as GLTFResult;
 
+  const moniterTexture = useTexture('/texture/desk/monitor.png');
+  const screenTexture = useTexture('/texture/desk/screen.png');
+
   return (
     <group {...props} dispose={null}>
       <mesh
@@ -66,7 +69,9 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         receiveShadow
         geometry={nodes.computer_computer_mat_0.geometry}
         material={materials.computer_mat}
-      />
+      >
+        <meshMatcapMaterial map={moniterTexture} />
+      </mesh>
       <mesh
         castShadow
         receiveShadow
@@ -126,7 +131,9 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         receiveShadow
         geometry={nodes.screen_screens_0.geometry}
         material={materials.screens}
-      />
+      >
+        <meshMatcapMaterial map={screenTexture} />
+      </mesh>
       <mesh
         castShadow
         receiveShadow
