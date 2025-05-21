@@ -1,12 +1,12 @@
 'use client';
 
+import { PerspectiveCamera } from '@react-three/drei/core/PerspectiveCamera';
 import { Canvas } from '@react-three/fiber';
 import { lazy, Suspense, useMemo } from 'react';
-import Loading from './loading';
-import { PerspectiveCamera } from '@react-three/drei/core/PerspectiveCamera';
 import { useMediaQuery } from 'react-responsive';
-import { useTexture } from '@react-three/drei';
+import Loading from './loading';
 
+const DeskCamera = lazy(() => import('components/models/home/desk-camera'));
 const ComputerModel = lazy(
   () => import('components/models/home/computer-model'),
 );
@@ -29,14 +29,16 @@ const ComputerDesk = () => {
         <Suspense fallback={<Loading />}>
           <ambientLight intensity={1} />
           <directionalLight position={[10, 10, 10]} intensity={0.5} />
-          <ComputerModel
-            scale={scale}
-            position={[0.6, -7.2, 0]}
-            rotation={[0, -Math.PI, 0]}
-          />
+          <DeskCamera>
+            <ComputerModel
+              scale={scale}
+              position={[0.6, -7.2, 0]}
+              rotation={[0, -Math.PI, 0]}
+            />
+          </DeskCamera>
           <Target />
           <ReactLogo />
-          <PerspectiveCamera makeDefault position={[0, 0, 30]} />
+          <PerspectiveCamera makeDefault position={[0, 0, 36]} />
           <Bocchi />
         </Suspense>
       </Canvas>

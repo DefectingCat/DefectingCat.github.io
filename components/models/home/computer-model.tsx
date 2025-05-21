@@ -61,6 +61,7 @@ export function Model(props: JSX.IntrinsicElements['group']) {
 
   const moniterTexture = useTexture('/texture/desk/monitor.png');
   const screenTexture = useTexture('/texture/desk/screen.png');
+  const tableTexture = useTexture('/texture/desk/table.png');
 
   return (
     <group {...props} dispose={null}>
@@ -107,13 +108,17 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         receiveShadow
         geometry={nodes.Tv_tv_mat_0.geometry}
         material={materials.tv_mat}
-      />
+      >
+        <meshMatcapMaterial map={moniterTexture} />
+      </mesh>
       <mesh
         castShadow
         receiveShadow
         geometry={nodes.table_table_mat_0.geometry}
         material={materials.table_mat}
-      />
+      >
+        <meshMatcapMaterial map={tableTexture} />
+      </mesh>
       <mesh
         castShadow
         receiveShadow

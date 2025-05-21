@@ -50,6 +50,7 @@ const BocchiRubbishBin = (props: JSX.IntrinsicElements['group']) => {
         dispose={null}
         position={position}
         rotation={[Math.PI / 10, Math.PI / 10, 0]}
+        scale={0.7}
       >
         <mesh
           castShadow
