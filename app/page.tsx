@@ -18,23 +18,24 @@ export default function Page() {
         <ComputerDesk />
       </div>
 
-      <div className="text-6xl flex items-center">
-        <span
+      <div className="text-center pt-20">
+        <h1
           className={clsx(
             'font-semibold font-Lobster tracking-wide',
+            'pb-12 text-5xl sm:text-6xl',
             styles.gradient,
           )}
         >
-          Hello World!
-        </span>
-        <span className="ml-3">
-          <Image
-            src="/images/img/hands.svg"
-            alt="hands"
-            width={36}
-            height={36}
-          />
-        </span>
+          Hello World
+        </h1>
+        <h2
+          className={clsx(
+            'font-semibold font-Lobster tracking-wide',
+            'text-4xl sm:text-5xl',
+          )}
+        >
+          TECH OTAKUS SAVE THE WORLD
+        </h2>
       </div>
     </main>
   );

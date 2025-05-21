@@ -1,60 +1,24 @@
 'use client';
 
 import { Canvas } from '@react-three/fiber';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useMemo } from 'react';
 import Loading from './loading';
 import { PerspectiveCamera } from '@react-three/drei/core/PerspectiveCamera';
-import { Leva, useControls } from 'leva';
+import { useMediaQuery } from 'react-responsive';
 
 const ComputerModel = lazy(
   () => import('components/models/home/computer-model'),
 );
+const Target = lazy(() => import('components/models/home/target'));
 
 const ComputerDesk = () => {
-  const c = useControls('RUARoom', {
-    positionX: {
-      value: 0,
-      min: -10,
-      max: 10,
-      step: 0.1,
-    },
-    positionY: {
-      value: 0,
-      min: -10,
-      max: 10,
-      step: 0.1,
-    },
-    positionZ: {
-      value: 0,
-      min: -10,
-      max: 10,
-      step: 0.01,
-    },
-    rotationX: {
-      value: 0,
-      min: -Math.PI,
-      max: Math.PI,
-      step: 0.01,
-    },
-    rotationY: {
-      value: 0,
-      min: -Math.PI,
-      max: Math.PI,
-      step: 0.01,
-    },
-    rotationZ: {
-      value: 0,
-      min: -Math.PI,
-      max: Math.PI,
-      step: 0.001,
-    },
-    scale: {
-      value: 1,
-      min: 0.1,
-      max: 10,
-      step: 0.01,
-    },
-  });
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  const scale = useMemo(() => {
+    if (isMobile) {
+      return 0.08;
+    }
+    return 0.1;
+  }, [isMobile]);
 
   return (
     <>
@@ -63,14 +27,15 @@ const ComputerDesk = () => {
           <ambientLight intensity={1} />
           <directionalLight position={[10, 10, 10]} intensity={0.5} />
           <ComputerModel
-            scale={0.1}
-            position={[0.6, -6.0, 0]}
+            scale={scale}
+            position={[0.6, -7.2, 0]}
             rotation={[0, -Math.PI, 0]}
           />
+          <Target />
           <PerspectiveCamera makeDefault position={[0, 0, 30]} />
         </Suspense>
       </Canvas>
-      <Leva />
+      {/* <Leva /> */}
     </>
   );
 };
