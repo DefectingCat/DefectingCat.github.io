@@ -10,6 +10,8 @@ const ComputerModel = lazy(
   () => import('components/models/home/computer-model'),
 );
 const Target = lazy(() => import('components/models/home/target'));
+const ReactLogo = lazy(() => import('components/models/home/react-logo'));
+const Bocchi = lazy(() => import('components/models/home/bocchi'));
 
 const ComputerDesk = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -32,7 +34,9 @@ const ComputerDesk = () => {
             rotation={[0, -Math.PI, 0]}
           />
           <Target />
+          <ReactLogo />
           <PerspectiveCamera makeDefault position={[0, 0, 30]} />
+          <Bocchi />
         </Suspense>
       </Canvas>
       {/* <Leva /> */}
