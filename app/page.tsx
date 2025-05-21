@@ -3,7 +3,9 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import styles from 'styles/index/index.module.css';
 
-const HomeModel = dynamic(() => import('components/models/home-model'));
+const ComputerDesk = dynamic(
+  () => import('components/models/home/computer-desk'),
+);
 
 export const metadata = {
   title: 'RUA - Home',
@@ -12,6 +14,10 @@ export const metadata = {
 export default function Page() {
   return (
     <main className="flex items-stretch justify-center flex-1 text-xl">
+      <div className={clsx('top-0 left-0 right-0 bottom-0 absolute')}>
+        <ComputerDesk />
+      </div>
+
       <div className="text-6xl flex items-center">
         <span
           className={clsx(
