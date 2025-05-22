@@ -52,7 +52,11 @@ const parentIdChecker = (el: HTMLElement | null): boolean => {
 
 const HeadBar = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const resetNavbarHoverItems = useStore(
+    (state) => state.resetNavbarHoverItems,
+  );
   const handleClick = () => {
+    resetNavbarHoverItems();
     setShowMenu((showMenu) => !showMenu);
   };
 
