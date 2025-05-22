@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import styles from 'styles/index/index.module.css';
 
 const ComputerDesk = dynamic(

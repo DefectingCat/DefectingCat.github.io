@@ -52,6 +52,6 @@ export function ReactLogo(props: JSX.IntrinsicElements['group']) {
   );
 }
 
-useGLTF.preload('/models/react_logo.glb');
+useGLTF.preload('/models/react_logo-processed.glb');
 
 export default ReactLogo;

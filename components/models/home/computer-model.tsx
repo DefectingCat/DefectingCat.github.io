@@ -9,7 +9,8 @@ Title: Hacker Room - Stylized
 */
 import { useGLTF, useTexture } from '@react-three/drei';
 import { useLoader } from '@react-three/fiber';
-import { JSX } from 'react';
+import { JSX, useEffect } from 'react';
+import useStore from 'store';
 import * as THREE from 'three';
 import { DRACOLoader, GLTF, GLTFLoader } from 'three-stdlib';
 
@@ -47,10 +48,12 @@ type GLTFResult = GLTF & {
 };
 
 export function Model(props: JSX.IntrinsicElements['group']) {
+  const toggleLoading = useStore((state) => state.toggleLoading);
   const { nodes, materials } = useLoader(
     GLTFLoader,
     '/models/hacker-room/hacker-room.glb',
     (loader) => {
+      toggleLoading(true);
       const dracoLoader = new DRACOLoader();
       dracoLoader.setDecoderPath('/libs/draco/');
       loader.setDRACOLoader(dracoLoader);
@@ -60,6 +63,10 @@ export function Model(props: JSX.IntrinsicElements['group']) {
   const moniterTexture = useTexture('/texture/desk/monitor.png');
   const screenTexture = useTexture('/texture/desk/screen.png');
   const tableTexture = useTexture('/texture/desk/table.png');
+
+  useEffect(() => {
+    toggleLoading(false);
+  }, [toggleLoading]);
 
   return (
     <group {...props} dispose={null}>
