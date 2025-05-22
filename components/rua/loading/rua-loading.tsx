@@ -29,7 +29,6 @@ const RUALoading = ({ className: classNames }: Props) => {
         alt="Loading"
         unoptimized
       />
-
       <span className="my-4">rua rua rua...</span>
     </div>
   );

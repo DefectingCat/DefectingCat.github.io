@@ -1,4 +1,4 @@
-import { useGLTF, Float } from '@react-three/drei';
+import { Float, useGLTF } from '@react-three/drei';
 import { useLoader } from '@react-three/fiber';
 import { JSX, useMemo } from 'react';
 import { useMediaQuery } from 'react-responsive';
@@ -34,7 +34,7 @@ export function ReactLogo(props: JSX.IntrinsicElements['group']) {
   }, [isMobile]);
 
   return (
-    <Float floatIntensity={1.6}>
+    <Float floatIntensity={2}>
       <group {...props} dispose={null}>
         <group scale={0.3} position={position}>
           <mesh

@@ -2,7 +2,7 @@
 
 import { PerspectiveCamera } from '@react-three/drei/core/PerspectiveCamera';
 import { Canvas } from '@react-three/fiber';
-import { lazy, Suspense, useMemo } from 'react';
+import { Suspense, lazy, useMemo } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import Loading from './loading';
 
@@ -38,8 +38,8 @@ const ComputerDesk = () => {
           </DeskCamera>
           <Target />
           <ReactLogo />
-          <PerspectiveCamera makeDefault position={[0, 0, 36]} />
           <Bocchi />
+          <PerspectiveCamera makeDefault position={[0, 0, 36]} />
         </Suspense>
       </Canvas>
       {/* <Leva /> */}

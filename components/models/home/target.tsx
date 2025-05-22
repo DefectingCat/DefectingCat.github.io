@@ -1,14 +1,14 @@
+import { useGSAP } from '@gsap/react';
+import { useGLTF } from '@react-three/drei';
+import { useLoader } from '@react-three/fiber';
+import gsap from 'gsap';
+import React, { JSX, useMemo, useRef } from 'react';
+import { useMediaQuery } from 'react-responsive';
 /**
  * Samll target item in home page
  */
 import * as THREE from 'three';
-import React, { JSX, useMemo, useRef } from 'react';
-import { useGLTF } from '@react-three/drei';
 import { DRACOLoader, GLTF, GLTFLoader } from 'three-stdlib';
-import { useLoader } from '@react-three/fiber';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { useMediaQuery } from 'react-responsive';
 
 type GLTFResult = GLTF & {
   nodes: {

@@ -1,8 +1,8 @@
-import * as THREE from 'three';
-import { JSX, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { easing } from 'maath';
+import { JSX, useRef } from 'react';
 import { useMediaQuery } from 'react-responsive';
+import * as THREE from 'three';
 
 const DeskCamera = ({ children }: { children: JSX.Element }) => {
   const groupRef = useRef<THREE.Group>(null);
