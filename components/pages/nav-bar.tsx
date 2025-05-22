@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { memo, useEffect, useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
+import useStore from 'store';
 import DarkModeBtn from './dark-mode-btn';
 
 const txtMenu = [
@@ -71,6 +72,10 @@ const HeadBar = () => {
     };
   }, []);
 
+  const toggleNavbarHoverItems = useStore(
+    (state) => state.toggleNavbarHoverItems,
+  );
+
   return (
     <>
       <header
@@ -122,6 +127,8 @@ const HeadBar = () => {
                   'mb-2 last:mb-0 md:mb-0',
                   'md:mr-4 md:last:mr-0',
                 )}
+                onMouseOver={() => toggleNavbarHoverItems(m.name.toLowerCase())}
+                onMouseOut={() => toggleNavbarHoverItems(m.name.toLowerCase())}
               >
                 <Link href={m.path}>{m.name}</Link>
               </li>
