@@ -27,7 +27,6 @@ type GLTFResult = GLTF & {
     props_props_mat_0: THREE.Mesh;
     screen_screens_0: THREE.Mesh;
     screen_glass_glass_0: THREE.Mesh;
-    Ground_ground_mat_0: THREE.Mesh;
     peripherals_key_mat_0: THREE.Mesh;
   };
   materials: {
@@ -43,7 +42,6 @@ type GLTFResult = GLTF & {
     props_mat: THREE.MeshStandardMaterial;
     screens: THREE.MeshStandardMaterial;
     glass: THREE.MeshPhysicalMaterial;
-    ground_mat: THREE.MeshStandardMaterial;
     key_mat: THREE.MeshStandardMaterial;
   };
 };
@@ -51,7 +49,7 @@ type GLTFResult = GLTF & {
 export function Model(props: JSX.IntrinsicElements['group']) {
   const { nodes, materials } = useLoader(
     GLTFLoader,
-    '/models/hacker-room/hacker_room_-_stylized-processed.glb',
+    '/models/hacker-room/hacker-room.glb',
     (loader) => {
       const dracoLoader = new DRACOLoader();
       dracoLoader.setDecoderPath('/libs/draco/');
@@ -148,12 +146,6 @@ export function Model(props: JSX.IntrinsicElements['group']) {
       <mesh
         castShadow
         receiveShadow
-        geometry={nodes.Ground_ground_mat_0.geometry}
-        material={materials.ground_mat}
-      />
-      <mesh
-        castShadow
-        receiveShadow
         geometry={nodes.peripherals_key_mat_0.geometry}
         material={materials.key_mat}
       />
@@ -161,6 +153,6 @@ export function Model(props: JSX.IntrinsicElements['group']) {
   );
 }
 
-useGLTF.preload('/models/hacker-room/hacker_room_-_stylized-processed.glb');
+useGLTF.preload('/models/hacker-room/hacker-room.glb');
 
 export default Model;

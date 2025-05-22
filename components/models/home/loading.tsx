@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import RUALoading from 'components/rua/loading/rua-loading';
 
 const Loading = () => {
-  const { progress } = useProgress();
-  console.log(progress);
+  // const { progress } = useProgress();
+  // console.log(progress);
 
   return (
     <Html as="div">
