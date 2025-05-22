@@ -54,6 +54,7 @@ const ComputerDesk = () => {
           'justify-center items-center',
           // 'bg-bluish-gray dark:bg-rua-gray-900',
           'transition-all duration-300',
+          'pointer-events-none',
           !modelLoading && 'opacity-0',
         )}
       >
