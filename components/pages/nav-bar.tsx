@@ -9,11 +9,11 @@ import useStore from 'store';
 import DarkModeBtn from './dark-mode-btn';
 
 const txtMenu = [
-  {
-    id: 1,
-    name: 'Blog',
-    path: '/blog',
-  },
+  // {
+  //   id: 1,
+  //   name: 'Blog',
+  //   path: '/blog',
+  // },
   {
     id: 2,
     name: 'Projects',
@@ -29,11 +29,11 @@ const txtMenu = [
     name: 'Friends',
     path: '/friends',
   },
-  {
-    id: 5,
-    name: 'About',
-    path: '/about',
-  },
+  // {
+  //   id: 5,
+  //   name: 'About',
+  //   path: '/about',
+  // },
 ];
 
 /**

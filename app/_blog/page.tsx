@@ -36,7 +36,7 @@ export default async function Page() {
             hasPrev={false}
             hasNext={next <= total}
             prevLink={''}
-            nextLink={`/${next}`}
+            nextLink={`/blog/${next}`}
             current={1}
             total={total}
           />
